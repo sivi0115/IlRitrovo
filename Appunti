@@ -1,5 +1,5 @@
-1. Nella classe User la Review non deve essere un array -> un utente ha un riferimento ad una sola Review
-Implementre la Review come per utente-carta di credito
+1. Nella classe User la Review non deve essere un array -> un utente ha un riferimento ad una sola Review (Fatto)
+Implementre la Review come per utente-carta di credito (Fatto)
 Aggiungere il removed alla classe Review (solo step 4)
 Da fare il collegamento con la classe Replay in stile credit card-user
 

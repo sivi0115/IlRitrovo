@@ -69,9 +69,9 @@ class EUser implements JsonSerializable
     private array $reservations;
 
     /**
-     * @var array User's reviews.
+     * @var int The unique identifier for a single Review, managed by the database.
      */
-    private array $reviews;
+    private ?int $idReview;
 
     /**
      * @var array User's credit cards.
@@ -81,7 +81,7 @@ class EUser implements JsonSerializable
     /**
      * Constructor for the EUser class with validation checks.
      *
-     * @param ?int $idUser User ID, can be null.
+     * @param int $idUser User ID, can be null.
      * @param string $username Username
      * @param string $name First name of the user
      * @param string $surname Last name of the user
@@ -90,6 +90,7 @@ class EUser implements JsonSerializable
      * @param string|null $image URL of the user's image (optional)
      * @param string $email User's email
      * @param string $password User's password
+     * @param int $idReview The unique identifier for a Review (optional).
      * @param bool $ban Indicates if the user is banned (default: false).
      * @throws InvalidArgumentException if any input is invalid.
      */
@@ -103,6 +104,7 @@ class EUser implements JsonSerializable
         ?string $image,
         string $email,
         string $password,
+        ?int $idReview,
         bool $ban = false,
     ) {
         if (empty($username)) {
@@ -138,9 +140,11 @@ class EUser implements JsonSerializable
         // Impostazione della password
         $this->setPassword($password);
 
+        //Impostazione dell'Id Review
+        $this->setidReview($idReview);
+
         $this->ban = $ban;
         $this->reservations = [];
-        $this->reviews = [];
         $this->creditCards = [];
     }
 
@@ -437,33 +441,23 @@ class EUser implements JsonSerializable
     }
 
     /**
-     * Gets the user's reviews.
+     * Gets the user's review.
      *
-     * @return array User's reviews.
+     * @return int User's review.
      */
-    public function getReviews(): array
+    public function getidReview(): ?int
     {
-        return $this->reviews;
+        return $this->idReview;
     }
 
     /**
-     * Adds a review to the user's reviews.
+     * Sets the unique identifier for the Review.
      *
-     * @param EReview $review The review to add.
+     * @param int|null $idReview The ID to set.
      */
-    public function addReview(EReview $review): void
+    public function setidReview(?int $idReview): void
     {
-        $this->reviews[] = $review;
-    }
-
-    /**
-     * Removes a review from the user's reviews.
-     *
-     * @param EReview $review The review to remove.
-     */
-    public function removeReview(EReview $review): void
-    {
-        $this->reviews = array_filter($this->reviews, fn($r) => $r !== $review);
+        $this->idReview = $idReview;
     }
 
     /**
@@ -514,7 +508,7 @@ class EUser implements JsonSerializable
             // Nota: Evitiamo di serializzare la password per motivi di sicurezza
             'ban' => $this->ban,
             'reservations' => $this->reservations,
-            'reviews' => $this->reviews,
+            'idReview' => $this->idReview,
             'creditCards' => $this->creditCards,
         ];
     }
