@@ -15,7 +15,7 @@ class EArea implements JsonSerializable
     private ?int $idArea;
 
     /** @var string Nome dell'area */
-    private string $name;
+    private string $areaName;
 
     /** @var int Capacità massima dell'area */
     private int $maxGuests;
@@ -33,7 +33,7 @@ class EArea implements JsonSerializable
         if ($idArea !== null && $idArea < 0) {
             throw new InvalidArgumentException("L'ID dell'area non può essere negativo.");
         }
-        if (empty($name)) {
+        if (empty($areaName)) {
             throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
         }
         if ($maxGuests < 0) {
@@ -41,7 +41,7 @@ class EArea implements JsonSerializable
         }
 
         $this->idArea = $idArea;
-        $this->name = $name;
+        $this->areaName = $name;
         $this->maxGuests = $maxGuests;
     }
 
@@ -60,9 +60,9 @@ class EArea implements JsonSerializable
      *
      * @return string Nome dell'area.
      */
-    public function getName(): string
+    public function getareaName(): string
     {
-        return $this->name;
+        return $this->areaName;
     }
 
     /**
@@ -77,7 +77,7 @@ class EArea implements JsonSerializable
         if (empty($name)) {
             throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
         }
-        $this->name = $name;
+        $this->areaName = $name;
     }
 
     /**
@@ -114,7 +114,7 @@ class EArea implements JsonSerializable
     {
         return [
             'idArea' => $this->idArea,
-            'name' => $this->name,
+            'name' => $this->areaName,
             'maxGuests' => $this->maxGuests,
         ];
     }
