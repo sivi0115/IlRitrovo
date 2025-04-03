@@ -1,0 +1,11 @@
+1. Nella classe User la Review non deve essere un array -> un utente ha un riferimento ad una sola Review
+Implementre la Review come per utente-carta di credito
+Aggiungere il removed alla classe Review (solo step 4)
+Da fare il collegamento con la classe Replay in stile credit card-user
+
+2. Aggiungere il Role nella classe User 
+3. Aggiungere alla classe CreditCard il type della carta (da aggiungere a step 2,3,4)
+4. Aggiungere il time frame nella classe Reservation e il comment 
+5. Aggiungere l'attributo "state" nella classe Reservation (sullo step 4)
+6. Aggiungere l'attributo "people" nella classe Reservation
+7. Modificare id Room in Reservation
