@@ -9,3 +9,4 @@ Da fare il collegamento con la classe Replay in stile credit card-user
 5. Aggiungere l'attributo "state" nella classe Reservation (sullo step 4)
 6. Aggiungere l'attributo "people" nella classe Reservation
 7. Modificare id Room in Reservation
+8. Da verificare la correttezza della classe table e verificare il corretto uso del'ereditarietà. Inoltre discutere l'effettivo senso dell'attributo "state"
