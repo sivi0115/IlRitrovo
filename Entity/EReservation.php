@@ -10,51 +10,82 @@ use JsonSerializable;
  * Class EReservation
  * Represents a reservation in the system.
  */
-class EReservation implements JsonSerializable
-{
+class EReservation implements JsonSerializable {
+    /**
+     * IDENTIFIERS
+     * @var ?int ReservationId, the Id associated with the reservation
+     */
     private ?int $idReservation;
-    private DateTime $creationTime;
-    private DateTime $reservationDate;
 
-    private string $state;
-    private float $totPrice;
+    /**
+     * @var ?int UserId, the Id associated with the user
+     */
     private ?int $idUser;
-    private ?int $idRoom;
+
+    /**
+     * @var ?int AreaId, the Id associated with the area
+     */
+    private ?int $idRoom; //Da cambiare in idArea
+    
+    /**
+     * METADATA
+     * @var DateTime creation time of the reservation
+     */
+    private DateTime $creationTime;
+    
+    /**
+     * @var DateTime time frame of the reservation
+     */
+    private DateTime $reservationDate; //Da cambiare in timeframe
+
+    /**
+     * @var string reservation's statement
+     */
+    private string $state;
+
+    /**
+     * @var array array containing the possible states of a reservation
+     */
     private const VALID_STATES = ['confirmed', 'approved', 'pending', 'canceled'];
 
     /**
-     * Constructor for EReservation.
+     * @var float total amount in money of the reservation
+     */
+    private float $totPrice;
+
+    
+
+    /**
+     * Constructor for the EReservation class with validation checks.
      *
      * @param ?int $idReservation The ID of the reservation.
+     * @param ?int $idUser The ID of the user who made the reservation.
+     * @param ?int $idArea The ID of the Area reserved.
      * @param DateTime $creationTime The creation timestamp of the reservation.
      * @param DateTime $reservationDate The date of the reservation.
      * @param string $state The state of the reservation (e.g., confirmed, approved).
      * @param float $totPrice The total price of the reservation.
-     * @param ?int $idUser The ID of the user who made the reservation.
-     * @param ?int $idRoom The ID of the room reserved.
-     *
      * @throws InvalidArgumentException If the state is invalid or if the reservation date is not in the future.
      */
     public function __construct(
         ?int $idReservation,
+        ?int $idUser,
+        ?int $idRoom,
         DateTime $creationTime,
         DateTime $reservationDate,
         string $state,
         float $totPrice,
-        ?int $idUser,
-        ?int $idRoom
     ) {
         if (empty($state) || !in_array($state, self::VALID_STATES)) {
             throw new InvalidArgumentException("Invalid reservation state: $state");
         }
-
         $this->idReservation = $idReservation;
+        $this->idUser = $idUser;
+        $this->idRoom = $idRoom;
         $this->creationTime = $creationTime;
         $this->reservationDate = $reservationDate;
         $this->state = $state;
         $this->totPrice = $totPrice;
-        $this->idUser = $idUser;
-        $this->idRoom = $idRoom;
     }
 
     /**
@@ -62,8 +93,7 @@ class EReservation implements JsonSerializable
      *
      * @return ?int The reservation ID.
      */
-    public function getIdReservation(): ?int
-    {
+    public function getIdReservation(): ?int {
         return $this->idReservation;
     }
 
@@ -72,9 +102,44 @@ class EReservation implements JsonSerializable
      *
      * @param ?int $idReservation The reservation ID.
      */
-    public function setIdReservation(?int $idReservation): void
-    {
+    public function setIdReservation(?int $idReservation): void {
         $this->idReservation = $idReservation;
+    }
+
+    /**
+     * Get the user ID associated with the reservation.
+     *
+     * @return ?int The user ID.
+     */
+    public function getIdUser(): ?int {
+        return $this->idUser;
+    }
+
+    /**
+     * Set the user ID associated with the reservation.
+     *
+     * @param ?int $idUser The user ID.
+     */
+    public function setIdUser(?int $idUser): void {
+        $this->idUser = $idUser;
+    }
+
+    /**
+     * Get the room ID associated with the reservation.
+     *
+     * @return ?int The room ID.
+     */
+    public function getIdRoom(): ?int {
+        return $this->idRoom;
+    }
+
+    /**
+     * Set the room ID associated with the reservation.
+     *
+     * @param ?int $idRoom The room ID.
+     */
+    public function setIdRoom(?int $idRoom): void {
+        $this->idRoom = $idRoom;
     }
 
     /**
@@ -82,8 +147,7 @@ class EReservation implements JsonSerializable
      *
      * @return DateTime The creation time.
      */
-    public function getCreationTime(): DateTime
-    {
+    public function getCreationTime(): DateTime {
         return $this->creationTime;
     }
 
@@ -92,8 +156,7 @@ class EReservation implements JsonSerializable
      *
      * @param DateTime $creationTime The creation time.
      */
-    public function setCreationTime(DateTime $creationTime): void
-    {
+    public function setCreationTime(DateTime $creationTime): void {
         $this->creationTime = $creationTime;
     }
 
@@ -102,8 +165,7 @@ class EReservation implements JsonSerializable
      *
      * @return DateTime The reservation date.
      */
-    public function getReservationDate(): DateTime
-    {
+    public function getReservationDate(): DateTime {
         return $this->reservationDate;
     }
 
@@ -111,11 +173,9 @@ class EReservation implements JsonSerializable
      * Set the reservation date.
      *
      * @param DateTime $reservationDate The reservation date.
-     *
      * @throws InvalidArgumentException If the reservation date is not in the future.
      */
-    public function setReservationDate(DateTime $reservationDate): void
-    {
+    public function setReservationDate(DateTime $reservationDate): void {
         if ($reservationDate <= $this->creationTime) {
             throw new InvalidArgumentException("Reservation date must be in the future.");
         }
@@ -127,8 +187,7 @@ class EReservation implements JsonSerializable
      *
      * @return string The reservation state.
      */
-    public function getState(): string
-    {
+    public function getState(): string {
         return $this->state;
     }
 
@@ -136,11 +195,9 @@ class EReservation implements JsonSerializable
      * Set the state of the reservation.
      *
      * @param string $state The reservation state.
-     *
      * @throws InvalidArgumentException If the state is invalid.
      */
-    public function setState(string $state): void
-    {
+    public function setState(string $state): void {
         if (!in_array($state, self::VALID_STATES)) {
             throw new InvalidArgumentException("Invalid reservation state: $state");
         }
@@ -152,8 +209,7 @@ class EReservation implements JsonSerializable
      *
      * @return float The total price.
      */
-    public function getTotPrice(): float
-    {
+    public function getTotPrice(): float {
         return $this->totPrice;
     }
 
@@ -162,66 +218,24 @@ class EReservation implements JsonSerializable
      *
      * @param float $totPrice The total price.
      */
-    public function setTotPrice(float $totPrice): void
-    {
+    public function setTotPrice(float $totPrice): void {
         $this->totPrice = $totPrice;
     }
 
     /**
-     * Get the user ID associated with the reservation.
+     * Implementation of the jsonSerialize method.
      *
-     * @return ?int The user ID.
+     * @return array Associative array of the object's properties.
      */
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    /**
-     * Set the user ID associated with the reservation.
-     *
-     * @param ?int $idUser The user ID.
-     */
-    public function setIdUser(?int $idUser): void
-    {
-        $this->idUser = $idUser;
-    }
-
-    /**
-     * Get the room ID associated with the reservation.
-     *
-     * @return ?int The room ID.
-     */
-    public function getIdRoom(): ?int
-    {
-        return $this->idRoom;
-    }
-
-    /**
-     * Set the room ID associated with the reservation.
-     *
-     * @param ?int $idRoom The room ID.
-     */
-    public function setIdRoom(?int $idRoom): void
-    {
-        $this->idRoom = $idRoom;
-    }
-
-    /**
-     * Specify data which should be serialized to JSON.
-     *
-     * @return array The data to be serialized.
-     */
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return [
             'idReservation' => $this->idReservation,
+            'idUser' => $this->idUser,
+            'idRoom' => $this->idRoom,
             'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
             'reservationDate' => $this->reservationDate->format('Y-m-d H:i:s'),
             'state' => $this->state,
             'totPrice' => $this->totPrice,
-            'idUser' => $this->idUser,
-            'idRoom' => $this->idRoom,
         ];
     }
 }

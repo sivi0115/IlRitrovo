@@ -1,17 +1,14 @@
 <?php
 
 namespace Entity;
-
 use InvalidArgumentException;
 use JsonSerializable;
 
 /**
  * Class EExtra
- *
  * Represents an extra service offered at the location.
  */
-class EExtra implements JsonSerializable
-{
+class EExtra implements JsonSerializable {
     /**
      * @var int|null The unique identifier for the extra service (managed by the database).
      */
@@ -20,24 +17,22 @@ class EExtra implements JsonSerializable
     /**
      * @var string The name of the extra service.
      */
-    private string $name;
+    private string $nameExtra;
 
     /**
      * @var int The price of the extra service (in cents).
      */
-    private int $price;
+    private int $priceExtra;
 
     /**
-     * EExtra constructor.
+     * Constructor for the EUser class with validation checks.
      *
      * @param int|null $idExtra The unique identifier for the extra service (managed by the database).
-     * @param string $name The name of the extra service.
-     * @param int $price The price of the extra service (in cents).
-     *
+     * @param string $nameExtra The name of the extra service.
+     * @param int $priceExtra The price of the extra service (in cents).
      * @throws InvalidArgumentException If the price is negative, or if the name is empty.
      */
-    public function __construct(?int $idExtra, string $name, int $price)
-    {
+    public function __construct(?int $idExtra, string $name, int $price) {
         if ($price < 0) {
             throw new InvalidArgumentException("Il prezzo non può essere negativo.");
         }
@@ -46,8 +41,8 @@ class EExtra implements JsonSerializable
         }
 
         $this->idExtra = $idExtra;
-        $this->name = $name;
-        $this->price = $price;
+        $this->nameExtra = $name;
+        $this->priceExtra = $price;
     }
 
     /**
@@ -55,8 +50,7 @@ class EExtra implements JsonSerializable
      *
      * @return int|null The unique identifier, or null if not set.
      */
-    public function getIdExtra(): ?int
-    {
+    public function getIdExtra(): ?int {
         return $this->idExtra;
     }
 
@@ -65,8 +59,7 @@ class EExtra implements JsonSerializable
      *
      * @param int|null $idExtra The ID to set.
      */
-    public function setIdExtra(?int $idExtra): void
-    {
+    public function setIdExtra(?int $idExtra): void {
         $this->idExtra = $idExtra;
     }
 
@@ -75,24 +68,21 @@ class EExtra implements JsonSerializable
      *
      * @return string The name of the extra service.
      */
-    public function getName(): string
-    {
-        return $this->name;
+    public function getNameExtra(): string {
+        return $this->nameExtra;
     }
 
     /**
      * Set the name of the extra service.
      *
      * @param string $name The name to set.
-     *
      * @throws InvalidArgumentException If the name is empty.
      */
-    public function setName(string $name): void
-    {
+    public function setNameExtra(string $name): void {
         if (empty($name)) {
             throw new InvalidArgumentException("Il nome del servizio extra non può essere vuoto.");
         }
-        $this->name = $name;
+        $this->nameExtra = $name;
     }
 
     /**
@@ -100,37 +90,34 @@ class EExtra implements JsonSerializable
      *
      * @return int The price of the extra service in cents.
      */
-    public function getPrice(): int
-    {
-        return $this->price;
+    public function getPriceExtra(): int {
+        return $this->priceExtra;
     }
 
     /**
      * Set the price of the extra service (in cents).
      *
      * @param int $price The price to set.
-     *
      * @throws InvalidArgumentException If the price is negative.
      */
-    public function setPrice(int $price): void
-    {
+    public function setPriceExtra(int $price): void {
         if ($price < 0) {
             throw new InvalidArgumentException("Il prezzo non può essere negativo.");
         }
-        $this->price = $price;
+        $this->priceExtra = $price;
     }
 
     /**
-     * Implementazione di JsonSerializable.
+     * Implementation of the jsonSerialize method.
      *
-     * @return array Una rappresentazione dell'oggetto in forma di array.
+     * @return array Associative array of the object's properties.
      */
     public function jsonSerialize(): array
     {
         return [
             'idExtra' => $this->idExtra,
-            'name' => $this->name,
-            'price' => $this->price / 100,
+            'name' => $this->nameExtra,
+            'price' => $this->priceExtra / 100,
         ];
     }
 }

@@ -1,47 +1,20 @@
 <?php
 
 namespace Entity;
-
 use DateTime;
 use Exception;
 use JsonSerializable;
 
 /**
  * Class ECreditCard
- *
  * Represents a credit card entity with relevant details.
  */
-class ECreditCard implements JsonSerializable
-{
+class ECreditCard implements JsonSerializable {
     /**
+     * IDENTIFIER
      * @var int|null The unique identifier for the credit card, managed by the database.
      */
     private ?int $idCreditCard;
-
-    /**
-     * @var string The credit card number.
-     */
-    private string $number;
-
-    /**
-     * @var int The CVV (Card Verification Value) of the credit card.
-     */
-    private int $cvv;
-
-    /**
-     * @var DateTime The expiration date of the credit card.
-     */
-    private DateTime $expiration;
-
-    /**
-     * @var string The name of the cardholder.
-     */
-    private string $holder;
-
-    /**
-     * @var string The type of the credit card (e.g., Visa, MasterCard).
-     */
-    private string $type;
 
     /**
      * @var int|null The ID of the user associated with the credit card (optional).
@@ -49,34 +22,60 @@ class ECreditCard implements JsonSerializable
     private ?int $idUser;
 
     /**
-     * ECreditCard constructor.
+     * METADATA
+     * @var string The credit card number.
+     */
+    private string $number;
+
+    /**
+     * @var DateTime The expiration date of the credit card.
+     */
+    private DateTime $expiration;
+
+    /**
+     * @var int The CVV (Card Verification Value) of the credit card.
+     */
+    private int $cvv;
+
+    /**
+     * @var string The type of the credit card (e.g., Visa, MasterCard).
+     */
+    private string $type;
+
+    /**
+     * PERSONAL_INFORMATION
+     * @var string The name of the cardholder.
+     */
+    private string $holder;
+
+    /**
+     * Constructor for the ECreditCard class with validation checks.
      *
-     * @param int|null $idCreditCard The unique identifier for the credit card (optional).
+     * @param ?int|null $idCreditCard The unique identifier for the credit card (optional).
+     * @param ?int|null $idUser The ID of the user associated with the credit card (optional).
      * @param string $number The credit card number.
-     * @param int $cvv The CVV of the credit card.
      * @param DateTime $expiration The expiration date of the credit card.
-     * @param string $holder The cardholder's name.
+     * @param int $cvv The CVV of the credit card.
      * @param string $type The type of the credit card (e.g., Visa, MasterCard).
-     * @param int|null $idUser The ID of the user associated with the credit card (optional).
-     *
+     * @param string $holder The cardholder's name.
      * @throws Exception If the credit card number, CVV, expiration date, holder name, or type is invalid.
      */
     public function __construct(
         ?int $idCreditCard,
+        ?int $idUser = null,
         string $number,
-        int $cvv,
         DateTime $expiration,
-        string $holder,
+        int $cvv,
         string $type,
-        ?int $idUser = null
+        string $holder
     ) {
         $this->setIdCreditCard($idCreditCard);
-        $this->setNumber($number);
-        $this->setCvv($cvv);
-        $this->setExpiration($expiration);
-        $this->setHolder($holder);
-        $this->setType($type);
         $this->idUser = $idUser;
+        $this->setNumber($number);
+        $this->setExpiration($expiration);
+        $this->setCvv($cvv);
+        $this->setType($type);
+        $this->setHolder($holder);
     }
 
     /**
@@ -84,8 +83,7 @@ class ECreditCard implements JsonSerializable
      *
      * @return int|null The ID of the credit card or null if not set.
      */
-    public function getIdCreditCard(): ?int
-    {
+    public function getIdCreditCard(): ?int {
         return $this->idCreditCard;
     }
 
@@ -94,9 +92,26 @@ class ECreditCard implements JsonSerializable
      *
      * @param int|null $idCreditCard The ID to set.
      */
-    public function setIdCreditCard(?int $idCreditCard): void
-    {
+    public function setIdCreditCard(?int $idCreditCard): void {
         $this->idCreditCard = $idCreditCard;
+    }
+
+    /**
+     * Gets the ID of the user associated with the credit card.
+     *
+     * @return int|null The user ID or null if not set.
+     */
+    public function getIdUser(): ?int {
+        return $this->idUser;
+    }
+
+    /**
+     * Sets the ID of the user associated with the credit card.
+     *
+     * @param int|null $idUser The user ID to set.
+     */
+    public function setIdUser(?int $idUser): void {
+        $this->idUser = $idUser;
     }
 
     /**
@@ -104,8 +119,7 @@ class ECreditCard implements JsonSerializable
      *
      * @return string The credit card number.
      */
-    public function getNumber(): string
-    {
+    public function getNumber(): string {
         return $this->number;
     }
 
@@ -115,8 +129,7 @@ class ECreditCard implements JsonSerializable
      * @param string $number The credit card number to set.
      * @throws Exception If the card number is invalid.
      */
-    public function setNumber(string $number): void
-    {
+    public function setNumber(string $number): void {
         if (!$this->isValidCardNumber($number)) {
             throw new Exception("Invalid credit card number. Must be between 13 and 19 digits.");
         }
@@ -124,36 +137,11 @@ class ECreditCard implements JsonSerializable
     }
 
     /**
-     * Gets the CVV of the credit card.
-     *
-     * @return int The CVV of the credit card.
-     */
-    public function getCvv(): int
-    {
-        return $this->cvv;
-    }
-
-    /**
-     * Sets the CVV of the credit card.
-     *
-     * @param int $cvv The CVV to set.
-     * @throws Exception If the CVV is invalid.
-     */
-    public function setCvv(int $cvv): void
-    {
-        if (!preg_match('/^\d{3,4}$/', $cvv)) {
-            throw new Exception("Invalid CVV. Must be 3 or 4 digits.");
-        }
-        $this->cvv = $cvv;
-    }
-
-    /**
      * Gets the expiration date of the credit card.
      *
      * @return DateTime The expiration date.
      */
-    public function getExpiration(): DateTime
-    {
+    public function getExpiration(): DateTime {
         return $this->expiration;
     }
 
@@ -163,8 +151,7 @@ class ECreditCard implements JsonSerializable
      * @param DateTime $expiration The expiration date to set.
      * @throws Exception If the expiration date is in the past.
      */
-    public function setExpiration(DateTime $expiration): void
-    {
+    public function setExpiration(DateTime $expiration): void {
         if ($expiration < new DateTime()) {
             throw new Exception("Expiration date must be in the future.");
         }
@@ -172,27 +159,25 @@ class ECreditCard implements JsonSerializable
     }
 
     /**
-     * Gets the cardholder's name.
+     * Gets the CVV of the credit card.
      *
-     * @return string The cardholder's name.
+     * @return int The CVV of the credit card.
      */
-    public function getHolder(): string
-    {
-        return $this->holder;
+    public function getCvv(): int {
+        return $this->cvv;
     }
 
     /**
-     * Sets the cardholder's name.
+     * Sets the CVV of the credit card.
      *
-     * @param string $holder The cardholder's name to set.
-     * @throws Exception If the cardholder's name is empty.
+     * @param int $cvv The CVV to set.
+     * @throws Exception If the CVV is invalid.
      */
-    public function setHolder(string $holder): void
-    {
-        if (empty($holder)) {
-            throw new Exception("Cardholder name cannot be empty.");
+    public function setCvv(int $cvv): void {
+        if (!preg_match('/^\d{3,4}$/', $cvv)) {
+            throw new Exception("Invalid CVV. Must be 3 or 4 digits.");
         }
-        $this->holder = $holder;
+        $this->cvv = $cvv;
     }
 
     /**
@@ -200,8 +185,7 @@ class ECreditCard implements JsonSerializable
      *
      * @return string The type of the credit card.
      */
-    public function getType(): string
-    {
+    public function getType(): string {
         return $this->type;
     }
 
@@ -211,8 +195,7 @@ class ECreditCard implements JsonSerializable
      * @param string $type The type of the credit card (e.g., Visa, MasterCard).
      * @throws Exception If the card type is empty or invalid.
      */
-    public function setType(string $type): void
-    {
+    public function setType(string $type): void {
         $validTypes = ['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
         if (empty($type) || !in_array($type, $validTypes)) {
             throw new Exception("Invalid card type.");
@@ -221,51 +204,51 @@ class ECreditCard implements JsonSerializable
     }
 
     /**
-     * Gets the ID of the user associated with the credit card.
-     *
-     * @return int|null The user ID or null if not set.
-     */
-    public function getIdUser(): ?int
-    {
-        return $this->idUser;
-    }
-
-    /**
-     * Sets the ID of the user associated with the credit card.
-     *
-     * @param int|null $idUser The user ID to set.
-     */
-    public function setIdUser(?int $idUser): void
-    {
-        $this->idUser = $idUser;
-    }
-
-    /**
      * Validates the credit card number.
      *
      * @param string $number The credit card number to validate.
      * @return bool True if valid, false otherwise.
      */
-    private function isValidCardNumber(string $number): bool
-    {
+    private function isValidCardNumber(string $number): bool {
         return preg_match('/^\d{13,19}$/', $number);
     }
 
     /**
-     * Specify data which should be serialized to JSON.
+     * Gets the cardholder's name.
      *
-     * @return array The data to be serialized.
+     * @return string The cardholder's name.
      */
-    public function jsonSerialize(): array
-    {
+    public function getHolder(): string {
+        return $this->holder;
+    }
+
+    /**
+     * Sets the cardholder's name.
+     *
+     * @param string $holder The cardholder's name to set.
+     * @throws Exception If the cardholder's name is empty.
+     */
+    public function setHolder(string $holder): void {
+        if (empty($holder)) {
+            throw new Exception("Cardholder name cannot be empty.");
+        }
+        $this->holder = $holder;
+    }
+
+    /**
+     * Implementation of the jsonSerialize method.
+     *
+     * @return array Associative array of the object's properties.
+     */
+    public function jsonSerialize(): array {
         return [
             'idCreditCard' => $this->idCreditCard,
+            'idUser' => $this->idUser,
             'number' => $this->number,
-            'cvv' => $this->cvv,
             'expiration' => $this->expiration->format('Y-m-d'),
-            'holder' => $this->holder,
+            'cvv' => $this->cvv,
             'type' => $this->type,
-            'idUser' => $this->idUser
+            'holder' => $this->holder,
         ];
     }
 }

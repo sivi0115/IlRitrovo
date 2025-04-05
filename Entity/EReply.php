@@ -1,7 +1,6 @@
 <?php
 
 namespace Entity;
-
 use DateTime;
 use Exception;
 use InvalidArgumentException;
@@ -9,18 +8,17 @@ use JsonSerializable;
 
 /**
  * Class EReply
- * 
  * Rapresents a Replay associated an a Review
  */
-
 class EReply implements JsonSerializable {
-
     /**
+     * IDENTIFIERS 
      * @var ?int idReply; the unique identifier of a reply
      */
     private ?int $idReply;
 
     /**
+     * METADATA
      * @var DateTime the creation timestamp of the reply
      */
     private DateTime $dateReply;
@@ -31,17 +29,15 @@ class EReply implements JsonSerializable {
     private String $body;
 
     /**
-     * EReply constructor
+     * Constructor for the EReply class with validation checks.
      * 
      * @param int the unique identifier of a reply
      * @param DateTime date of reply
      * @param string the body of the reply
-     * 
      * @throws Exception If the body of the replay is empty
      */
 
-     public function __construct(?int $idReply, DateTime $dateReply, string $body)
-     {
+     public function __construct(?int $idReply, DateTime $dateReply, string $body) {
         $this->setIdReply($idReply);
         $this->dateReply=$dateReply;
         $this->body=$body;
@@ -105,12 +101,11 @@ class EReply implements JsonSerializable {
     }
 
     /**
-     * Serializes the review object into an associative array for JSON encoding.
+     * Implementation of the jsonSerialize method.
      *
-     * @return array The serialized representation of the review object.
+     * @return array Associative array of the object's properties.
      */
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return [
             'idReply' => $this->idReply,
             'dateReply' => $this->dateReply->format('Y-m-d H:i:s'),

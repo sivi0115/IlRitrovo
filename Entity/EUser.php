@@ -1,111 +1,116 @@
 <?php
 
 namespace Entity;
-
 use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 
-class EUser implements JsonSerializable
-{
-    /**
-     * @var ?int User ID, can be null if not assigned.
+/**
+ * Class EUser
+ * Represents the user with their main properties.
+ */
+class EUser implements JsonSerializable {
+    /** 
+     * IDENTIFIERS
+     * @var ?int User ID, can be null if not assigned. 
      */
     private ?int $idUser;
 
-    /**
-     * @var string Username of the user, protected access.
-     */
-    protected string $username;
-
-    /**
-     * @var string First name of the user.
-     */
-    public string $name;
-
-    /**
-     * @var string Last name of the user.
-     */
-    public string $surname;
-
-    /**
-     * @var DateTime Date of birth of the user.
-     */
-    public DateTime $birthDate;
-
-    /**
-     * @var string Phone number of the user.
-     */
-    public string $phone;
-
-    /**
-     * @var string|null URL of the users's image. Nullable.
-     */
-    public ?string $image;
-
-    /**
-     * @var string Email of the user, protected access.
-     */
-    protected string $email;
-
-    /**
-     * @var string Password of the user, protected access.
-     */
-    protected string $password;
-
-    /**
-     * @var bool Tracks whether the password has been changed. Private access.
-     */
-    public bool $passwordChanged = false;
-
-    /**
-     * @var bool Indicates if the user is banned.
-     */
-    private bool $ban;
-
-    /**
-     * @var array User's reservations.
-     */
-    private array $reservations;
-
-    /**
+    /** 
      * @var int The unique identifier for a single Review, managed by the database.
      */
     private ?int $idReview;
 
     /**
-     * @var array User's credit cards.
+     * METADATA
+     * @var string Username of the user, protected access. 
+     */
+    protected string $username;
+
+    /** 
+     * @var string Email of the user, protected access. 
+     */
+    protected string $email;
+
+    /** 
+     * @var string Password of the user, protected access. 
+     */
+    protected string $password;
+
+    /** 
+     * @var bool Tracks whether the password has been changed. Private access. 
+     */
+    public bool $passwordChanged = false;
+
+    /** 
+     * @var string|null URL of the users's image. Nullable. 
+     */
+    public ?string $image;
+
+    /** 
+     * @var bool Indicates if the user is banned. 
+     */
+    private bool $ban;
+
+    /** 
+     * @var array User's reservations. 
+     */
+    private array $reservations;
+
+    /** 
+     * @var array User's credit cards. 
      */
     private array $creditCards;
+
+    /**
+     * PERSONAL_INFORMARTION 
+     * @var string First name of the user. 
+     */
+    public string $name;
+
+    /** 
+     * @var string Last name of the user. 
+     */
+    public string $surname;
+
+    /** 
+     * @var DateTime Date of birth of the user. 
+     */
+    public DateTime $birthDate;
+
+    /** 
+     * @var string Phone number of the user. 
+     */
+    public string $phone;
 
     /**
      * Constructor for the EUser class with validation checks.
      *
      * @param int $idUser User ID, can be null.
+     * @param int $idReview Review ID, can be an optional.
      * @param string $username Username
+     * @param string $email User's email
+     * @param string $password User's password
+     * @param string|null $image URL of the user's image (optional)
+     * @param bool $ban Indicates if the user is banned (default: false).
      * @param string $name First name of the user
      * @param string $surname Last name of the user
      * @param DateTime $birthDate User's date of birth
      * @param string $phone User's phone number
-     * @param string|null $image URL of the user's image (optional)
-     * @param string $email User's email
-     * @param string $password User's password
-     * @param int $idReview The unique identifier for a Review (optional).
-     * @param bool $ban Indicates if the user is banned (default: false).
      * @throws InvalidArgumentException if any input is invalid.
      */
     public function __construct(
         ?int $idUser,
+        ?int $idReview,
         string $username,
+        string $email,
+        string $password,
+        ?string $image,
+        bool $ban = false,
         string $name,
         string $surname,
         DateTime $birthDate,
-        string $phone,
-        ?string $image,
-        string $email,
-        string $password,
-        ?int $idReview,
-        bool $ban = false,
+        string $phone
     ) {
         if (empty($username)) {
             throw new InvalidArgumentException("Username cannot be empty.");
@@ -115,37 +120,18 @@ class EUser implements JsonSerializable
         }
 
         $this->idUser = $idUser;
-
-        // Validazione username
+        $this->setidReview($idReview); 
         $this->setUsername($username);
-
-        // Validazione nome
-        $this->setName($name);
-
-        // Validazione cognome
-        $this->setSurname($surname);
-
-        // Validazione email
         $this->setEmail($email);
-
-        // Validazione numero di telefono
-        $this->setPhone($phone);
-
-        // Validazione data di nascita futura
-        $this->setBirthDate($birthDate);
-
-        // Impostazione dell'immagine
-        $this->setImage($image);
-
-        // Impostazione della password
         $this->setPassword($password);
-
-        //Impostazione dell'Id Review
-        $this->setidReview($idReview);
-
+        $this->setImage($image);
         $this->ban = $ban;
         $this->reservations = [];
         $this->creditCards = [];
+        $this->setName($name);
+        $this->setSurname($surname);
+        $this->setBirthDate($birthDate);
+        $this->setPhone($phone);
     }
 
     /**
@@ -153,8 +139,7 @@ class EUser implements JsonSerializable
      *
      * @return ?int User ID or null if not assigned.
      */
-    public function getIdUser(): ?int
-    {
+    public function getIdUser(): ?int{
         return $this->idUser;
     }
 
@@ -163,9 +148,26 @@ class EUser implements JsonSerializable
      *
      * @param ?int $idUser User ID to set, can be null.
      */
-    public function setIdUser(?int $idUser): void
-    {
+    public function setIdUser(?int $idUser): void {
         $this->idUser = $idUser;
+    }
+
+    /**
+     * Gets the user's review.
+     *
+     * @return int User's review.
+     */
+    public function getIdReview(): ?int {
+        return $this->idReview;
+    }
+
+    /**
+     * Sets the unique identifier for the Review.
+     *
+     * @param int|null $idReview The ID to set.
+     */
+    public function setIdReview(?int $idReview): void {
+        $this->idReview = $idReview;
     }
 
     /**
@@ -274,6 +276,103 @@ class EUser implements JsonSerializable
     }
 
     /**
+     * Gets the image URL of the user.
+     *
+     * @return string|null The URL of the user's image.
+     */
+    public function getImage(): ?string {
+        return $this->image;
+    }
+
+    /**
+     * Sets the image URL of the user.
+     *
+     * @param string|null $image The image URL to set.
+     */
+    public function setImage(?string $image): void {
+        if ($image !== null && !filter_var($image, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException("URL dell'immagine non valido");
+        }
+        $this->image = $image;
+    }
+
+    /**
+     * Checks if the user is banned.
+     *
+     * @return bool True if the user is banned, false otherwise.
+     */
+    public function getBan(): bool
+    {
+        return $this->ban;
+    }
+
+    /**
+     * Sets the ban status of the user.
+     *
+     * @param bool $ban True to ban the user, false to unban.
+     */
+    public function setBan(bool $ban): void {
+        $this->ban = $ban;
+    }
+
+    /**
+     * Gets the user's reservations.
+     *
+     * @return array User's reservations.
+     */
+    public function getReservations(): array {
+        return $this->reservations;
+    }
+
+    /**
+     * Adds a reservation to the user's reservations.
+     *
+     * @param EReservation $reservation The reservation to add.
+     */
+    public function addReservation(EReservation $reservation): void {
+        $this->reservations[] = $reservation;
+    }
+
+    /**
+     * Removes a reservation from the user's reservations.
+     *
+     * @param EReservation $reservation The reservation to remove.
+     */
+    public function removeReservation(EReservation $reservation): void {
+        $this->reservations = array_filter($this->reservations, fn($r) => $r !== $reservation);
+    }
+
+    /**
+     * Gets the user's credit cards.
+     *
+     * @return array User's credit cards.
+     */
+    public function getCreditCards(): array
+    {
+        return $this->creditCards;
+    }
+
+    /**
+     * Adds a credit card to the user's credit cards.
+     *
+     * @param ECreditCard $creditCard The credit card to add.
+     */
+    public function addCreditCard(ECreditCard $creditCard): void
+    {
+        $this->creditCards[] = $creditCard;
+    }
+
+    /**
+     * Removes a credit card from the user's credit cards.
+     *
+     * @param ECreditCard $creditCard The credit card to remove.
+     */
+    public function removeCreditCard(ECreditCard $creditCard): void
+    {
+        $this->creditCards = array_filter($this->creditCards, fn($cc) => $cc !== $creditCard);
+    }
+
+    /**
      * Gets the first name of the user.
      *
      * @return string The user's first name.
@@ -296,18 +395,18 @@ class EUser implements JsonSerializable
     }
 
     /**
-     * Gets the last name of the user.
+     * Gets the surname of the user.
      *
-     * @return string The user's last name.
+     * @return string The user's surname.
      */
     public function getSurname(): string {
         return $this->surname;
     }
 
     /**
-     * Sets the last name of the user.
+     * Sets the surname of the user.
      *
-     * @param string $surname The last name to set.
+     * @param string $surname the surname to set.
      */
     public function setSurname(string $surname): void {
         if (empty($surname)) {
@@ -369,147 +468,27 @@ class EUser implements JsonSerializable
         $this->phone = $phone;
     }
 
-    /**
-     * Gets the image URL of the user.
-     *
-     * @return string|null The URL of the user's image.
-     */
-    public function getImage(): ?string {
-        return $this->image;
-    }
 
     /**
-     * Sets the image URL of the user.
-     *
-     * @param string|null $image The image URL to set.
-     */
-    public function setImage(?string $image): void {
-        if ($image !== null && !filter_var($image, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException("URL dell'immagine non valido");
-        }
-        $this->image = $image;
-    }
-
-    /**
-     * Checks if the user is banned.
-     *
-     * @return bool True if the user is banned, false otherwise.
-     */
-    public function getBan(): bool
-    {
-        return $this->ban;
-    }
-
-    /**
-     * Sets the ban status of the user.
-     *
-     * @param bool $ban True to ban the user, false to unban.
-     */
-    public function setBan(bool $ban): void
-    {
-        $this->ban = $ban;
-    }
-
-    /**
-     * Gets the user's reservations.
-     *
-     * @return array User's reservations.
-     */
-    public function getReservations(): array
-    {
-        return $this->reservations;
-    }
-
-    /**
-     * Adds a reservation to the user's reservations.
-     *
-     * @param EReservation $reservation The reservation to add.
-     */
-    public function addReservation(EReservation $reservation): void
-    {
-        $this->reservations[] = $reservation;
-    }
-
-    /**
-     * Removes a reservation from the user's reservations.
-     *
-     * @param EReservation $reservation The reservation to remove.
-     */
-    public function removeReservation(EReservation $reservation): void
-    {
-        $this->reservations = array_filter($this->reservations, fn($r) => $r !== $reservation);
-    }
-
-    /**
-     * Gets the user's review.
-     *
-     * @return int User's review.
-     */
-    public function getidReview(): ?int
-    {
-        return $this->idReview;
-    }
-
-    /**
-     * Sets the unique identifier for the Review.
-     *
-     * @param int|null $idReview The ID to set.
-     */
-    public function setidReview(?int $idReview): void
-    {
-        $this->idReview = $idReview;
-    }
-
-    /**
-     * Gets the user's credit cards.
-     *
-     * @return array User's credit cards.
-     */
-    public function getCreditCards(): array
-    {
-        return $this->creditCards;
-    }
-
-    /**
-     * Adds a credit card to the user's credit cards.
-     *
-     * @param ECreditCard $creditCard The credit card to add.
-     */
-    public function addCreditCard(ECreditCard $creditCard): void
-    {
-        $this->creditCards[] = $creditCard;
-    }
-
-    /**
-     * Removes a credit card from the user's credit cards.
-     *
-     * @param ECreditCard $creditCard The credit card to remove.
-     */
-    public function removeCreditCard(ECreditCard $creditCard): void
-    {
-        $this->creditCards = array_filter($this->creditCards, fn($cc) => $cc !== $creditCard);
-    }
-
-    /**
-     * Implementazione del metodo jsonSerialize.
+     * Implementation of the jsonSerialize method.
      *
      * @return array Associative array of the object's properties.
      */
     public function jsonSerialize(): array {
         return [
             'idUser' => $this->idUser,
+            'idReview' => $this->idReview,
             'username' => $this->getUsername(),
+            'email' => $this->getEmail(), // Include l'email se necessario
+            // Nota: Evitiamo di serializzare la password per motivi di sicurezza
+            'image' => $this->getImage(),
+            'ban' => $this->ban,
+            'reservations' => $this->reservations,
+            'creditCards' => $this->creditCards,
             'name' => $this->getName(),
             'surname' => $this->getSurname(),
             'birthDate' => $this->getBirthDate()->format('Y-m-d'),
             'phone' => $this->getPhone(),
-            'image' => $this->getImage(),
-            'email' => $this->getEmail(), // Include l'email se necessario
-            // Nota: Evitiamo di serializzare la password per motivi di sicurezza
-            'ban' => $this->ban,
-            'reservations' => $this->reservations,
-            'idReview' => $this->idReview,
-            'creditCards' => $this->creditCards,
         ];
     }
 

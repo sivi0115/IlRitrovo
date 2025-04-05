@@ -1,42 +1,57 @@
 <?php
 
 namespace Entity;
-
 use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 
 /**
  * Class EReview
- * Represents a review entity with properties such as body, stars, user, and location.
+ * Represents a review entity with properties.
  */
-class EReview implements JsonSerializable
-{
-    /** @var int|null $idUser The ID of the user who made the review */
+class EReview implements JsonSerializable {
+    /** 
+     * IDENTIFIERS
+     * @var int|null $idUser The ID of the user who made the review 
+     */
     private ?int $idUser;
 
-    /** @var int|null $idReview The ID of the review */
+    /** 
+     * @var int|null $idReview The ID of the review 
+     */
     private ?int $idReview;
 
-    /** @var int|null $idReply The ID of the reply, initially it's null, can be changed wit setIdReply */
+    /** 
+     * @var int|null $idReply The ID of the reply, initially it's null, can be changed wit setIdReply 
+     */
     private ?int $idReply;
 
-    /** @var int $stars The rating given in the review, between 1 and 5 */
+    /**
+     * METADATA 
+     * @var int $stars The rating given in the review, between 1 and 5 
+     */
     private int $stars;
 
-    /** @var string $body The text body of the review */
+    /**
+     * @var string $body The text body of the review 
+     */
     private string $body;
 
-    /** @var DateTime $creationTime The creation timestamp of the review */
+    /** 
+     * @var DateTime $creationTime The creation timestamp of the review 
+     */
     private DateTime $creationTime;
 
-    /** @var bool $removed Whether the review has been removed */
+    /** 
+     * @var bool $removed Whether the review has been removed 
+     */
     private bool $removed = false;
 
     
 
     /**
-     * EReview constructor.
+     * Constructor for the EReview class with validation checks.
+     * 
      * @param int|null $idUser The ID of the user who made the review.
      * @param int|null $idReview The ID of the review.
      * @param int|null $idReply The ID of the reply if exists
@@ -52,7 +67,7 @@ class EReview implements JsonSerializable
         int $stars,
         string $body,
         DateTime $creationTime,
-        bool $removed,
+        bool $removed
     ) {
         if ($stars < 1 || $stars > 5) {
             throw new InvalidArgumentException("Stars must be between 1 and 5.");
@@ -70,8 +85,7 @@ class EReview implements JsonSerializable
      *
      * @return int|null The ID of the user who made the review.
      */
-    public function getIdUser(): ?int
-    {
+    public function getIdUser(): ?int {
         return $this->idUser;
     }
 
@@ -80,8 +94,7 @@ class EReview implements JsonSerializable
      *
      * @param int|null $idUser The ID of the user who made the review.
      */
-    public function setIdUser(?int $idUser): void
-    {
+    public function setIdUser(?int $idUser): void {
         $this->idUser = $idUser;
     }
 
@@ -90,8 +103,7 @@ class EReview implements JsonSerializable
      *
      * @return int|null The ID of the review.
      */
-    public function getIdReview(): ?int
-    {
+    public function getIdReview(): ?int {
         return $this->idReview;
     }
 
@@ -100,13 +112,13 @@ class EReview implements JsonSerializable
      *
      * @param int|null $idReview The ID of the review.
      */
-    public function setIdReview(?int $idReview): void
-    {
+    public function setIdReview(?int $idReview): void {
         $this->idReview = $idReview;
     }
 
     /**
      * Gets the ID of the reply if exists
+     * 
      * @return int|null The ID of the reply if exists
      */
     public function getIdReply(): ?int {
@@ -115,6 +127,7 @@ class EReview implements JsonSerializable
 
     /**
      * Sets the ID of the reply
+     * 
      * @param int $idReply The ID of the reply 
      */
     public function setIdReply(?int $idReply): void {
@@ -126,8 +139,7 @@ class EReview implements JsonSerializable
      *
      * @return int The star rating of the review.
      */
-    public function getStars(): int
-    {
+    public function getStars(): int {
         return $this->stars;
     }
 
@@ -135,11 +147,9 @@ class EReview implements JsonSerializable
      * Sets the star rating of the review.
      *
      * @param int $stars The star rating of the review, between 1 and 5.
-     *
      * @throws InvalidArgumentException If the number of stars is not between 1 and 5.
      */
-    public function setStars(int $stars): void
-    {
+    public function setStars(int $stars): void {
         if ($stars < 1 || $stars > 5) {
             throw new InvalidArgumentException("Stars must be between 1 and 5.");
         }
@@ -151,8 +161,7 @@ class EReview implements JsonSerializable
      *
      * @return string The text body of the review.
      */
-    public function getBody(): string
-    {
+    public function getBody(): string {
         return $this->body;
     }
 
@@ -161,8 +170,7 @@ class EReview implements JsonSerializable
      *
      * @param string $body The text body of the review.
      */
-    public function setBody(string $body): void
-    {
+    public function setBody(string $body): void {
         if (empty($body)) {
             throw new InvalidArgumentException("Il corpo della recensione non può essere vuoto");
         }
@@ -174,8 +182,7 @@ class EReview implements JsonSerializable
      *
      * @return DateTime The creation timestamp of the review.
      */
-    public function getCreationTime(): DateTime
-    {
+    public function getCreationTime(): DateTime {
         return $this->creationTime;
     }
 
@@ -184,8 +191,7 @@ class EReview implements JsonSerializable
      *
      * @param DateTime $creationTime The creation timestamp of the review.
      */
-    public function setCreationTime(DateTime $creationTime): void
-    {
+    public function setCreationTime(DateTime $creationTime): void {
         $this->creationTime = $creationTime;
     }
 
@@ -194,8 +200,7 @@ class EReview implements JsonSerializable
      *
      * @return bool Whether the review has been removed.
      */
-    public function getRemoved(): bool
-    {
+    public function getRemoved(): bool {
         return $this->removed;
     }
 
@@ -204,18 +209,16 @@ class EReview implements JsonSerializable
      *
      * @param bool $removed Whether the review has been removed.
      */
-    public function setRemoved(bool $removed): void
-    {
+    public function setRemoved(bool $removed): void {
         $this->removed = $removed;
     }
 
     /**
-     * Serializes the review object into an associative array for JSON encoding.
+     * Implementation of the jsonSerialize method.
      *
-     * @return array The serialized representation of the review object.
+     * @return array Associative array of the object's properties.
      */
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return [
             'idUser' => $this->idUser,
             'idReview' => $this->idReview,

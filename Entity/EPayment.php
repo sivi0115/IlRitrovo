@@ -1,11 +1,13 @@
 <?php
 
 namespace Entity;
-
 use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 
+/**
+ * @var StatoPagamento Limited set of values that StatoPagamento can assume
+ */
 enum StatoPagamento: string {
     case COMPLETATO = 'completed';
     case IN_ATTESA = 'pending';
@@ -15,49 +17,69 @@ enum StatoPagamento: string {
 
 /**
  * Class EPayment
- *
- * This class represents a payment made for a reservation.
- * It includes the total amount, payment method, creation time, payment state, and the related credit card.
+ * Represents a Payment with their main properties.
  */
-class EPayment implements JsonSerializable
-{
+class EPayment implements JsonSerializable {
+    /**
+     * IDENTIFIERS
+     * @var ?int Payment Id, the Id of the payment
+     */
     private ?int $idPayment;
-    private float $total;
-    private DateTime $creationTime;
-    private StatoPagamento $state;
+
+    /**
+     * @var int the Id of a specific credit card
+     */
     private int $idCreditCard;
+
+    /**
+     * @var int the Id of a specific reservation
+     */
     private int $idReservation;
 
     /**
-     * EPayment constructor.
+     * METADATA
+     * @var float the amount of the payment
+     */
+    private float $total;
+
+    /**
+     * @var DateTime the creation time of the payment
+     */
+    private DateTime $creationTime;
+
+    /**
+     * @var StatoPagamento actual state of the payment
+     */
+    private StatoPagamento $state;
+    
+    /**
+     * Constructor for the EPayment class with validation checks.
      *
      * @param int|null $idPayment The ID of the payment, or null if not yet created.
-     * @param float $total The total amount to be paid.
-     * @param StatoPagamento $state The state of the payment (e.g., completed, pending).
-     * @param DateTime $creationTime The creation time of the payment.
      * @param int $idCreditCard The ID of the associated credit card.
      * @param int $idReservation The ID of the associated reservation.
-     *
+     * @param float $total The total amount to be paid.
+     * @param DateTime $creationTime The creation time of the payment.
+     * @param StatoPagamento $state The state of the payment (e.g., completed, pending).
      * @throws InvalidArgumentException If the total amount is negative.
      */
     public function __construct(
         ?int $idPayment,
-        float $total,
-        StatoPagamento $state,
-        DateTime $creationTime,
         int $idCreditCard,
-        int $idReservation
+        int $idReservation,
+        float $total,
+        DateTime $creationTime,
+        StatoPagamento $state
     ) {
         if ($total < 0) {
             throw new InvalidArgumentException('Total amount must be non-negative.');
         }
-
         $this->idPayment = $idPayment;
-        $this->total = $total;
-        $this->state = $state;
-        $this->creationTime = $creationTime;
         $this->idCreditCard = $idCreditCard;
         $this->idReservation = $idReservation;
+        $this->total = $total;
+        $this->creationTime = $creationTime;
+        $this->state = $state;
     }
 
     /**
@@ -65,8 +87,7 @@ class EPayment implements JsonSerializable
      *
      * @return int|null The ID of the payment, or null if not set.
      */
-    public function getIdPayment(): ?int
-    {
+    public function getIdPayment(): ?int {
         return $this->idPayment;
     }
 
@@ -75,9 +96,44 @@ class EPayment implements JsonSerializable
      *
      * @param int|null $idPayment The ID of the payment, or null to unset.
      */
-    public function setIdPayment(?int $idPayment): void
-    {
+    public function setIdPayment(?int $idPayment): void {
         $this->idPayment = $idPayment;
+    }
+
+    /**
+     * Get the ID of the associated credit card.
+     *
+     * @return int|null The ID of the associated credit card, or null if not set.
+     */
+    public function getIdCreditCard(): ?int {
+        return $this->idCreditCard;
+    }
+
+    /**
+     * Set the ID of the associated credit card.
+     *
+     * @param int|null $idCreditCard The ID of the associated credit card, or null to unset.
+     */
+    public function setIdCreditCard(?int $idCreditCard): void {
+        $this->idCreditCard = $idCreditCard;
+    }
+
+    /**
+     * Get the ID of the associated reservation.
+     *
+     * @return int The ID of the associated reservation.
+     */
+    public function getIdReservation(): int {
+        return $this->idReservation;
+    }
+
+    /**
+     * Set the ID of the associated reservation.
+     *
+     * @param int $idReservation The ID of the associated reservation.
+     */
+    public function setIdReservation(int $idReservation): void {
+        $this->idReservation = $idReservation;
     }
 
     /**
@@ -85,8 +141,7 @@ class EPayment implements JsonSerializable
      *
      * @return float The total amount.
      */
-    public function getTotal(): float
-    {
+    public function getTotal(): float {
         return $this->total;
     }
 
@@ -94,11 +149,9 @@ class EPayment implements JsonSerializable
      * Set the total amount to be paid.
      *
      * @param float $total The total amount.
-     *
      * @throws InvalidArgumentException If the total amount is negative.
      */
-    public function setTotal(float $total): void
-    {
+    public function setTotal(float $total): void {
         if ($total < 0) {
             throw new InvalidArgumentException('Total amount must be non-negative.');
         }
@@ -110,8 +163,7 @@ class EPayment implements JsonSerializable
      *
      * @return DateTime The creation time.
      */
-    public function getCreationTime(): DateTime
-    {
+    public function getCreationTime(): DateTime {
         return $this->creationTime;
     }
 
@@ -120,8 +172,7 @@ class EPayment implements JsonSerializable
      *
      * @param DateTime $creationTime The creation time to set.
      */
-    public function setCreationTime(DateTime $creationTime): void
-    {
+    public function setCreationTime(DateTime $creationTime): void {
         $this->creationTime = $creationTime;
     }
 
@@ -130,8 +181,7 @@ class EPayment implements JsonSerializable
      *
      * @return StatoPagamento The payment state.
      */
-    public function getState(): StatoPagamento
-    {
+    public function getState(): StatoPagamento {
         return $this->state;
     }
 
@@ -140,65 +190,23 @@ class EPayment implements JsonSerializable
      *
      * @param StatoPagamento $state The payment state to set.
      */
-    public function setState(StatoPagamento $state): void
-    {
+    public function setState(StatoPagamento $state): void {
         $this->state = $state;
     }
 
     /**
-     * Get the ID of the associated credit card.
+     * Implementation of the jsonSerialize method.
      *
-     * @return int|null The ID of the associated credit card, or null if not set.
+     * @return array Associative array of the object's properties.
      */
-    public function getIdCreditCard(): ?int
-    {
-        return $this->idCreditCard;
-    }
-
-    /**
-     * Set the ID of the associated credit card.
-     *
-     * @param int|null $idCreditCard The ID of the associated credit card, or null to unset.
-     */
-    public function setIdCreditCard(?int $idCreditCard): void
-    {
-        $this->idCreditCard = $idCreditCard;
-    }
-
-    /**
-     * Get the ID of the associated reservation.
-     *
-     * @return int The ID of the associated reservation.
-     */
-    public function getIdReservation(): int
-    {
-        return $this->idReservation;
-    }
-
-    /**
-     * Set the ID of the associated reservation.
-     *
-     * @param int $idReservation The ID of the associated reservation.
-     */
-    public function setIdReservation(int $idReservation): void
-    {
-        $this->idReservation = $idReservation;
-    }
-
-    /**
-     * Specify data which should be serialized to JSON.
-     *
-     * @return array The data to be serialized.
-     */
-    public function jsonSerialize(): array
-    {
+    public function jsonSerialize(): array {
         return [
             'idPayment' => $this->idPayment,
+            'idCreditCard' => $this->idCreditCard,
+            'idReservation' => $this->idReservation,
             'total' => $this->total,
             'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
             'state' => $this->state->value,
-            'idCreditCard' => $this->idCreditCard,
-            'idReservation' => $this->idReservation,
         ];
     }
 }
