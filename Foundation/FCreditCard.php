@@ -20,7 +20,6 @@ class FCreditCard
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
 
-
     /**
      * Creates an instance of ECreditCard from the given data.
      *
@@ -30,7 +29,7 @@ class FCreditCard
      */
     public static function createEntityCreditCard(array $data): ECreditCard
     {
-        $requiredFields = ['idCreditCard', 'number', 'cvv', 'expiration', 'holder', 'type', 'idUser'];
+        $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
                 throw new Exception("Missing required field: $field");
@@ -39,13 +38,12 @@ class FCreditCard
 
         return new ECreditCard(
             $data['idCreditCard'],
+            $data['idUser'],
             $data['number'],
-            $data['cvv'],
             new DateTime($data['expiration']),
-            $data['holder'],
+            $data['cvv'],
             $data['type'],
-            $data['idUser']
-
+            $data['holder']
         );
     }
 
@@ -103,7 +101,6 @@ class FCreditCard
             throw $e;
         }
     }
-
 
     /**
      * Checks if a credit card exists in the database for the given user.
@@ -247,7 +244,6 @@ class FCreditCard
             default => false,
         };
     }
-
 
     /**
      * Validates the expiration date of the credit card.

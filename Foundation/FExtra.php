@@ -38,7 +38,6 @@ class FExtra
         return null;
     }
 
-
     /**
      * Stores an EExtra object in the database.
      *
@@ -128,7 +127,6 @@ class FExtra
             return [];
         }
     }
-
 
     /**
      * Checks if an extra exists in the database with the given ID.
