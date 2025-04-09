@@ -25,7 +25,7 @@ class EReservation implements JsonSerializable {
     /**
      * @var ?int AreaId, the Id associated with the area
      */
-    private ?int $idRoom; //Da cambiare in idArea
+    private ?int $idArea; //Da cambiare in idArea
     
     /**
      * METADATA
@@ -36,7 +36,7 @@ class EReservation implements JsonSerializable {
     /**
      * @var DateTime time frame of the reservation
      */
-    private DateTime $reservationDate; //Da cambiare in timeframe
+    private DateTime $reservationDate;
 
     /**
      * @var string reservation's statement
@@ -70,7 +70,7 @@ class EReservation implements JsonSerializable {
     public function __construct(
         ?int $idReservation,
         ?int $idUser,
-        ?int $idRoom,
+        ?int $idArea,
         DateTime $creationTime,
         DateTime $reservationDate,
         string $state,
@@ -81,7 +81,7 @@ class EReservation implements JsonSerializable {
         }
         $this->idReservation = $idReservation;
         $this->idUser = $idUser;
-        $this->idRoom = $idRoom;
+        $this->idArea = $idArea;
         $this->creationTime = $creationTime;
         $this->reservationDate = $reservationDate;
         $this->state = $state;
@@ -129,8 +129,8 @@ class EReservation implements JsonSerializable {
      *
      * @return ?int The room ID.
      */
-    public function getIdRoom(): ?int {
-        return $this->idRoom;
+    public function getIdArea(): ?int {
+        return $this->idArea;
     }
 
     /**
@@ -138,8 +138,8 @@ class EReservation implements JsonSerializable {
      *
      * @param ?int $idRoom The room ID.
      */
-    public function setIdRoom(?int $idRoom): void {
-        $this->idRoom = $idRoom;
+    public function setIdArea(?int $idRoom): void {
+        $this->idArea = $idRoom;
     }
 
     /**
@@ -231,7 +231,7 @@ class EReservation implements JsonSerializable {
         return [
             'idReservation' => $this->idReservation,
             'idUser' => $this->idUser,
-            'idRoom' => $this->idRoom,
+            'idArea' => $this->idArea,
             'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
             'reservationDate' => $this->reservationDate->format('Y-m-d H:i:s'),
             'state' => $this->state,

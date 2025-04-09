@@ -9,12 +9,6 @@ use JsonSerializable;
  * Represents the user with their main properties.
  */
 class EArea implements JsonSerializable {
-    /** 
-     * IDENTIFIERS
-     * @var int|null area's ID (optional)
-     */
-    private ?int $idArea;
-
     /**
      * METADATA
      * @var string area's name
@@ -29,33 +23,19 @@ class EArea implements JsonSerializable {
     /**
      * Constructor for the EUser class with validation checks.
      *
-     * @param int|null $idArea area's ID (null if not declaired).
      * @param string $name area's name
      * @param int $maxGuests max number of guests (can't be negative).
      * @throws InvalidArgumentException if one of the values not corretct
      */
-    public function __construct(?int $idArea, string $name, int $maxGuests) {
-        if ($idArea !== null && $idArea < 0) {
-            throw new InvalidArgumentException("L'ID dell'area non può essere negativo.");
-        }
+    public function __construct(string $name, int $maxGuests) {
         if (empty($areaName)) {
             throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
         }
         if ($maxGuests < 0) {
             throw new InvalidArgumentException("Il numero massimo di ospiti dell'area non può essere negativo.");
         }
-        $this->idArea = $idArea;
         $this->areaName = $name;
         $this->maxGuests = $maxGuests;
-    }
-
-    /**
-     * Gets the area's Id.
-     *
-     * @return int|null area's Id or null.
-     */
-    public function getIdArea(): ?int {
-        return $this->idArea;
     }
 
     /**
@@ -109,7 +89,6 @@ class EArea implements JsonSerializable {
      */
     public function jsonSerialize(): array {
         return [
-            'idArea' => $this->idArea,
             'name' => $this->areaName,
             'maxGuests' => $this->maxGuests,
         ];
