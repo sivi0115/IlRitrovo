@@ -38,7 +38,7 @@ class EReply implements JsonSerializable {
      */
 
      public function __construct(?int $idReply, DateTime $dateReply, string $body) {
-        $this->setIdReply($idReply);
+        $this->idReply=$idReply;
         $this->dateReply=$dateReply;
         $this->body=$body;
      }
