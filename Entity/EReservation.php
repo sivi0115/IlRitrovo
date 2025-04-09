@@ -23,9 +23,14 @@ class EReservation implements JsonSerializable {
     private ?int $idUser;
 
     /**
-     * @var ?int AreaId, the Id associated with the area
+     * @var ?int TableId, the Id associated with the table
      */
-    private ?int $idArea; //Da cambiare in idArea
+    private ?int $idTable;
+
+    /**
+     * @var ?int AreaId, the Id associated with the room
+     */
+    private ?int $idRoom;
     
     /**
      * METADATA
@@ -53,39 +58,56 @@ class EReservation implements JsonSerializable {
      */
     private float $totPrice;
 
-    
+    /**
+     * @var int people number in a reservation
+     */
+    private int $people;
+
+    /**
+     * @var string reservtion's comments. Used if the user has any food intolerances to report.
+     */
+    private string $comment;
 
     /**
      * Constructor for the EReservation class with validation checks.
      *
      * @param ?int $idReservation The ID of the reservation.
      * @param ?int $idUser The ID of the user who made the reservation.
-     * @param ?int $idArea The ID of the Area reserved.
+     * @param ?int $idTable The ID of the Table reserved.
+     * @param ?int $idRoom The ID of the Room reserved.
      * @param DateTime $creationTime The creation timestamp of the reservation.
      * @param DateTime $reservationDate The date of the reservation.
      * @param string $state The state of the reservation (e.g., confirmed, approved).
      * @param float $totPrice The total price of the reservation.
+     * @param int $people people number in a reservation
+     * @param string|null $comment any food intolerances to report (can be null)
      * @throws InvalidArgumentException If the state is invalid or if the reservation date is not in the future.
      */
     public function __construct(
         ?int $idReservation,
         ?int $idUser,
-        ?int $idArea,
+        ?int $idTable,
+        ?int $idRoom,
         DateTime $creationTime,
         DateTime $reservationDate,
         string $state,
         float $totPrice,
+        int $people,
+        string $comment
     ) {
         if (empty($state) || !in_array($state, self::VALID_STATES)) {
             throw new InvalidArgumentException("Invalid reservation state: $state");
         }
         $this->idReservation = $idReservation;
         $this->idUser = $idUser;
-        $this->idArea = $idArea;
+        $this->idTable = $idTable;
+        $this->idRoom = $idRoom;
         $this->creationTime = $creationTime;
         $this->reservationDate = $reservationDate;
         $this->state = $state;
         $this->totPrice = $totPrice;
+        $this->people = $people;
+        $this->comment = $comment;
     }
 
     /**
@@ -125,21 +147,39 @@ class EReservation implements JsonSerializable {
     }
 
     /**
-     * Get the room ID associated with the reservation.
+     * Get the Table ID associated with the reservation.
      *
-     * @return ?int The room ID.
+     * @return ?int The Table ID.
      */
-    public function getIdArea(): ?int {
-        return $this->idArea;
+    public function getIdTable(): ?int {
+        return $this->idTable;
     }
 
     /**
-     * Set the room ID associated with the reservation.
+     * Set the Table ID associated with the reservation.
      *
-     * @param ?int $idRoom The room ID.
+     * @param ?int The Table ID.
      */
-    public function setIdArea(?int $idRoom): void {
-        $this->idArea = $idRoom;
+    public function setIdTable(?int $idTable): void {
+        $this->idTable = $idTable;
+    }
+
+    /**
+     * Get the Room ID associated with the reservation.
+     *
+     * @return ?int The Room ID.
+     */
+    public function getIdRoom(): ?int {
+        return $this->idRoom;
+    }
+
+    /**
+     * Set the Room ID associated with the reservation.
+     *
+     * @param ?int The Room ID.
+     */
+    public function setIdRoom(?int $idTable): void {
+        $this->idTable = $idTable;
     }
 
     /**
@@ -223,6 +263,47 @@ class EReservation implements JsonSerializable {
     }
 
     /**
+     * Get the people number of a reservation
+     * 
+     * @return int the number
+     */
+    public function getPeople(): int {
+        return $this->people;
+    }
+
+    /**
+     * Set's the people number of a reservation
+     * 
+     * @param int $people the number
+     */
+    public function setPeople(int $people): void {
+        if ($people<=0) {
+            throw new InvalidArgumentException("Il numero di persone nella prenotazione non può essere minore o uguale a 0");
+        }
+        else {
+            $this->people = $people;
+        }
+    }
+
+    /**
+     * Get the comment of a reservation
+     * 
+     * @return string any food intollerance
+     */
+    public function getComment(): string {
+        return $this->comment;
+    }
+
+    /**
+     * Set's the comment for a reservation
+     * 
+     * @param string the comment
+     */
+    public function setComment(string $comment): void {
+        $this->comment = $comment;
+    }
+
+    /**
      * Implementation of the jsonSerialize method.
      *
      * @return array Associative array of the object's properties.
@@ -231,11 +312,14 @@ class EReservation implements JsonSerializable {
         return [
             'idReservation' => $this->idReservation,
             'idUser' => $this->idUser,
-            'idArea' => $this->idArea,
+            'idTable' => $this->idTable,
+            'idRoom' => $this->idRoom,
             'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
             'reservationDate' => $this->reservationDate->format('Y-m-d H:i:s'),
             'state' => $this->state,
             'totPrice' => $this->totPrice,
+            'people' => $this->people,
+            'comment' => $this->comment
         ];
     }
 }
