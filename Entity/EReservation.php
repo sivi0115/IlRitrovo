@@ -178,17 +178,17 @@ class EReservation implements JsonSerializable {
      *
      * @param ?int The Room ID.
      */
-    public function setIdRoom(?int $idTable): void {
-        $this->idTable = $idTable;
+    public function setIdRoom(?int $idRoom): void {
+        $this->idRoom = $idRoom;
     }
 
     /**
      * Get the creation time of the reservation.
      *
-     * @return DateTime The creation time.
+     * @return string The creation time.
      */
-    public function getCreationTime(): DateTime {
-        return $this->creationTime;
+    public function getCreationTime(): string {
+        return $this->creationTime->format('d-m-Y');
     }
 
     /**
@@ -203,10 +203,10 @@ class EReservation implements JsonSerializable {
     /**
      * Get the reservation date.
      *
-     * @return DateTime The reservation date.
+     * @return string The reservation date.
      */
-    public function getReservationDate(): DateTime {
-        return $this->reservationDate;
+    public function getReservationDate(): string {
+        return $this->reservationDate->format('d-m-Y');
     }
 
     /**

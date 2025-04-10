@@ -1,6 +1,7 @@
 <?php
 
 namespace Entity;
+require_once 'EArea.php';
 
 use InvalidArgumentException;
 

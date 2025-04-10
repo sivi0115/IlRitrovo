@@ -64,6 +64,7 @@ class EReview implements JsonSerializable {
     public function __construct(
         ?int $idUser,
         ?int $idReview,
+        ?int $idReply = null,
         int $stars,
         string $body,
         DateTime $creationTime,
@@ -74,6 +75,7 @@ class EReview implements JsonSerializable {
         }
         $this->idUser = $idUser;
         $this->idReview = $idReview;
+        $this->idReply = $idReply;
         $this->stars = $stars;
         $this->body = $body;
         $this->creationTime = $creationTime;
@@ -180,10 +182,10 @@ class EReview implements JsonSerializable {
     /**
      * Gets the creation timestamp of the review.
      *
-     * @return DateTime The creation timestamp of the review.
+     * @return string The creation timestamp of the review.
      */
-    public function getCreationTime(): DateTime {
-        return $this->creationTime;
+    public function getCreationTime(): string {
+        return $this->creationTime->format('d-m-Y');
     }
 
     /**

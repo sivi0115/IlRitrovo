@@ -69,13 +69,13 @@ class ECreditCard implements JsonSerializable {
         string $type,
         string $holder
     ) {
-        $this->setIdCreditCard($idCreditCard);
+        $this->idCreditCard = $idCreditCard;
         $this->idUser = $idUser;
-        $this->setNumber($number);
-        $this->setExpiration($expiration);
-        $this->setCvv($cvv);
-        $this->setType($type);
-        $this->setHolder($holder);
+        $this->number = $number;
+        $this->expiration = $expiration;
+        $this->cvv = $cvv;
+        $this->type = $type;
+        $this->holder = $holder;
     }
 
     /**
@@ -139,10 +139,10 @@ class ECreditCard implements JsonSerializable {
     /**
      * Gets the expiration date of the credit card.
      *
-     * @return DateTime The expiration date.
+     * @return string The expiration date. (string because PHP can't print DateTime object)
      */
-    public function getExpiration(): DateTime {
-        return $this->expiration;
+    public function getExpiration(): string {
+        return $this->expiration->format('d-m-Y');
     }
 
     /**

@@ -161,10 +161,10 @@ class EPayment implements JsonSerializable {
     /**
      * Get the creation time of the payment.
      *
-     * @return DateTime The creation time.
+     * @return string The creation time.
      */
-    public function getCreationTime(): DateTime {
-        return $this->creationTime;
+    public function getCreationTime(): string {
+        return $this->creationTime->format('d-m-Y');
     }
 
     /**
@@ -181,8 +181,8 @@ class EPayment implements JsonSerializable {
      *
      * @return StatoPagamento The payment state.
      */
-    public function getState(): StatoPagamento {
-        return $this->state;
+    public function getState(): string {
+        return $this->state->value;
     }
 
     /**
