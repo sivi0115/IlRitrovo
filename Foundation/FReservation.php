@@ -32,14 +32,15 @@ class FReservation
 
         return new EReservation(
             $data['idReservation'] ?? null,
-            new DateTime($data['creationTime']),
-            $data['state'],
-            $data['durationEvent'] ?? null,
-            $data['totPrice'],
             $data['idUser'] ?? null,
+            $data['idTable'] ?? null,
             $data['idRoom'] ?? null,
-            $data['idEvent'] ?? null,
-            $data['idPayment'] ?? null
+            $data['creationTime'] ?? null,
+            $data['reservationTime'] ?? null,
+            $data['state'] ?? null,
+            $data['totPrice'] ?? null,
+            $data['people'] ?? null,
+            $data['comment'] ?? null,
         );
     }
 
@@ -57,18 +58,21 @@ class FReservation
         // Validate user
         self::validateUser($reservation->getIdUser());
 
-        // Validate durationEvent
-        $durationEvent = self::validateDurationEvent($reservation->getDurationEvent());
+        // Validate durationEvent-DA IMPLMENTARE LA FASCIA ORARIA, CHE DEVE ESSERE VERIFICATA
+        $durationEvent = self::validateDurationEvent($reservation->getReservationDate());
 
         // Prepare data for insertion
         $data = [
-            'creationTime' => $reservation->getCreationTime()->format('Y-m-d H:i:s'),
-            'state' => $reservation->getState(),
-            'durationEvent' => $durationEvent, // Store the validated string
-            'totPrice' => $reservation->getTotPrice(),
+            'idReservation' => $reservation->getIdReservation(),
             'idUser' => $reservation->getIdUser(),
+            'idTable' => $reservation->getIdTable(),
             'idRoom' => $reservation->getIdRoom(),
-            'idEvent' => $reservation->getIdEvent()
+            'creationTime' => $reservation->getCreationTime(),
+            'reservationDate' => $reservation->getReservationDate(),
+            'state' => $reservation->getState(),
+            'totPrice' => $reservation->getTotPrice(),
+            'people' => $reservation->getPeople(),
+            'comment' => $reservation->getComment()
         ];
 
         // Debugging: Output data to be inserted
@@ -94,17 +98,20 @@ class FReservation
         $db = FDatabase::getInstance();
 
         // Validate durationEvent
-        $durationEvent = self::validateDurationEvent($reservation->getDurationEvent());
+        $durationEvent = self::validateDurationEvent($reservation->getReservationDate());
 
         // Prepare data for update
         $data = [
-            'creationTime' => $reservation->getCreationTime()->format('Y-m-d H:i:s'),
-            'state' => $reservation->getState(),
-            'durationEvent' => $durationEvent, // Store the validated string
-            'totPrice' => $reservation->getTotPrice(),
+            'idReservation' => $reservation->getIdReservation(),
             'idUser' => $reservation->getIdUser(),
+            'idTable' => $reservation->getIdTable(),
             'idRoom' => $reservation->getIdRoom(),
-            'idEvent' => $reservation->getIdEvent() ?: null
+            'creationTime' => $reservation->getCreationTime(),
+            'reservationDate' => $reservation->getReservationDate(),
+            'state' => $reservation->getState(), 
+            'totPrice' => $reservation->getTotPrice(),
+            'people' => $reservation->getPeople(),
+            'comment' => $reservation->getComment()
         ];
 
         // Debugging: Output data to be updated
@@ -235,6 +242,24 @@ class FReservation
     }
 
     /**
+     * Gets reservations for a specific table.
+     *
+     * @param int $idTable The ID of the table.
+     * @return EReservation[] An array of EReservation objects associated with the table.
+     * @throws Exception If there is an error during the retrieval operation.
+     */
+    public static function getReservationsByTable(int $tableId): array
+    {
+        $db = FDatabase::getInstance();
+        $result = $db->fetchWhere(self::TABLE_NAME, ['idTable' => $tableId]);
+        $reservations = [];
+        foreach ($result as $row) {
+            $reservations[] = self::createReservationFromRow($row);
+        }
+        return $reservations;
+    }
+
+    /**
      * Creates a reservation from a database row.
      *
      * @param array $row The database row.
@@ -245,13 +270,15 @@ class FReservation
     {
         return new EReservation(
             $row['idReservation'] ?? null,
-            new DateTime($row['creationTime']),
-            $row['state'],
-            $row['durationEvent'] ?? null,
-            $row['totPrice'],
             $row['idUser'] ?? null,
+            $row['idTable'] ?? null,
             $row['idRoom'] ?? null,
-            $row['idEvent'] ?? null
+            $row['creationTime'] ?? null,
+            $row['reservationTime'] ?? null,
+            $row['state'],
+            $row['totPrice'] ?? null,
+            $row['people'] ?? null,
+            $row['comment'] ?? null,
         );
     }
 
@@ -273,53 +300,9 @@ class FReservation
     }
 
 
-    /**
-     * Gets reservations for locations owned by a specific owner.
-     *
-     * @param int $ownerId The ID of the owner.
-     * @return EReservation[] An array of reservations related to the owner's locations.
-     * @throws Exception If an error occurs during the database operation.
-     */
-    public static function getReservationsByOwner(int $ownerId): array
-    {
-        $db = FDatabase::getInstance();
-
-        // Ottieni tutte le location dell'owner
-        $locations = $db->fetchWhere('location', ['idOwner' => $ownerId]);
-
-        // Estrai gli id delle location
-        $locationIds = array_column($locations, 'idLocation');
-
-        if (empty($locationIds)) {
-            return []; // Nessuna location trovata
-        }
-
-        // Ottieni tutte le stanze collegate alle location dell'owner
-        $rooms = $db->fetchWhere('room', ['idLocation' => $locationIds]);
-
-        // Estrai gli id delle stanze
-        $roomIds = array_column($rooms, 'idRoom');
-
-        if (empty($roomIds)) {
-            return []; // Nessuna stanza trovata
-        }
-
-        // Ottieni tutte le prenotazioni collegate alle stanze
-        $reservationsData = $db->fetchWhere('reservation', ['idRoom' => $roomIds]);
-
-        // Trasforma i risultati in oggetti EReservation
-        $reservations = [];
-        foreach ($reservationsData as $row) {
-            $reservations[] = self::createReservationFromRow($row);
-        }
-
-        return $reservations;
-    }
-
-
 
     /**
-     * Validates the durationEvent.
+     * Validates the durationEvent.   BISOGNA CAMBIARLO IN VALIDATION TIMEFRAMES
      *
      * @param string $durationEvent
      * @return string

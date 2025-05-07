@@ -27,12 +27,10 @@ class FRoom
     {
         $db = FDatabase::getInstance();
         $data = [
-            'name' => $room->getName(),
-            'capacity' => $room->getCapacity(),
-            'squareFootage' => $room->getSquareFootage(),
-            'photo' => $room->getPhoto(),
-            'price' => $room->getPrice(),
-            'idLocation' => $room->getIdLocation(), // Include idLocation in the data
+            'idRoom' => $room->getIdRoom(),
+            'areaName' => $room->getAreaName(),
+            'maxGuests' => $room->getMaxGuests(),
+            'tax' => $room->getTax(),
         ];
         $id = $db->insert(self::TABLE_NAME, $data);
         if ($id === null) {
@@ -68,26 +66,6 @@ class FRoom
         return array_map([self::class, 'createRoomFromRow'], $result);
     }
 
-    /**
-     * Updates a room in the database.
-     *
-     * @param ERoom $room
-     * @return bool
-     * @throws Exception If an error occurs during the update.
-     */
-    public static function updateRoom(ERoom $room): bool
-    {
-        $db = FDatabase::getInstance();
-        $data = [
-            'name' => $room->getName(),
-            'squareFootage' => $room->getSquareFootage(),
-            'capacity' => $room->getCapacity(),
-            'photo' => $room->getPhoto(),
-            'price' => $room->getPrice(),
-            'idLocation' => $room->getIdLocation(), // Include idLocation in the data
-        ];
-        return $db->update(self::TABLE_NAME, $data, ['idRoom' => $room->getIdRoom()]);
-    }
 
     /**
      * Deletes a room from the database.
@@ -112,12 +90,9 @@ class FRoom
     {
         return new ERoom(
             $row['idRoom'],
-            $row['name'],
-            $row['capacity'],
-            $row['squareFootage'],
-            $row['photo'],
-            $row['price'],
-            $row['idLocation']
+            $row['areaName'],
+            $row['maxGuests'],
+            $row['tax']
         );
     }
 
@@ -137,20 +112,18 @@ class FRoom
     /**
      * Updates the price, square footage, and capacity of a room.
      *
-     * @param float $price The new price of the room.
+     * @param float $tax The new price of the room.
      * @param int $idRoom The ID of the room to update.
-     * @param float $squareFootage The new square footage of the room.
-     * @param int $capacity The new capacity of the room.
+     * @param int $maxGuests The new capacity of the room.
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If there is an error during the update operation.
      */
-    public static function updateInfoRoom(float $price, int $idRoom, float $squareFootage, int $capacity): bool
+    public static function updateInfoRoom(float $tax, int $idRoom, int $maxGuests): bool
     {
         $db = FDatabase::getInstance();
         $data = [
-            'price' => $price,
-            'squareFootage' => $squareFootage,
-            'capacity' => $capacity
+            'tax' => $tax,
+            'maxGuests' => $maxGuests
         ];
         return $db->update(self::TABLE_NAME, $data, ['idRoom' => $idRoom]);
     }
@@ -180,7 +153,7 @@ class FRoom
     public static function findRoomsByPrice(float $minPrice, float $maxPrice): array
     {
         $db = FDatabase::getInstance();
-        $result = $db->fetchBetween(self::TABLE_NAME, 'price', $minPrice, $maxPrice);
+        $result = $db->fetchBetween(self::TABLE_NAME, 'capacity', $minPrice, $maxPrice);
         return array_map([self::class, 'createRoomFromRow'], $result);
     }
 
