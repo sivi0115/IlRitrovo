@@ -1,7 +1,7 @@
 <?php
 
 namespace Entity;
-
+require_once 'EArea.php';
 /**
  * Class ETable
  * Represents the table with their main properties.

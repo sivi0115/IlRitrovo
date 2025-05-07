@@ -5,6 +5,11 @@ use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 
+enum Role: string {
+    case UTENTE = 'User';
+    case AMMINISTRATORE = 'Admin';
+}
+
 /**
  * Class EUser
  * Represents the user with their main properties.
@@ -84,6 +89,11 @@ class EUser implements JsonSerializable {
     public string $phone;
 
     /**
+     * @var Role descrive the role of the Person
+     */
+    private Role $role;
+
+    /**
      * Constructor for the EUser class with validation checks.
      *
      * @param int $idUser User ID, can be null.
@@ -97,6 +107,7 @@ class EUser implements JsonSerializable {
      * @param string $surname Last name of the user
      * @param DateTime $birthDate User's date of birth
      * @param string $phone User's phone number
+     * @var Role $role descrive the role of the person
      * @throws InvalidArgumentException if any input is invalid.
      */
     public function __construct(
@@ -110,7 +121,8 @@ class EUser implements JsonSerializable {
         string $name,
         string $surname,
         DateTime $birthDate,
-        string $phone
+        string $phone,
+        Role $role
     ) {
         if (empty($username)) {
             throw new InvalidArgumentException("Username cannot be empty.");
@@ -120,18 +132,19 @@ class EUser implements JsonSerializable {
         }
 
         $this->idUser = $idUser;
-        $this->setidReview($idReview); 
-        $this->setUsername($username);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setImage($image);
+        $this->idReview = $idReview;
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+        $this->image = $image;
         $this->ban = $ban;
         $this->reservations = [];
         $this->creditCards = [];
-        $this->setName($name);
-        $this->setSurname($surname);
-        $this->setBirthDate($birthDate);
-        $this->setPhone($phone);
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->birthDate = $birthDate;
+        $this->phone = $phone;
+        $this->role = $role;
     }
 
     /**
@@ -418,10 +431,10 @@ class EUser implements JsonSerializable {
     /**
      * Gets the date of birth of the user.
      *
-     * @return DateTime The user's date of birth.
+     * @return string The user's date of birth.
      */
-    public function getBirthDate(): DateTime {
-        return $this->birthDate;
+    public function getBirthDate(): string {
+        return $this->birthDate->format('d-m-Y');
     }
 
     /**
@@ -468,6 +481,24 @@ class EUser implements JsonSerializable {
         $this->phone = $phone;
     }
 
+    /**
+     * Gets the person's role.
+     *
+     * @return Role person's role.
+     */
+    public function getRole(): string {
+        return $this->role->value;
+    }
+
+    /**
+     * Sets the peroson's role.
+     *
+     * @param Role $role person's role.
+     */
+    public function setRole(Role $role): void {
+        $this->role = $role;
+    }
+
 
     /**
      * Implementation of the jsonSerialize method.
@@ -487,8 +518,9 @@ class EUser implements JsonSerializable {
             'creditCards' => $this->creditCards,
             'name' => $this->getName(),
             'surname' => $this->getSurname(),
-            'birthDate' => $this->getBirthDate()->format('Y-m-d'),
+            'birthDate' => $this->getBirthDate(),
             'phone' => $this->getPhone(),
+            'role' => $this->getRole()
         ];
     }
 

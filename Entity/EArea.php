@@ -27,14 +27,14 @@ class EArea implements JsonSerializable {
      * @param int $maxGuests max number of guests (can't be negative).
      * @throws InvalidArgumentException if one of the values not corretct
      */
-    public function __construct(string $name, int $maxGuests) {
+    public function __construct(string $areaName, int $maxGuests) {
         if (empty($areaName)) {
             throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
         }
         if ($maxGuests < 0) {
             throw new InvalidArgumentException("Il numero massimo di ospiti dell'area non può essere negativo.");
         }
-        $this->areaName = $name;
+        $this->areaName = $areaName;
         $this->maxGuests = $maxGuests;
     }
 
