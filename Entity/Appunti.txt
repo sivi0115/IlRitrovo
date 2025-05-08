@@ -10,7 +10,7 @@ da cambiare gli attributi nel database
 —FOUNDATION—
 Da Creare
 	Area tralasciata per ora
-	Reply
+	Reply FATTO
 	Table FATTO
 	
 
