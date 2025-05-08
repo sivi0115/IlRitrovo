@@ -39,16 +39,17 @@ class FUser extends FPerson
 
         return [
             'idUser' => $user->getIdUser(),
+            'idReview' => $user->getIdReview(),
             'username' => $user->getUsername(),
-            'name' => $user->getName(),
-            'surname' => $user->getSurname(),
-            'birthDate' => $user->getBirthDate()->format('Y-m-d'),
-            'phone' => $user->getPhone(),
-            'image' => $user->getImage(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
+            'image' => $user->getImage(),
             'ban' => $user->getBan(),
-            'motivation' => $user->getMotivation(),
+            'name' => $user->getName(),
+            'surname' => $user->getSurname(),
+            'birthDate' => $user->getBirthDate(),
+            'phone' => $user->getPhone(),
+            'role' => $user->getRole(),
         ];
     }
 
@@ -59,20 +60,21 @@ class FUser extends FPerson
      * @return EUser L'oggetto utente creato.
      * @throws Exception Se si verifica un errore durante la creazione dell'entità.
      */
-    private function createEntityUser(array $data): EUser
+    private function createEntityUser(array $data):EUser
     {
         return new EUser(
             $data['idUser'],
+            $data['idReview'],
             $data['username'],
+            $data['email'],
+            $data['password'],
+            $data['image'],
+            $data['ban'],
             $data['name'],
             $data['surname'],
             new DateTime($data['birthDate']),
             $data['phone'],
-            $data['image'],
-            $data['email'],
-            $data['password'],
-            $data['ban'],
-            $data['motivation'] ?? '' // Usa stringa vuota se il campo è null
+            $data['role'],
         );
     }
 

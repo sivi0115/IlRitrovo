@@ -1,0 +1,43 @@
+STILE DI SCRITTURA E FORMATTAZIONE:
+Ci atteniamo allo standard PRS-12
+
+APPUNTI GENERALI DA FARE:
+da riadattare a PRS-12
+da implementare il frame orario per classi Entity e Foundation
+da rivedere un attimino il formato delle date se è accettato nel db come attuale (d-m-Y)
+da cambiare gli attributi nel database
+
+—FOUNDATION—
+Da Creare
+	Area tralasciata per ora
+	Reply
+	Table FATTO
+	
+
+Da Sistemare (da riadattare i cambiamenti attuati in Entity)
+	User FATTO
+	Reservation FATTO
+	Room FATTO
+	Review FATTO
+	Persistent_Manager()
+	FDatabase
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -15,30 +15,24 @@ class FReview
      * Crea una nuova istanza di EReview con i dati forniti.
      *
      * @param int|null $idUser
+     * @param int $idReview
+     * @param int $idReply
      * @param int $stars
      * @param string $body
      * @param DateTime $creationTime
      * @param bool $removed
      * @return EReview
      */
-    public static function createEntityReview(
-        ?int $idUser,
-        int $stars,
-        string $body,
-        DateTime $creationTime,
-        bool $removed,
-    ): EReview {
-        $review = new EReview(
-            $idUser,
-            null, // ID is null as it's not yet stored in the database
-            $stars,
-            $body,
-            $creationTime,
-            $removed,
+    public static function createEntityReview(array $data):EReview {
+        return new EReview(
+            $data['idUser'],
+            $data['idReview'],
+            $data['idReply'],
+            $data['stars'],
+            $data['body'],
+            $data['creationTime'],
+            $data['removed']
         );
-        $review->setCreationTime($creationTime);
-        $review->setRemoved($removed);
-        return $review;
     }
 
     /**
@@ -51,11 +45,13 @@ class FReview
     public static function storeReview(EReview $review): int {
         $db = FDatabase::getInstance();
         $data = [
-            'body' => $review->getBody(),
-            'creationTime' => $review->getCreationTime()->format('Y-m-d H:i:s'),
-            'removed' => (int)$review->getRemoved(),
-            'stars' => $review->getStars(),
             'idUser' => $review->getIdUser(),
+            'idReview' => $review->getIdReview(),
+            'idReply' => $review->getIdReply(),
+            'stars' => $review->getStars(),
+            'body' => $review->getBody(),
+            'creationTime' => $review->getCreationTime(),
+            'removed' => $review->getRemoved(),
         ];
 
         $id = $db->insert(self::TABLE_NAME, $data);
@@ -94,6 +90,7 @@ class FReview
         $review = new EReview(
             $row['idUser'] ?? null,
             $row['idReview'] ?? null,
+            $row['idReply'] ?? null,
             (int)$row['stars'],
             $row['body'],
             $creationTime,
@@ -180,7 +177,7 @@ class FReview
         $db = FDatabase::getInstance();
         $data = [
             'body' => $review->getBody(),
-            'creationTime' => $review->getCreationTime()->format('Y-m-d H:i:s'),
+            'creationTime' => $review->getCreationTime(),
             'removed' => (int)$review->getRemoved(),
             'stars' => $review->getStars(),
             'idUser' => $review->getIdUser(),
