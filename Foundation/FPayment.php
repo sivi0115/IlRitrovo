@@ -117,12 +117,11 @@ class FPayment {
      */
     public static function loadPaymentByIdReservation(int $idReservation): ?EPayment {
         $db = FDatabase::getInstance();
-        $conditions = [self::TABLE_NAME, 'idReservation' => $idReservation];
         $result = $db -> load(self::TABLE_NAME, 'idReservation', $idReservation);
-        if (empty($result)) {
+        if (empty($results)) {
             throw new Exception(self::ERR_PAYMENT_NOT_FOUND);
         }
-        return $result;
+        return self::createEntityPayment($result);
     }
 
     public static function loadPayment(array $conditions): ?EPayment {
