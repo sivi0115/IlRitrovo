@@ -39,8 +39,7 @@ class FTable extends FArea {
      * @return int The ID of the newly inserted table.
      * @throws Exception If an error occurs during the insertion.
      */
-    public static function storeTable(ETable $table): int
-    {
+    public static function storeTable(ETable $table): int {
         $db = FDatabase::getInstance();
         $data = [
             'idTable' => $table->getIdTable(),
@@ -61,8 +60,7 @@ class FTable extends FArea {
      * @return ETable|null
      * @throws Exception If an error occurs during the loading.
      */
-    public static function loadTable(int $id): ?ETable
-    {
+    public static function loadTable(int $id): ?ETable {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, 'idTable', $id);
         return $result ? self::createTableFromRow($result) : null;
@@ -74,8 +72,7 @@ class FTable extends FArea {
      * @return ETable[]
      * @throws Exception If an error occurs during the loading.
      */
-    public static function loadAllTable(): array
-    {
+    public static function loadAllTable(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return array_map([self::class, 'createTableFromRow'], $result);
@@ -88,8 +85,7 @@ class FTable extends FArea {
      * @return bool
      * @throws Exception If an error occurs during the update.
      */
-    public static function updateTable(ETable $table): bool
-    {
+    public static function updateTable(ETable $table): bool {
         $db = FDatabase::getInstance();
         $data = [
             'idTable' => $table->getIdTable(),
@@ -106,8 +102,7 @@ class FTable extends FArea {
      * @return bool
      * @throws Exception If an error occurs during the deletion.
      */
-    public static function deleteTable(int $idTable): bool
-    {
+    public static function deleteTable(int $idTable): bool {
         $db = FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idTable' => $idTable]);
     }
@@ -118,8 +113,7 @@ class FTable extends FArea {
      * @param array $row
      * @return ETable
      */
-    private static function createTableFromRow(array $row): ETable
-    {
+    private static function createTableFromRow(array $row): ETable {
         return new ETable(
             $row['idTable'],
             $row['areaName'],
@@ -134,8 +128,7 @@ class FTable extends FArea {
      * @return bool
      * @throws Exception
      */
-    public static function existsTable(int $idTable): bool
-    {
+    public static function existsTable(int $idTable): bool {
         $db = FDatabase::getInstance();
         return $db->exists(self::TABLE_NAME, ['idTable' => $idTable]);
     }
@@ -147,8 +140,7 @@ class FTable extends FArea {
      * @return array An array of ETable objects that match the name.
      * @throws Exception If there is an error during the search operation.
      */
-    public static function searchByName(string $name): array
-    {
+    public static function searchByName(string $name): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchLike(self::TABLE_NAME, 'name', $name);
         return array_map([self::class, 'createTableFromRow'], $result);
