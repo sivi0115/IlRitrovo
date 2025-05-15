@@ -6,6 +6,11 @@ use DateTime;
 use InvalidArgumentException;
 use JsonSerializable;
 
+enum TimeFrame: string {
+    case PRANZO = 'lunch';
+    case CENA = 'dinner';
+}
+
 /**
  * Class EReservation
  * Represents a reservation in the system.
@@ -39,9 +44,14 @@ class EReservation implements JsonSerializable {
     private DateTime $creationTime;
     
     /**
-     * @var DateTime time frame of the reservation
+     * @var DateTime date of the reservation
      */
     private DateTime $reservationDate;
+
+    /**
+     * @var string time frame of the reservation
+     */
+    private string $timeFrame;
 
     /**
      * @var string reservation's statement
@@ -77,6 +87,7 @@ class EReservation implements JsonSerializable {
      * @param ?int $idRoom The ID of the Room reserved.
      * @param DateTime $creationTime The creation timestamp of the reservation.
      * @param DateTime $reservationDate The date of the reservation.
+     * @param string $timeFrame The time frame of a reservation (lunch or dinner)
      * @param string $state The state of the reservation (e.g., confirmed, approved).
      * @param float $totPrice The total price of the reservation.
      * @param int $people people number in a reservation
@@ -90,6 +101,7 @@ class EReservation implements JsonSerializable {
         ?int $idRoom,
         DateTime $creationTime,
         DateTime $reservationDate,
+        string $timeFrame,
         string $state,
         float $totPrice,
         int $people,
@@ -104,6 +116,7 @@ class EReservation implements JsonSerializable {
         $this->idRoom = $idRoom;
         $this->creationTime = $creationTime;
         $this->reservationDate = $reservationDate;
+        $this->timeFrame = $timeFrame;
         $this->state = $state;
         $this->totPrice = $totPrice;
         $this->people = $people;
@@ -221,6 +234,25 @@ class EReservation implements JsonSerializable {
         }
         $this->reservationDate = $reservationDate;
     }
+    
+    /**
+     * Get the reservation time frame.
+     *
+     * @return string The reservation time frame.
+     */
+    public function getReservationTimeFrame(): string {
+        return $this->timeFrame;
+    }
+
+    /**
+     * Set the reservation date.
+     *
+     * @param DateTime $reservationDate The reservation date.
+     * @throws InvalidArgumentException If the reservation date is not in the future.
+     */
+    public function setReservationTimeFrame(string $timeFrame): void {
+        $this->timeFrame = $timeFrame;
+    }
 
     /**
      * Get the state of the reservation.
@@ -316,6 +348,7 @@ class EReservation implements JsonSerializable {
             'idRoom' => $this->idRoom,
             'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
             'reservationDate' => $this->reservationDate->format('Y-m-d H:i:s'),
+            'timeFrame'=> $this->timeFrame,
             'state' => $this->state,
             'totPrice' => $this->totPrice,
             'people' => $this->people,

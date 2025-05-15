@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mag 08, 2025 alle 12:03
+-- Creato il: Mag 15, 2025 alle 10:13
 -- Versione del server: 10.4.32-MariaDB
 -- Versione PHP: 8.2.12
 
@@ -120,7 +120,7 @@ CREATE TABLE `reply` (
 
 CREATE TABLE `reservation` (
   `idReservation` int(11) NOT NULL,
-  `timeFrame` varchar(7) NOT NULL,
+  `timeFrame` enum('lunch','dinner') NOT NULL,
   `reservationDate` datetime NOT NULL,
   `comment` varchar(256) NOT NULL,
   `people` int(3) NOT NULL,

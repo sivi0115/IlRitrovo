@@ -6,8 +6,8 @@ use InvalidArgumentException;
 use JsonSerializable;
 
 enum Role: string {
-    case UTENTE = 'User';
-    case AMMINISTRATORE = 'Admin';
+    case UTENTE = 'user';
+    case AMMINISTRATORE = 'admin';
 }
 
 /**

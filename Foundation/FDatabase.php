@@ -9,7 +9,7 @@ use PDOStatement;
 
 /**
  * Class FDatabase
- * Gestisce la connessione al database e le query.
+ * Manages the database connection and queries.
  */
 class FDatabase
 {
@@ -18,9 +18,9 @@ class FDatabase
 
     /**
      * FDatabase constructor.
-     * Costruttore privato per implementare il pattern Singleton.
+     * Private constructor to implement the Singleton pattern
      *
-     * @throws Exception Se la connessione al database fallisce.
+     * @throws Exception If the database connection fails
      */
     private function __construct()
     {
@@ -42,9 +42,9 @@ class FDatabase
     }
 
     /**
-     * Restituisce l'istanza singleton di FDatabase.
+     * Returns the singleton instance of FDatabase.
      *
-     * @return FDatabase L'istanza di FDatabase.
+     * @return FDatabase The instance of FDatabase.
      */
     public static function getInstance(): FDatabase
     {
@@ -55,7 +55,7 @@ class FDatabase
     }
 
     /**
-     * Chiude la connessione al database.
+     * Closes the database connection.
      */
     public function closeDbConnection(): void
     {
@@ -107,13 +107,13 @@ class FDatabase
             return false;
         }
     }
-
+   
     /**
-     * Metodo generico per eseguire query.
+     * Generic method to execute queries.
      *
-     * @param string $sql La query SQL da eseguire.
-     * @param array $params I parametri per il binding.
-     * @return PDOStatement|null L'oggetto PDOStatement o null in caso di errore.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters for binding.
+     * @return PDOStatement|null The PDOStatement object or null in case of error.
      */
     private function query(string $sql, array $params = []): ?PDOStatement
     {
@@ -130,24 +130,23 @@ class FDatabase
     }
 
     /**
-     * Esegue una query SQL.
+     * Executes an SQL query.
      *
-     * @param string $sql La query SQL da eseguire.
-     * @param array $params I parametri da passare alla query.
-     * @return bool True se l'esecuzione ha successo, false altrimenti.
+     * @param string $sql The SQL query to execute.
+     * @param array $params The parameters to pass to the query.
+     * @return bool True if the execution is successful, false otherwise.
      */
     public function execute(string $sql, array $params = []): bool
     {
         return $this->query($sql, $params) !== null;
     }
 
-
     /**
-     * Esegue una query SQL e recupera tutte le righe risultanti.
+     * Executes an SQL query and retrieves all resulting rows.
      *
-     * @param string $query La query SQL da eseguire.
-     * @param array $params I parametri da passare alla query.
-     * @return array Un array di tutte le righe risultanti.
+     * @param string $query The SQL query to execute.
+     * @param array $params The parameters to pass to the query.
+     * @return array An array of all resulting rows.
      */
     public function fetchAll(string $sql, array $params = []): array
     {
@@ -170,11 +169,11 @@ class FDatabase
     }
 
     /**
-     * Esegue una query SQL e recupera una singola riga risultante.
+     * Executes an SQL query and retrieves a single resulting row.
      *
-     * @param string $query La query SQL da eseguire.
-     * @param array $params I parametri da passare alla query.
-     * @return mixed La riga risultante o false se non ci sono risultati.
+     * @param string $query The SQL query to execute.
+     * @param array $params The parameters to pass to the query.
+     * @return mixed The resulting row or false if there are no results.
      */
     public function fetchSingle(string $sql, array $params = []): ?array
     {
@@ -188,14 +187,12 @@ class FDatabase
         }
     }
 
-
-
     /**
-     * Inserisce un nuovo record nel database e restituisce l'ID del record inserito.
+     * Inserts a new record into the database and returns the ID of the inserted record.
      *
-     * @param string $table Il nome della tabella.
-     * @param array $data Un array associativo di dati da inserire.
-     * @return int|null L'ID del record inserito o null in caso di errore.
+     * @param string $table The name of the table.
+     * @param array $data An associative array of data to insert.
+     * @return int|null The ID of the inserted record or null in case of error.
      */
     public function insert(string $table, array $data): ?int
     {
@@ -206,15 +203,14 @@ class FDatabase
         return $stmt ? (int) $this->connection->lastInsertId() : null;
     }
 
-
     /**
-     * Aggiorna un record nel database.
+     * Updates a record in the database.
      *
-     * @param string $table Il nome della tabella.
-     * @param array $data Un array associativo di dati da aggiornare.
-     * @param string $whereColumn La colonna da utilizzare nella clausola WHERE.
-     * @param mixed $whereValue Il valore da utilizzare nella clausola WHERE.
-     * @return bool True se l'aggiornamento ha successo, false altrimenti.
+     * @param string $table The name of the table.
+     * @param array $data An associative array of data to update.
+     * @param string $whereColumn The column to use in the WHERE clause.
+     * @param mixed $whereValue The value to use in the WHERE clause.
+     * @return bool True if the update is successful, false otherwise.
      */
     public function update(string $table, array $data, array $conditions): bool
     {
@@ -223,7 +219,6 @@ class FDatabase
         $query = "UPDATE $table SET $setClause WHERE $whereClause";
         return $this->execute($query, array_merge(array_values($data), array_values($conditions)));
     }
-
 
     /**
      * Prepares a SQL statement.
@@ -236,14 +231,13 @@ class FDatabase
         return $this->connection->prepare($sql);
     }
 
-
     /**
-     * Elimina un record dal database.
+     * Deletes a record from the database.
      *
-     * @param string $table Il nome della tabella.
-     * @param string $whereColumn La colonna da utilizzare nella clausola WHERE.
-     * @param mixed $whereValue Il valore da utilizzare nella clausola WHERE.
-     * @return bool True se l'eliminazione ha successo, false altrimenti.
+     * @param string $table The name of the table.
+     * @param string $whereColumn The column to use in the WHERE clause.
+     * @param mixed $whereValue The value to use in the WHERE clause.
+     * @return bool True if the deletion is successful, false otherwise.
      */
     public function delete(string $table, array $conditions): bool
     {
@@ -253,12 +247,12 @@ class FDatabase
     }
 
     /**
-     * Carica un record dal database.
+     * Loads a record from the database.
      *
-     * @param string $table Il nome della tabella.
-     * @param string $whereColumn La colonna da utilizzare nella clausola WHERE.
-     * @param mixed $whereValue Il valore da utilizzare nella clausola WHERE.
-     * @return array|null Un array associativo che rappresenta il record o null se non trovato.
+     * @param string $table The name of the table.
+     * @param string $whereColumn The column to use in the WHERE clause.
+     * @param mixed $whereValue The value to use in the WHERE clause.
+     * @return array|null An associative array representing the record or null if not found.
      */
     public function load(string $table, string $whereColumn, mixed $whereValue): ?array
     {
@@ -274,6 +268,13 @@ class FDatabase
         return null;
     }
 
+    /**
+     * Loads multiple records from the database based on optional conditions.
+     *
+     * @param string $table The name of the table.
+     * @param array $conditions Optional associative array of conditions for the WHERE clause.
+     * @return array An array of all matching records.
+     */
     public function loadMultiples(string $table, array $conditions = []): array
     {
         $whereClause = '';
@@ -288,6 +289,14 @@ class FDatabase
         return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
     }
 
+    /**
+     * Fetches records from the database that match the given conditions.
+     *
+     * @param string $table The name of the table.
+     * @param array $conditions An associative array of conditions for the WHERE clause.
+     * @return array An array of matching records.
+     * @throws Exception If the conditions array is empty.
+     */
     public function fetchWhere(string $table, array $conditions): array
     {
         if (empty($conditions)) {
@@ -298,14 +307,30 @@ class FDatabase
         $query = "SELECT * FROM $table WHERE $whereClause";
         return $this->fetchAll($query, array_values($conditions));
     }
-
-
+    
+    /**
+     * Fetches records from the database where a column's value is between two values.
+     *
+     * @param string $table The name of the table.
+     * @param string $column The column to apply the BETWEEN condition on.
+     * @param mixed $minValue The minimum value of the range.
+     * @param mixed $maxValue The maximum value of the range.
+     * @return array An array of matching records.
+     */
     public function fetchBetween(string $table, string $column, mixed $minValue, mixed $maxValue): array
     {
         $query = "SELECT * FROM $table WHERE $column BETWEEN ? AND ?";
         return $this->fetchAll($query, [$minValue, $maxValue]);
     }
-
+    
+    /**
+     * Fetches records from the database where a column matches a LIKE pattern.
+     *
+     * @param string $table The name of the table.
+     * @param string $column The column to apply the LIKE condition on.
+     * @param string $pattern The pattern to match using LIKE.
+     * @return array An array of matching records.
+     */
     public function fetchLike(string $table, string $column, string $pattern): array
     {
         $query = "SELECT * FROM $table WHERE $column LIKE ?";
@@ -313,11 +338,11 @@ class FDatabase
     }
 
     /**
-     * Controlla se un record esiste nel database.
+     * Checks if a record exists in the database.
      *
      * @param string $table
      * @param array $conditions
-     * @return bool True se il record esiste, false altrimenti.
+     * @return bool True if the record exists, false otherwise.
      */
     public function exists(string $table, array $conditions): bool
     {
@@ -326,7 +351,6 @@ class FDatabase
         $stmt = $this->query($query, array_values($conditions));
         return $stmt ? $stmt->fetch() !== false : false;
     }
-
 
     /**
      * Get the last inserted ID.
@@ -346,5 +370,4 @@ class FDatabase
             return null;
         }
     }
-
 }

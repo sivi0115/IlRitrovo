@@ -37,6 +37,7 @@ class FReservation
             $data['idRoom'] ?? null,
             $data['creationTime'] ?? null,
             $data['reservationTime'] ?? null,
+            $data['timeFrame'] ?? null,
             $data['state'] ?? null,
             $data['totPrice'] ?? null,
             $data['people'] ?? null,
@@ -58,8 +59,8 @@ class FReservation
         // Validate user
         self::validateUser($reservation->getIdUser());
 
-        // Validate durationEvent-DA IMPLMENTARE LA FASCIA ORARIA, CHE DEVE ESSERE VERIFICATA
-        $durationEvent = self::validateDurationEvent($reservation->getReservationDate());
+        // Validate durationEvent
+        $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
 
         // Prepare data for insertion
         $data = [
@@ -69,6 +70,7 @@ class FReservation
             'idRoom' => $reservation->getIdRoom(),
             'creationTime' => $reservation->getCreationTime(),
             'reservationDate' => $reservation->getReservationDate(),
+            'timeFrame' => $reservation->getReservationTimeFrame(),
             'state' => $reservation->getState(),
             'totPrice' => $reservation->getTotPrice(),
             'people' => $reservation->getPeople(),
@@ -98,7 +100,7 @@ class FReservation
         $db = FDatabase::getInstance();
 
         // Validate durationEvent
-        $durationEvent = self::validateDurationEvent($reservation->getReservationDate());
+        $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
 
         // Prepare data for update
         $data = [
@@ -108,6 +110,7 @@ class FReservation
             'idRoom' => $reservation->getIdRoom(),
             'creationTime' => $reservation->getCreationTime(),
             'reservationDate' => $reservation->getReservationDate(),
+            'timeFrame' => $reservation->getReservationTimeFrame(),
             'state' => $reservation->getState(), 
             'totPrice' => $reservation->getTotPrice(),
             'people' => $reservation->getPeople(),
@@ -275,6 +278,7 @@ class FReservation
             $row['idRoom'] ?? null,
             $row['creationTime'] ?? null,
             $row['reservationTime'] ?? null,
+            $row['timeFrame'] ?? null,
             $row['state'],
             $row['totPrice'] ?? null,
             $row['people'] ?? null,
@@ -299,21 +303,19 @@ class FReservation
         }
     }
 
-
-
     /**
-     * Validates the durationEvent.   BISOGNA CAMBIARLO IN VALIDATION TIMEFRAMES
+     * Validates the durationEvent.
      *
-     * @param string $durationEvent
+     * @param string $timeFrame
      * @return string
      * @throws Exception
      */
-    private static function validateDurationEvent(string $durationEvent): string
+    private static function validateTimeFrame(string $timeFrame): string
     {
-        if (empty($durationEvent)) {
-            throw new Exception('Invalid duration of the event. Duration must be a non-empty string.');
+        if (empty($timeFrame)) {
+            throw new Exception('Invalid time frame. Duration must be a non-empty string.');
         }
-        return $durationEvent;
+        return $timeFrame;
     }
 
 }
