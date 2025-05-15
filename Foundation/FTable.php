@@ -3,6 +3,7 @@
 namespace Foundation;
 
 use Entity\ETable;
+use Entity\EArea;
 use Exception;
 
 /**
@@ -10,12 +11,27 @@ use Exception;
  * @package Foundation
  * Handles the persistence of Table objects in the database.
  */
-class FTable
-{
+class FTable extends FArea {
     protected const TABLE_NAME = 'table';
 
-    public function __construct() {} // Private constructor
+    // Private constructor
+    public function __construct(FDatabase $database) {
+        $this->database = $database;
+        parent::__construct();
+    }
 
+    /**
+     * Returns the name of the database table associated with the Table entity.
+     *
+     * This method provides the specific table name used for
+     * all database operations related to tables.
+     *
+     * @return string The name of the database table.
+     */
+    public function getTableName(): string {
+        return 'tables';
+    }
+  
     /**
      * Stores a Table object in the database.
      *
