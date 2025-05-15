@@ -26,7 +26,7 @@ class FPayment {
      * @throws Exception If required fields are missing.
      */
     public static function createEntityPayment(array $data): EPayment {
-        $requiredFields = ['idPayment', 'idCreditCard', 'idReservation', , 'total', 'creationTime', 'state'];
+        $requiredFields = ['idPayment', 'idCreditCard', 'idReservation','total', 'creationTime', 'state'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
                 throw new Exception("Missing required field: $field");
@@ -112,7 +112,7 @@ class FPayment {
      * Loads a payment by its ID using flexible conditions.
      *
      * @param array $conditions Conditions to filter the query.
-     * @return EPayment|null The EPayment object or null if not found.
+     * @return EPayment The EPayment object or null if not found.
      * @throws Exception If there is an error during the operation.
      */
     public static function loadPaymentByIdReservation(int $idReservation): ?EPayment {
@@ -122,7 +122,7 @@ class FPayment {
         if (empty($result)) {
             throw new Exception(self::ERR_PAYMENT_NOT_FOUND);
         }
-        return $result ? null;
+        return $result;
     }
 
     public static function loadPayment(array $conditions): ?EPayment {
