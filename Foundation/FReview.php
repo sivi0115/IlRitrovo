@@ -5,8 +5,7 @@ use DateTime;
 use Entity\EReview;
 use Exception;
 
-class FReview
-{
+class FReview {
     protected const TABLE_NAME = 'review';
 
     public function __construct() {}
@@ -84,9 +83,7 @@ class FReview
      * @throws Exception If an error occurs during the mapping.
      */
     private function mapRowToReview(array $row): EReview {
-
-        $creationTime = new DateTime($row['creationTime']); // Converte la stringa in DateTime
-
+        $creationTime = new DateTime($row['creationTime']); // Convert the string to DateTime
         $review = new EReview(
             $row['idUser'] ?? null,
             $row['idReview'] ?? null,
@@ -108,8 +105,7 @@ class FReview
      * @return true
      * @throws Exception If an error occurs during the deletion.
      */
-    public static function deleteReview(int $idReview): bool
-    {
+    public static function deleteReview(int $idReview): bool {
         $db = FDatabase::getInstance();
         $deleted = $db->delete(self::TABLE_NAME, ['idReview' => $idReview]);
         if (!$deleted) {
@@ -145,6 +141,7 @@ class FReview
         }
         return (new FReview)->mapRowToReview($row);
     }
+
     /**
      * Loads reviews by user ID.
      *
@@ -165,7 +162,6 @@ class FReview
         return $exists;
     }
 
-
     /**
      * Updates an existing review in the database.
      *
@@ -182,7 +178,6 @@ class FReview
             'stars' => $review->getStars(),
             'idUser' => $review->getIdUser(),
         ];
-
         $updated = $db->update(self::TABLE_NAME, $data, ['idReview' => $review->getIdReview()]);
         if (!$updated) {
             throw new Exception('Errore durante l\'aggiornamento della recensione.');
@@ -213,7 +208,6 @@ class FReview
      */
     public static function replyToReview(int $idReview, string $reply): void {
         $db = FDatabase::getInstance();
-
         $data = ['reply' => $reply];
         $updated = $db->update(self::TABLE_NAME, $data, ['idReview' => $idReview]);
         if (!$updated) {
@@ -230,12 +224,10 @@ class FReview
      */
     public static function getReviewById(int $idReview): ?EReview {
         $db = FDatabase::getInstance();
-
         $row = $db->load(self::TABLE_NAME, 'idReview', $idReview);
         if ($row === null) {
             return null;
         }
-
         return (new FReview)->mapRowToReview($row);
     }
 
@@ -248,15 +240,11 @@ class FReview
      */
     public static function banReview(int $idReview): void {
         $db = FDatabase::getInstance();
-
         // Update the "removed" field to true (1 in database).
         $data = ['removed' => 1];
         $updated = $db->update(self::TABLE_NAME, $data, ['idReview' => $idReview]);
-
         if (!$updated) {
             throw new Exception('Errore durante il ban della recensione.');
         }
     }
-
-
 }

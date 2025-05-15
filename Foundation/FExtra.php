@@ -8,14 +8,12 @@ use Exception;
 /**
  * Class FExtra to manage extra items in the database.
  */
-class FExtra
-{
+class FExtra {
     private FDatabase $db;
 
     protected const TABLE_NAME = 'extra';
 
-    public function __construct(FDatabase $db = null)
-    {
+    public function __construct(FDatabase $db = null) {
         $this->db = $db ?: FDatabase::getInstance();
     }
 
@@ -25,10 +23,8 @@ class FExtra
      * @param array $data The data to create the entity.
      * @return EExtra|null The EExtra instance if data is valid, null otherwise.
      */
-    private function createEntityExtra(array $data): ?EExtra
-    {
-
-        if (isset($data['idExtra'], $data['name'], $data['price'])) {
+    private function createEntityExtra(array $data): ?EExtra {
+        if (isset($data['idExtra'], $data['nameExtra'], $data['priceExtra'])) {
             return new EExtra(
                 $data['idExtra'],
                 $data['nameExtra'],
@@ -44,13 +40,11 @@ class FExtra
      * @param EExtra $extra The EExtra object to store.
      * @return int|null The ID of the stored extra.
      */
-    public function storeExtra(EExtra $extra): ?int
-    {
+    public function storeExtra(EExtra $extra): ?int {
         $data = [
             'nameExtra' => $extra->getNameExtra(),
             'priceExtra' => $extra->getPriceExtra(),
         ];
-
         try {
             return $this->db->insert(self::TABLE_NAME, $data);
         } catch (Exception $e) {
@@ -66,8 +60,7 @@ class FExtra
      * @return EExtra|null The loaded EExtra object, or null if not found.
      * @throws Exception If there is an error during the load operation.
      */
-    public function loadExtra(int $id): ?EExtra
-    {
+    public function loadExtra(int $id): ?EExtra {
         try {
             $result = $this->db->load(self::TABLE_NAME, 'idExtra', $id);
             return $this->createEntityExtra($result);
@@ -84,8 +77,7 @@ class FExtra
      * @param array $newData
      * @return bool True if the update was successful, false otherwise.
      */
-    public function updateExtra(int $idExtra, array $newData): bool
-    {
+    public function updateExtra(int $idExtra, array $newData): bool {
         try {
             return $this->db->update(self::TABLE_NAME, $newData, ['idExtra' => $idExtra]);
         } catch (Exception $e) {
@@ -100,8 +92,7 @@ class FExtra
      * @param int $idExtra
      * @return bool True if the deletion was successful, false otherwise.
      */
-    public function deleteExtra(int $idExtra): bool
-    {
+    public function deleteExtra(int $idExtra): bool {
         try {
             return $this->db->delete(self::TABLE_NAME, ['idExtra' => $idExtra]);
         } catch (Exception $e) {
@@ -116,11 +107,10 @@ class FExtra
      * @return EExtra[] An array of all EExtra objects.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public function loadAllExtra(): array
-    {
+    public function loadAllExtra(): array {
         try {
-            $db = FDatabase::getInstance(); // Ottieni l'istanza singleton
-            $results = $db->loadMultiples(self::TABLE_NAME); // Usa il metodo loadMultiples per caricare i dati
+            $db = FDatabase::getInstance(); // Get the singleton instance
+            $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data
             return array_filter(array_map([$this, 'createEntityExtra'], $results));
         } catch (Exception $e) {
             error_log("Error loading all extras: " . $e->getMessage());
@@ -134,8 +124,7 @@ class FExtra
      * @param int $idExtra
      * @return bool True if the extra exists, false otherwise.
      */
-    public function existsExtra(int $idExtra): bool
-    {
+    public function existsExtra(int $idExtra): bool {
         try {
             return $this->db->exists(self::TABLE_NAME, ['idExtra' => $idExtra]);
         } catch (Exception $e) {

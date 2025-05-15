@@ -8,35 +8,31 @@ use Exception;
 
 /**
  * Class FUser
- * Gestisce le operazioni CRUD per gli utenti nel database.
+ * Handles CRUD operations for users in the database.
  */
-class FUser extends FPerson
-{
+class FUser {
     /**
-     * Nome della tabella associata all'entità utente nel database.
+     * Name of the table associated with the user entity in the database.
      */
     protected const TABLE_NAME = 'user';
 
     /**
-     * Restituisce il nome della tabella associata agli utenti.
+     * Returns the name of the table associated with users.
      *
-     * @return string Il nome della tabella.
+     * @return string The name of the table.
      */
-    public function getTableName(): string
-    {
+    public function getTableName(): string {
         return static::TABLE_NAME;
     }
 
     /**
-     * Converte un oggetto EUser in un array associativo per il database.
+     * Converts an EUser object into an associative array for the database.
      *
-     * @param EUser $user L'oggetto utente da convertire.
-     * @return array I dati dell'utente come array.
+     * @param EUser $user The user object to convert.
+     * @return array The user data as an array.
      */
-    private function userToArray(EUser $user): array
-    {
+    private function userToArray(EUser $user): array {
         $user->setPassword($this->hashPassword($user->getPassword()));
-
         return [
             'idUser' => $user->getIdUser(),
             'idReview' => $user->getIdReview(),
@@ -54,14 +50,13 @@ class FUser extends FPerson
     }
 
     /**
-     * Crea un'entità EUser a partire dai dati forniti.
+     * Creates an EUser entity from the provided data.
      *
-     * @param array $data I dati utilizzati per creare l'oggetto EUser.
-     * @return EUser L'oggetto utente creato.
-     * @throws Exception Se si verifica un errore durante la creazione dell'entità.
+     * @param array $data The data used to create the EUser object.
+     * @return EUser The created user object.
+     * @throws Exception If an error occurs during the creation of the entity.
      */
-    private function createEntityUser(array $data):EUser
-    {
+    private function createEntityUser(array $data):EUser {
         return new EUser(
             $data['idUser'],
             $data['idReview'],
@@ -79,137 +74,127 @@ class FUser extends FPerson
     }
 
     /**
-     * Crea un nuovo utente nel database.
+     * Creates a new user in the database.
      *
-     * @param EUser $user L'oggetto utente da salvare.
-     * @return int L'ID del record salvato o 0 se il salvataggio fallisce.
+     * @param EUser $user The user object to save.
+     * @return int The ID of the saved record, or 0 if the save fails.
      */
-    public function createUser(EUser $user): int
-    {
+    public function createUser(EUser $user): int {
         try {
             $db = FDatabase::getInstance();
             $data = $this->userToArray($user);
             return $db->insert(static::TABLE_NAME, $data) ?: 0;
         } catch (Exception $e) {
             error_log("Errore durante la creazione dell'utente: " . $e->getMessage());
-            return 0; // O gestisci diversamente l'errore
+            return 0; // Or use a different error handling approach
         }
     }
 
     /**
-     * Legge un utente dal database dato il suo ID.
+     * Reads a user from the database by their ID.
      *
-     * @param int $id L'ID dell'utente da leggere.
-     * @return EUser|null L'oggetto utente se trovato, null altrimenti.
+     * @param int $id The ID of the user to read.
+     * @return EUser|null The user object if found, null otherwise.
      * @throws Exception
      */
-    public function readUser(int $id): ?EUser
-    {
+    public function readUser(int $id): ?EUser {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idUser', $id);
         return $result ? $this->createEntityUser($result) : null;
     }
 
     /**
-     * Verifica se un utente esiste nel database dato un campo specifico.
+     * Checks if a user exists in the database based on a specific field.
      *
-     * @param string $field Il campo da verificare (es. 'idUser', 'username').
-     * @param mixed $value Il valore del campo.
-     * @return bool True se esiste, False altrimenti.
+     * @param string $field The field to check (e.g., 'idUser', 'username').
+     * @param mixed $value The value of the field.
+     * @return bool True if it exists, False otherwise.
      */
-    public function existsUser(string $field, $value): bool
-    {
+    public function existsUser(string $field, $value): bool {
         $db = FDatabase::getInstance();
         return $db->exists(static::TABLE_NAME, [$field => $value]);
     }
 
     /**
-     * Aggiorna un utente esistente nel database.
+     * Updates an existing user in the database.
      *
-     * @param EUser $user L'oggetto utente da aggiornare.
-     * @param int $id L'ID dell'utente da aggiornare.
-     * @return bool True se l'aggiornamento ha avuto successo, False altrimenti.
+     * @param EUser $user The user object to update.
+     * @param int $id The ID of the user to update.
+     * @return bool True if the update was successful, False otherwise.
      */
-    public function updateUser(EUser $user): bool
-    {
+    public function updateUser(EUser $user): bool {
         $db = FDatabase::getInstance();
         $data = $this->userToArray($user);
         return $db->update(static::TABLE_NAME, $data, ['idUser' => $user->getIdUser()]);
     }
 
     /**
-     * Blocca un utente nel database.
+     * Blocks a user in the database.
      *
-     * @param int $idUser L'ID dell'utente.
-     * @param string $motivation La motivazione del blocco.
-     * @return bool True se l'operazione ha successo, False altrimenti.
+     * @param int $idUser The ID of the user.
+     * @param string $motivation The reason for the block.
+     * @return bool True if the operation is successful, False otherwise.
      */
-    public function banUser(int $idUser, string $motivation): bool
-    {
+    public function banUser(int $idUser, string $motivation): bool {
         $db = FDatabase::getInstance();
         return $db->update(static::TABLE_NAME, ['ban' => 1, 'motivation' => $motivation], ['idUser' => $idUser]);
     }
 
     /**
-     * Restituisce un elenco di utenti bloccati dal database.
+     * Returns a list of blocked users from the database.
      *
-     * @return EUser[] Un array di oggetti EUser che rappresentano gli utenti bloccati.
-     * @throws Exception Se si verifica un errore durante il caricamento.
+     * @return EUser[] An array of EUser objects representing the blocked users.
+     * @throws Exception If an error occurs during the loading process.
      */
-    public function getBlockedUsers(): array
-    {
+    public function getBlockedUsers(): array {
         $db = FDatabase::getInstance();
         $results = $db->fetchWhere(static::TABLE_NAME, ['ban' => 1]);
         return array_map([$this, 'createEntityUser'], $results);
     }
 
     /**
-     * Elimina un utente dal database dato il suo ID.
+     * Deletes a user from the database by their ID.
      *
-     * @param int $id L'ID dell'utente da eliminare.
-     * @return bool True se l'eliminazione ha avuto successo, False altrimenti.
+     * @param int $id The ID of the user to delete.
+     * @return bool True if the deletion was successful, False otherwise.
      */
-    public function deleteUser(int $id): bool
-    {
+    public function deleteUser(int $id): bool {
         $db = FDatabase::getInstance();
         return $db->delete(static::TABLE_NAME, ['idUser' => $id]);
     }
 
     /**
-     * Carica un utente dal database dato il suo username.
+     * Loads a user from the database by their username.
      *
-     * @param string $username L'username dell'utente da leggere.
-     * @return EUser|null L'oggetto utente se trovato, null altrimenti.
+     * @param string $username The username of the user to read.
+     * @return EUser|null The user object if found, null otherwise.
      * @throws Exception
      */
-    public function readUserByUsername(string $username): ?EUser
-    {
+    public function readUserByUsername(string $username): ?EUser {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'username', $username);
         return $result ? $this->createEntityUser($result) : null;
     }
 
     /**
-     * Legge tutti gli utenti dal database.
+     * Reads all users from the database.
      *
-     * @return EUser[] Un array di oggetti EUser.
+     * @return EUser[] An array of EUser objects.
      */
-    public function readAllUsers(): array
-    {
+    public function readAllUsers(): array {
         $db = FDatabase::getInstance();
         $results = $db->fetchAllFromTable(static::TABLE_NAME);
         return array_map([$this, 'createEntityUser'], $results);
     }
 
     /**
-     * Restituisce un utente dal database dato il suo ID.
+     * Returns a user from the database by their ID.
      *
-     * @param int $idUser L'ID dell'utente.
-     * @return EUser|null L'oggetto utente se trovato, null altrimenti.
-     * @throws Exception Se si verifica un errore durante il caricamento.
+     * @param int $idUser The ID of the user.
+     * @return EUser|null The user object if found, null otherwise.
+     * @throws Exception If an error occurs during the loading process.
      */
-    public function getUserById(int $idUser): ?EUser
-    {
+    public function getUserById(int $idUser): ?EUser {
         try {
             $db = FDatabase::getInstance();
             $result = $db->load(static::TABLE_NAME, 'idUser', $idUser);
@@ -219,5 +204,14 @@ class FUser extends FPerson
             return null;
         }
     }
-
+    
+    /**
+     * Hashes the password using the bcrypt algorithm.
+     *
+     * @param string $password The plain-text password.
+     * @return string The hashed password.
+     */
+    public function hashPassword(string $password): string {
+        return password_hash($password, PASSWORD_BCRYPT);
+    }
 }

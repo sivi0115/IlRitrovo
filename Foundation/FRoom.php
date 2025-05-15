@@ -66,7 +66,6 @@ class FRoom
         return array_map([self::class, 'createRoomFromRow'], $result);
     }
 
-
     /**
      * Deletes a room from the database.
      *

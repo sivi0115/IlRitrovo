@@ -3,6 +3,7 @@ namespace Foundation;
 
 use DateTime;
 use Entity\EReply;
+use Entity\EReview;
 use Exception;
 
 class FReply {
@@ -11,13 +12,12 @@ class FReply {
     public function __construct() {}
 
     /**
-     * Crea una nuova istanza di EReply con i dati forniti
+     * Creates a new instance of EReply with the provided data
      * 
      * @param int $idReply
      * @param DateTime $dateReply
      * @param string $body
     */
-
     public static function createEnityReply(array $data): EReply {
         return new EReply(
             $data['idReply'] ?? null,
@@ -27,12 +27,12 @@ class FReply {
     }
 
     /**
-    * Inserisce nuove Reply all'interno del database
-    * 
-    * @param EReply la risposta da inserire
-    * @return int idReply l'id della nuova reply inserita
-    * @throws Exception
-    */
+     * Inserts new replies into the database.
+     * 
+     * @param EReply $reply The reply to insert.
+     * @return int The ID of the newly inserted reply.
+     * @throws Exception
+     */
     public static function storeReply(EReply $reply): int {
         $db=FDatabase::getInstance();
         $data = [
@@ -40,7 +40,6 @@ class FReply {
             'dateReply' => $reply->getDateReply(),
             'body' => $reply->getBody(),
         ];
-
         $id = $db->insert(self::TABLE_NAME, $data);
         if ($id === null) {
             throw new Exception('Errore durante l\'inserimento della risposta.');
@@ -113,7 +112,7 @@ class FReply {
      * 
      * @param int $idReply The ID of the reply to load
      * @return EReply|null The loaded reply or null if none founded
-     * @throws Excpetion If an error occurs during the loading of reply
+     * @throws Exception If an error occurs during the loading of reply
      */
     public static function loadReply(int $idReply): ?EReply {
         $db=FDatabase::getInstance();
@@ -153,7 +152,6 @@ class FReply {
             'body' => $reply->getBody()
             
         ];
-
         $updated = $db->update(self::TABLE_NAME, $data, ['idReply' => $reply->getIdReply()]);
         if (!$updated) {
             throw new Exception('Errore durante l\'aggiornamento della recensione.');
@@ -183,15 +181,10 @@ class FReply {
      */
     public static function getReplyById(int $idReply): ?EReply {
         $db = FDatabase::getInstance();
-
         $row = $db->load(self::TABLE_NAME, 'idReply', $idReply);
         if ($row === null) {
             return null;
         }
-
         return (new FReply)->mapRowToReply($row);
-    }
-
-
-    
+    }    
 }

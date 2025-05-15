@@ -47,8 +47,6 @@ class EReview implements JsonSerializable {
      */
     private bool $removed = false;
 
-    
-
     /**
      * Constructor for the EReview class with validation checks.
      * 

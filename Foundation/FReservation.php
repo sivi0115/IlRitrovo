@@ -11,8 +11,7 @@ use Exception;
  *
  * @package Foundation
  */
-class FReservation
-{
+class FReservation {
     protected const TABLE_NAME = 'reservation';
 
     private function __construct() {}
@@ -24,12 +23,10 @@ class FReservation
      * @return EReservation The created EReservation object.
      * @throws Exception If required fields are missing or invalid.
      */
-    public static function createEntityReservation(array $data): EReservation
-    {
+    public static function createEntityReservation(array $data): EReservation {
         if (empty($data['creationTime']) || empty($data['state']) || empty($data['totPrice'])) {
             throw new Exception('Missing required fields to create EReservation.');
         }
-
         return new EReservation(
             $data['idReservation'] ?? null,
             $data['idUser'] ?? null,
@@ -52,16 +49,12 @@ class FReservation
      * @return int The ID of the newly inserted reservation.
      * @throws Exception If an error occurred during the insertion.
      */
-    public static function storeReservation(EReservation $reservation): int
-    {
+    public static function storeReservation(EReservation $reservation): int {
         $db = FDatabase::getInstance();
-
         // Validate user
         self::validateUser($reservation->getIdUser());
-
         // Validate durationEvent
         $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
-
         // Prepare data for insertion
         $data = [
             'idReservation' => $reservation->getIdReservation(),
@@ -76,10 +69,8 @@ class FReservation
             'people' => $reservation->getPeople(),
             'comment' => $reservation->getComment()
         ];
-
         // Debugging: Output data to be inserted
         echo "Inserting reservation data: " . json_encode($data) . "\n";
-
         // Insert record into the database
         $id = $db->insert(self::TABLE_NAME, $data);
         if ($id === null) {
@@ -95,13 +86,10 @@ class FReservation
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If an error occurred during the update.
      */
-    public static function updateReservation(EReservation $reservation): bool
-    {
+    public static function updateReservation(EReservation $reservation): bool {
         $db = FDatabase::getInstance();
-
         // Validate durationEvent
         $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
-
         // Prepare data for update
         $data = [
             'idReservation' => $reservation->getIdReservation(),
@@ -116,10 +104,8 @@ class FReservation
             'people' => $reservation->getPeople(),
             'comment' => $reservation->getComment()
         ];
-
         // Debugging: Output data to be updated
         echo "Updating reservation data: " . json_encode($data) . "\n";
-
         // Update record in the database
         return $db->update(self::TABLE_NAME, $data, ['idReservation' => $reservation->getIdReservation()]);
     }
@@ -132,8 +118,7 @@ class FReservation
      * @return EReservation|null The loaded reservation, or null if not found.
      * @throws Exception If an error occurs during the database operation.
      */
-    public static function loadReservation(mixed $value, string $column): ?EReservation
-    {
+    public static function loadReservation(mixed $value, string $column): ?EReservation {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, $column, $value);
         return $result ? self::createReservationFromRow($result) : null;
@@ -146,8 +131,7 @@ class FReservation
      * @return bool True if the deletion was successful, false otherwise.
      * @throws Exception If an error occurs during the deletion.
      */
-    public static function deleteReservation(int $idReservation): bool
-    {
+    public static function deleteReservation(int $idReservation): bool {
         $db = FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idReservation' => $idReservation]);
     }
@@ -160,15 +144,13 @@ class FReservation
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If an error occurs during the update.
      */
-    private static function updateStateReservation(int $idReservation, string $newState): bool
-    {
+    private static function updateStateReservation(int $idReservation, string $newState): bool {
         $db = FDatabase::getInstance();
-
-        // Aggiorna lo stato della prenotazione
+        // Update the reservation status
         return $db->update(
-            self::TABLE_NAME, // Nome della tabella
-            ['state' => $newState], // Dati da aggiornare
-            ['idReservation' => $idReservation] // Condizione WHERE
+            self::TABLE_NAME, // Table name
+            ['state' => $newState], // Data to update
+            ['idReservation' => $idReservation] // WHERE condition
         );
     }
 
@@ -179,8 +161,7 @@ class FReservation
      * @return bool True if the approval was successful, false otherwise.
      * @throws Exception If an error occurs during the update.
      */
-    public static function approveReservation(int $idReservation): bool
-    {
+    public static function approveReservation(int $idReservation): bool {
         return self::updateStateReservation($idReservation, 'approved');
     }
 
@@ -191,8 +172,7 @@ class FReservation
      * @return bool True if the rejection was successful, false otherwise.
      * @throws Exception If an error occurs during the update.
      */
-    public static function rejectReservation(int $idReservation): bool
-    {
+    public static function rejectReservation(int $idReservation): bool {
         return self::updateStateReservation($idReservation, 'rejected');
     }
 
@@ -203,8 +183,7 @@ class FReservation
      * @return bool True if the cancellation was successful, false otherwise.
      * @throws Exception If an error occurs during the update.
      */
-    public static function cancelReservation(int $idReservation): bool
-    {
+    public static function cancelReservation(int $idReservation): bool {
         return self::updateStateReservation($idReservation, 'cancelled');
     }
 
@@ -215,8 +194,7 @@ class FReservation
      * @return EReservation[] An array of reservations.
      * @throws Exception If an error occurs during the database operation.
      */
-    public static function getReservationsByUserId(int $userId): array
-    {
+    public static function getReservationsByUserId(int $userId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $userId]);
         $reservations = [];
@@ -233,8 +211,7 @@ class FReservation
      * @return EReservation[] An array of EReservation objects associated with the room.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public static function getReservationsByRoom(int $roomId): array
-    {
+    public static function getReservationsByRoom(int $roomId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idRoom' => $roomId]);
         $reservations = [];
@@ -251,8 +228,7 @@ class FReservation
      * @return EReservation[] An array of EReservation objects associated with the table.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public static function getReservationsByTable(int $tableId): array
-    {
+    public static function getReservationsByTable(int $tableId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idTable' => $tableId]);
         $reservations = [];
@@ -269,8 +245,7 @@ class FReservation
      * @return EReservation The created reservation object.
      * @throws Exception If an error occurs during the creation of the reservation.
      */
-    private static function createReservationFromRow(array $row): EReservation
-    {
+    private static function createReservationFromRow(array $row): EReservation {
         return new EReservation(
             $row['idReservation'] ?? null,
             $row['idUser'] ?? null,
@@ -292,8 +267,7 @@ class FReservation
      * @param int $userId The ID of the user to validate.
      * @throws Exception If the user does not exist or is invalid.
      */
-    private static function validateUser(int $userId): void
-    {
+    private static function validateUser(int $userId): void {
         $db = FDatabase::getInstance();
 
         // Controlla se l'utente esiste nel database
@@ -310,12 +284,10 @@ class FReservation
      * @return string
      * @throws Exception
      */
-    private static function validateTimeFrame(string $timeFrame): string
-    {
+    private static function validateTimeFrame(string $timeFrame): string {
         if (empty($timeFrame)) {
             throw new Exception('Invalid time frame. Duration must be a non-empty string.');
         }
         return $timeFrame;
     }
-
 }

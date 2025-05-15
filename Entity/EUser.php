@@ -499,7 +499,6 @@ class EUser implements JsonSerializable {
         $this->role = $role;
     }
 
-
     /**
      * Implementation of the jsonSerialize method.
      *
@@ -510,8 +509,8 @@ class EUser implements JsonSerializable {
             'idUser' => $this->idUser,
             'idReview' => $this->idReview,
             'username' => $this->getUsername(),
-            'email' => $this->getEmail(), // Include l'email se necessario
-            // Nota: Evitiamo di serializzare la password per motivi di sicurezza
+            'email' => $this->getEmail(), // Include email if necessary
+            // Note: We avoid serializing the password for security reasons.
             'image' => $this->getImage(),
             'ban' => $this->ban,
             'reservations' => $this->reservations,
@@ -523,5 +522,4 @@ class EUser implements JsonSerializable {
             'role' => $this->getRole()
         ];
     }
-
 }

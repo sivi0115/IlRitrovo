@@ -11,8 +11,7 @@ use PDOStatement;
  * Class FDatabase
  * Manages the database connection and queries.
  */
-class FDatabase
-{
+class FDatabase {
     private static ?FDatabase $instance = null;
     private ?PDO $connection = null;
 
@@ -22,8 +21,7 @@ class FDatabase
      *
      * @throws Exception If the database connection fails
      */
-    private function __construct()
-    {
+    private function __construct() {
         try {
             // Include the config file
             require_once __DIR__ . '/../../config.php';
@@ -34,7 +32,6 @@ class FDatabase
                 DB_USERNAME,
                 DB_PASSWORD
             );
-
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             throw new Exception("Connessione al database fallita: " . $e->getMessage());
@@ -46,8 +43,7 @@ class FDatabase
      *
      * @return FDatabase The instance of FDatabase.
      */
-    public static function getInstance(): FDatabase
-    {
+    public static function getInstance(): FDatabase {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -57,8 +53,7 @@ class FDatabase
     /**
      * Closes the database connection.
      */
-    public function closeDbConnection(): void
-    {
+    public function closeDbConnection(): void {
         $this->connection = null;
         self::$instance = null;
     }
@@ -68,8 +63,7 @@ class FDatabase
      *
      * @return bool True on success, false on failure.
      */
-    public function beginTransaction(): bool
-    {
+    public function beginTransaction(): bool {
         try {
             return $this->connection->beginTransaction();
         } catch (PDOException $e) {
@@ -83,8 +77,7 @@ class FDatabase
      *
      * @return bool True on success, false on failure.
      */
-    public function commit(): bool
-    {
+    public function commit(): bool {
         try {
             return $this->connection->commit();
         } catch (PDOException $e) {
@@ -98,8 +91,7 @@ class FDatabase
      *
      * @return bool True on success, false on failure.
      */
-    public function rollback(): bool
-    {
+    public function rollback(): bool {
         try {
             return $this->connection->rollBack();
         } catch (PDOException $e) {
@@ -115,12 +107,9 @@ class FDatabase
      * @param array $params The parameters for binding.
      * @return PDOStatement|null The PDOStatement object or null in case of error.
      */
-    private function query(string $sql, array $params = []): ?PDOStatement
-    {
+    private function query(string $sql, array $params = []): ?PDOStatement {
         try {
             $stmt = $this->connection->prepare($sql);
-
-
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
@@ -136,8 +125,7 @@ class FDatabase
      * @param array $params The parameters to pass to the query.
      * @return bool True if the execution is successful, false otherwise.
      */
-    public function execute(string $sql, array $params = []): bool
-    {
+    public function execute(string $sql, array $params = []): bool {
         return $this->query($sql, $params) !== null;
     }
 
@@ -148,22 +136,18 @@ class FDatabase
      * @param array $params The parameters to pass to the query.
      * @return array An array of all resulting rows.
      */
-    public function fetchAll(string $sql, array $params = []): array
-    {
+    public function fetchAll(string $sql, array $params = []): array {
         $stmt = $this->query($sql, $params);
         return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
     }
 
-    public function fetchAllFromTable(string $table, array $conditions = []): array
-    {
+    public function fetchAllFromTable(string $table, array $conditions = []): array {
         $whereClause = '';
         $params = [];
-
         if (!empty($conditions)) {
             $whereClause = 'WHERE ' . implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
             $params = array_values($conditions);
         }
-
         $query = "SELECT * FROM $table $whereClause";
         return $this->fetchAll($query, $params);
     }
@@ -175,8 +159,7 @@ class FDatabase
      * @param array $params The parameters to pass to the query.
      * @return mixed The resulting row or false if there are no results.
      */
-    public function fetchSingle(string $sql, array $params = []): ?array
-    {
+    public function fetchSingle(string $sql, array $params = []): ?array {
         try {
             $stmt = $this->query($sql, $params);
             $result = $stmt ? $stmt->fetch(PDO::FETCH_ASSOC) : null;
@@ -194,8 +177,7 @@ class FDatabase
      * @param array $data An associative array of data to insert.
      * @return int|null The ID of the inserted record or null in case of error.
      */
-    public function insert(string $table, array $data): ?int
-    {
+    public function insert(string $table, array $data): ?int {
         $columns = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
         $query = "INSERT INTO $table ($columns) VALUES ($placeholders)";
@@ -212,8 +194,7 @@ class FDatabase
      * @param mixed $whereValue The value to use in the WHERE clause.
      * @return bool True if the update is successful, false otherwise.
      */
-    public function update(string $table, array $data, array $conditions): bool
-    {
+    public function update(string $table, array $data, array $conditions): bool {
         $setClause = implode(', ', array_map(fn($col) => "$col = ?", array_keys($data)));
         $whereClause = implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
         $query = "UPDATE $table SET $setClause WHERE $whereClause";
@@ -226,8 +207,7 @@ class FDatabase
      * @param string $sql The SQL statement to prepare.
      * @return PDOStatement The prepared statement.
      */
-    public function prepare(string $sql): PDOStatement
-    {
+    public function prepare(string $sql): PDOStatement {
         return $this->connection->prepare($sql);
     }
 
@@ -239,8 +219,7 @@ class FDatabase
      * @param mixed $whereValue The value to use in the WHERE clause.
      * @return bool True if the deletion is successful, false otherwise.
      */
-    public function delete(string $table, array $conditions): bool
-    {
+    public function delete(string $table, array $conditions): bool {
         $whereClause = implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
         $query = "DELETE FROM $table WHERE $whereClause";
         return $this->execute($query, array_values($conditions));
@@ -254,17 +233,14 @@ class FDatabase
      * @param mixed $whereValue The value to use in the WHERE clause.
      * @return array|null An associative array representing the record or null if not found.
      */
-    public function load(string $table, string $whereColumn, mixed $whereValue): ?array
-    {
+    public function load(string $table, string $whereColumn, mixed $whereValue): ?array {
         $query = "SELECT * FROM $table WHERE $whereColumn = :value LIMIT 1";
         $stmt = $this->query($query, ['value' => $whereValue]);
-
         if ($stmt) {
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             // Ensure we return null if no result is found
             return $result ?: null;
         }
-
         return null;
     }
 
@@ -275,15 +251,13 @@ class FDatabase
      * @param array $conditions Optional associative array of conditions for the WHERE clause.
      * @return array An array of all matching records.
      */
-    public function loadMultiples(string $table, array $conditions = []): array
-    {
+    public function loadMultiples(string $table, array $conditions = []): array {
         $whereClause = '';
         $params = [];
         if (!empty($conditions)) {
             $whereClause = 'WHERE ' . implode(' AND ', array_map(fn($key) => "$key = :$key", array_keys($conditions)));
             $params = $conditions;
         }
-
         $query = "SELECT * FROM $table $whereClause";
         $stmt = $this->query($query, $params);
         return $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : [];
@@ -297,12 +271,10 @@ class FDatabase
      * @return array An array of matching records.
      * @throws Exception If the conditions array is empty.
      */
-    public function fetchWhere(string $table, array $conditions): array
-    {
+    public function fetchWhere(string $table, array $conditions): array {
         if (empty($conditions)) {
             throw new Exception("Le condizioni non possono essere vuote per fetchWhere.");
         }
-
         $whereClause = implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
         $query = "SELECT * FROM $table WHERE $whereClause";
         return $this->fetchAll($query, array_values($conditions));
@@ -317,8 +289,7 @@ class FDatabase
      * @param mixed $maxValue The maximum value of the range.
      * @return array An array of matching records.
      */
-    public function fetchBetween(string $table, string $column, mixed $minValue, mixed $maxValue): array
-    {
+    public function fetchBetween(string $table, string $column, mixed $minValue, mixed $maxValue): array {
         $query = "SELECT * FROM $table WHERE $column BETWEEN ? AND ?";
         return $this->fetchAll($query, [$minValue, $maxValue]);
     }
@@ -331,8 +302,7 @@ class FDatabase
      * @param string $pattern The pattern to match using LIKE.
      * @return array An array of matching records.
      */
-    public function fetchLike(string $table, string $column, string $pattern): array
-    {
+    public function fetchLike(string $table, string $column, string $pattern): array {
         $query = "SELECT * FROM $table WHERE $column LIKE ?";
         return $this->fetchAll($query, [$pattern]);
     }
@@ -344,8 +314,7 @@ class FDatabase
      * @param array $conditions
      * @return bool True if the record exists, false otherwise.
      */
-    public function exists(string $table, array $conditions): bool
-    {
+    public function exists(string $table, array $conditions): bool {
         $whereClause = implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
         $query = "SELECT 1 FROM $table WHERE $whereClause LIMIT 1";
         $stmt = $this->query($query, array_values($conditions));
@@ -357,8 +326,7 @@ class FDatabase
      *
      * @return string|null The ID of the last inserted row or null on failure.
      */
-    public function getLastInsertedId(): ?string
-    {
+    public function getLastInsertedId(): ?string {
         try {
             $lastId = $this->connection->lastInsertId();
             if (!$lastId) {
