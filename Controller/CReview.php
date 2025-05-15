@@ -26,8 +26,6 @@ class CReview
                     $creationTime = new DateTime();
                     $stars = $_POST['stars'];
                     $idUser = $utente->getIdUser();
-                    $idLocation = $_POST['idLocation'];
-
                     $review = new EReview(
                         null,
                         $body,
@@ -36,7 +34,6 @@ class CReview
                         $stars,
                         "", // vuota di default perché ancora non risposta
                         $idUser,
-                        $idLocation
                     );
 
                     FReview::storeReview($review);

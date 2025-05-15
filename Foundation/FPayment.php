@@ -109,7 +109,7 @@ class FPayment {
     }
 
     /**
-     * Loads a payment by its ID using flexible conditions.
+     * Loads a payment by its ID using flexible conditions. CIAOOOOO
      *
      * @param array $conditions Conditions to filter the query.
      * @return EPayment The EPayment object or null if not found.
