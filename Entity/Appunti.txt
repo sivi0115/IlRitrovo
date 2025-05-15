@@ -18,17 +18,27 @@ uniformare il formato delle date in d-M-Y
 	M User -> CRUD + all user + user banned (non togliere hash password)
 	Persisent Manager -> Da completare 
 	
+PROPOSTA DI IMPLEMENTAZIONE PM.
+Il PM deve sostanzialmente andare a standardizzare tutte le operazioni comuni (CRUD) di tutte le classi F. Le operazioni più specifiche e complesse restano fuori dal PM e si gestiscono nel layer Foundation.
+Di conseguenza, sappiamo che, quando si vuole "richiamare" un metodo con il PM, quest'ultimo deve necessariamente sapere la classe in cui il metodo è implementato, e il nome specifico del metodo stesso.Arrivati a questo punto, si hanno due scelte:
+1- Mappare all'interno del PM i metodi. Ad esempio [store => 'createUser'];
+2- Standardizzare TUTTE le operazioni CRUD in TUTTE le classi Foundation.
 
-	
+La seconda scelta, sembra decisamente la migliore per i seguenti motivi:
+Si stabilisce una sorta di contratto implicito tra tutte le classi Foundation. Ossia, le classi che vogliono essere servite dal PM, devono necessariamente chiamare i loro metodi CRUD secondo uno standard. Il PM potrà richiamare un metodo senza dover sapere cosa fa o come si chiama altrove. Tutte le classi si comportano allo stesso modo. Questo implica sicuramente standardizzazione, contrattualità e flessibilità. Flessibilità in quanto, supponiamo di voler introdurre nello strato Foundation una nuova classe. 
+Essendo a conoscenza di questo vincolo, a livello di tempo risulta meno dispendioso chiamare dei metodi secondo uno standard, pittosto che mettersi a mappare il nome dei metodi all'interno del PM, magari comportando errori di compilazione, e ovviamente più perdita di tempo.
 
-Da Sistemare (da riadattare i cambiamenti attuati in Entity)
-	User FATTO
-	Reservation FATTO
-	Room FATTO
-	Review FATTO
-	Persistent_Manager()
-	FDatabase
+A conclusione del ragionamento, procedo con lo standardizzare i nomi dei metodi CRUD nelle classi
 
+FUser - FATTO
+FReservation
+FCreditCard
+
+Se l'idea convince anche te, provvediamo a implementare il tutto anche nel PM, chiudendo il discorso Foundation al 90%
+💜
+
+
+P.S Cicerone non ha risposto, ma lo sapevamo già. Resta comunuque il mio bro Steve Jobs preferito
 
 
 

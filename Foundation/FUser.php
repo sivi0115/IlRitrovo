@@ -79,7 +79,7 @@ class FUser {
      * @param EUser $user The user object to save.
      * @return int The ID of the saved record, or 0 if the save fails.
      */
-    public function createUser(EUser $user): int {
+    public function create(EUser $user): int {
         try {
             $db = FDatabase::getInstance();
             $data = $this->userToArray($user);
@@ -97,10 +97,34 @@ class FUser {
      * @return EUser|null The user object if found, null otherwise.
      * @throws Exception
      */
-    public function readUser(int $id): ?EUser {
+    public function read(int $id): ?EUser {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idUser', $id);
         return $result ? $this->createEntityUser($result) : null;
+    }
+
+    /**
+     * Updates an existing user in the database.
+     *
+     * @param EUser $user The user object to update.
+     * @param int $id The ID of the user to update.
+     * @return bool True if the update was successful, False otherwise.
+     */
+    public function update(EUser $user): bool {
+        $db = FDatabase::getInstance();
+        $data = $this->userToArray($user);
+        return $db->update(static::TABLE_NAME, $data, ['idUser' => $user->getIdUser()]);
+    }
+
+    /**
+     * Deletes a user from the database by their ID.
+     *
+     * @param int $id The ID of the user to delete.
+     * @return bool True if the deletion was successful, False otherwise.
+     */
+    public function delete(int $id): bool {
+        $db = FDatabase::getInstance();
+        return $db->delete(static::TABLE_NAME, ['idUser' => $id]);
     }
 
     /**
@@ -116,51 +140,21 @@ class FUser {
     }
 
     /**
-     * Updates an existing user in the database.
-     *
-     * @param EUser $user The user object to update.
-     * @param int $id The ID of the user to update.
-     * @return bool True if the update was successful, False otherwise.
-     */
-    public function updateUser(EUser $user): bool {
-        $db = FDatabase::getInstance();
-        $data = $this->userToArray($user);
-        return $db->update(static::TABLE_NAME, $data, ['idUser' => $user->getIdUser()]);
-    }
-
-    /**
-     * Blocks a user in the database.
+     * Returns a user from the database by their ID.
      *
      * @param int $idUser The ID of the user.
-     * @param string $motivation The reason for the block.
-     * @return bool True if the operation is successful, False otherwise.
-     */
-    public function banUser(int $idUser, string $motivation): bool {
-        $db = FDatabase::getInstance();
-        return $db->update(static::TABLE_NAME, ['ban' => 1, 'motivation' => $motivation], ['idUser' => $idUser]);
-    }
-
-    /**
-     * Returns a list of blocked users from the database.
-     *
-     * @return EUser[] An array of EUser objects representing the blocked users.
+     * @return EUser|null The user object if found, null otherwise.
      * @throws Exception If an error occurs during the loading process.
      */
-    public function getBlockedUsers(): array {
-        $db = FDatabase::getInstance();
-        $results = $db->fetchWhere(static::TABLE_NAME, ['ban' => 1]);
-        return array_map([$this, 'createEntityUser'], $results);
-    }
-
-    /**
-     * Deletes a user from the database by their ID.
-     *
-     * @param int $id The ID of the user to delete.
-     * @return bool True if the deletion was successful, False otherwise.
-     */
-    public function deleteUser(int $id): bool {
-        $db = FDatabase::getInstance();
-        return $db->delete(static::TABLE_NAME, ['idUser' => $id]);
+    public function readUserById(int $idUser): ?EUser {
+        try {
+            $db = FDatabase::getInstance();
+            $result = $db->load(static::TABLE_NAME, 'idUser', $idUser);
+            return $result ? $this->createEntityUser($result) : null;
+        } catch (Exception $e) {
+            error_log("Errore durante il recupero dell'utente per ID: " . $e->getMessage());
+            return null;
+        }
     }
 
     /**
@@ -188,23 +182,29 @@ class FUser {
     }
 
     /**
-     * Returns a user from the database by their ID.
+     * Returns a list of blocked users from the database.
      *
-     * @param int $idUser The ID of the user.
-     * @return EUser|null The user object if found, null otherwise.
+     * @return EUser[] An array of EUser objects representing the blocked users.
      * @throws Exception If an error occurs during the loading process.
      */
-    public function getUserById(int $idUser): ?EUser {
-        try {
-            $db = FDatabase::getInstance();
-            $result = $db->load(static::TABLE_NAME, 'idUser', $idUser);
-            return $result ? $this->createEntityUser($result) : null;
-        } catch (Exception $e) {
-            error_log("Errore durante il recupero dell'utente per ID: " . $e->getMessage());
-            return null;
-        }
+    public function readBlockedUsers(): array {
+        $db = FDatabase::getInstance();
+        $results = $db->fetchWhere(static::TABLE_NAME, ['ban' => 1]);
+        return array_map([$this, 'createEntityUser'], $results);
     }
-    
+
+    /**
+     * Blocks a user in the database.
+     *
+     * @param int $idUser The ID of the user.
+     * @param string $motivation The reason for the block.
+     * @return bool True if the operation is successful, False otherwise.
+     */
+    public function banUser(int $idUser, string $motivation): bool {
+        $db = FDatabase::getInstance();
+        return $db->update(static::TABLE_NAME, ['ban' => 1, 'motivation' => $motivation], ['idUser' => $idUser]);
+    }
+
     /**
      * Hashes the password using the bcrypt algorithm.
      *
