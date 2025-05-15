@@ -23,7 +23,7 @@ class FExtra {
      * @param array $data The data to create the entity.
      * @return EExtra|null The EExtra instance if data is valid, null otherwise.
      */
-    private function createEntityExtra(array $data): ?EExtra {
+    private function createExtra(array $data): ?EExtra {
         if (isset($data['idExtra'], $data['nameExtra'], $data['priceExtra'])) {
             return new EExtra(
                 $data['idExtra'],
@@ -32,25 +32,6 @@ class FExtra {
             );
         }
         return null;
-    }
-
-    /**
-     * Create an EExtra object in the database.
-     *
-     * @param EExtra $extra The EExtra object to store.
-     * @return int|null The ID of the stored extra.
-     */
-    public function createExtra(EExtra $extra): ?int {
-        $data = [
-            'nameExtra' => $extra->getNameExtra(),
-            'priceExtra' => $extra->getPriceExtra(),
-        ];
-        try {
-            return $this->db->insert(self::TABLE_NAME, $data);
-        } catch (Exception $e) {
-            error_log("Error storing extra: " . $e->getMessage());
-            return null;
-        }
     }
 
     /**
@@ -63,7 +44,7 @@ class FExtra {
     public function readExtra(int $id): ?EExtra {
         try {
             $result = $this->db->load(self::TABLE_NAME, 'idExtra', $id);
-            return $this->createEntityExtra($result);
+            return $this->createExtra($result);
         } catch (Exception $e) {
             error_log("Error loading extra: " . $e->getMessage());
             return null;

@@ -80,8 +80,19 @@ use Exception;
         return $this->performOperation('readPayment', EPayment::class, $idPayment);
     }
 
-    public function 
-
+    /**
+     * Loads a payment from the database for a specific reservation.
+     *
+     * @param int $reservationId The ID of the reservation associated with the payment.
+     * @return EPayment|null The EPayment object if found, otherwise null.
+     * @throws Exception If an error occurs during the load operation.
+     */
+    public function loadPayment(int $reservationId): ?EPayment {
+        return $this->performOperation('loadPaymentByReservation', FPayment::class, $reservationId);
+        
+    }
+    //DEMO DELLA FOUNDATION CREDIT CARD
+    
 
 
 
@@ -239,18 +250,6 @@ use Exception;
     public function loadReservation(int $id): ?EReservation
     {
         return $this->performOperation('load', FReservation::class, $id);
-    }
-
-    /**
-     * Loads a payment from the database for a specific reservation.
-     *
-     * @param int $reservationId The ID of the reservation associated with the payment.
-     * @return EPayment|null The EPayment object if found, otherwise null.
-     * @throws Exception If an error occurs during the load operation.
-     */
-    public function loadPayment(int $reservationId): ?EPayment
-    {
-        return $this->performOperation('loadPaymentByReservation', FPayment::class, $reservationId);
     }
 
     /**

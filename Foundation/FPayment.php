@@ -71,7 +71,7 @@ class FPayment {
     }
 
     /**
-     * Retrieves a payment by its ID.
+     * read a payment by its ID.
      *
      * @param int $id The ID of the payment.
      * @return EPayment|null The EPayment object or null if not found.
@@ -115,6 +115,16 @@ class FPayment {
      * @return EPayment|null The EPayment object or null if not found.
      * @throws Exception If there is an error during the operation.
      */
+    public static function loadPaymentByIdReservation(int $idReservation): ?EPayment {
+        $db = FDatabase::getInstance();
+        $conditions = [self::TABLE_NAME, 'idReservation' => $idReservation];
+        $result = $db -> load(self::TABLE_NAME, 'idReservation', $idReservation);
+        if (empty($result)) {
+            throw new Exception(self::ERR_PAYMENT_NOT_FOUND);
+        }
+        return $result ? null;
+    }
+
     public static function loadPayment(array $conditions): ?EPayment {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, $conditions);
@@ -225,8 +235,8 @@ class FPayment {
     /**
      * Loads all payments associated with a specific user.
      *
-     * @param int $idUser The ID of the user.
-     * @return EPayment[] An array of EPayment objects.
+     * @param int $idReservation The ID of the reservation.
+     * @return EPayment An EPayment objects.
      * @throws Exception If there is an error during the operation.
      */
     public static function loadPaymentByUser(int $idUser): array {
