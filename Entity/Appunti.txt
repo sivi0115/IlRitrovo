@@ -4,8 +4,9 @@ Ci atteniamo allo standard PRS-12
 APPUNTI GENERALI DA FARE:
 da riadattare a PRS-12
 da implementare il frame orario per classi Entity e Foundation
-da rivedere un attimino il formato delle date se è accettato nel db come attuale (d-m-Y)
-da cambiare gli attributi nel database
+aggiungere stato Enum per stato pagamento nel db
+implementare FArea
+uniformare il formato delle date in d-M-Y
 
 —FOUNDATION—
 Da Creare
@@ -21,6 +22,8 @@ Da Sistemare (da riadattare i cambiamenti attuati in Entity)
 	Review FATTO
 	Persistent_Manager()
 	FDatabase
+
+
 
 
 

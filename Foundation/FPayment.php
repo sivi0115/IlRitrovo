@@ -43,13 +43,13 @@ class FPayment {
     }
 
     /**
-     * Stores an EPayment object in the database.
+     * Create an EPayment object in the database.
      *
      * @param EPayment $payment The EPayment object to store.
      * @return bool True if the operation was successful, otherwise False.
      * @throws Exception If there is an error during the store operation.
      */
-    public static function storePayment(EPayment $payment): bool {
+    public static function createPayment(EPayment $payment): bool {
         $db = FDatabase::getInstance();
         $data = [
             'total' => $payment->getTotal(),
@@ -77,7 +77,7 @@ class FPayment {
      * @return EPayment|null The EPayment object or null if not found.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public static function getPaymentById(int $id): ?EPayment {
+    public static function readPayment(int $id): ?EPayment {
         $db = FDatabase::getInstance();
         $paymentData = $db->load(self::TABLE_NAME, 'idPayment', $id);
         if ($paymentData === null) {

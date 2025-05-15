@@ -35,12 +35,12 @@ class FExtra {
     }
 
     /**
-     * Stores an EExtra object in the database.
+     * Create an EExtra object in the database.
      *
      * @param EExtra $extra The EExtra object to store.
      * @return int|null The ID of the stored extra.
      */
-    public function storeExtra(EExtra $extra): ?int {
+    public function createExtra(EExtra $extra): ?int {
         $data = [
             'nameExtra' => $extra->getNameExtra(),
             'priceExtra' => $extra->getPriceExtra(),
@@ -54,13 +54,13 @@ class FExtra {
     }
 
     /**
-     * Loads an EExtra object from the database.
+     * Read an EExtra object from the database.
      *
      * @param int $id The ID of the extra to load.
      * @return EExtra|null The loaded EExtra object, or null if not found.
      * @throws Exception If there is an error during the load operation.
      */
-    public function loadExtra(int $id): ?EExtra {
+    public function readExtra(int $id): ?EExtra {
         try {
             $result = $this->db->load(self::TABLE_NAME, 'idExtra', $id);
             return $this->createEntityExtra($result);
@@ -107,7 +107,7 @@ class FExtra {
      * @return EExtra[] An array of all EExtra objects.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public function loadAllExtra(): array {
+    public function readAllExtra(): array {
         try {
             $db = FDatabase::getInstance(); // Get the singleton instance
             $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data

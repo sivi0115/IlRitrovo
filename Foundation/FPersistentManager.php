@@ -4,19 +4,17 @@ namespace Foundation;
 
 use AllowDynamicProperties;
 use DateTime;
-use Entity\EAddress;
-use Entity\EAdmin;
-use Entity\EAssistanceTicket;
+use Entity\EArea;
 use Entity\ECreditCard;
-use Entity\EEventType;
 use Entity\EExtra;
 use Entity\EPayment;
-use Entity\EReview;
-use Entity\ELocation;
-use Entity\EOwner;
+use Entity\EReply;
 use Entity\EReservation;
+use Entity\EReview;
 use Entity\ERoom;
+use Entity\ETable;
 use Entity\EUser;
+use Entity\Role;
 use Exception;
 
 /**
@@ -49,6 +47,71 @@ use Exception;
         }
         return self::$instance;
     }
+
+
+    //DEMO DELLA FOUNDATION EXTRA
+    public function createExtra(EExtra $extra): ?int {
+        return $this->performOperation('createExtra', FExtra::class, $extra);
+    }
+
+    public function readExtra(int $idExtra): ?EExtra {
+        return $this->performOperation('readExtra', EExtra::class, $idExtra); 
+    }
+
+    public function updateExtra(EExtra $extra, array $newData): ?bool {
+        return $this->performOperation('updateExtra', FExtra::class, $extra, $newData);
+    }
+
+    public function deleteExtra(int $idExtra): bool {
+        return $this->performOperation('deleteExtra', FExtra::class, $idExtra);
+    }
+
+    public function readAllExtra(): ?array {
+        return $this->performOperation('readAllExtra', EExtra::class);
+    }
+
+
+    //DEMO DELLA FOUNDATION PAYMENT
+    public function createPayment(EPayment $payment): ?int {
+        return $this->performOperation('createPayment', FPayment::class, $payment);
+    }
+
+    public function readPayment(int $idPayment): EPayment {
+        return $this->performOperation('readPayment', EPayment::class, $idPayment);
+    }
+
+    public function 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Stores an object in the database.
@@ -125,15 +188,19 @@ use Exception;
     }
 
     /**
-     * Loads an admin from the database using the username.
+     * Loads an admin User from the database using the username.
      *
-     * @param string $username The username of the admin to load.
-     * @return EAdmin|null The EAdmin object if found, otherwise null.
+     * @param string $username The username of the admin User to load.
+     * @return EUser|null The EAdmin User object if found, otherwise null.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadAdmin(string $username): ?EAdmin
+    public function loadAdmin(string $username): ?EUser
     {
-        return $this->loadByField(FAdmin::class, 'username', $username);
+        $user=$this->loadByField(FUser::class, 'username', $username);
+        if ($user !== null && $user->getRole() === Role::AMMINISTRATORE) {
+            return $user;
+        }
+        return null;
     }
 
     /**
@@ -147,6 +214,19 @@ use Exception;
     public function loadFreeRooms(DateTime $start, DateTime $end): array
     {
         return $this->performOperation('loadFreeRooms', FRoom::class, $start, $end);
+    }
+
+    /**
+     * Loads all free tables in the specified period.
+     *
+     * @param DateTime $start The start date of the period.
+     * @param DateTime $end The end date of the period.
+     * @return array An array of free tables.
+     * @throws Exception If an error occurs during the load operation.
+     */
+    public function loadFreeTables(DateTime $start, DateTime $end): array
+    {
+        return $this->performOperation('loadFreeTables', FTable::class, $start, $end);
     }
 
     /**
