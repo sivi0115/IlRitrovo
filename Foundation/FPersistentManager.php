@@ -87,8 +87,8 @@ use Exception;
      * @return EPayment|null The EPayment object if found, otherwise null.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadPayment(int $reservationId): ?EPayment {
-        return $this->performOperation('loadPaymentByReservation', FPayment::class, $reservationId);
+    public function loadPaymentByIdReservation(int $idReservation): ?EPayment {
+        return $this->performOperation('loadPaymentByIdReservation', FPayment::class, $idReservation);
         
     }
     //DEMO DELLA FOUNDATION CREDIT CARD

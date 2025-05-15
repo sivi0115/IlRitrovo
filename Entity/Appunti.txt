@@ -9,10 +9,16 @@ implementare FArea
 uniformare il formato delle date in d-M-Y
 
 —FOUNDATION—
-Da Creare
-	Area tralasciata per ora
-	Reply FATTO
-	Table FATTO
+	Classe FExtra Completa
+	Classe FPayment Completa
+	M CreditCard -> CRUD + CCS by user id
+	S Reply -> CRUD + R by review id
+	S Review ->  CRUD + R by user id + all reviews
+	M Reservation -> CRD + Rs by user id
+	M User -> CRUD + all user + user banned (non togliere hash password)
+	Persisent Manager -> Da completare 
+	
+
 	
 
 Da Sistemare (da riadattare i cambiamenti attuati in Entity)
