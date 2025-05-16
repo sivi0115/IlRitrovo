@@ -3,13 +3,40 @@ namespace Foundation;
 
 use DateTime;
 use Entity\EReply;
-use Entity\EReview;
 use Exception;
 
+/**
+ * Class FReply
+ * Handles CRUD and others operations for replies to reviews in the database.
+ */
 class FReply {
+    /**
+     * Name of the table associated with the reply entity in the database.
+     */
     protected const TABLE_NAME = 'reply';
 
-    public function __construct() {}
+    /**
+     * Returns the name of the table associated with replies.
+     *
+     * @return string The name of the table.
+     */
+    public function getTableName(): string {
+        return static::TABLE_NAME;
+    }
+
+    /**
+     * Converts an EReply object into an associative array for the database.
+     *
+     * @param EReply $reply The reply object to convert.
+     * @return array The reply data as an array.
+     */
+    private function replyToArray(EReply $reply): array {
+        return [
+            'idReply' => $reply->getIdReply(),
+            'dateReply' => $reply->getDateReply(),
+            'body' => $reply->getBody(),
+        ];
+    }
 
     /**
      * Creates a new instance of EReply with the provided data
@@ -18,7 +45,7 @@ class FReply {
      * @param DateTime $dateReply
      * @param string $body
     */
-    public static function createEnityReply(array $data): EReply {
+    public static function createEntityReply(array $data): EReply {
         return new EReply(
             $data['idReply'] ?? null,
             $data['dateReply'] ?? null,
@@ -27,164 +54,69 @@ class FReply {
     }
 
     /**
-     * Inserts new replies into the database.
-     * 
-     * @param EReply $reply The reply to insert.
-     * @return int The ID of the newly inserted reply.
+     * Creates a new reply in the database.
+     *
+     * @param EReply $reply The reply object to save.
+     * @return int The ID of the saved record, or 0 if the save fails.
+     */
+    public function create(EReply $reply): int {
+        try {
+            $db = FDatabase::getInstance();
+            $data = $this->replyToArray($reply);
+            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+        } catch (Exception $e) {
+            error_log("Errore durante l'inserimento della risposta: " . $e->getMessage());
+            return 0; // Or use a different error handling approach
+        }
+    }
+
+    /**
+     * Reads a reply from the database by their ID.
+     *
+     * @param int $id The ID of the reply to read.
+     * @return EReply|null The reply object if found, null otherwise.
      * @throws Exception
      */
-    public static function storeReply(EReply $reply): int {
-        $db=FDatabase::getInstance();
-        $data = [
-            'idReply' => $reply->getIdReply(),
-            'dateReply' => $reply->getDateReply(),
-            'body' => $reply->getBody(),
-        ];
-        $id = $db->insert(self::TABLE_NAME, $data);
-        if ($id === null) {
-            throw new Exception('Errore durante l\'inserimento della risposta.');
-        }
-        return $id;
-    }
-
-    /**
-     * Maps the database results to an array of EReplay objects
-     * 
-     * @param array $results the database results
-     * @return EReply[] An array of EReply objects
-     * @throws Exception If an error occurs during the mapping
-     */
-    private static function mapResultsToReply(array $results): array {
-        $reply=[];
-        foreach ($results as $row) {
-            $reply[]=(new FReply)->mapRowToReply($row);
-        }
-        return $reply;
-    }
-
-    /**
-     * Maps a database row to an EReply object
-     * 
-     * @param array $row the database row
-     * @return EReply the created reply object
-     * @throws Exception if an error occurs during the mapping
-     */
-    private function mapRowToReply(array $row): EReply {
-        $dateReply=new Datetime($row['dateReply']);
-        $reply=new EReply(
-            $row['idReply'] ?? null,
-            $dateReply,
-            $row['body'] ?? null
-        );
-        return $reply;
-    }
-
-    /**
-     * Deletes a reply by its ID
-     * 
-     * @param int $idReply of the id to delete
-     * @return true
-     * @throws Exception If an error occurs during the delection
-     */
-    public static function deleteReply(int $idReply): bool {
-        $db=FDatabase::getInstance();
-        $deleted=$db->delete(self::TABLE_NAME, ['idReply'=>$idReply]);
-        if (!$deleted) {
-            throw new Exception('Errore durante l\'eliminazione della risposta alla recensione');
-        }
-        return true;
-    }
-
-    /**
-     * Loads all reply form the database
-     * 
-     * @return EReply[] an array of EReply objects or an empty array if none are found
-     * @throws Exception If an error during the loading of reviews
-     */
-    public static function loadAllReply(): array {
-        $db=FDatabase::getInstance();
-        $result=$db->loadMultiples(self::TABLE_NAME);
-        return self::mapResultsToReply($result);
-    }
-
-    /**
-     * Loads a review by it's ID
-     * 
-     * @param int $idReply The ID of the reply to load
-     * @return EReply|null The loaded reply or null if none founded
-     * @throws Exception If an error occurs during the loading of reply
-     */
-    public static function loadReply(int $idReply): ?EReply {
-        $db=FDatabase::getInstance();
-        $row=$db->load(self::TABLE_NAME, 'idReply', $idReply);
-        if($row===null) {
-            return null;
-        }
-        return (new FReply)->mapRowToReply($row);
-    }
-
-    /**
-     * Loads reply by user ID.
-     *
-     * @param int $idUser The ID of the user.
-     * @return EReview[] An array of EReply objects.
-     * @throws Exception If an error occurs during the loading of reply.
-     */
-    public static function loadReplyByUserId(int $idUser): array {
+    public function read(int $id): ?EReply {
         $db = FDatabase::getInstance();
-        $conditions = ['idUser' => $idUser];
-        $result = $db->loadMultiples(self::TABLE_NAME, $conditions);
-        return $result ? self::mapResultsToReply($result) : [];
+        $result = $db->load(static::TABLE_NAME, 'idReply', $id);
+        return $result ? $this->createEntityReply($result) : null;
     }
 
     /**
      * Updates an existing reply in the database.
      *
-     * @param EReply $reply The review object containing the updated data.
-     * @return void
-     * @throws Exception If there is an error during the update process.
+     * @param EReply $reply The reply object to update.
+     * @param int $id The ID of the reply to update.
+     * @return bool True if the update was successful, False otherwise.
      */
-    public static function updateReply(EReply $reply): void {
+    public function update(EReply $reply): bool {
         $db = FDatabase::getInstance();
-        $data = [
-            'idReply' => $reply->getIdReply(),
-            'dateReply' => $reply->getDateReply(),
-            'body' => $reply->getBody()
-            
-        ];
-        $updated = $db->update(self::TABLE_NAME, $data, ['idReply' => $reply->getIdReply()]);
-        if (!$updated) {
-            throw new Exception('Errore durante l\'aggiornamento della recensione.');
-        }
+        $data = $this->replyToArray($reply);
+        return $db->update(static::TABLE_NAME, $data, ['idReply' => $reply->getIdReply()]);
     }
 
     /**
-     * Retrieves reply created on the specified date.
+     * Deletes a reply from the database by their ID.
      *
-     * @param DateTime $date The date to filter reviews by.
-     * @return EReview[] An array of EReply objects created on the specified date.
-     * @throws Exception If there is an error during the retrieval process.
+     * @param int $id The ID of the reply to delete.
+     * @return bool True if the deletion was successful, False otherwise.
      */
-    public static function getReplyByDate(DateTime $date): array {
+    public function delete(int $id): bool {
         $db = FDatabase::getInstance();
-        $conditions = ['DATE(creationTime)' => $date->format('Y-m-d')];
-        $result = $db->loadMultiples(self::TABLE_NAME, $conditions);
-        return $result ? self::mapResultsToReply($result) : [];
+        return $db->delete(static::TABLE_NAME, ['idReply' => $id]);
     }
 
     /**
-     * Retrieves a reply by its ID.
+     * Checks if a reply exists in the database based on a specific field.
      *
-     * @param int $idReply The ID of the reply to retrieve.
-     * @return EReply|null The retrieved reply or null if not found.
-     * @throws Exception If an error occurs during the retrieval.
+     * @param string $field The field to check (e.g., 'idReply', 'body').
+     * @param mixed $value The value of the field.
+     * @return bool True if it exists, False otherwise.
      */
-    public static function getReplyById(int $idReply): ?EReply {
+    public static function existsReply(int $idReply): bool {
         $db = FDatabase::getInstance();
-        $row = $db->load(self::TABLE_NAME, 'idReply', $idReply);
-        if ($row === null) {
-            return null;
-        }
-        return (new FReply)->mapRowToReply($row);
-    }    
+        $exists = $db->exists(self::TABLE_NAME, ['idReply' => $idReply]);
+        return $exists;
+    }
 }
