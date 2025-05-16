@@ -3,67 +3,121 @@
 namespace Foundation;
 
 use Entity\ETable;
-use Entity\EArea;
 use Exception;
 
 /**
  * Class FTable
- * @package Foundation
- * Handles the persistence of Table objects in the database.
+ * Handles CRUD and others operations for tables in the database.
  */
-class FTable extends FArea {
-    protected const TABLE_NAME = 'table';
-
-    // Private constructor
-    public function __construct(FDatabase $database) {
-        $this->database = $database;
-        parent::__construct();
-    }
-
+class FTable {
     /**
-     * Returns the name of the database table associated with the Table entity.
+     * Name of the table associated with the table entity in the database.
+     */
+    protected const TABLE_NAME = 'table';
+    
+    /**
+     * Returns the name of the table associated with tables.
      *
-     * This method provides the specific table name used for
-     * all database operations related to tables.
-     *
-     * @return string The name of the database table.
+     * @return string The name of the table.
      */
     public function getTableName(): string {
-        return 'tables';
-    }
-  
-    /**
-     * Stores a Table object in the database.
-     *
-     * @param ETable $room
-     * @return int The ID of the newly inserted table.
-     * @throws Exception If an error occurs during the insertion.
-     */
-    public static function storeTable(ETable $table): int {
-        $db = FDatabase::getInstance();
-        $data = [
-            'idTable' => $table->getIdTable(),
-            'areaName' => $table->getAreaName(),
-            'maxGuests' => $table->getMaxGuests()
-        ];
-        $id = $db->insert(self::TABLE_NAME, $data);
-        if ($id === null) {
-            throw new Exception('Error during the insertion of the room.');
-        }
-        return $id;
+        return static::TABLE_NAME;
     }
 
     /**
-     * Loads a table from the database based on its ID.
+     * Converts an ETable object into an associative array for the database.
      *
-     * @param int $id
-     * @return ETable|null
-     * @throws Exception If an error occurs during the loading.
+     * @param ETable $table The table object to convert.
+     * @return array The table data as an array.
      */
-    public static function loadTable(int $id): ?ETable {
+    private function tableToArray(ETable $table): array {
+        return [
+            'idTable' => $table->getIdTable(),
+            'areaName' => $table->getAreaName(),
+            'maxGuests' => $table->getMaxGuests(),
+        ];
+    }
+
+    /**
+     * Creates a new instance of ETable with the provided data
+     * 
+     * @param int $idTable
+     * @param string $areaName
+     * @param int $maxGuests
+    */
+    public static function createEntityTable(array $data): ETable {
+        return new ETable(
+            $data['idRoom'] ?? null,
+            $data['areaName'] ?? null,
+            $data['maxGuests'] ?? null
+        );
+    }
+
+    /**
+     * Creates a new table in the database.
+     *
+     * @param ETable $table The table object to save.
+     * @return int The ID of the saved record, or 0 if the save fails.
+     */
+    public function create(ETable $table): int {
+        try {
+            $db = FDatabase::getInstance();
+            $data = $this->tableToArray($table);
+            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+        } catch (Exception $e) {
+            error_log("Errore durante l'inserimento del tavolo: " . $e->getMessage());
+            return 0; // Or use a different error handling approach
+        }
+    }
+
+    /**
+     * Reads a table from the database by their ID.
+     *
+     * @param int $id The ID of the table to read.
+     * @return ETable|null The table object if found, null otherwise.
+     * @throws Exception
+     */
+    public function read(int $id): ?ETable {
         $db = FDatabase::getInstance();
-        $result = $db->load(self::TABLE_NAME, 'idTable', $id);
-        return $result ? self::createTableFromRow($result) : null;
+        $result = $db->load(static::TABLE_NAME, 'idTable', $id);
+        return $result ? $this->createEntityTable($result) : null;
+    }
+
+    /**
+     * Updates an existing table in the database.
+     *
+     * @param ETable $table The table object to update.
+     * @param int $id The ID of the table to update.
+     * @return bool True if the update was successful, False otherwise.
+     */
+    public function update(ETable $table): bool {
+        $db = FDatabase::getInstance();
+        $data = $this->tableToArray($table);
+        return $db->update(static::TABLE_NAME, $data, ['idTable' => $table->getIdTable()]);
+    }
+
+    /**
+     * Deletes a table from the database by their ID.
+     *
+     * @param int $id The ID of the table to delete.
+     * @return bool True if the deletion was successful, False otherwise.
+     */
+    public function delete(int $id): bool {
+        $db = FDatabase::getInstance();
+        return $db->delete(static::TABLE_NAME, ['idTable' => $id]);
+    }
+
+    /**
+     * Checks if a table exists in the database based on a specific field.
+     *
+     * @param string $field The field to check (e.g., 'idTable', 'areaName').
+     * @param mixed $value The value of the field.
+     * @return bool True if it exists, False otherwise.
+     */
+    public static function existsTable(int $idTable): bool {
+        $db = FDatabase::getInstance();
+        $exists = $db->exists(self::TABLE_NAME, ['idTable' => $idTable]);
+        return $exists;
     }
 
     /**
@@ -72,77 +126,9 @@ class FTable extends FArea {
      * @return ETable[]
      * @throws Exception If an error occurs during the loading.
      */
-    public static function loadAllTable(): array {
+    public static function loadAllTables(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
-        return array_map([self::class, 'createTableFromRow'], $result);
-    }
-
-    /**
-     * Updates a table in the database.
-     *
-     * @param ETable $room
-     * @return bool
-     * @throws Exception If an error occurs during the update.
-     */
-    public static function updateTable(ETable $table): bool {
-        $db = FDatabase::getInstance();
-        $data = [
-            'idTable' => $table->getIdTable(),
-            'areaName' => $table->getAreaName(),
-            'maxGuests' => $table->getMaxGuests()
-        ];
-        return $db->update(self::TABLE_NAME, $data, ['idRoom' => $table->getIdTable()]);
-    }
-
-    /**
-     * Deletes a table from the database.
-     *
-     * @param int $idTable
-     * @return bool
-     * @throws Exception If an error occurs during the deletion.
-     */
-    public static function deleteTable(int $idTable): bool {
-        $db = FDatabase::getInstance();
-        return $db->delete(self::TABLE_NAME, ['idTable' => $idTable]);
-    }
-
-    /**
-     * Creates an ETable object from a database row.
-     *
-     * @param array $row
-     * @return ETable
-     */
-    private static function createTableFromRow(array $row): ETable {
-        return new ETable(
-            $row['idTable'],
-            $row['areaName'],
-            $row['maxGuests']
-        );
-    }
-
-    /**
-     * Checks if a table exists.
-     *
-     * @param int $idTable
-     * @return bool
-     * @throws Exception
-     */
-    public static function existsTable(int $idTable): bool {
-        $db = FDatabase::getInstance();
-        return $db->exists(self::TABLE_NAME, ['idTable' => $idTable]);
-    }
-
-    /**
-     * Searches for table by name.
-     *
-     * @param string $name The name to search for.
-     * @return array An array of ETable objects that match the name.
-     * @throws Exception If there is an error during the search operation.
-     */
-    public static function searchByName(string $name): array {
-        $db = FDatabase::getInstance();
-        $result = $db->fetchLike(self::TABLE_NAME, 'name', $name);
-        return array_map([self::class, 'createTableFromRow'], $result);
+        return array_map([self::class, 'createEntityTable'], $result);
     }
 }
