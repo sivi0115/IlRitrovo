@@ -32,7 +32,6 @@ class FUser {
      * @return array The user data as an array.
      */
     private function userToArray(EUser $user): array {
-        $user->setPassword($this->hashPassword($user->getPassword()));
         return [
             'idUser' => $user->getIdUser(),
             'idReview' => $user->getIdReview(),
@@ -82,6 +81,8 @@ class FUser {
     public function create(EUser $user): int {
         try {
             $db = FDatabase::getInstance();
+            //hash della password in fase di creazione
+            $user->setPassword($this->hashPassword($user->getPassword()));
             $data = $this->userToArray($user);
             return $db->insert(static::TABLE_NAME, $data) ?: 0;
         } catch (Exception $e) {
@@ -107,7 +108,6 @@ class FUser {
      * Updates an existing user in the database.
      *
      * @param EUser $user The user object to update.
-     * @param int $id The ID of the user to update.
      * @return bool True if the update was successful, False otherwise.
      */
     public function update(EUser $user): bool {
@@ -137,24 +137,6 @@ class FUser {
     public function existsUser(string $field, $value): bool {
         $db = FDatabase::getInstance();
         return $db->exists(static::TABLE_NAME, [$field => $value]);
-    }
-
-    /**
-     * Returns a user from the database by their ID.
-     *
-     * @param int $idUser The ID of the user.
-     * @return EUser|null The user object if found, null otherwise.
-     * @throws Exception If an error occurs during the loading process.
-     */
-    public function readUserById(int $idUser): ?EUser {
-        try {
-            $db = FDatabase::getInstance();
-            $result = $db->load(static::TABLE_NAME, 'idUser', $idUser);
-            return $result ? $this->createEntityUser($result) : null;
-        } catch (Exception $e) {
-            error_log("Errore durante il recupero dell'utente per ID: " . $e->getMessage());
-            return null;
-        }
     }
 
     /**

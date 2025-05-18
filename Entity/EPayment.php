@@ -164,7 +164,7 @@ class EPayment implements JsonSerializable {
      * @return string The creation time.
      */
     public function getCreationTime(): string {
-        return $this->creationTime->format('d-m-Y');
+        return $this->creationTime->format('Y-m-d H:i:s');
     }
 
     /**

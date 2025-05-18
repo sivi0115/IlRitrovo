@@ -67,7 +67,7 @@ class EReply implements JsonSerializable {
      * @return string The creation timestamp of the reply.
      */
     public function getDateReply(): string {
-        return $this->dateReply->format('d-m-Y');
+        return $this->dateReply->format('Y-m-d H:i:s');
     }
 
     /**

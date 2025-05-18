@@ -201,7 +201,7 @@ class EReservation implements JsonSerializable {
      * @return string The creation time.
      */
     public function getCreationTime(): string {
-        return $this->creationTime->format('d-m-Y');
+        return $this->creationTime->format('Y-m-d H:i:s');
     }
 
     /**
@@ -219,7 +219,7 @@ class EReservation implements JsonSerializable {
      * @return string The reservation date.
      */
     public function getReservationDate(): string {
-        return $this->reservationDate->format('d-m-Y');
+        return $this->reservationDate->format('Y-m-d H:i:s');
     }
 
     /**

@@ -6,7 +6,8 @@ da riadattare a PRS-12
 da implementare il frame orario per classi Entity e Foundation
 aggiungere stato Enum per stato pagamento nel db
 implementare FArea
-uniformare il formato delle date in d-M-Y
+uniformare il formato delle date in 'Y-m-d H:i:s' - FATTO NELLE CLASSI ENTITY 
+	
 
 —FOUNDATION—
 	Classe FExtra Completa
@@ -31,14 +32,8 @@ Essendo a conoscenza di questo vincolo, a livello di tempo risulta meno dispendi
 A conclusione del ragionamento, procedo con lo standardizzare i nomi dei metodi CRUD nelle classi
 
 FUser - FATTO
-FReservation
-FCreditCard
-
-Se l'idea convince anche te, provvediamo a implementare il tutto anche nel PM, chiudendo il discorso Foundation al 90%
-💜
-
-
-P.S Cicerone non ha risposto, ma lo sapevamo già. Resta comunuque il mio bro Steve Jobs preferito
+FReservation - FATTO
+FCreditCard - FATTO
 
 
 

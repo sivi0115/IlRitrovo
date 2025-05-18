@@ -183,7 +183,7 @@ class EReview implements JsonSerializable {
      * @return string The creation timestamp of the review.
      */
     public function getCreationTime(): string {
-        return $this->creationTime->format('d-m-Y');
+        return $this->creationTime->format('Y-m-d H:i:s');
     }
 
     /**

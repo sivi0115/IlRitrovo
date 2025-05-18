@@ -434,7 +434,7 @@ class EUser implements JsonSerializable {
      * @return string The user's date of birth.
      */
     public function getBirthDate(): string {
-        return $this->birthDate->format('Y-m-d');
+        return $this->birthDate->format('Y-m-d H:i:s');
     }
 
     /**
