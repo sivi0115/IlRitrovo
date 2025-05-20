@@ -26,6 +26,11 @@ class FReply {
 
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
+    protected const ERR_EMPTY_BODY = "The filed body cannot be empty";
+    protected const ERR_INSERTION_FAILED = 'Error during the insertion of the reply.';
+    protected const ERR_RETRIVE_REPLY='Failed to retrive the inserted reply.';
+    protected const ERR_REPLY_NOT_FOUND = 'The reply does not exist.';
+    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
 
     /**
      * Creates a new instance of EReply with the provided data
@@ -63,19 +68,46 @@ class FReply {
     }
 
     /**
+     * Validates the data for creating or updating a reply.
+     *
+     * @param array $data The data array containing 'body'.
+     *
+     * @throws Exception If required fields are missing or invalid.
+     */
+    public static function validateReplyData(array $data): void {
+        // Validate 'body' (non deve essere vuoto)
+        if (!isset($data['body']) || !is_string($data['body']) || trim($data['body']) === '') {
+            throw new Exception(self::ERR_EMPTY_BODY);
+        }
+    }
+
+    /**
      * Creates a new reply in the database.
      *
      * @param EReply $reply The reply object to save.
      * @return int The ID of the saved record, or 0 if the save fails.
      */
     public function create(EReply $reply): int {
+        $db = FDatabase::getInstance();
+        $data = $this->entityToArray($reply);
+        self::validateReplyData($data);
         try {
-            $db = FDatabase::getInstance();
-            $data = $this->entityToArray($reply);
-            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+            //Reply insertion
+            $result = $db->insert(self::TABLE_NAME, $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERTION_FAILED);
+            }
+            //Retrive the inserted reply by number to get the assigned idExtra
+            $storedReply = $db->load(self::TABLE_NAME, 'number', $reply->getIdReply());
+            if ($storedReply === null) {
+                throw new Exception(self::ERR_RETRIVE_REPLY);
+            }
+            //Assign the retrieved ID to the object
+            $reply->setIdReply($storedReply['idReply']);
+            //Return the id associated with this reply
+            return $storedReply['idReply'];
         } catch (Exception $e) {
-            error_log("Errore durante l'inserimento della risposta: " . $e->getMessage());
-            return 0; // Or use a different error handling approach
+            throw $e;
         }
     }
 
@@ -89,7 +121,7 @@ class FReply {
     public function read(int $id): ?EReply {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idReply', $id);
-        return $result ? $this->createEntityReply($result) : null;
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -101,8 +133,17 @@ class FReply {
      */
     public function update(EReply $reply): bool {
         $db = FDatabase::getInstance();
-        $data = $this->replyToArray($reply);
-        return $db->update(static::TABLE_NAME, $data, ['idReply' => $reply->getIdReply()]);
+        if (!self::exists($reply->getIdReply())) {
+            throw new Exception(self::ERR_REPLY_NOT_FOUND);
+        }
+        $data = [
+            'body'=> $reply->getBody(),
+        ];
+        self::validateReplyData($data);
+        if (!$db->update(self::TABLE_NAME, $data, ['idReply' => $reply->getIdReply()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
     }
 
     /**
@@ -123,7 +164,7 @@ class FReply {
      * @param mixed $value The value of the field.
      * @return bool True if it exists, False otherwise.
      */
-    public static function existsReply(int $idReply): bool {
+    public static function exists(int $idReply): bool {
         $db = FDatabase::getInstance();
         $exists = $db->exists(self::TABLE_NAME, ['idReply' => $idReply]);
         return $exists;

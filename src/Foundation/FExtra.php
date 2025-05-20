@@ -31,7 +31,7 @@ class FExtra {
     protected const ERR_NUMERIC_PRICE="The 'price' field is required and must be numeric.";
     protected const ERR_NEGATIVE_PRICE="The 'price' field must be a non-negative value.";
     protected const ERR_INSERTION_FAILED = 'Error during the insertion of the extra.';
-    protected const ERR_RETRIVE_EXTRA='Failed to retrive the inserted credit card.';
+    protected const ERR_RETRIVE_EXTRA='Failed to retrive the inserted extra.';
     protected const ERR_EXTRA_NOT_FOUND = 'The extra does not exist.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const ERR_ALL_EXTRA = 'Error loading all extras: ';
@@ -167,7 +167,7 @@ class FExtra {
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If there is an error during the update operation.
      */
-    public static function update(EExtra $extra): bool {
+    public function update(EExtra $extra): bool {
         $db = FDatabase::getInstance();
         if (!self::exists($extra->getIdExtra())) {
             throw new Exception(self::ERR_EXTRA_NOT_FOUND);

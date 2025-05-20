@@ -12,9 +12,22 @@ use Exception;
  * @package Foundation
  */
 class FReservation {
+    /**
+     * Name of the table associated with the reservation entity in the database.
+     */
     protected const TABLE_NAME = 'reservation';
 
-    private function __construct() {}
+    /**
+     * Returns the name of the table associated with extras.
+     *
+     * @return string The name of the table.
+     */
+    public function getTableName(): string {
+        return static::TABLE_NAME;
+    }
+
+    // Error messages centralized for consistency
+    protected const ERR_MISSING_FIELD= 'Missing required field:';
 
     /**
      * Creates an EReservation entity directly from provided data.
@@ -23,9 +36,12 @@ class FReservation {
      * @return EReservation The created EReservation object.
      * @throws Exception If required fields are missing or invalid.
      */
-    private function createEntityReservation(array $data): EReservation {
-        if (empty($data['creationTime']) || empty($data['state']) || empty($data['totPrice'])) {
-            throw new Exception('Missing required fields to create EReservation.');
+    public function arrayToEntity(array $data): EReservation {
+        $requiredFields = ['reservationDate', 'timeFrame', 'state', 'totPrice', 'people'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
         }
         return new EReservation(
             $data['idReservation'] ?? null,
@@ -48,7 +64,7 @@ class FReservation {
      * @param EReservation $reservation The review object to convert.
      * @return array The reservation data as an array.
      */
-    private function reservationToArray(EReservation $reservation): array {
+    public function reservationToArray(EReservation $reservation): array {
         return [
             'idReservation' => $reservation->getIdReservation(),
             'idUser' => $reservation->getIdUser(),
