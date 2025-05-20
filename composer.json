@@ -1,0 +1,23 @@
+{
+    "name": "none/event-hub-new-main",
+    "description": "Your project description here.",
+    "version": "1.0.0",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "None\\EventHubNewMain\\": "src/",
+            "Entity\\": "src/Entity/",
+            "Foundation\\": "src/Foundation/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AnastasiaDif",
+            "email": "162448280+AnastasiaDif@users.noreply.github.com"
+        }
+    ],
+    "require": {
+      "ext-pdo": "*",
+        "smarty/smarty": "^5.4"
+    }
+}
