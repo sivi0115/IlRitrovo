@@ -10,6 +10,10 @@ use Exception;
  * Class to manage credit card operations in the database.
  */
 class FCreditCard {
+
+    /**
+     * Name of the table associated with the credit card entity in the database.
+     */
     protected const TABLE_NAME = 'creditcard';
 
     // Error messages centralized for consistency
@@ -18,6 +22,8 @@ class FCreditCard {
     protected const  ERR_INSERTION_FAILED = 'Error during the insertion of the credit card.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
+    protected const ERR_ID_MISSING= 'Missing required field: idCreditCard in database result.';
+    protected const ERR_LOADING= 'Error loading credit cards: ';
 
     /**
      * Creates an instance of ECreditCard from the given data.
@@ -26,7 +32,7 @@ class FCreditCard {
      * @return ECreditCard The created ECreditCard object.
      * @throws Exception If required fields are missing.
      */
-    private function createEntityCreditCard(array $data): ECreditCard {
+    public function createEntity(array $data): ECreditCard {
         $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
@@ -44,7 +50,13 @@ class FCreditCard {
         );
     }
 
-    private function creditCardToArray(ECreditCard $creditCard): array {
+    /**
+     * Converts an ECreditCard object into an associative array for the database.
+     *
+     * @param ECreditCard $creditCard The credit card object to convert.
+     * @return array The credit card data as an array.
+     */
+    public function entityToArray(ECreditCard $creditCard): array {
         return [
             'idCreditCard' => $creditCard->getIdCreditCard(),
             'idUser' => $creditCard->getIdUser(),
@@ -73,10 +85,10 @@ class FCreditCard {
         if (!self::isValidExpirationDate($creditCard->getExpiration())) {
             throw new Exception("Invalid expiration date.");
         }
-        if (self::existsCreditCard($creditCard->getNumber(), $creditCard->getIdUser())) {
+        if (self::exists($creditCard->getNumber(), $creditCard->getIdUser())) {
             throw new Exception(self::ERR_CARD_EXISTS);
         }
-        $data = $this->creditCardToArray($creditCard);
+        $data = $this->entityToArray($creditCard);
         try {
             //Card insertion
             $result = $db->insert(self::TABLE_NAME, $data);
@@ -106,7 +118,7 @@ class FCreditCard {
     public function read(int $idCreditCard): ?ECreditCard {
         $db=FDatabase::getInstance();
         $result=$db->load(self::TABLE_NAME, 'idCreditCard', $idCreditCard);
-        return $result ? $this->createEntityCreditCard($result): null;
+        return $result ? $this->createEntity($result): null;
     }
 
     /**
@@ -119,7 +131,7 @@ class FCreditCard {
      */
     public static function update(ECreditCard $creditCard): bool {
         $db = FDatabase::getInstance();
-        if (!self::existsCreditCard($creditCard->getNumber(), $creditCard->getIdUser())) {
+        if (!self::exists($creditCard->getNumber(), $creditCard->getIdUser())) {
             throw new Exception(self::ERR_CARD_NOT_FOUND);
         }
         $data = [
@@ -142,7 +154,7 @@ class FCreditCard {
      * @return bool True if the credit card was successfully deleted, otherwise False.
      * @throws Exception If there is an error during the delete operation.
      */
-    public static function deleteCreditCard(int $idCreditCard): bool {
+    public static function delete(int $idCreditCard): bool {
         $db=FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idCreditCard' => $idCreditCard]);
     }
@@ -155,7 +167,7 @@ class FCreditCard {
      * @return bool True if the credit card exists, otherwise False.
      * @throws Exception If there is an error during the check operation.
      */
-    public static function existsCreditCard(string $numberCard, int $userId): bool {
+    public static function exists(string $numberCard, int $userId): bool {
         $db = FDatabase::getInstance();
         return $db->exists(self::TABLE_NAME, ['number' => $numberCard, 'idUser' => $userId]);
     }
@@ -174,14 +186,14 @@ class FCreditCard {
         $cardData = $db->load(self::TABLE_NAME, 'number', $number);
         // Check if the user is valid
         if (!$cardData || $cardData['idUser'] != $userId) {
-            throw new Exception("Card not found or does not belong to the user.");
+            throw new Exception(self::ERR_CARD_NOT_FOUND);
         }
         // Ensure that the result includes the 'idCreditCard' field
         if (!isset($cardData['idCreditCard'])) {
-            throw new Exception("Missing required field: idCreditCard in database result.");
+            throw new Exception(self::ERR_ID_MISSING);
         }
         // Create and return the ECreditCard object
-        return self::createEntityCreditCard($cardData);
+        return $this->createEntity($cardData);
     }
 
     /**
@@ -195,10 +207,10 @@ class FCreditCard {
         $db = FDatabase::getInstance();
         try {
             $results = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $idUser]);
-            return array_map(fn($row) => self::createEntityCreditCard($row), $results);
+            return array_map(fn($row) => self::createEntity($row), $results);
 
         } catch (Exception $e) {
-            throw new Exception("Error loading credit cards: " . $e->getMessage());
+            throw new Exception(self::ERR_LOADING . $e->getMessage());
         }
     }
 
