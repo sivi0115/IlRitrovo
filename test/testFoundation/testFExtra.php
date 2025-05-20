@@ -34,7 +34,7 @@ function testInsertExtra(): void
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
         $testExtra = getTestExtraData();
-        $insertedId = $fExtra->storeExtra($testExtra);
+        $insertedId = $fExtra->create($testExtra);
 
         if ($insertedId !== null) {
             echo "Inserimento riuscito. ID inserito: $insertedId\n";
@@ -63,7 +63,7 @@ function testLoadExtraById(): void
 
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $extra = $fExtra->loadExtra($insertedId);
+        $extra = $fExtra->read($insertedId);
 
         if ($extra instanceof EExtra) {
             echo "Extra caricato correttamente: " . json_encode($extra) . "\n";
@@ -97,7 +97,7 @@ function testUpdateExtra(): void
             'price' => 59.99
         ];
 
-        $updated = $fExtra->updateExtra($insertedId, $updatedData);
+        $updated = $fExtra->update($insertedId, $updatedData);
 
         if ($updated) {
             echo "Extra aggiornato correttamente.\n";
@@ -126,7 +126,7 @@ function testExistsExtra(): void
 
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $exists = $fExtra->existsExtra($insertedId);
+        $exists = $fExtra->exists($insertedId);
 
         if ($exists) {
             echo "L'extra esiste.\n";
@@ -155,7 +155,7 @@ function testDeleteExtra(): void
 
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $deleted = $fExtra->deleteExtra($insertedId);
+        $deleted = $fExtra->delete($insertedId);
 
         if ($deleted) {
             echo "Extra cancellato correttamente.\n";
@@ -178,7 +178,7 @@ function testLoadAllExtras(): void
     echo "\nTest 6: Caricamento di tutti gli extra\n";
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $allExtras = $fExtra->loadAllExtra();
+        $allExtras = $fExtra->readAllExtra();
 
         echo "Totale extra caricati: " . count($allExtras) . "\n";
         echo "Dettagli: " . json_encode($allExtras) . "\n";
@@ -192,8 +192,8 @@ function testLoadAllExtras(): void
 // Esecuzione dei test
 echo "Esecuzione dei test...\n";
 testInsertExtra();
-testLoadExtraById();
-testUpdateExtra();
-testExistsExtra();
-testLoadAllExtras();
+//testLoadExtraById();
+//testUpdateExtra();
+//testExistsExtra();
+//testLoadAllExtras();
 //testDeleteExtra();

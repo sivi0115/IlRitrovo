@@ -22,7 +22,7 @@ class EExtra implements JsonSerializable {
     /**
      * @var int The price of the extra service (in cents).
      */
-    private int $priceExtra;
+    private float $priceExtra;
 
     /**
      * Constructor for the EUser class with validation checks.
