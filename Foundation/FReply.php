@@ -24,19 +24,8 @@ class FReply {
         return static::TABLE_NAME;
     }
 
-    /**
-     * Converts an EReply object into an associative array for the database.
-     *
-     * @param EReply $reply The reply object to convert.
-     * @return array The reply data as an array.
-     */
-    private function replyToArray(EReply $reply): array {
-        return [
-            'idReply' => $reply->getIdReply(),
-            'dateReply' => $reply->getDateReply(),
-            'body' => $reply->getBody(),
-        ];
-    }
+    // Error messages centralized for consistency
+    protected const ERR_MISSING_FIELD= 'Missing required field:';
 
     /**
      * Creates a new instance of EReply with the provided data
@@ -45,12 +34,32 @@ class FReply {
      * @param DateTime $dateReply
      * @param string $body
     */
-    public static function createEntityReply(array $data): EReply {
+    public function arrayToEntity(array $data): EReply {
+            $requiredFields = ['idReply', 'dateReply', 'body'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
+        }
         return new EReply(
             $data['idReply'] ?? null,
             $data['dateReply'] ?? null,
             $data['body'] ?? null
         );
+    }
+
+    /**
+     * Converts an EReply object into an associative array for the database.
+     *
+     * @param EReply $reply The reply object to convert.
+     * @return array The reply data as an array.
+     */
+    public function entityToArray(EReply $reply): array {
+        return [
+            'idReply' => $reply->getIdReply(),
+            'dateReply' => $reply->getDateReply(),
+            'body' => $reply->getBody(),
+        ];
     }
 
     /**
@@ -62,7 +71,7 @@ class FReply {
     public function create(EReply $reply): int {
         try {
             $db = FDatabase::getInstance();
-            $data = $this->replyToArray($reply);
+            $data = $this->entityToArray($reply);
             return $db->insert(static::TABLE_NAME, $data) ?: 0;
         } catch (Exception $e) {
             error_log("Errore durante l'inserimento della risposta: " . $e->getMessage());
