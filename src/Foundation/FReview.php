@@ -3,6 +3,7 @@ namespace Foundation;
 
 use DateTime;
 use Entity\EReview;
+use Foundation\FUser;
 use Exception;
 
 /**
@@ -24,13 +25,41 @@ class FReview {
         return static::TABLE_NAME;
     }
 
+    // Error messages centralized for consistency
+    protected const ERR_MISSING_FIELD= 'Missing required field:';
+
+    /**
+     * Creates an EReview entity from the provided data.
+     *
+     * @param array $data The data used to create the EReview object.
+     * @return EReview The created review object.
+     * @throws Exception If an error occurs during the creation of the entity.
+     */
+    public static function arrayToEntity(array $data):EReview {
+            $requiredFields = ['idUser', 'stars', 'body'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
+        }
+        return new EReview(
+            $data['idUser'],
+            $data['idReview'],
+            $data['idReply'],
+            $data['stars'],
+            $data['body'],
+            $data['creationTime'],
+            $data['removed']
+        );
+    }
+
     /**
      * Converts an EReview object into an associative array for the database.
      *
      * @param EReview $review The review object to convert.
      * @return array The review data as an array.
      */
-    private function reviewToArray(EReview $review): array {
+    private function entityToArray(EReview $review): array {
         return [
             'idUser' => $review->getIdUser(),
             'idReview' => $review->getIdReview(),
@@ -43,23 +72,28 @@ class FReview {
     }
 
     /**
-     * Creates an EReview entity from the provided data.
+     * Validates the data for creating or updating a review.
      *
-     * @param array $data The data used to create the EReview object.
-     * @return EReview The created review object.
-     * @throws Exception If an error occurs during the creation of the entity.
+     * @param array $data The data array containing review information.
+     *
+     * @throws Exception If required fields are missing or invalid.
      */
-    public static function createEntityReview(array $data):EReview {
-        return new EReview(
-            $data['idUser'],
-            $data['idReview'],
-            $data['idReply'],
-            $data['stars'],
-            $data['body'],
-            $data['creationTime'],
-            $data['removed']
-        );
+    public static function validateReviewData(array $data): void {
+        // idUser must exist
+        if (!isset($data['idUser']) || !is_int($data['idUser']) || !FUser::exists($data['idUser'])) {
+            throw new Exception(self::ERR_INVALID_USER);
+        }
+        // 2. Body must not be empty
+        if (empty($data['body']) || !is_string($data['body'])) {
+            throw new Exception(self::ERR_EMPTY_BODY);
+        }
+
+        // 3. Stars must be a number between 1 and 5
+        if (!isset($data['stars']) || !is_numeric($data['stars']) || $data['stars'] < 1 || $data['stars'] > 5) {
+            throw new Exception(self::ERR_INVALID_STARS);
+        }
     }
+
 
     /**
      * Creates a new review in the database.

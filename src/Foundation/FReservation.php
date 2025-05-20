@@ -38,6 +38,8 @@ class FReservation {
     protected const VALID_TIMEFRAMES = ['lunch', 'dinner'];
     protected const ERR_INSERTION_FAILED = 'Error during the insertion of the resrvation.';
     protected const ERR_RETRIVE_RES='Failed to retrive the inserted extra.';
+    protected const ERR_RES_NOT_FOUND = 'The reservation does not exist.';
+    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
 
     /**
      * Creates an EReservation entity directly from provided data.
@@ -181,10 +183,10 @@ class FReservation {
      * @return EReservation|null The reservation object if found, null otherwise.
      * @throws Exception
      */
-    public function read(int $id): ?EReservation {
+    public function read(int $idReservation): ?EReservation {
         $db=FDatabase::getInstance();
-        $result=$db->load(static::TABLE_NAME, 'idReservation', $id);
-        return $result ? $this->createEntityReservation($result) : null;
+        $result=$db->load(static::TABLE_NAME, 'idReservation', $idReservation);
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -196,14 +198,23 @@ class FReservation {
      */
     public function update(EReservation $reservation): bool {
         $db = FDatabase::getInstance();
-        // Validate durationEvent
-        $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
-        // Prepare data for update
-        $data = $this->reservationToArray($reservation);
-        // Debugging: Output data to be updated
-        echo "Updating reservation data: " . json_encode($data) . "\n";
-        // Update record in the database
-        return $db->update(self::TABLE_NAME, $data, ['idReservation' => $reservation->getIdReservation()]);
+                $db = FDatabase::getInstance();
+        if (!self::exists($reservation->getIdReservation())) {
+            throw new Exception(self::ERR_RES_NOT_FOUND);
+        }
+        $data = [
+            'reservationDate' => $reservation->getReservationDate(),
+            'timeFrame' => $reservation->getReservationTimeFrame(),
+            'state' => $reservation->getState(),
+            'totPrice' => $reservation->getTotPrice(),
+            'people' => $reservation->getPeople(),
+            'comment' => $reservation->getComment()
+        ];
+        self::validateReservationData($data);
+        if (!$db->update(self::TABLE_NAME, $data, ['idReservation' => $reservation->getIdReservation()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
     }
 
     /**
@@ -216,6 +227,18 @@ class FReservation {
     public function delete(int $idReservation): bool {
         $db = FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idReservation' => $idReservation]);
+    }
+
+    /**
+     * Checks if a reservation exists in the database.
+     *
+     * @param int $idReservation The ID of the reservation.
+     * @return bool True if the reservation exists, otherwise False.
+     * @throws Exception If there is an error during the check operation.
+     */
+    public static function exists(string $idReservation): bool {
+        $db = FDatabase::getInstance();
+        return $db->exists(self::TABLE_NAME, ['idExtra' => $idReservation]);
     }
 
     /**
@@ -319,31 +342,9 @@ class FReservation {
         // Update the reservation status
         return $db->update(
             self::TABLE_NAME, // Table name
-            ['state' => $newState], // Data to update
+            ['state' => 'cancelled'], // Data to update
             ['idReservation' => $idReservation] // WHERE condition
         );
-    }
-
-    /**
-     * Approves a reservation.
-     *
-     * @param int $idReservation The ID of the reservation.
-     * @return bool True if the approval was successful, false otherwise.
-     * @throws Exception If an error occurs during the update.
-     */
-    public static function approveReservation(int $idReservation): bool {
-        return self::updateStateReservation($idReservation, 'approved');
-    }
-
-    /**
-     * Rejects a reservation.
-     *
-     * @param int $idReservation The ID of the reservation.
-     * @return bool True if the rejection was successful, false otherwise.
-     * @throws Exception If an error occurs during the update.
-     */
-    public static function rejectReservation(int $idReservation): bool {
-        return self::updateStateReservation($idReservation, 'rejected');
     }
 
     /**
@@ -353,37 +354,11 @@ class FReservation {
      * @return bool True if the cancellation was successful, false otherwise.
      * @throws Exception If an error occurs during the update.
      */
-    public static function cancelReservation(int $idReservation): bool {
-        return self::updateStateReservation($idReservation, 'cancelled');
-    }
-
-    /**
-     * Validates the user ID.
-     *
-     * @param int $userId The ID of the user to validate.
-     * @throws Exception If the user does not exist or is invalid.
-     */
-    private static function validateUser(int $userId): void {
+    public static function cancelReservation(int $idReservation, string $newState): bool {
         $db = FDatabase::getInstance();
-
-        // Controlla se l'utente esiste nel database
-        $userExists = $db->exists('user', ['idUser' => $userId]);
-        if (!$userExists) {
-            throw new Exception('Invalid user ID provided for reservation. User does not exist.');
-        }
-    }
-
-    /**
-     * Validates the durationEvent.
-     *
-     * @param string $timeFrame
-     * @return string
-     * @throws Exception
-     */
-    private static function validateTimeFrame(string $timeFrame): string {
-        if (empty($timeFrame)) {
-            throw new Exception('Invalid time frame. Duration must be a non-empty string.');
-        }
-        return $timeFrame;
+        // Update the reservation status
+        return $db->update(
+            self::TABLE_NAME, ['state' => 'cancelled'], ['idReservation' => $idReservation]
+        );
     }
 }
