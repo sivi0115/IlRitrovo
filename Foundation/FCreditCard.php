@@ -37,7 +37,7 @@ class FCreditCard {
      * @return ECreditCard The created ECreditCard object.
      * @throws Exception If required fields are missing.
      */
-    public static function arrayToEntity(array $data): ECreditCard {
+    public function arrayToEntity(array $data): ECreditCard {
         $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
