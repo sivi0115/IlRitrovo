@@ -207,7 +207,8 @@ class FCreditCard {
             throw new Exception(self::ERR_ID_MISSING);
         }
         // Create and return the ECreditCard object
-        return self::arrayToEntity($cardData);
+        $tmp=new self();
+        return $tmp->arrayToEntity($cardData);
     }
 
     /**

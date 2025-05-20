@@ -11,7 +11,7 @@ use Exception;
 class FExtra {
 
     /**
-     * Name of the table associated with the credit card entity in the database.
+     * Name of the table associated with the extra entity in the database.
      */
     protected const TABLE_NAME = 'extra';
 
