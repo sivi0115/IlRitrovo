@@ -48,92 +48,38 @@ use Exception;
         return self::$instance;
     }
 
-
-    //DEMO DELLA FOUNDATION EXTRA
-    public function createExtra(EExtra $extra): ?int {
-        return $this->performOperation('createExtra', FExtra::class, $extra);
-    }
-
-    public function readExtra(int $idExtra): ?EExtra {
-        return $this->performOperation('readExtra', EExtra::class, $idExtra); 
-    }
-
-    public function updateExtra(EExtra $extra, array $newData): ?bool {
-        return $this->performOperation('updateExtra', FExtra::class, $extra, $newData);
-    }
-
-    public function deleteExtra(int $idExtra): bool {
-        return $this->performOperation('deleteExtra', FExtra::class, $idExtra);
-    }
-
-    public function readAllExtra(): ?array {
-        return $this->performOperation('readAllExtra', EExtra::class);
-    }
-
-
-    //DEMO DELLA FOUNDATION PAYMENT
-    public function createPayment(EPayment $payment): ?int {
-        return $this->performOperation('createPayment', FPayment::class, $payment);
-    }
-
-    public function readPayment(int $idPayment): EPayment {
-        return $this->performOperation('readPayment', EPayment::class, $idPayment);
-    }
-
     /**
-     * Loads a payment from the database for a specific reservation.
-     *
-     * @param int $reservationId The ID of the reservation associated with the payment.
-     * @return EPayment|null The EPayment object if found, otherwise null.
-     * @throws Exception If an error occurs during the load operation.
-     */
-    public function loadPaymentByIdReservation(int $idReservation): ?EPayment {
-        return $this->performOperation('loadPaymentByIdReservation', FPayment::class, $idReservation);
-        
-    }
-    //DEMO DELLA FOUNDATION CREDIT CARD
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Stores an object in the database.
+     * Create an object in the database.
      *
      * @param object $obj The object to store.
      * @return int The ID of the stored object.
      * @throws Exception If the class or method is not found or if an error occurs during the store operation.
      */
-    public function store(object $obj): int
-    {
+    public function create(object $obj): int {
         return $this->performOperation('store', $this->getClassName($obj), $obj);
+    }
+
+    /**
+     * Read an object from the database.
+     *
+     * @param int $id The ID of the object to load.
+     * @param string $fClass The associated foundation class name.
+     * @return object|null The loaded object, or null if not found.
+     * @throws Exception If the class or method is not found.
+     */
+    public function read(int $id, string $fClass): ?object {
+        return $this->performOperation('load', $fClass, $id);
+    }
+
+    /**
+     * Updates an object in the database.
+     *
+     * @param object $obj The object to update.
+     * @return bool True if the update was successful, false otherwise.
+     * @throws Exception If the class or method is not found or if an error occurs during the update operation.
+     */
+    public function update(object $obj): bool {
+        return $this->performOperation('update', $this->getClassName($obj), $obj);
     }
 
     /**
@@ -144,24 +90,40 @@ use Exception;
      * @return bool True if the deletion was successful, false otherwise.
      * @throws Exception If the class or method is not found or if an error occurs during the delete operation.
      */
-    public function delete(int $id, string $fClass): bool
-    {
+    public function delete(int $id, string $fClass): bool {
         return $this->performOperation('delete', $fClass, $id);
     }
 
     /**
-     * Loads an object from the database.
-     *
-     * @param int $id The ID of the object to load.
-     * @param string $fClass The associated foundation class name.
-     * @return object|null The loaded object, or null if not found.
-     * @throws Exception If the class or method is not found.
+     * Convert an Entity oject to an Array for db operations
+     * 
+     * @param EEntity Entity Object to convert for db
+     * @return array array returned from db
      */
-    public function load(int $id, string $fClass): ?object
-    {
-        return $this->performOperation('load', $fClass, $id);
+    public function entityToArray(object $obj): array {
+        return $this->performOperation('entityToArray', $this->getClassName($obj), $obj);
+    }
+    
+    /**
+     * Convert a data Array from db to an Entity Object
+     * 
+     * @param array array to convert
+     * @return EEntity Entity Object 
+     */
+    public function arrayToEntity(array $data, string $fClass) {
+        return $this->performOperation('arrayToEntity', $fClass, $data);
     }
 
+    /**
+     * Check if an object exists in db from the Id
+     * 
+     * @param int the object Id, like useId, reviewId, ecc
+     * @return bool true if founded, false not founded
+     */
+    public function exists(int $id, string $fClass) {
+        return $this->performOperation('exists', $fClass, $id);
+    }
+    
     /**
      * Loads a list of objects from the database.
      *
@@ -172,18 +134,6 @@ use Exception;
     public function loadAll(string $fClass): array
     {
         return $this->performOperation('loadAll', $fClass);
-    }
-
-    /**
-     * Updates an object in the database.
-     *
-     * @param object $obj The object to update.
-     * @return bool True if the update was successful, false otherwise.
-     * @throws Exception If the class or method is not found or if an error occurs during the update operation.
-     */
-    public function update(object $obj): bool
-    {
-        return $this->performOperation('update', $this->getClassName($obj), $obj);
     }
 
     /**
@@ -273,18 +223,14 @@ use Exception;
     private function getClassName(object $entity): string
     {
         $classMap = [
-            EAddress::class => FAddress::class,
-            EAdmin::class => FAdmin::class,
-            EAssistanceTicket::class => FAssistanceTicket::class,
             ECreditCard::class => FCreditCard::class,
-            EEventType::class => FEvent::class,
             EExtra::class => FExtra::class,
-            ELocation::class => FLocation::class,
-            EOwner::class => FOwner::class,
             EPayment::class => FPayment::class,
+            EReply::class => FReply::class,
             EReservation::class => FReservation::class,
             EReview::class => FReview::class,
             ERoom::class => FRoom::class,
+            ETable::class => FTable::class,
             EUser::class => FUser::class
         ];
 
