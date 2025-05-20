@@ -16,6 +16,15 @@ class FCreditCard {
      */
     protected const TABLE_NAME = 'creditcard';
 
+    /**
+     * Returns the name of the table associated with credit cards.
+     *
+     * @return string The name of the table.
+     */
+    public function getTableName(): string {
+        return static::TABLE_NAME;
+    }
+
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
     protected const ERR_INVALID_CVV= 'Invalid CVV for card type: ';

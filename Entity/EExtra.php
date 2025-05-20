@@ -32,17 +32,17 @@ class EExtra implements JsonSerializable {
      * @param int $priceExtra The price of the extra service (in cents).
      * @throws InvalidArgumentException If the price is negative, or if the name is empty.
      */
-    public function __construct(?int $idExtra, string $name, int $price) {
-        if ($price < 0) {
+    public function __construct(?int $idExtra, string $nameExtra, int $priceExtra) {
+        if ($priceExtra < 0) {
             throw new InvalidArgumentException("Il prezzo non può essere negativo.");
         }
-        if (empty($name)) {
+        if (empty($nameExtra)) {
             throw new InvalidArgumentException("Il nome del servizio extra non può essere vuoto.");
         }
 
         $this->idExtra = $idExtra;
-        $this->nameExtra = $name;
-        $this->priceExtra = $price;
+        $this->nameExtra = $nameExtra;
+        $this->priceExtra = $priceExtra;
     }
 
     /**
