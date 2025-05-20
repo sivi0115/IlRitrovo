@@ -3,7 +3,6 @@
 namespace Foundation;
 
 use Entity\ERoom;
-use Entity\EArea;
 use Exception;
 
 /**
@@ -25,30 +24,19 @@ class FRoom {
         return static::TABLE_NAME;
     }
 
-    /**
-     * Converts an ERoom object into an associative array for the database.
-     *
-     * @param ERoom $room The room object to convert.
-     * @return array The room data as an array.
-     */
-    private function roomToArray(ERoom $room): array {
-        return [
-            'idRoom' => $room->getIdRoom(),
-            'areaName' => $room->getAreaName(),
-            'maxGuests' => $room->getMaxGuests(),
-            'tax' => $room->getTax(),
-        ];
-    }
+    // Error messages centralized for consistency
+    protected const ERR_INSERTION_FAILED = 'Error during the insertion of the room.';
+    protected const ERR_RETRIVE_ROOM='Failed to retrive the inserted room.';
+    protected const ERR_ROOM_NOT_FOUND = 'The room does not exist.';
+    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
 
     /**
-     * Creates a new instance of ERoom with the provided data
-     * 
-     * @param int $idRoom
-     * @param string $areaName
-     * @param int $maxGuests
-     * @param float $tax
-    */
-    public static function createEntityRoom(array $data): ERoom {
+     * Creates an instance of ERoom from the given data.
+     *
+     * @param array $data The data array containing room information.
+     * @return ERoom The created ERoom object.
+     */
+    public function arrayToEntity(array $data): ERoom { //NOTA: mancano i soliti check sui dati perchè sono informazioni che non vengono toccate da nessun utente della Web App
         return new ERoom(
             $data['idRoom'] ?? null,
             $data['areaName'] ?? null,
@@ -58,19 +46,46 @@ class FRoom {
     }
 
     /**
+     * Converts an ERoom object into an associative array for the database.
+     *
+     * @param ERoom $room The room object to convert.
+     * @return array The room data as an array.
+     */
+    private function entityToArray(ERoom $room): array {
+        return [
+            'idRoom' => $room->getIdRoom(),
+            'areaName' => $room->getAreaName(),
+            'maxGuests' => $room->getMaxGuests(),
+            'tax' => $room->getTax(),
+        ];
+    }
+
+    /**
      * Creates a new room in the database.
      *
      * @param ERoom $room The room object to save.
      * @return int The ID of the saved record, or 0 if the save fails.
      */
     public function create(ERoom $room): int {
-        try {
             $db = FDatabase::getInstance();
-            $data = $this->roomToArray($room);
-            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+            $data = $this->entityToArray($room);
+        try {
+            //Room insertion
+            $result = $db->insert(self::TABLE_NAME, $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERTION_FAILED);
+            }
+            //Retrive the inserted room by number to get the assigned idRoom
+            $storedRoom = $db->load(self::TABLE_NAME, 'number', $room->getIdRoom());
+            if ($storedRoom === null) {
+                throw new Exception(self::ERR_RETRIVE_ROOM);
+            }
+            //Assign the retrieved ID to the object
+            $room->setIdRoom($storedRoom['idRoom']);
+            //Return the id associated with this room
+            return $storedRoom['idRoom'];
         } catch (Exception $e) {
-            error_log("Errore durante l'inserimento della stanza: " . $e->getMessage());
-            return 0; // Or use a different error handling approach
+            throw $e;
         }
     }
 
@@ -84,7 +99,7 @@ class FRoom {
     public function read(int $id): ?ERoom {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idRoom', $id);
-        return $result ? $this->createEntityRoom($result) : null;
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -96,8 +111,18 @@ class FRoom {
      */
     public function update(ERoom $room): bool {
         $db = FDatabase::getInstance();
-        $data = $this->roomToArray($room);
-        return $db->update(static::TABLE_NAME, $data, ['idRoom' => $room->getIdRoom()]);
+        if (!self::exists($room->getIdRoom())) {
+            throw new Exception(self::ERR_ROOM_NOT_FOUND);
+        }
+        $data = [
+            'areaName' => $room->getAreaName(),
+            'maxGuests' => $room->getMaxGuests(),
+            'tax' => $room->getTax(),
+        ];
+        if (!$db->update(self::TABLE_NAME, $data, ['idRoom' => $room->getIdRoom()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
     }
 
     /**
@@ -118,10 +143,9 @@ class FRoom {
      * @param mixed $value The value of the field.
      * @return bool True if it exists, False otherwise.
      */
-    public static function existsRoom(int $idRoom): bool {
+    public static function exists(int $idRoom): bool {
         $db = FDatabase::getInstance();
-        $exists = $db->exists(self::TABLE_NAME, ['idRoom' => $idRoom]);
-        return $exists;
+        return $db->exists(self::TABLE_NAME, ['idRoom' => $idRoom]);
     }
 
     /**
@@ -133,6 +157,6 @@ class FRoom {
     public static function loadAllRoom(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
-        return array_map([self::class, 'createEntityRoom'], $result);
+        return array_map([self::class, 'arrayToEntity'], $result);
     }
 }

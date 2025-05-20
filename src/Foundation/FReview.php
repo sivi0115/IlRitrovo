@@ -27,6 +27,13 @@ class FReview {
 
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
+    protected const ERR_INVALID_USER = "Invalid or non-existing user.";
+    protected const ERR_EMPTY_BODY = "Review body cannot be empty.";
+    protected const ERR_INVALID_STARS = "Stars rating must be a number between 1 and 5.";
+    protected const ERR_INSERTION_FAILED = 'Error during the insertion of the review.';
+    protected const ERR_RETRIVE_REVIEW ='Failed to retrive the inserted review.';
+    protected const ERR_REVIEW_NOT_FOUND = 'The review does not exist.';
+    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
 
     /**
      * Creates an EReview entity from the provided data.
@@ -83,17 +90,16 @@ class FReview {
         if (!isset($data['idUser']) || !is_int($data['idUser']) || !FUser::exists($data['idUser'])) {
             throw new Exception(self::ERR_INVALID_USER);
         }
-        // 2. Body must not be empty
+        // Body must not be empty
         if (empty($data['body']) || !is_string($data['body'])) {
             throw new Exception(self::ERR_EMPTY_BODY);
         }
 
-        // 3. Stars must be a number between 1 and 5
+        // Stars must be a number between 1 and 5
         if (!isset($data['stars']) || !is_numeric($data['stars']) || $data['stars'] < 1 || $data['stars'] > 5) {
             throw new Exception(self::ERR_INVALID_STARS);
         }
     }
-
 
     /**
      * Creates a new review in the database.
@@ -102,13 +108,26 @@ class FReview {
      * @return int The ID of the saved record, or 0 if the save fails.
      */
     public function create(EReview $review): int {
+        $db = FDatabase::getInstance();
+        $data = $this->entityToArray($review);
+        self::validateReviewData($data);
         try {
-            $db = FDatabase::getInstance();
-            $data = $this->reviewToArray($review);
-            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+            //Review insertion
+            $result = $db->insert(self::TABLE_NAME, $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERTION_FAILED);
+            }
+            //Retrive the inserted review by number to get the assigned idReview
+            $storedReview = $db->load(self::TABLE_NAME, 'number', $review->getIdReview());
+            if ($storedReview === null) {
+                throw new Exception(self::ERR_RETRIVE_REVIEW);
+            }
+            //Assign the retrieved ID to the object
+            $review->setIdReview($storedReview['idReview']);
+            //Return the id associated with this review
+            return $storedReview['idReview'];
         } catch (Exception $e) {
-            error_log("Errore durante l'inserimento della recensione: " . $e->getMessage());
-            return 0; // Or use a different error handling approach
+            throw $e;
         }
     }
 
@@ -122,7 +141,7 @@ class FReview {
     public function read(int $id): ?EReview {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idReview', $id);
-        return $result ? $this->createEntityReview($result) : null;
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -134,8 +153,18 @@ class FReview {
      */
     public function update(EReview $review): bool {
         $db = FDatabase::getInstance();
-        $data = $this->reviewToArray($review);
-        return $db->update(static::TABLE_NAME, $data, ['idReview' => $review->getIdReview()]);
+        if (!self::exists($review->getIdReview())) {
+            throw new Exception(self::ERR_REVIEW_NOT_FOUND);
+        }
+        $data = [
+            'stars' => $review->getStars(),
+            'body' => $review->getBody(),
+        ];
+        self::validateReviewData($data);
+        if (!$db->update(self::TABLE_NAME, $data, ['idReview' => $review->getIdReview()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
     }
 
     /**
@@ -172,7 +201,7 @@ class FReview {
      * @param mixed $value The value of the field.
      * @return bool True if it exists, False otherwise.
      */
-    public static function existsReview(int $idReview): bool {
+    public static function exists(int $idReview): bool {
         $db = FDatabase::getInstance();
         $exists = $db->exists(self::TABLE_NAME, ['idReview' => $idReview]);
         return $exists;
@@ -229,17 +258,17 @@ class FReview {
     }
 
     /**
-     * Loads reviews by user ID.
+     * Loads the review written by a specific user.
      *
      * @param int $idUser The ID of the user.
-     * @return EReview[] An array of EReview objects.
-     * @throws Exception If an error occurs during the loading of reviews.
+     * @return EReview|null The review if found, null otherwise.
+     * @throws Exception If an error occurs during the loading.
      */
-    public static function loadReviewByUserId(int $idUser): array {
+    public static function loadReviewByUserId(int $idUser): ?EReview {
         $db = FDatabase::getInstance();
-        $conditions = ['idUser' => $idUser];
-        $result = $db->loadMultiples(self::TABLE_NAME, $conditions);
-        return $result ? self::mapResultsToReviews($result) : [];
+        $result = $db->load(self::TABLE_NAME, 'idUser', $idUser); // carica una sola review
+
+        return $result ? self::arrayToEntity($result) : null;
     }
 
     /**

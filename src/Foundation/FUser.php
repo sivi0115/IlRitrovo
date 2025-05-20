@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * DA RIADATTARE I PRIMI DUE METODI E IL CRUD.
+ * AGGIUNGERE DELLE FUNCTION PER VEDERE SE L'USER HA:
+ * Almeno una carta inserita
+ * Almeno una reservation fatta
+ * Ha fatto una review
+ * Aggiungere i metodi per l'admin
+ */
 namespace Foundation;
 
 use DateTime;

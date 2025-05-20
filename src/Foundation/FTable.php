@@ -24,19 +24,11 @@ class FTable {
         return static::TABLE_NAME;
     }
 
-    /**
-     * Converts an ETable object into an associative array for the database.
-     *
-     * @param ETable $table The table object to convert.
-     * @return array The table data as an array.
-     */
-    private function tableToArray(ETable $table): array {
-        return [
-            'idTable' => $table->getIdTable(),
-            'areaName' => $table->getAreaName(),
-            'maxGuests' => $table->getMaxGuests(),
-        ];
-    }
+    // Error messages centralized for consistency
+    protected const ERR_INSERTION_FAILED = 'Error during the insertion of the table.';
+    protected const ERR_RETRIVE_TABLE='Failed to retrive the inserted table.';
+    protected const ERR_TABLE_NOT_FOUND = 'The table does not exist.';
+    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
 
     /**
      * Creates a new instance of ETable with the provided data
@@ -45,12 +37,26 @@ class FTable {
      * @param string $areaName
      * @param int $maxGuests
     */
-    public static function createEntityTable(array $data): ETable {
+    public static function arrayToEntity(array $data): ETable { //NOTA: mancano i soliti check sui dati perchè sono informazioni che non vengono toccate da nessun utente della Web App
         return new ETable(
             $data['idRoom'] ?? null,
             $data['areaName'] ?? null,
             $data['maxGuests'] ?? null
         );
+    }
+
+    /**
+     * Converts an ETable object into an associative array for the database.
+     *
+     * @param ETable $table The table object to convert.
+     * @return array The table data as an array.
+     */
+    private function entityToArray(ETable $table): array {
+        return [
+            'idTable' => $table->getIdTable(),
+            'areaName' => $table->getAreaName(),
+            'maxGuests' => $table->getMaxGuests(),
+        ];
     }
 
     /**
@@ -60,13 +66,25 @@ class FTable {
      * @return int The ID of the saved record, or 0 if the save fails.
      */
     public function create(ETable $table): int {
+        $db = FDatabase::getInstance();
+        $data = $this->entityToArray($table);
         try {
-            $db = FDatabase::getInstance();
-            $data = $this->tableToArray($table);
-            return $db->insert(static::TABLE_NAME, $data) ?: 0;
+            //Table insertion
+            $result = $db->insert(self::TABLE_NAME, $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERTION_FAILED);
+            }
+            //Retrive the inserted table by number to get the assigned idTable
+            $storedTable = $db->load(self::TABLE_NAME, 'number', $table->getIdTable());
+            if ($storedTable === null) {
+                throw new Exception(self::ERR_RETRIVE_TABLE);
+            }
+            //Assign the retrieved ID to the object
+            $table->setIdTable($storedTable['idTable']);
+            //Return the id associated with this table
+            return $storedTable['idTable'];
         } catch (Exception $e) {
-            error_log("Errore durante l'inserimento del tavolo: " . $e->getMessage());
-            return 0; // Or use a different error handling approach
+            throw $e;
         }
     }
 
@@ -80,7 +98,7 @@ class FTable {
     public function read(int $id): ?ETable {
         $db = FDatabase::getInstance();
         $result = $db->load(static::TABLE_NAME, 'idTable', $id);
-        return $result ? $this->createEntityTable($result) : null;
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -92,8 +110,17 @@ class FTable {
      */
     public function update(ETable $table): bool {
         $db = FDatabase::getInstance();
-        $data = $this->tableToArray($table);
-        return $db->update(static::TABLE_NAME, $data, ['idTable' => $table->getIdTable()]);
+        if (!self::exists($table->getIdTable())) {
+            throw new Exception(self::ERR_TABLE_NOT_FOUND);
+        }
+        $data = [
+            'areaName' => $table->getAreaName(),
+            'maxGuests' => $table->getMaxGuests(),
+        ];
+        if (!$db->update(self::TABLE_NAME, $data, ['idTable' => $table->getIdTable()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
     }
 
     /**
@@ -114,10 +141,9 @@ class FTable {
      * @param mixed $value The value of the field.
      * @return bool True if it exists, False otherwise.
      */
-    public static function existsTable(int $idTable): bool {
+    public static function exists(int $idTable): bool {
         $db = FDatabase::getInstance();
-        $exists = $db->exists(self::TABLE_NAME, ['idTable' => $idTable]);
-        return $exists;
+        return $db->exists(self::TABLE_NAME, ['idTable' => $idTable]);
     }
 
     /**
