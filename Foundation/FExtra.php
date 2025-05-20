@@ -60,7 +60,7 @@ class FExtra {
     /**
      * Converts an EExtra object into an associative array for the database.
      *
-     * @param EExtra $extra The credit card object to convert.
+     * @param EExtra $extra The extra object to convert.
      * @return array The extra data as an array.
      */
     public function entityToArray(EExtra $extra): array {
@@ -117,14 +117,14 @@ class FExtra {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
             //Retrive the inserted extra by number to get the assigned idExtra
-            $storeExtra = $db->load(self::TABLE_NAME, 'number', $extra->getIdExtra());
-            if ($storeExtra === null) {
+            $storedExtra = $db->load(self::TABLE_NAME, 'number', $extra->getIdExtra());
+            if ($storedExtra === null) {
                 throw new Exception(self::ERR_RETRIVE_EXTRA);
             }
             //Assign the retrieved ID to the object
-            $extra->setIdExtra($storeExtra['idExtra']);
-            //Return the id associated with this card
-            return $storeExtra['idExtra'];
+            $extra->setIdExtra($storedExtra['idExtra']);
+            //Return the id associated with this extra
+            return $storedExtra['idExtra'];
         } catch (Exception $e) {
             throw $e;
         }
