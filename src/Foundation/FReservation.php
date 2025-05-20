@@ -4,6 +4,7 @@ namespace Foundation;
 
 use DateTime;
 use Entity\EReservation;
+use Foundation\FUser;
 use Exception;
 
 /**
@@ -28,6 +29,15 @@ class FReservation {
 
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
+    protected const ERR_INVALID_USER = 'Invalid or non-existing user.';
+    protected const ERR_INVALID_LOCATION = 'Either idTable or idRoom must be set, but not both.';
+    protected const ERR_INVALID_DATE = 'Reservation date is invalid or not in the future.';
+    protected const ERR_INVALID_TIMEFRAME = 'Timeframe is not valid.';
+    protected const ERR_NEGATIVE_PRICE = 'Total price cannot be negative.';
+    protected const ERR_INVALID_PEOPLE = 'Number of people must be greater than zero.';
+    protected const VALID_TIMEFRAMES = ['lunch', 'dinner'];
+    protected const ERR_INSERTION_FAILED = 'Error during the insertion of the resrvation.';
+    protected const ERR_RETRIVE_RES='Failed to retrive the inserted extra.';
 
     /**
      * Creates an EReservation entity directly from provided data.
@@ -49,7 +59,7 @@ class FReservation {
             $data['idTable'] ?? null,
             $data['idRoom'] ?? null,
             $data['creationTime'] ?? null,
-            $data['reservationTime'] ?? null,
+            $data['reservationDate'] ?? null,
             $data['timeFrame'] ?? null,
             $data['state'] ?? null,
             $data['totPrice'] ?? null,
@@ -64,14 +74,14 @@ class FReservation {
      * @param EReservation $reservation The review object to convert.
      * @return array The reservation data as an array.
      */
-    public function reservationToArray(EReservation $reservation): array {
+    public function entityToArray(EReservation $reservation): array {
         return [
             'idReservation' => $reservation->getIdReservation(),
             'idUser' => $reservation->getIdUser(),
             'idTable' => $reservation->getIdTable(),
             'idRoom' => $reservation->getIdRoom(),
             'creationTime' => $reservation->getCreationTime(),
-            'reservationTime' => $reservation->getReservationDate(),
+            'reservationDate' => $reservation->getReservationDate(),
             'timeFrame' => $reservation->getReservationTimeFrame(),
             'state' => $reservation->getState(),
             'totPrice' => $reservation->getTotPrice(),
@@ -79,6 +89,59 @@ class FReservation {
             'comment' => $reservation->getComment()
         ];
     }
+
+    /**
+     * Validates the data for creating or updating a reservation.
+     *
+     * @param array $data The data array containing reservation info.
+     *
+     * @throws Exception If required fields are missing or invalid.
+     */
+    public static function validateReservationData(array $data): void {
+        // idUser must exist
+        if (!isset($data['idUser']) || !is_int($data['idUser']) || !FUser::exists($data['idUser'])) {
+            throw new Exception(self::ERR_INVALID_USER);
+        }
+        // Either idTable or idRoom must be set, but not both; at least one required
+        $hasTable = isset($data['idTable']) && !empty($data['idTable']);
+        $hasRoom = isset($data['idRoom']) && !empty($data['idRoom']);
+        if ($hasTable === $hasRoom) { // both true or both false
+            throw new Exception(self::ERR_INVALID_LOCATION);
+        }
+        // Reservation date must be valid and in the future (allow booking same day for evening)
+        if (!isset($data['reservationDate']) || !self::isValidFutureDate($data['reservationDate'])) {
+            throw new Exception(self::ERR_INVALID_DATE);
+        }
+        // Timeframe must be one of the allowed values
+        if (!isset($data['timeframe']) || !in_array($data['timeframe'], self::VALID_TIMEFRAMES, true)) {
+            throw new Exception(self::ERR_INVALID_TIMEFRAME);
+        }
+        // Total price cannot be negative
+        if (!isset($data['totalPrice']) || !is_numeric($data['totalPrice']) || $data['totalPrice'] < 0) {
+            throw new Exception(self::ERR_NEGATIVE_PRICE);
+        }
+        // People must be set and greater than zero
+        if (!isset($data['people']) || !is_int($data['people']) || $data['people'] <= 0) {
+            throw new Exception(self::ERR_INVALID_PEOPLE);
+        }
+    }
+
+    /**
+     * Checks if the date is valid and in the future (today or later, allowing same-day evening bookings).
+     *
+     * @param string $date Date string in 'Y-m-d' format (adjust if needed)
+     * @return bool
+     */
+    private static function isValidFutureDate(string $date): bool {
+        $now = new DateTime('now');
+        $resDate = DateTime::createFromFormat('Y-m-d', $date);
+        if (!$resDate) {
+            return false;
+        }
+        // Date must be today or later (time set to midnight for comparison)
+        return $resDate >= $now->setTime(0,0,0);
+    }
+
 
     /**
      * Create a new reservation in the database.
@@ -89,20 +152,26 @@ class FReservation {
      */
     public function create(EReservation $reservation): int {
         $db = FDatabase::getInstance();
-        // Validate user
-        self::validateUser($reservation->getIdUser());
-        // Validate durationEvent
-        $durationEvent = self::validateTimeFrame($reservation->getReservationTimeFrame());
-        // Prepare data for insertion
-        $data = $this->reservationToArray($reservation);
-        // Debugging: Output data to be inserted
-        echo "Inserting reservation data: " . json_encode($data) . "\n";
-        // Insert record into the database
-        $id = $db->insert(self::TABLE_NAME, $data);
-        if ($id === null) {
-            throw new Exception('Error during the insertion of the reservation.');
+        $data = $this->entityToArray($reservation);
+        self::validateReservationData($data);
+        try {
+            //Reservation insertion
+            $result = $db->insert(self::TABLE_NAME, $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERTION_FAILED);
+            }
+            //Retrive the inserted reservation by number to get the assigned idReservation
+            $storedReservation = $db->load(self::TABLE_NAME, 'number', $reservation->getIdReservation());
+            if ($storedReservation === null) {
+                throw new Exception(self::ERR_RETRIVE_RES);
+            }
+            //Assign the retrieved ID to the object
+            $reservation->setIdReservation($storedReservation['idReservation']);
+            //Return the id associated with this reservation
+            return $storedReservation['idReservation'];
+        } catch (Exception $e) {
+            throw $e;
         }
-        return $id;
     }
 
     /**

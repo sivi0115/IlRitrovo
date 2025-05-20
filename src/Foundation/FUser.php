@@ -134,9 +134,9 @@ class FUser {
      * @param mixed $value The value of the field.
      * @return bool True if it exists, False otherwise.
      */
-    public function existsUser(string $field, $value): bool {
+    public static function exists(string $idUser): bool {
         $db = FDatabase::getInstance();
-        return $db->exists(static::TABLE_NAME, [$field => $value]);
+        return $db->exists(self::TABLE_NAME, ['idUser' => $idUser]);
     }
 
     /**
