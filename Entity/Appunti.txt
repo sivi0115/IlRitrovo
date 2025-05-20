@@ -36,6 +36,13 @@ FReservation - FATTO
 FCreditCard - FATTO
 
 
+RICEVIMENTO 21/05:
+	Chiedere spiegazioni sul Persisent Manager. In particolare:
+	Come fa a richiamare i metodi delle classi Foundation?
+	I metodi sul PM devono avere la stessa firma di quelli sulle classi foundation?
+	È necessaria l'esistenza dei metodi performOperation() e invokeMethod() ?
+
+
 
 
 
