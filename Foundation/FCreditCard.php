@@ -17,13 +17,18 @@ class FCreditCard {
     protected const TABLE_NAME = 'creditcard';
 
     // Error messages centralized for consistency
+    protected const ERR_MISSING_FIELD= 'Missing required field:';
+    protected const ERR_INVALID_CVV= 'Invalid CVV for card type: ';
+    protected const ERR_INVALID_EXPIRATION='Invalid expiration date.';
     protected const ERR_CARD_EXISTS = 'The credit card already exists for this user.';
-    protected const  ERR_CARD_NOT_FOUND = 'The credit card does not exist for this user.';
     protected const  ERR_INSERTION_FAILED = 'Error during the insertion of the credit card.';
+    protected const ERR_RETRIVE_CARD='Failed to retrive the inserted credit card.';
+    protected const  ERR_CARD_NOT_FOUND = 'The credit card does not exist for this user.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
-    protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
     protected const ERR_ID_MISSING= 'Missing required field: idCreditCard in database result.';
+    protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
     protected const ERR_LOADING= 'Error loading credit cards: ';
+    protected const ERR_DEFAULT_CARD= 'Error setting default card: ';
 
     /**
      * Creates an instance of ECreditCard from the given data.
@@ -32,11 +37,11 @@ class FCreditCard {
      * @return ECreditCard The created ECreditCard object.
      * @throws Exception If required fields are missing.
      */
-    public function createEntity(array $data): ECreditCard {
+    public static function arrayToEntity(array $data): ECreditCard {
         $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
-                throw new Exception("Missing required field: $field");
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
             }
         }
         return new ECreditCard(
@@ -80,10 +85,10 @@ class FCreditCard {
         $db = FDatabase::getInstance();
         // Preliminary checks
         if (!self::isValidCVV($creditCard->getCvv(), $creditCard->getType())) {
-            throw new Exception("Invalid CVV for card type: " . $creditCard->getType());
+            throw new Exception(self::ERR_INVALID_CVV . $creditCard->getType());
         }
         if (!self::isValidExpirationDate($creditCard->getExpiration())) {
-            throw new Exception("Invalid expiration date.");
+            throw new Exception(self::ERR_INVALID_EXPIRATION);
         }
         if (self::exists($creditCard->getNumber(), $creditCard->getIdUser())) {
             throw new Exception(self::ERR_CARD_EXISTS);
@@ -98,7 +103,7 @@ class FCreditCard {
             //Retrive the inserted card by number to get the assigned idCreditCard
             $storedCard = $db->load(self::TABLE_NAME, 'number', $creditCard->getNumber());
             if ($storedCard === null) {
-                throw new Exception("Failed to retrive the inserted credit card.");
+                throw new Exception(self::ERR_RETRIVE_CARD);
             }
             //Assign the retrieved ID to the object
             $creditCard->setIdCreditCard($storedCard['idCreditCard']);
@@ -118,7 +123,7 @@ class FCreditCard {
     public function read(int $idCreditCard): ?ECreditCard {
         $db=FDatabase::getInstance();
         $result=$db->load(self::TABLE_NAME, 'idCreditCard', $idCreditCard);
-        return $result ? $this->createEntity($result): null;
+        return $result ? $this->arrayToEntity($result): null;
     }
 
     /**
@@ -193,7 +198,7 @@ class FCreditCard {
             throw new Exception(self::ERR_ID_MISSING);
         }
         // Create and return the ECreditCard object
-        return $this->createEntity($cardData);
+        return self::arrayToEntity($cardData);
     }
 
     /**
@@ -207,7 +212,7 @@ class FCreditCard {
         $db = FDatabase::getInstance();
         try {
             $results = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $idUser]);
-            return array_map(fn($row) => self::createEntity($row), $results);
+            return array_map(fn($row) => self::arrayToEntity($row), $results);
 
         } catch (Exception $e) {
             throw new Exception(self::ERR_LOADING . $e->getMessage());
@@ -286,7 +291,7 @@ class FCreditCard {
             return true;
         } catch (Exception $e) {
             $db->rollBack();
-            throw new Exception("Error setting default card: " . $e->getMessage());
+            throw new Exception(self::ERR_DEFAULT_CARD . $e->getMessage());
         }
     }
 }
