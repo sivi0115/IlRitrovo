@@ -448,13 +448,6 @@ class EUser implements JsonSerializable {
         if ($birthDate > $now) {
             throw new InvalidArgumentException("La data di nascita non può essere nel futuro");
         }
-
-        // Calcola l'età minima (es. 18 anni)
-        $ageLimit = (clone $now)->modify('-18 years');
-        if ($birthDate > $ageLimit) {
-            throw new InvalidArgumentException("Devi avere almeno 18 anni");
-        }
-
         $this->birthDate = $birthDate;
     }
 

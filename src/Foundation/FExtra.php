@@ -33,7 +33,7 @@ class FExtra {
      *
      * @param EExtra $extra The EExtra object to store.
      * @return bool True if the operation was successful, otherwise False.
-     * @throws Exception If there is an error during the store operation.
+     * @throws Exception If there is an error during the create operation.
      */
     public function create(EExtra $extra): int {
         $db = FDatabase::getInstance();
@@ -46,19 +46,19 @@ class FExtra {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
             //Retrive the last inserted ID
-            $idInserito=$db->getLastInsertedId();
-            if ($idInserito==null) {
+            $createdId=$db->getLastInsertedId();
+            if ($createdId==null) {
                 throw new Exception(self::ERR_MISSING_ID);
             }
             //Retrive the inserted extra by number to get the assigned idExtra
-            $storedExtra = $db->load(self::TABLE_NAME, 'idExtra', $idInserito);
+            $storedExtra = $db->load(self::TABLE_NAME, 'idExtra', $createdId);
             if ($storedExtra === null) {
                 throw new Exception(self::ERR_RETRIVE_EXTRA);
             }
             //Assign the retrieved ID to the object
-            $extra->setIdExtra((int)$idInserito);
+            $extra->setIdExtra((int)$createdId);
             //Return the id associated with this extra
-            return (int)$idInserito;
+            return (int)$createdId;
         } catch (Exception $e) {
             throw $e;
         }

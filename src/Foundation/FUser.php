@@ -24,15 +24,6 @@ class FUser {
     protected const TABLE_NAME = 'user';
 
     /**
-     * Returns the name of the table associated with users.
-     *
-     * @return string The name of the table.
-     */
-    public function getTableName(): string {
-        return static::TABLE_NAME;
-    }
-
-    /**
      * Converts an EUser object into an associative array for the database.
      *
      * @param EUser $user The user object to convert.
@@ -60,9 +51,15 @@ class FUser {
      *
      * @param array $data The data used to create the EUser object.
      * @return EUser The created user object.
-     * @throws Exception If an error occurs during the creation of the entity.
+     * @throws Exception If required fields are missing.
      */
-    private function createEntityUser(array $data):EUser {
+    private function arrayToEntity(array $data):EUser {
+        $requiredFields = ['idUser', 'username', 'email', 'password', 'name', 'surname', 'birthDate', 'phone', 'role'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
+        }
         return new EUser(
             $data['idUser'],
             $data['idReview'],
