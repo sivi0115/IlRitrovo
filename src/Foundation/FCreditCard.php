@@ -253,6 +253,14 @@ class FCreditCard {
     }
 
     /**
+     * Return the constant TABLE_NAME
+     * @return string the table name
+     */
+    public static function getTableName(): string {
+    return static::TABLE_NAME;
+    }
+
+    /**
      * Creates an instance of ECreditCard from the given data.
      *
      * @param array $data The data array containing credit card information.

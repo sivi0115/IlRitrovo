@@ -181,7 +181,7 @@ class FPayment {
     public static function isCreditCardExpired(int $idCreditCard): bool
     {
         $db = FDatabase::getInstance();
-        $results = $db->fetchWhere(FCreditCard::TABLE_NAME, ['idCreditCard' => $idCreditCard]);
+        $results = $db->fetchWhere(FCreditCard::getTableName(), ['idCreditCard' => $idCreditCard]);
         if (empty($results) || !isset($results[0]['expiration'])) {
             throw new Exception(self::ERROR_CREDIT_CARD_NOT_FOUND);
         }
