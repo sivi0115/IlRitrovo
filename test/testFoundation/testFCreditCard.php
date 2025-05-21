@@ -7,60 +7,21 @@ use Foundation\FDatabase;
 use Entity\ECreditCard;
 
 /**
- * Inserisce un utente di test e restituisce il suo ID.
- *
- * @return int
- * @throws Exception
- */
-function insertTestUser(): int
-{
-    echo "\n[TEST] Inserimento utente di test\n";
-
-    $userData = [
-        'username' => 'testUser1',
-        'name' => 'John',
-        'surname' => 'Doe',
-        'birthDate' => '1985-05-15',
-        'phone' => '1234567890',
-        'image' => null,
-        'email' => 'testuser@example.com',
-        'password' => 'passwordHash',
-        'ban' => 0,
-        'motivation' => null,
-    ];
-
-    $db = FDatabase::getInstance();
-
-    try {
-        $userId = $db->insert('user', $userData);
-
-        if (!$userId) {
-            throw new Exception("Errore durante l'inserimento dell'utente");
-        }
-
-        echo "Utente inserito correttamente con ID: $userId\n";
-        return $userId;
-    } catch (Exception $e) {
-        echo "Errore durante l'inserimento dell'utente: " . $e->getMessage() . "\n";
-        throw $e;
-    }
-}
-
-/**
  * Crea una carta di credito di test.
  *
  * @return ECreditCard
  * @throws Exception
  */
-function createTestCreditCard(): ECreditCard
+function getTestCreditCardData(): ECreditCard
 {
     return new ECreditCard(
         null,
-        '4111111111111111',
-        '123',
-        new DateTime('2025-12-31'),
-        'Test Holder',
-        'Visa'
+        'holderTesting',
+        '1234567891234567',
+        123,
+        new DateTime('2025-12-13'),
+        'Visa',
+        4
     );
 }
 
@@ -70,25 +31,25 @@ function createTestCreditCard(): ECreditCard
  * @param int $userId
  * @return string
  */
-function testStoreCreditCard(int $userId): string
+function testCreateCreditCard(): void
 {
-    echo "\n[TEST] Inserimento di una carta di credito\n";
-
+    echo "\nTest 1: Inserimento di una nuova Carta di Credito\n";
     try {
-        $creditCard = createTestCreditCard();
-        $result = FCreditCard::storeCreditCard($creditCard, $userId);
+        $fCreditCard = new FCreditCard(FDatabase::getInstance());
+        $testCreditCard = getTestCreditCardData();
+        $insertedId = $fCreditCard->create($testCreditCard);
 
-        if ($result) {
-            echo "Carta di credito inserita correttamente. ID: " . $creditCard->getIdCreditCard() . "\n";
-            return $creditCard->getNumber();
+        if ($insertedId !== null) {
+            echo "Inserimento riuscito. ID inserito: $insertedId\n";
+            echo "Test 1: PASSATO\n";
         } else {
-            echo "Inserimento della carta fallito.\n";
+            echo "Inserimento fallito.\n";
+            echo "Test 1: FALLITO\n";
         }
     } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 1: FALLITO\n";
     }
-
-    return '';
 }
 
 
@@ -98,52 +59,63 @@ function testStoreCreditCard(int $userId): string
  * @param string $cardNumber
  * @param int $userId
  */
-function testLoadCreditCard(string $cardNumber, int $userId): void
+/**
+ * Test: Caricamento di una carta tramite il suo ID.
+ */
+function testReadCreditCard(): void
 {
-    echo "\n[TEST] Caricamento di una carta di credito\n";
-
+    $idKnown=2; //ID DA CARICARE
+    echo "\nTest 2: Caricamento carta tramite ID\n";
     try {
-        $creditCard = FCreditCard::loadCreditCard($cardNumber, $userId);
+        $fCreditCard = new FCreditCard(FDatabase::getInstance());
+        $creditCard = $fCreditCard->read($idKnown);
 
         if ($creditCard instanceof ECreditCard) {
-            echo "Carta di credito caricata correttamente. ID: " . $creditCard->getIdCreditCard() . "\n";
-            print_r($creditCard);
+            echo "Carta caricata correttamente: " . json_encode($creditCard) . "\n";
+            echo "Test 2: PASSATO\n";
         } else {
-            echo "Carta di credito non trovata.\n";
+            echo "Carta non trovata.\n";
+            echo "Test 2: FALLITO\n";
         }
     } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 2: FALLITO\n";
     }
 }
 
 
 /**
  * Testa l'aggiornamento di una carta di credito.
- *
- * @param string $cardNumber
- * @param int $userId
  */
-function testUpdateCreditCard(string $cardNumber, int $userId): void
+function testUpdateCreditCard(): void
 {
-    echo "\n[TEST] Aggiornamento di una carta di credito\n";
-
+    $existingId=2; //ID DELL'OGGETTO DA MODIFICARE
+    echo "\nTest 3: Aggiornamento di una carta di credito\n";
     try {
-        $creditCard = FCreditCard::loadCreditCard($cardNumber, $userId);
+        $fCreditCard = new FCreditCard(FDatabase::getInstance());
+        $creditCard = $fCreditCard->read($existingId);
+        if (!$creditCard) {
+            echo "ERRORE: extra con ID $existingId non trovato";
+            return;
+        }
+        //MODIFICA I DATI DELL'OGGETTO
+        $creditCard->setNumber('9999999923456876');
+        $creditCard->setHolder('holderMODIFIED');
+        $creditCard->setCvv(456);
+        $creditCard->setExpiration(new DateTime('2025-12-14'));
+        $creditCard->setType('Masterard');
+        $result=$fCreditCard->update($creditCard);
 
-        if ($creditCard instanceof ECreditCard) {
-            $creditCard->setCvv('456'); // Cambia il CVV
-            $result = FCreditCard::updateCreditCard($creditCard, $userId);
-
-            if ($result) {
-                echo "Carta di credito aggiornata correttamente.\n";
-            } else {
-                echo "Aggiornamento fallito.\n";
-            }
+        if ($result) {
+            echo "Extra aggiornato correttamente.\n";
+            echo "Test 3: PASSATO\n";
         } else {
-            echo "Carta di credito non trovata per l'aggiornamento.\n";
+            echo "Aggiornamento fallito.\n";
+            echo "Test 3: FALLITO\n";
         }
     } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 3: FALLITO\n";
     }
 }
 
@@ -158,7 +130,7 @@ function testDeleteCreditCard(string $cardNumber, int $userId): void
     echo "\n[TEST] Eliminazione di una carta di credito\n";
 
     try {
-        $result = FCreditCard::deleteCreditCard($cardNumber, $userId);
+        $result = FCreditCard::delete($cardNumber, $userId);
 
         if ($result) {
             echo "Carta di credito eliminata correttamente.\n";
@@ -180,7 +152,7 @@ function testLoadAllCreditCards(int $userId): void
     echo "\n[TEST] Caricamento di tutte le carte di credito di un utente\n";
 
     try {
-        $creditCards = FCreditCard::loadCreditCardByUser($userId);
+        $creditCards = FCreditCard::loadCreditCardsByUser($userId);
 
         if (!empty($creditCards)) {
             echo "Carte di credito caricate correttamente:\n";
@@ -227,7 +199,7 @@ function testExistsCreditCard(string $cardNumber, int $userId): void
     echo "\n[TEST] Verifica esistenza carta di credito\n";
 
     try {
-        $exists = FCreditCard::existsCreditCard($cardNumber, $userId);
+        $exists = FCreditCard::exists($cardNumber, $userId);
 
         if ($exists) {
             echo "La carta di credito esiste nel database.\n";
@@ -284,38 +256,6 @@ function testIsValidExpirationDate(): void
 // Esecuzione dei test
 echo "Esecuzione dei test per FCreditCard...\n";
 
-try {
-    // Step 1: Inserisci un utente di test
-    $userId = insertTestUser();
-
-    // Step 2: Testa l'inserimento di una carta di credito
-    $cardNumber = testStoreCreditCard($userId);
-
-    if ($cardNumber !== '') {
-        // Step 3: Testa il caricamento della carta
-        testLoadCreditCard($cardNumber, $userId);
-
-        // Step 4: Testa l'aggiornamento della carta
-        testUpdateCreditCard($cardNumber, $userId);
-
-        // Step 5: Testa l'esistenza della carta
-        testExistsCreditCard($cardNumber, $userId);
-
-        // Step 6: Testa il caricamento di tutte le carte
-        testLoadAllCreditCards($userId);
-
-        // Step 7: Testa il mascheramento del numero
-        testMaskCreditCardNumber();
-
-        // Step 8: Testa la validazione del CVV
-        testIsValidCVV();
-
-        // Step 9: Testa la validazione della data di scadenza
-        testIsValidExpirationDate();
-
-        // Step 10: Testa l'eliminazione della carta
-        //testDeleteCreditCard($cardNumber, $userId);
-    }
-} catch (Exception $e) {
-    echo "Errore durante l'esecuzione dei test: " . $e->getMessage() . "\n";
-}
+//testCreateCreditCard();
+//testReadCreditCard();
+testUpdateCreditCard();

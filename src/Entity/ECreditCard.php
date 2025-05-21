@@ -62,12 +62,12 @@ class ECreditCard implements JsonSerializable {
      */
     public function __construct(
         ?int $idCreditCard,
-        ?int $idUser = null,
+        string $holder,
         string $number,
-        DateTime $expiration,
         int $cvv,
+        DateTime $expiration,
         string $type,
-        string $holder
+        ?int $idUser = null
     ) {
         $this->idCreditCard = $idCreditCard;
         $this->idUser = $idUser;
