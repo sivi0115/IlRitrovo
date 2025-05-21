@@ -5,6 +5,7 @@ namespace Foundation;
 use DateTime;
 use Entity\EReservation;
 use Foundation\FUser;
+use Entity\TimeFrame;
 use Exception;
 
 /**
@@ -235,11 +236,11 @@ class FReservation {
             throw new Exception(self::ERR_INVALID_DATE);
         }
         // Timeframe must be one of the allowed values
-        if (!isset($data['timeframe']) || !in_array($data['timeframe'], self::VALID_TIMEFRAMES, true)) {
+        if (!isset($data['timeFrame']) || !in_array($data['timeFrame'], self::VALID_TIMEFRAMES, true)) {
             throw new Exception(self::ERR_INVALID_TIMEFRAME);
         }
         // Total price cannot be negative
-        if (!isset($data['totalPrice']) || !is_numeric($data['totalPrice']) || $data['totalPrice'] < 0) {
+        if (!isset($data['totPrice']) || !is_numeric($data['totPrice']) || $data['totPrice'] < 0) {
             throw new Exception(self::ERR_NEGATIVE_PRICE);
         }
         // People must be set and greater than zero
@@ -297,7 +298,7 @@ class FReservation {
      */
     private static function isValidFutureDate(string $date): bool {
         $now = new DateTime('now');
-        $resDate = DateTime::createFromFormat('Y-m-d', $date);
+        $resDate = DateTime::createFromFormat('Y-m-d H:i:s', $date);
         if (!$resDate) {
             return false;
         }
@@ -324,9 +325,9 @@ class FReservation {
             $data['idUser'] ?? null,
             $data['idTable'] ?? null,
             $data['idRoom'] ?? null,
-            $data['creationTime'] ?? null,
-            $data['reservationDate'] ?? null,
-            $data['timeFrame'] ?? null,
+            new DateTime($data['creationTime']) ?? null,
+            new DateTime($data['reservationDate']) ?? null,
+            isset($data['timeFrame']) ? TimeFrame::Tryfrom($data['timeFrame']) : null,
             $data['state'] ?? null,
             $data['totPrice'] ?? null,
             $data['people'] ?? null,
