@@ -17,7 +17,7 @@ function getTestCreditCardData(): ECreditCard
     return new ECreditCard(
         null,
         'holderTesting',
-        '111222333444555666',
+        '111222333444555777',
         123,
         new DateTime('2025-12-13'),
         'Visa',
@@ -146,48 +146,26 @@ function testDeleteCreditCard(): void
 }
 
 /**
- * Testa il caricamento di tutte le carte di credito di un utente.
- *
- * @param int $userId
+ * Testa il caricamento delle carte di credito dall'Id dell'utente.
  */
-function testLoadAllCreditCards(int $userId): void
+function testReadCreditCardsByUser(): void
 {
-    echo "\n[TEST] Caricamento di tutte le carte di credito di un utente\n";
-
+    $idKnown=1; //ID DELL'UTENTE DA CARICARE
+    echo "\nTest 2: Caricamento carte tramite ID utente\n";
     try {
-        $creditCards = FCreditCard::loadCreditCardsByUser($userId);
+        $fCreditCard = new FCreditCard(FDatabase::getInstance());
+        $creditCards = $fCreditCard->readCreditCardsByUser($idKnown);
 
-        if (!empty($creditCards)) {
-            echo "Carte di credito caricate correttamente:\n";
-            print_r($creditCards);
+        if (is_array($creditCards) && count($creditCards) > 0) {
+            echo "Carte caricate correttamente: " . json_encode($creditCards) . "\n";
+            echo "Test 2: PASSATO\n";
         } else {
-            echo "Nessuna carta di credito trovata.\n";
+            echo "Carta non trovata.\n";
+            echo "Test 2: FALLITO\n";
         }
     } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
-    }
-}
-
-/**
- * Testa l'impostazione della carta predefinita.
- *
- * @param int $cardId
- * @param int $userId
- */
-function testSetDefaultCreditCard(int $cardId, int $userId): void
-{
-    echo "\n[TEST] Impostazione della carta di credito predefinita\n";
-
-    try {
-        $result = FCreditCard::setDefault($cardId, $userId);
-
-        if ($result) {
-            echo "Carta di credito impostata come predefinita correttamente.\n";
-        } else {
-            echo "Impostazione predefinita fallita.\n";
-        }
-    } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 2: FALLITO\n";
     }
 }
 
@@ -221,7 +199,7 @@ function testMaskCreditCardNumber(): void
 {
     echo "\n[TEST] Mascheramento numero carta di credito\n";
 
-    $cardNumber = '4111111111111111';
+    $cardNumber = '111222333444555666';
     $masked = FCreditCard::maskCreditCardNumber($cardNumber);
 
     echo "Numero originale: $cardNumber\n";
@@ -235,7 +213,9 @@ echo "Esecuzione dei test per FCreditCard...\n";
 //testCreateCreditCard();
 //testReadCreditCard();
 //testUpdateCreditCard();
-testDeleteCreditCard();
+//testDeleteCreditCard();
+//testReadCreditCardsByUser();
+//testMaskCreditCardNumber();
 
 
 /**$c1=new ECreditCard(4,'holderTesting', '1234567891234567', 123, new DateTime('2025-12-13'), 'Visa', 1);

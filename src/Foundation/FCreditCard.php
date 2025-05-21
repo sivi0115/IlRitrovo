@@ -129,68 +129,18 @@ class FCreditCard {
     }
 
     /**
-     * Sets the default credit card for a user.
-     *
-     * @param int $idCreditCard The ID of the credit card to set as default.
-     * @param int $idUser The ID of the user.
-     * @return bool True if the operation was successful, false otherwise.
-     * @throws Exception If an error occurs during the operation.
-     */
-    public static function setDefault(int $idCreditCard, int $idUser): bool {
-        $db = FDatabase::getInstance();
-        try {
-            $db->beginTransaction();
-            if (!$db->update(self::TABLE_NAME, ['isDefault' => 0], ['idUser' => $idUser])) {
-                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
-            }
-            if (!$db->update(self::TABLE_NAME, ['isDefault' => 1], ['idCreditCard' => $idCreditCard])) {
-                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
-            }
-            $db->commit();
-            return true;
-        } catch (Exception $e) {
-            $db->rollBack();
-            throw new Exception(self::ERR_DEFAULT_CARD . $e->getMessage());
-        }
-    }
-
-    /**
-     * Loads an ECreditCard object from the database.
-     *
-     * @param string $number The number of the credit card to load.
-     * @param int $userId The ID of the user associated with the credit card.
-     * @return ECreditCard|null The loaded ECreditCard object, or null if not found.
-     * @throws Exception If there is an error during the load operation.
-     */
-    public static function loadCreditCard(string $number, int $userId): ?ECreditCard {
-        $db = FDatabase::getInstance();
-        // Use the load method with a field and a value
-        $cardData = $db->load(self::TABLE_NAME, 'number', $number);
-        // Check if the user is valid
-        if (!$cardData || $cardData['idUser'] != $userId) {
-            throw new Exception(self::ERR_CARD_NOT_FOUND);
-        }
-        // Ensure that the result includes the 'idCreditCard' field
-        if (!isset($cardData['idCreditCard'])) {
-            throw new Exception(self::ERR_ID_MISSING);
-        }
-        // Create and return the ECreditCard object
-        $tmp=new self();
-        return $tmp->arrayToEntity($cardData);
-    }
-
-    /**
      * Loads credit cards by user ID.
      *
      * @param int $idUser The ID of the user.
      * @return ECreditCard[] An array of ECreditCard objects.
      * @throws Exception If an error occurs during the loading of credit cards.
      */
-    public static function loadCreditCardsByUser(int $idUser): array {
+    public static function readCreditCardsByUser(int $idUser): array {
         $db = FDatabase::getInstance();
         try {
             $results = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $idUser]);
-            return array_map(fn($row) => self::arrayToEntity($row), $results);
+            $istance=new self();
+            return array_map(fn($row) => $istance->arrayToEntity($row), $results);
 
         } catch (Exception $e) {
             throw new Exception(self::ERR_LOADING . $e->getMessage());
@@ -211,10 +161,9 @@ class FCreditCard {
     }
 
     /**
-     * Checks if a credit card exists in the database for the given user.
+     * Checks if a credit card exists in the database for the given Card number.
      *
      * @param string $numberCard The number of the credit card.
-     * @param int $userId The ID of the user.
      * @return bool True if the credit card exists, otherwise False.
      * @throws Exception If there is an error during the check operation.
      */
@@ -224,14 +173,14 @@ class FCreditCard {
     }
 
     /**
-     * Checks if a credit card exists in the database fot the given ID
+     * Checks if a credit card exists in the database fot the given user ID
      * 
      * @param int the ID card to verify
      * @return bool true if the card exists, otherwise fale
      */
-    public static function exists(int $id): bool {
+    public static function exists(int $idCreditCard): bool {
         $db=FDatabase::getInstance();
-        return $db->exists(self::TABLE_NAME, ['idCreditCard' => $id]);
+        return $db->exists(self::TABLE_NAME, ['idCreditCard' => $idCreditCard]);
     }
 
     /**
