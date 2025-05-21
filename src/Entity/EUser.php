@@ -493,6 +493,25 @@ class EUser implements JsonSerializable {
     }
 
     /**
+     * Returns true if the user's role is USER.
+     *
+     * @return bool
+     */
+    public function isUser(): bool {
+        return $this->role === Role::UTENTE;
+    }
+
+    /**
+     * Returns true if the user's role is ADMIN.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool {
+        return $this->role === Role::AMMINISTRATORE;
+    }
+
+
+    /**
      * Implementation of the jsonSerialize method.
      *
      * @return array Associative array of the object's properties.
