@@ -16,16 +16,21 @@ class FCreditCard {
      */
     protected const TABLE_NAME = 'creditcard';
 
+    /**
+     * Return the constant TABLE_NAME
+     * @return string the table name
+     */
+    public static function getTableName(): string {
+    return static::TABLE_NAME;
+    }
+
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
     protected const  ERR_INSERTION_FAILED = 'Error during the insertion of the credit card.';
     protected const ERR_RETRIVE_CARD='Failed to retrive the inserted credit card.';
     protected const  ERR_CARD_NOT_FOUND = 'The credit card does not exist for this user.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
-    protected const ERR_ID_MISSING= 'Missing required field: idCreditCard in database result.';
-    protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
     protected const ERR_LOADING= 'Error loading credit cards: ';
-    protected const ERR_DEFAULT_CARD= 'Error setting default card: ';
     protected const ERROR_EMPTY_FIELD = 'One or more required fields are empty.';
     protected const ERROR_INVALID_NUMBER = 'Invalid credit card number.';
     protected const ERROR_INVALID_EXPIRATION = 'Expiration date must be in the future.';
@@ -38,8 +43,7 @@ class FCreditCard {
     /**
      * Create an ECreditCard object in the database.
      *
-     * @param ECreditCard $creditCard The ECreditCard object to store.
-     * @param int $idInserito The ID of the new credit card.
+     * @param ECreditCard $creditCard The ECreditCard object to create.
      * @return bool True if the operation was successful, otherwise False.
      * @throws Exception If there is an error during the store operation.
      */
@@ -91,7 +95,6 @@ class FCreditCard {
      * Updates an ECreditCard object in the database.
      *
      * @param ECreditCard $creditCard The ECreditCard object to update.
-     * @param int $idCreditCard The ID associated with the credit card.
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If there is an error during the update operation.
      */
@@ -101,13 +104,11 @@ class FCreditCard {
             throw new Exception(self::ERR_CARD_NOT_FOUND);
         }
         $data = [
-            'idCreditCard' => $creditCard->getIdCreditCard(),
             'holder' => $creditCard->getHolder(),
             'number' => $creditCard->getNumber(),
             'cvv' => $creditCard->getCvv(),
             'expiration' => $creditCard->getExpiration(),
-            'type' => $creditCard->getType(),
-            'idUser' => $creditCard->getIdUser()
+            'type' => $creditCard->getType()
         ];
         self::validateCreditCardData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idCreditCard' => $creditCard->getIdCreditCard()])) {
@@ -121,7 +122,6 @@ class FCreditCard {
      *
      * @param int $idCreditCard The ID of the user associated with the credit card.
      * @return bool True if the credit card was successfully deleted, otherwise False.
-     * @throws Exception If there is an error during the delete operation.
      */
     public static function delete(int $idCreditCard): bool {
         $db=FDatabase::getInstance();
@@ -207,16 +207,7 @@ class FCreditCard {
     /**
      * Validates the credit card data before insertion.
      *
-     * This method checks:
-     * - All required fields are present and non-empty
-     * - Card number has 13-19 digits
-     * - Expiration date is valid and in the future
-     * - CVV has 3 or 4 digits
-     * - Card type is in the allowed list
-     * - The card is not already stored for the same user
-     *
-     * @param array $cardData Associative array with keys:
-     *        number, expiration, cvv, type, holder, idUser
+     * @param array $cardData Associative array with keys: number, expiration, cvv, type, holder, idUser
      * @throws Exception If validation fails
      */
     public static function validateCreditCardData(array $cardData): void
@@ -250,14 +241,6 @@ class FCreditCard {
         if (self::exists($cardData['number'])) {
             throw new Exception(self::ERROR_DUPLICATE_CARD);
         }
-    }
-
-    /**
-     * Return the constant TABLE_NAME
-     * @return string the table name
-     */
-    public static function getTableName(): string {
-    return static::TABLE_NAME;
     }
 
     /**
