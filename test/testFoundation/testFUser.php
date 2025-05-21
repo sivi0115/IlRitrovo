@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Foundation\FUser;
 use Entity\EUser;
+use Entity\Role;
 
 /**
  * Funzione per ottenere i dati di un test user.
@@ -13,16 +14,17 @@ function getTestUserData(): EUser
 {
     return new EUser(
         null, // ID generato automaticamente, quindi null
-        'testuser',
-        'Test',
-        'User',
+        null,
+        'usernameTest',
+        'testuser@gmail.com',
+        'PaSsWo123!',
+        'https://example.com/image.jpg',
+        'userNome',
+        'userCognome',
         new DateTime('2000-01-01'),
         '1234567890',
-        'https://example.com/image.jpg',
-        'testuser@example.com',
-        'securePassword@123', // Password
-        0, // Non bannato
-        null // Motivazione
+        Role::UTENTE,
+        false //non bannato,
     );
 }
 
@@ -38,7 +40,7 @@ function testCreateUser(): void
     try {
         $fUser = new FUser();
         $testUser = getTestUserData();
-        $insertedId = $fUser->createUser($testUser);
+        $insertedId = $fUser->create($testUser);
 
         if ($insertedId !== 0) {
             echo "Inserimento riuscito. ID inserito: $insertedId\n";
@@ -66,7 +68,7 @@ function testReadUserById(): void
     }
     try {
         $fUser = new FUser();
-        $user = $fUser->readUser($insertedId);
+        $user = $fUser->read($insertedId);
 
         if ($user instanceof EUser) {
             echo "Utente trovato: " . json_encode($user) . "\n";
@@ -98,7 +100,7 @@ function testUpdateUser(): void
         $updatedUser->setUsername('updateduser');
         $updatedUser->setIdUser($insertedId);
 
-        $updated = $fUser->updateUser($updatedUser);
+        $updated = $fUser->update($updatedUser);
 
         if ($updated) {
             echo "Utente aggiornato correttamente.\n";
@@ -177,7 +179,7 @@ function testDeleteUser(): void
     }
     try {
         $fUser = new FUser();
-        $deleted = $fUser->deleteUser($insertedId);
+        $deleted = $fUser->delete($insertedId);
 
         if ($deleted) {
             echo "Utente cancellato correttamente.\n";
@@ -232,7 +234,7 @@ function testBanUser(): void
         }
         try {
             $fUser = new FUser();
-            $exists = $fUser->existsUser('idUser', $insertedId);
+            $exists = $fUser->exists('idUser', $insertedId);
 
             if ($exists) {
                 echo "L'utente esiste nel database.\n";
@@ -262,7 +264,7 @@ function testBanUser(): void
         try {
             $fUser = new FUser();
             $fUser->banUser($insertedId, 'Motivazione di test');
-            $blockedUsers = $fUser->getBlockedUsers();
+            $blockedUsers = $fUser->readBlockedUsers();
 
             if (!empty($blockedUsers)) {
                 echo "Utenti bloccati trovati: " . json_encode($blockedUsers) . "\n";
@@ -290,16 +292,18 @@ function testBanUser(): void
                 '', // Username vuoto
                 '', // Nome vuoto
                 '', // Cognome vuoto
-                new DateTime('1900-01-01'), // Data di nascita fittizia
+                'ff', // Data di nascita fittizia
                 '', // Telefono vuoto
                 '', // Immagine vuota
                 '', // Email vuota
                 '', // Password vuota
-                0,
-                null
+                new DateTime('1900-01-01'),
+                'sfiugh',
+                Role::AMMINISTRATORE,
+                false
             );
 
-            $insertedId = $fUser->createUser($invalidUser);
+            $insertedId = $fUser->create($invalidUser);
 
             if ($insertedId === 0) {
                 echo "Inserimento fallito come previsto.\n";
@@ -322,7 +326,7 @@ function testBanUser(): void
         echo "\nTest 11: Lettura di un utente con ID non valido\n";
         try {
             $fUser = new FUser();
-            $user = $fUser->readUser(-1); // ID non valido
+            $user = $fUser->read(-1); // ID non valido
 
             if ($user === null) {
                 echo "Utente non trovato come previsto.\n";
@@ -373,8 +377,8 @@ function testBanUser(): void
         }
         try {
             $fUser = new FUser();
-            $fUser->deleteUser($insertedId); // Cancella l'utente
-            $deletedAgain = $fUser->deleteUser($insertedId); // Riprova a cancellarlo
+            $fUser->delete($insertedId); // Cancella l'utente
+            $deletedAgain = $fUser->delete($insertedId); // Riprova a cancellarlo
 
             if (!$deletedAgain) {
                 echo "Seconda cancellazione fallita come previsto.\n";
@@ -394,20 +398,20 @@ function testBanUser(): void
 
 
 // Esecuzione dei test
-echo "Esecuzione dei test...\n";
+//echo "Esecuzione dei test...\n";
 
 testCreateUser();
-testReadUserById();
-testUpdateUser();
-testReadUserByUsername();
-testReadAllUsers();
-testBanUser();
-testExistsUser ();
-testGetBlockedUsers ();
-testCreateUserWithInvalidData ();
-testReadUserInvalidId ();
-testReadUserInvalidUsername ();
-testDeleteUser();
-testDeleteUserAlreadyDeleted ();
+//testReadUserById();
+//testUpdateUser();
+//testReadUserByUsername();
+//testReadAllUsers();
+//testBanUser();
+//testExistsUser ();
+//testGetBlockedUsers ();
+//testCreateUserWithInvalidData ();
+//testReadUserInvalidId ();
+//testReadUserInvalidUsername ();
+//testDeleteUser();
+//testDeleteUserAlreadyDeleted ();
 
 

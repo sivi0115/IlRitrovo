@@ -19,7 +19,7 @@ class ERoom extends EArea
     /**
      * @var float Tax (price) for reserve the room.
      */
-    private string $tax;
+    private float $tax;
 
     /**
      * EUser constructor.
@@ -33,7 +33,7 @@ class ERoom extends EArea
         ?int $idRoom,
         string $areaName,
         int $maxGuests,
-        int $tax
+        float $tax
     ) {
         if ($tax < 0) {
             throw new InvalidArgumentException("Il prezzo della tassa non può essere negativo.");

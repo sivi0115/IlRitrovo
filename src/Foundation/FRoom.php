@@ -75,15 +75,20 @@ class FRoom {
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
+            //Get last Inserted ID
+            $idInserito=$db->getLastInsertedId();
+            if ($idInserito==null) {
+                throw new Exception("Impossibile recuperare l'Id della stanza");
+            }
             //Retrive the inserted room by number to get the assigned idRoom
-            $storedRoom = $db->load(self::TABLE_NAME, 'number', $room->getIdRoom());
+            $storedRoom = $db->load(self::TABLE_NAME, 'idRoom', $idInserito);
             if ($storedRoom === null) {
                 throw new Exception(self::ERR_RETRIVE_ROOM);
             }
             //Assign the retrieved ID to the object
-            $room->setIdRoom($storedRoom['idRoom']);
+            $room->setIdRoom((int)$idInserito);
             //Return the id associated with this room
-            return $storedRoom['idRoom'];
+            return $idInserito;
         } catch (Exception $e) {
             throw $e;
         }
@@ -154,7 +159,7 @@ class FRoom {
      * @return ERoom[]
      * @throws Exception If an error occurs during the loading.
      */
-    public static function loadAllRoom(): array {
+    public static function readAllRoom(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return array_map([self::class, 'arrayToEntity'], $result);

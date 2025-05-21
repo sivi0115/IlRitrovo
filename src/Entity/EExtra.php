@@ -32,7 +32,7 @@ class EExtra implements JsonSerializable {
      * @param int $priceExtra The price of the extra service (in cents).
      * @throws InvalidArgumentException If the price is negative, or if the name is empty.
      */
-    public function __construct(?int $idExtra, string $nameExtra, int $priceExtra) {
+    public function __construct(?int $idExtra, string $nameExtra, float $priceExtra) {
         if ($priceExtra < 0) {
             throw new InvalidArgumentException("Il prezzo non può essere negativo.");
         }
@@ -90,7 +90,7 @@ class EExtra implements JsonSerializable {
      *
      * @return int The price of the extra service in cents.
      */
-    public function getPriceExtra(): int {
+    public function getPriceExtra(): float {
         return $this->priceExtra;
     }
 

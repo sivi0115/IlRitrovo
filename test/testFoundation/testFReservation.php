@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use Entity\ELocation;
 use Foundation\FDatabase;
 use Foundation\FReservation;
 use Entity\EReservation;

@@ -26,7 +26,7 @@ class FExtra {
 
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
-    protected const ERR_NAME_FIELD="The 'nameExtra' field is required and must be a string.";
+    protected const ERR_NAME_FIELD="The 'name' field is required and must be a string.";
     protected const ERR_DUPLICATE_EXTRA='An extra with this name already exists.';
     protected const ERR_NUMERIC_PRICE="The 'price' field is required and must be numeric.";
     protected const ERR_NEGATIVE_PRICE="The 'price' field must be a non-negative value.";
@@ -44,7 +44,7 @@ class FExtra {
      * @throws Exception If required fields are missing.
      */
     public function arrayToEntity(array $data): EExtra {
-        $requiredFields = ['idExtra', 'nameExtra', 'priceExtra'];
+        $requiredFields = ['idExtra', 'name', 'price'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {
                 throw new Exception(self::ERR_MISSING_FIELD . $field);
@@ -52,8 +52,8 @@ class FExtra {
         }
         return new EExtra(
             $data['idExtra'],
-            $data['nameExtra'],
-            $data['priceExtra']
+            $data['name'],
+            $data['price']
         );
     }
 
@@ -66,8 +66,8 @@ class FExtra {
     public function entityToArray(EExtra $extra): array {
         return [
             'idExtra' => $extra->getIdExtra(),
-            'nameExtra' => $extra->getNameExtra(),
-            'priceExtra' => $extra->getPriceExtra()
+            'name' => $extra->getNameExtra(),
+            'price' => $extra->getPriceExtra()
         ];
     }
 
@@ -79,21 +79,21 @@ class FExtra {
      * @throws Exception If required fields are missing or invalid.
      */
     public static function validateExtraData(array $data): void {
-        // Validate 'nameExtra'
-        if (empty($data['nameExtra']) || !is_string($data['nameExtra'])) {
+        // Validate 'name'
+        if (empty($data['name']) || !is_string($data['name'])) {
             throw new Exception(self::ERR_NAME_FIELD);
         }
         //Checks for duplicates
-        $existing = self::readByName($data['nameExtra']);
+        $existing = self::readByName($data['name']);
         if ($existing !== null) {
             throw new Exception(self::ERR_DUPLICATE_EXTRA);
         }
         // Validate 'priceExtra'
-        if (!isset($data['priceExtra']) || !is_numeric($data['priceExtra'])) {
+        if (!isset($data['price']) || !is_numeric($data['price'])) {
             throw new Exception(self::ERR_NUMERIC_PRICE);
         }
         //Check for negative prices
-        if ($data['priceExtra'] < 0) {
+        if ($data['price'] < 0) {
             throw new Exception(self::ERR_NEGATIVE_PRICE);
         }
     }
@@ -116,15 +116,20 @@ class FExtra {
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
+            //Retrive the last inserted ID
+            $idInserito=$db->getLastInsertedId();
+            if ($idInserito==null) {
+                throw new Exception("Impossibile recuperare l'Id dell'extra inserito");
+            }
             //Retrive the inserted extra by number to get the assigned idExtra
-            $storedExtra = $db->load(self::TABLE_NAME, 'number', $extra->getIdExtra());
+            $storedExtra = $db->load(self::TABLE_NAME, 'idExtra', $idInserito);
             if ($storedExtra === null) {
                 throw new Exception(self::ERR_RETRIVE_EXTRA);
             }
             //Assign the retrieved ID to the object
-            $extra->setIdExtra($storedExtra['idExtra']);
+            $extra->setIdExtra((int)$idInserito);
             //Return the id associated with this extra
-            return $storedExtra['idExtra'];
+            return (int)$idInserito;
         } catch (Exception $e) {
             throw $e;
         }
@@ -150,7 +155,7 @@ class FExtra {
      */
     public static function readByName(string $nameExtra): ?EExtra {
         $db = FDatabase::getInstance();
-        $result = $db->load(self::TABLE_NAME, 'nameExtra', $nameExtra);
+        $result = $db->load(self::TABLE_NAME, 'name', $nameExtra);
         if (!$result) {
             return null;
         }
@@ -163,7 +168,6 @@ class FExtra {
      * Updates an EExtra object in the database.
      *
      * @param EExtra $extra The EExtra object to update.
-     * @param int $idExtra The ID of the extra.
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If there is an error during the update operation.
      */
@@ -173,8 +177,8 @@ class FExtra {
             throw new Exception(self::ERR_EXTRA_NOT_FOUND);
         }
         $data = [
-            'nameExtra' => $extra->getNameExtra(),
-            'priceExtra' => $extra->getPriceExtra(),
+            'name' => $extra->getNameExtra(),
+            'price' => $extra->getPriceExtra(),
         ];
         self::validateExtraData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idExtra' => $extra->getIdExtra()])) {
@@ -217,7 +221,7 @@ class FExtra {
         try {
             $db = FDatabase::getInstance(); // Get the singleton instance
             $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data
-            return array_filter(array_map([$this, 'createEntityExtra'], $results));
+            return array_filter(array_map([$this, 'arrayToEntity'], $results));
         } catch (Exception $e) {
             error_log(self::ERR_ALL_EXTRA . $e->getMessage());
             return [];

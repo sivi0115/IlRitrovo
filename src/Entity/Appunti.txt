@@ -36,6 +36,14 @@ FReservation - FATTO
 FCreditCard - FATTO
 
 
+
+TESTING FOUNDATION ESEGUITI:
+	FExtra
+	FRoom
+	FTable
+	FUser (testato e funzionante solo il metodo create)
+
+
 RICEVIMENTO 21/05:
 	Chiedere spiegazioni sul Persisent Manager. In particolare:
 	Come fa a richiamare i metodi delle classi Foundation?

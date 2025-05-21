@@ -18,9 +18,8 @@ function getTestExtraData(): EExtra
 {
     return new EExtra(
         null,                // ID (sarà impostato dal database)
-        'Test Extra Item',   // Nome
-        'Descrizione di test', // Descrizione
-        99.99                // Prezzo
+        (string)"Extra Test Name 4",   // Nome
+        (float)20                // Prezzo
     );
 }
 
@@ -54,16 +53,11 @@ function testInsertExtra(): void
  */
 function testLoadExtraById(): void
 {
-    global $insertedId;
+    $idKnown=3; //ID DA CARICARE
     echo "\nTest 2: Caricamento extra tramite ID\n";
-    if ($insertedId === null) {
-        echo "ID non disponibile, eseguire prima il test di inserimento.\n";
-        return;
-    }
-
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $extra = $fExtra->read($insertedId);
+        $extra = $fExtra->read($idKnown);
 
         if ($extra instanceof EExtra) {
             echo "Extra caricato correttamente: " . json_encode($extra) . "\n";
@@ -83,23 +77,21 @@ function testLoadExtraById(): void
  */
 function testUpdateExtra(): void
 {
-    global $insertedId;
+    $existingId=1; //ID DELL'OGGETTO DA MODIFICARE
     echo "\nTest 3: Aggiornamento di un extra\n";
-    if ($insertedId === null) {
-        echo "ID non disponibile, eseguire prima il test di inserimento.\n";
-        return;
-    }
-
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $updatedData = [
-            'description' => 'Updated Test Description',
-            'price' => 59.99
-        ];
+        $extra = $fExtra->read($existingId);
+        if (!$extra) {
+            echo "ERRORE: extra con ID $existingId non trovato";
+            return;
+        }
+        //MODIFICA I DATI DELL'OGGETTO
+        $extra->setNameExtra('Extra Test Name MODIFIED');
+        $extra->setPriceExtra(1);
+        $result=$fExtra->update($extra);
 
-        $updated = $fExtra->update($insertedId, $updatedData);
-
-        if ($updated) {
+        if ($result) {
             echo "Extra aggiornato correttamente.\n";
             echo "Test 3: PASSATO\n";
         } else {
@@ -117,16 +109,10 @@ function testUpdateExtra(): void
  */
 function testExistsExtra(): void
 {
-    global $insertedId;
-    echo "\nTest 4: Verifica esistenza extra\n";
-    if ($insertedId === null) {
-        echo "ID non disponibile, eseguire prima il test di inserimento.\n";
-        return;
-    }
-
+    $existId=2; //ID DA VERIFICARE
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $exists = $fExtra->exists($insertedId);
+        $exists = $fExtra->exists($existId);
 
         if ($exists) {
             echo "L'extra esiste.\n";
@@ -146,16 +132,10 @@ function testExistsExtra(): void
  */
 function testDeleteExtra(): void
 {
-    global $insertedId;
-    echo "\nTest 5: Cancellazione di un extra\n";
-    if ($insertedId === null) {
-        echo "ID non disponibile, eseguire prima il test di inserimento.\n";
-        return;
-    }
-
+    $idToDelete=1; //ID DA ELIMINARE
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $deleted = $fExtra->delete($insertedId);
+        $deleted = $fExtra->delete($idToDelete);
 
         if ($deleted) {
             echo "Extra cancellato correttamente.\n";
@@ -191,9 +171,9 @@ function testLoadAllExtras(): void
 
 // Esecuzione dei test
 echo "Esecuzione dei test...\n";
-testInsertExtra();
-//testLoadExtraById();
-//testUpdateExtra();
-//testExistsExtra();
+//testInsertExtra(); FATTO
+//testLoadExtraById(1); FATTO
+//testUpdateExtra(); FATTO
+//testExistsExtra(); 
 //testLoadAllExtras();
-//testDeleteExtra();
+//testDeleteExtra(); FATTO

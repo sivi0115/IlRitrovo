@@ -117,12 +117,12 @@ class EUser implements JsonSerializable {
         string $email,
         string $password,
         ?string $image,
-        bool $ban = false,
         string $name,
         string $surname,
         DateTime $birthDate,
         string $phone,
-        Role $role
+        Role $role,
+        bool $ban = false
     ) {
         if (empty($username)) {
             throw new InvalidArgumentException("Username cannot be empty.");
@@ -312,11 +312,11 @@ class EUser implements JsonSerializable {
     /**
      * Checks if the user is banned.
      *
-     * @return bool True if the user is banned, false otherwise.
+     * @return int (0 if false not banned, 1 if true banned).
      */
-    public function getBan(): bool
+    public function getBan(): int
     {
-        return $this->ban;
+        return $this->ban ? 1:0; 
     }
 
     /**

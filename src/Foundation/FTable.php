@@ -13,7 +13,7 @@ class FTable {
     /**
      * Name of the table associated with the table entity in the database.
      */
-    protected const TABLE_NAME = 'table';
+    protected const TABLE_NAME = 'tables';
     
     /**
      * Returns the name of the table associated with tables.
@@ -39,7 +39,7 @@ class FTable {
     */
     public static function arrayToEntity(array $data): ETable { //NOTA: mancano i soliti check sui dati perchè sono informazioni che non vengono toccate da nessun utente della Web App
         return new ETable(
-            $data['idRoom'] ?? null,
+            $data['idTable'] ?? null,
             $data['areaName'] ?? null,
             $data['maxGuests'] ?? null
         );
@@ -74,15 +74,20 @@ class FTable {
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
+            //Get the last Id insereted
+            $idInserito=$db->getLastInsertedId();
+            if ($idInserito == null) {
+                throw new Exception("L'ID inserito non è corretto");
+            }
             //Retrive the inserted table by number to get the assigned idTable
-            $storedTable = $db->load(self::TABLE_NAME, 'number', $table->getIdTable());
+            $storedTable = $db->load(self::TABLE_NAME, 'idTable', $idInserito);
             if ($storedTable === null) {
                 throw new Exception(self::ERR_RETRIVE_TABLE);
             }
             //Assign the retrieved ID to the object
-            $table->setIdTable($storedTable['idTable']);
+            $table->setIdTable($idInserito);
             //Return the id associated with this table
-            return $storedTable['idTable'];
+            return $idInserito;
         } catch (Exception $e) {
             throw $e;
         }
@@ -152,9 +157,9 @@ class FTable {
      * @return ETable[]
      * @throws Exception If an error occurs during the loading.
      */
-    public static function loadAllTables(): array {
+    public static function readAllTables(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
-        return array_map([self::class, 'createEntityTable'], $result);
+        return array_map([self::class, 'arrayToEntity'], $result);
     }
 }

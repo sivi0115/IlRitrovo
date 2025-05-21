@@ -46,7 +46,7 @@ class FUser {
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
             'image' => $user->getImage(),
-            'ban' => $user->getBan(),
+            'ban' => $user->getBan() ? 1 : 0,
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
             'birthDate' => $user->getBirthDate(),
@@ -70,12 +70,12 @@ class FUser {
             $data['email'],
             $data['password'],
             $data['image'],
-            $data['ban'],
             $data['name'],
             $data['surname'],
             new DateTime($data['birthDate']),
             $data['phone'],
             $data['role'],
+            $data['ban']
         );
     }
 
