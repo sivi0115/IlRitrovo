@@ -32,7 +32,6 @@ class FExtra {
      * Create an EExtra object in the database.
      *
      * @param EExtra $extra The EExtra object to store.
-     * @param int $idInserito The ID of the new extra.
      * @return bool True if the operation was successful, otherwise False.
      * @throws Exception If there is an error during the store operation.
      */
@@ -122,7 +121,6 @@ class FExtra {
      *
      * @param int $idExtra The ID of the extra.
      * @return bool True if the extra was successfully deleted, otherwise False.
-     * @throws Exception If there is an error during the delete operation.
      */
     public static function delete(int $idExtra): bool {
         $db=FDatabase::getInstance();
@@ -151,7 +149,6 @@ class FExtra {
      *
      * @param int $idExtra The ID of the extra.
      * @return bool True if the extra exists, otherwise False.
-     * @throws Exception If there is an error during the check operation.
      */
     public static function exists(string $idExtra): bool {
         $db = FDatabase::getInstance();
@@ -162,7 +159,6 @@ class FExtra {
      * Validates the data for creating or updating an extra.
      *
      * @param array $data The data array containing 'name' and 'price'.
-     *
      * @throws Exception If required fields are missing or invalid.
      */
     public static function validateExtraData(array $data): void {
