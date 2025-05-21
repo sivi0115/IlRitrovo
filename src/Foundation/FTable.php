@@ -85,9 +85,9 @@ class FTable {
                 throw new Exception(self::ERR_RETRIVE_TABLE);
             }
             //Assign the retrieved ID to the object
-            $table->setIdTable($idInserito);
+            $table->setIdTable((int)$idInserito);
             //Return the id associated with this table
-            return $idInserito;
+            return (int)$idInserito;
         } catch (Exception $e) {
             throw $e;
         }
