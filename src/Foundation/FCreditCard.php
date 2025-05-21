@@ -33,6 +33,7 @@ class FCreditCard {
     protected const ERROR_INVALID_TYPE = 'Invalid credit card type.';
     protected const ERROR_DUPLICATE_CARD = 'This credit card is already registered for the user.';
     protected const ERR_MISSING_ID= "Unable to retrieve the ID of the inserted credit card";
+    protected const ERR_INVALID_USER = "Invalid user ID.";
 
     /**
      * Create an ECreditCard object in the database.
@@ -48,24 +49,27 @@ class FCreditCard {
         self::validateCreditCardData($data);
         try {
             //Card insertion
+            if (!FUser::exists($creditCard->getIdUser())) {
+            throw new Exception(self::ERR_INVALID_USER);
+            }
             $result = $db->insert(self::TABLE_NAME, $data);
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
             //Retrive the last inserted ID
-            $idInserito=$db->getLastInsertedId();
-            if ($idInserito==null) {
+            $createdId=$db->getLastInsertedId();
+            if ($createdId==null) {
                 throw new Exception(self::ERR_MISSING_ID);
             }
             //Retrive the inserted card by number to get the assigned idCreditCard
-            $storedCard = $db->load(self::TABLE_NAME, 'idCreditCard', $idInserito);
+            $storedCard = $db->load(self::TABLE_NAME, 'idCreditCard', $createdId);
             if ($storedCard === null) {
                 throw new Exception(self::ERR_RETRIVE_CARD);
             }
             //Assign the retrieved ID to the object
-            $creditCard->setIdCreditCard((int)$idInserito);
+            $creditCard->setIdCreditCard((int)$createdId);
             //Return the id associated with this card
-            return (int)$idInserito;
+            return (int)$createdId;
         } catch (Exception $e) {
             throw $e;
         }
@@ -93,14 +97,17 @@ class FCreditCard {
      */
     public static function update(ECreditCard $creditCard): bool {
         $db = FDatabase::getInstance();
-        if (!self::exists($creditCard->getNumber())) {
+        if (!self::exists($creditCard->getIdCreditCard())) {
             throw new Exception(self::ERR_CARD_NOT_FOUND);
         }
         $data = [
+            'idCreditCard' => $creditCard->getIdCreditCard(),
+            'holder' => $creditCard->getHolder(),
+            'number' => $creditCard->getNumber(),
             'cvv' => $creditCard->getCvv(),
             'expiration' => $creditCard->getExpiration(),
-            'holder' => $creditCard->getHolder(),
             'type' => $creditCard->getType(),
+            'idUser' => $creditCard->getIdUser()
         ];
         self::validateCreditCardData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idCreditCard' => $creditCard->getIdCreditCard()])) {
@@ -211,9 +218,20 @@ class FCreditCard {
      * @return bool True if the credit card exists, otherwise False.
      * @throws Exception If there is an error during the check operation.
      */
-    public static function exists(string $numberCard): bool {
+    public static function existsNumber(string $numberCard): bool {
         $db = FDatabase::getInstance();
         return $db->exists(self::TABLE_NAME, ['number' => $numberCard]);
+    }
+
+    /**
+     * Checks if a credit card exists in the database fot the given ID
+     * 
+     * @param int the ID card to verify
+     * @return bool true if the card exists, otherwise fale
+     */
+    public static function exists(int $id): bool {
+        $db=FDatabase::getInstance();
+        return $db->exists(self::TABLE_NAME, ['idCreditCard' => $id]);
     }
 
     /**
@@ -264,8 +282,8 @@ class FCreditCard {
         if (!preg_match('/^\d{13,19}$/', $cardData['number'])) {
             throw new Exception(self::ERROR_INVALID_NUMBER);
         }
-        // Check expiration date format and ensure it's in the future (expected format: 'YYYY-MM')
-        $expiration = DateTime::createFromFormat('Y-m', $cardData['expiration']);
+        // Check expiration date format and ensure it's in the future (expected format: 'YYYY-MM-DD')
+        $expiration = DateTime::createFromFormat('Y-m-d H:i:s', $cardData['expiration']);
         $current = new DateTime('first day of this month');
         if (!$expiration || $expiration < $current) {
             throw new Exception(self::ERROR_INVALID_EXPIRATION);
@@ -301,12 +319,12 @@ class FCreditCard {
         }
         return new ECreditCard(
             $data['idCreditCard'],
-            $data['idUser'],
+            $data['holder'],
             $data['number'],
-            new DateTime($data['expiration']),
             $data['cvv'],
+            new DateTime($data['expiration']),
             $data['type'],
-            $data['holder']
+            $data['idUser']
         );
     }
 

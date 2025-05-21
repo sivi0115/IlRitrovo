@@ -17,11 +17,11 @@ function getTestCreditCardData(): ECreditCard
     return new ECreditCard(
         null,
         'holderTesting',
-        '1234567891234567',
+        '111222333444555666',
         123,
         new DateTime('2025-12-13'),
         'Visa',
-        4
+        1
     );
 }
 
@@ -64,7 +64,7 @@ function testCreateCreditCard(): void
  */
 function testReadCreditCard(): void
 {
-    $idKnown=2; //ID DA CARICARE
+    $idKnown=4; //ID DA CARICARE
     echo "\nTest 2: Caricamento carta tramite ID\n";
     try {
         $fCreditCard = new FCreditCard(FDatabase::getInstance());
@@ -89,13 +89,13 @@ function testReadCreditCard(): void
  */
 function testUpdateCreditCard(): void
 {
-    $existingId=2; //ID DELL'OGGETTO DA MODIFICARE
+    $existingId=5; //NUMERO DELL'OGGETTO DA MODIFICARE
     echo "\nTest 3: Aggiornamento di una carta di credito\n";
     try {
         $fCreditCard = new FCreditCard(FDatabase::getInstance());
         $creditCard = $fCreditCard->read($existingId);
         if (!$creditCard) {
-            echo "ERRORE: extra con ID $existingId non trovato";
+            echo "ERRORE: carta con ID $existingId non trovata";
             return;
         }
         //MODIFICA I DATI DELL'OGGETTO
@@ -103,11 +103,11 @@ function testUpdateCreditCard(): void
         $creditCard->setHolder('holderMODIFIED');
         $creditCard->setCvv(456);
         $creditCard->setExpiration(new DateTime('2025-12-14'));
-        $creditCard->setType('Masterard');
+        $creditCard->setType('Mastercard');
         $result=$fCreditCard->update($creditCard);
 
         if ($result) {
-            echo "Extra aggiornato correttamente.\n";
+            echo "Carta aggiornata correttamente.\n";
             echo "Test 3: PASSATO\n";
         } else {
             echo "Aggiornamento fallito.\n";
@@ -125,20 +125,23 @@ function testUpdateCreditCard(): void
  * @param string $cardNumber
  * @param int $userId
  */
-function testDeleteCreditCard(string $cardNumber, int $userId): void
+function testDeleteCreditCard(): void
 {
-    echo "\n[TEST] Eliminazione di una carta di credito\n";
-
+    $idToDelete=5; //ID DA ELIMINARE
     try {
-        $result = FCreditCard::delete($cardNumber, $userId);
+        $fCreditCard = new FCreditCard(FDatabase::getInstance());
+        $creditCard = $fCreditCard->delete($idToDelete);
 
-        if ($result) {
-            echo "Carta di credito eliminata correttamente.\n";
+        if ($creditCard) {
+            echo "Extra cancellato correttamente.\n";
+            echo "Test 5: PASSATO\n";
         } else {
-            echo "Eliminazione fallita.\n";
+            echo "Cancellazione fallita.\n";
+            echo "Test 5: FALLITO\n";
         }
     } catch (Exception $e) {
-        echo "Errore durante il test: " . $e->getMessage() . "\n";
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 5: FALLITO\n";
     }
 }
 
@@ -225,37 +228,15 @@ function testMaskCreditCardNumber(): void
     echo "Numero mascherato: $masked\n";
 }
 
-/**
- * Testa la funzione `isValidCVV`.
- */
-function testIsValidCVV(): void
-{
-    echo "\n[TEST] Validazione CVV\n";
-
-    $validCVV = FCreditCard::isValidCVV('123', 'VISA');
-    $invalidCVV = FCreditCard::isValidCVV('12A', 'VISA');
-
-    echo "CVV valido ('123' per VISA): " . ($validCVV ? "Corretto\n" : "Errato\n");
-    echo "CVV non valido ('12A' per VISA): " . ($invalidCVV ? "Corretto\n" : "Errato\n");
-}
-
-/**
- * Testa la funzione `isValidExpirationDate`.
- */
-function testIsValidExpirationDate(): void
-{
-    echo "\n[TEST] Validazione data di scadenza\n";
-
-    $validDate = FCreditCard::isValidExpirationDate('12/25');
-    $invalidDate = FCreditCard::isValidExpirationDate('01/20');
-
-    echo "Data valida ('12/25'): " . ($validDate ? "Corretto\n" : "Errato\n");
-    echo "Data non valida ('01/20'): " . ($invalidDate ? "Corretto\n" : "Errato\n");
-}
 
 // Esecuzione dei test
 echo "Esecuzione dei test per FCreditCard...\n";
 
 //testCreateCreditCard();
 //testReadCreditCard();
-testUpdateCreditCard();
+//testUpdateCreditCard();
+testDeleteCreditCard();
+
+
+/**$c1=new ECreditCard(4,'holderTesting', '1234567891234567', 123, new DateTime('2025-12-13'), 'Visa', 1);
+print($c1->getNumber());*/

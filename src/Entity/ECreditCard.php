@@ -70,12 +70,12 @@ class ECreditCard implements JsonSerializable {
         ?int $idUser = null
     ) {
         $this->idCreditCard = $idCreditCard;
-        $this->idUser = $idUser;
-        $this->number = $number;
-        $this->expiration = $expiration;
-        $this->cvv = $cvv;
-        $this->type = $type;
         $this->holder = $holder;
+        $this->number = $number;
+        $this->cvv = $cvv;
+        $this->expiration = $expiration;
+        $this->type = $type;
+        $this->idUser = $idUser;
     }
 
     /**
