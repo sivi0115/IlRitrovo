@@ -4,6 +4,7 @@ namespace Foundation;
 
 use Entity\EPayment;
 use Entity\StatoPagamento;
+use Foundation\FCreditCard;
 use Exception;
 
 /**
@@ -33,6 +34,8 @@ class FPayment {
     protected const ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const ERR_DELETION_FAILED = 'Error during the deletion of the payment.';
     protected const ERR_PAYMENT_EXISTS= "Error checking payment existence: ";
+    protected const ERROR_CREDIT_CARD_NOT_FOUND = 'The credit card could not be found.';
+
 
     /**
      * Creates an instance of EPayment from the given data.
@@ -216,5 +219,26 @@ class FPayment {
         } catch (Exception $e) {
             throw new Exception("Error calculating total payments amount: " . $e->getMessage());
         }
+    }
+
+    /**
+     * Checks if the credit card associated with the given ID is expired.
+     *
+     * @param int $idCreditCard The ID of the credit card.
+     * @return bool True if the credit card is expired, otherwise false.
+     * @throws Exception If the credit card cannot be retrieved or the expiration is invalid.
+     */
+    public static function isCreditCardExpired(int $idCreditCard): bool
+    {
+        $db = FDatabase::getInstance();
+        
+        // Usa fetchWhere o fetchAllFromTable o loadMultiples
+        $results = $db->fetchWhere(FCreditCard::TABLE_NAME, ['idCreditCard' => $idCreditCard]);
+
+        if (empty($results) || !isset($results[0]['expiration'])) {
+            throw new Exception(self::ERROR_CREDIT_CARD_NOT_FOUND);
+        }
+
+        return FCreditCard::isExpired($results[0]['expiration']);
     }
 }

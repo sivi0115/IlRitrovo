@@ -20,7 +20,7 @@ class EExtra implements JsonSerializable {
     private string $nameExtra;
 
     /**
-     * @var int The price of the extra service (in cents).
+     * @var float The price of the extra service.
      */
     private float $priceExtra;
 
@@ -29,7 +29,7 @@ class EExtra implements JsonSerializable {
      *
      * @param int|null $idExtra The unique identifier for the extra service (managed by the database).
      * @param string $nameExtra The name of the extra service.
-     * @param int $priceExtra The price of the extra service (in cents).
+     * @param float $priceExtra The price of the extra service.
      * @throws InvalidArgumentException If the price is negative, or if the name is empty.
      */
     public function __construct(?int $idExtra, string $nameExtra, float $priceExtra) {
@@ -86,21 +86,21 @@ class EExtra implements JsonSerializable {
     }
 
     /**
-     * Get the price of the extra service (in cents).
+     * Get the price of the extra service.
      *
-     * @return int The price of the extra service in cents.
+     * @return float The price of the extra service in cents.
      */
     public function getPriceExtra(): float {
         return $this->priceExtra;
     }
 
     /**
-     * Set the price of the extra service (in cents).
+     * Set the price of the extra service.
      *
-     * @param int $price The price to set.
+     * @param float $price The price to set.
      * @throws InvalidArgumentException If the price is negative.
      */
-    public function setPriceExtra(int $price): void {
+    public function setPriceExtra(float $price): void {
         if ($price < 0) {
             throw new InvalidArgumentException("Il prezzo non può essere negativo.");
         }
@@ -117,7 +117,7 @@ class EExtra implements JsonSerializable {
         return [
             'idExtra' => $this->idExtra,
             'name' => $this->nameExtra,
-            'price' => $this->priceExtra / 100,
+            'price' => $this->priceExtra,
         ];
     }
 }

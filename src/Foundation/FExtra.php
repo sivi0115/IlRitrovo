@@ -15,21 +15,13 @@ class FExtra {
      */
     protected const TABLE_NAME = 'extra';
 
-    /**
-     * Returns the name of the table associated with extras.
-     *
-     * @return string The name of the table.
-     */
-    public function getTableName(): string {
-        return static::TABLE_NAME;
-    }
-
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
     protected const ERR_NAME_FIELD="The 'name' field is required and must be a string.";
     protected const ERR_DUPLICATE_EXTRA='An extra with this name already exists.';
     protected const ERR_NUMERIC_PRICE="The 'price' field is required and must be numeric.";
     protected const ERR_NEGATIVE_PRICE="The 'price' field must be a non-negative value.";
+    protected const ERR_MISSING_ID= "Unable to retrieve the ID of the inserted extra";
     protected const ERR_INSERTION_FAILED = 'Error during the insertion of the extra.';
     protected const ERR_RETRIVE_EXTRA='Failed to retrive the inserted extra.';
     protected const ERR_EXTRA_NOT_FOUND = 'The extra does not exist.';
@@ -37,72 +29,10 @@ class FExtra {
     protected const ERR_ALL_EXTRA = 'Error loading all extras: ';
 
     /**
-     * Creates an instance of EExtra from the given data.
-     *
-     * @param array $data The data array containing extra information.
-     * @return EExtra The created EExtra object.
-     * @throws Exception If required fields are missing.
-     */
-    public function arrayToEntity(array $data): EExtra {
-        $requiredFields = ['idExtra', 'name', 'price'];
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                throw new Exception(self::ERR_MISSING_FIELD . $field);
-            }
-        }
-        return new EExtra(
-            $data['idExtra'],
-            $data['name'],
-            $data['price']
-        );
-    }
-
-    /**
-     * Converts an EExtra object into an associative array for the database.
-     *
-     * @param EExtra $extra The extra object to convert.
-     * @return array The extra data as an array.
-     */
-    public function entityToArray(EExtra $extra): array {
-        return [
-            'idExtra' => $extra->getIdExtra(),
-            'name' => $extra->getNameExtra(),
-            'price' => $extra->getPriceExtra()
-        ];
-    }
-
-    /**
-     * Validates the data for creating or updating an extra.
-     *
-     * @param array $data The data array containing 'name' and 'price'.
-     *
-     * @throws Exception If required fields are missing or invalid.
-     */
-    public static function validateExtraData(array $data): void {
-        // Validate 'name'
-        if (empty($data['name']) || !is_string($data['name'])) {
-            throw new Exception(self::ERR_NAME_FIELD);
-        }
-        //Checks for duplicates
-        $existing = self::readByName($data['name']);
-        if ($existing !== null) {
-            throw new Exception(self::ERR_DUPLICATE_EXTRA);
-        }
-        // Validate 'priceExtra'
-        if (!isset($data['price']) || !is_numeric($data['price'])) {
-            throw new Exception(self::ERR_NUMERIC_PRICE);
-        }
-        //Check for negative prices
-        if ($data['price'] < 0) {
-            throw new Exception(self::ERR_NEGATIVE_PRICE);
-        }
-    }
-
-    /**
      * Create an EExtra object in the database.
      *
      * @param EExtra $extra The EExtra object to store.
-     * @param int $idExtra The ID of the extra.
+     * @param int $idInserito The ID of the new extra.
      * @return bool True if the operation was successful, otherwise False.
      * @throws Exception If there is an error during the store operation.
      */
@@ -119,7 +49,7 @@ class FExtra {
             //Retrive the last inserted ID
             $idInserito=$db->getLastInsertedId();
             if ($idInserito==null) {
-                throw new Exception("Impossibile recuperare l'Id dell'extra inserito");
+                throw new Exception(self::ERR_MISSING_ID);
             }
             //Retrive the inserted extra by number to get the assigned idExtra
             $storedExtra = $db->load(self::TABLE_NAME, 'idExtra', $idInserito);
@@ -200,18 +130,6 @@ class FExtra {
     }
 
     /**
-     * Checks if a extra exists in the database.
-     *
-     * @param int $idExtra The ID of the extra.
-     * @return bool True if the extra card exists, otherwise False.
-     * @throws Exception If there is an error during the check operation.
-     */
-    public static function exists(string $idExtra): bool {
-        $db = FDatabase::getInstance();
-        return $db->exists(self::TABLE_NAME, ['idExtra' => $idExtra]);
-    }
-
-    /**
      * Retrieves all extra items.
      *
      * @return EExtra[] An array of all EExtra objects.
@@ -226,5 +144,79 @@ class FExtra {
             error_log(self::ERR_ALL_EXTRA . $e->getMessage());
             return [];
         }
+    }
+
+    /**
+     * Checks if a extra exists in the database.
+     *
+     * @param int $idExtra The ID of the extra.
+     * @return bool True if the extra exists, otherwise False.
+     * @throws Exception If there is an error during the check operation.
+     */
+    public static function exists(string $idExtra): bool {
+        $db = FDatabase::getInstance();
+        return $db->exists(self::TABLE_NAME, ['idExtra' => $idExtra]);
+    }
+
+    /**
+     * Validates the data for creating or updating an extra.
+     *
+     * @param array $data The data array containing 'name' and 'price'.
+     *
+     * @throws Exception If required fields are missing or invalid.
+     */
+    public static function validateExtraData(array $data): void {
+        // Validate 'name'
+        if (empty($data['name']) || !is_string($data['name'])) {
+            throw new Exception(self::ERR_NAME_FIELD);
+        }
+        //Checks for duplicates
+        $existing = self::readByName($data['name']);
+        if ($existing !== null) {
+            throw new Exception(self::ERR_DUPLICATE_EXTRA);
+        }
+        // Validate 'priceExtra'
+        if (!isset($data['price']) || !is_numeric($data['price'])) {
+            throw new Exception(self::ERR_NUMERIC_PRICE);
+        }
+        //Check for negative prices
+        if ($data['price'] < 0) {
+            throw new Exception(self::ERR_NEGATIVE_PRICE);
+        }
+    }
+    
+    /**
+     * Creates an instance of EExtra from the given data.
+     *
+     * @param array $data The data array containing extra information.
+     * @return EExtra The created EExtra object.
+     * @throws Exception If required fields are missing.
+     */
+    public function arrayToEntity(array $data): EExtra {
+        $requiredFields = ['idExtra', 'name', 'price'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
+        }
+        return new EExtra(
+            $data['idExtra'],
+            $data['name'],
+            $data['price']
+        );
+    }
+
+    /**
+     * Converts an EExtra object into an associative array for the database.
+     *
+     * @param EExtra $extra The extra object to convert.
+     * @return array The extra data as an array.
+     */
+    public function entityToArray(EExtra $extra): array {
+        return [
+            'idExtra' => $extra->getIdExtra(),
+            'name' => $extra->getNameExtra(),
+            'price' => $extra->getPriceExtra()
+        ];
     }
 }

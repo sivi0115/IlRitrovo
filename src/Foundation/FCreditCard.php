@@ -16,20 +16,8 @@ class FCreditCard {
      */
     protected const TABLE_NAME = 'creditcard';
 
-    /**
-     * Returns the name of the table associated with credit cards.
-     *
-     * @return string The name of the table.
-     */
-    public function getTableName(): string {
-        return static::TABLE_NAME;
-    }
-
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
-    protected const ERR_INVALID_CVV= 'Invalid CVV for card type: ';
-    protected const ERR_INVALID_EXPIRATION='Invalid expiration date.';
-    protected const ERR_CARD_EXISTS = 'The credit card already exists for this user.';
     protected const  ERR_INSERTION_FAILED = 'Error during the insertion of the credit card.';
     protected const ERR_RETRIVE_CARD='Failed to retrive the inserted credit card.';
     protected const  ERR_CARD_NOT_FOUND = 'The credit card does not exist for this user.';
@@ -38,86 +26,46 @@ class FCreditCard {
     protected const  ERR_SET_DEFAULT_FAILED = 'Error during the default card reset or update.';
     protected const ERR_LOADING= 'Error loading credit cards: ';
     protected const ERR_DEFAULT_CARD= 'Error setting default card: ';
-
-    /**
-     * Creates an instance of ECreditCard from the given data.
-     *
-     * @param array $data The data array containing credit card information.
-     * @return ECreditCard The created ECreditCard object.
-     * @throws Exception If required fields are missing.
-     */
-    public function arrayToEntity(array $data): ECreditCard {
-        $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                throw new Exception(self::ERR_MISSING_FIELD . $field);
-            }
-        }
-        return new ECreditCard(
-            $data['idCreditCard'],
-            $data['idUser'],
-            $data['number'],
-            new DateTime($data['expiration']),
-            $data['cvv'],
-            $data['type'],
-            $data['holder']
-        );
-    }
-
-    /**
-     * Converts an ECreditCard object into an associative array for the database.
-     *
-     * @param ECreditCard $creditCard The credit card object to convert.
-     * @return array The credit card data as an array.
-     */
-    public function entityToArray(ECreditCard $creditCard): array {
-        return [
-            'idCreditCard' => $creditCard->getIdCreditCard(),
-            'idUser' => $creditCard->getIdUser(),
-            'number' => $creditCard->getNumber(),
-            'expiration' => $creditCard->getExpiration(),
-            'cvv' => $creditCard->getCvv(),
-            'type' => $creditCard->getType(),
-            'holder' => $creditCard->getHolder()
-        ];
-    }
+    protected const ERROR_EMPTY_FIELD = 'One or more required fields are empty.';
+    protected const ERROR_INVALID_NUMBER = 'Invalid credit card number.';
+    protected const ERROR_INVALID_EXPIRATION = 'Expiration date must be in the future.';
+    protected const ERROR_INVALID_CVV = 'The CVV must be 3 or 4 digits.';
+    protected const ERROR_INVALID_TYPE = 'Invalid credit card type.';
+    protected const ERROR_DUPLICATE_CARD = 'This credit card is already registered for the user.';
+    protected const ERR_MISSING_ID= "Unable to retrieve the ID of the inserted credit card";
 
     /**
      * Create an ECreditCard object in the database.
      *
      * @param ECreditCard $creditCard The ECreditCard object to store.
-     * @param int $userId The ID of the user associated with the credit card.
+     * @param int $idInserito The ID of the new credit card.
      * @return bool True if the operation was successful, otherwise False.
      * @throws Exception If there is an error during the store operation.
      */
     public function create(ECreditCard $creditCard): int {
         $db = FDatabase::getInstance();
-        // Preliminary checks
-        if (!self::isValidCVV($creditCard->getCvv(), $creditCard->getType())) {
-            throw new Exception(self::ERR_INVALID_CVV . $creditCard->getType());
-        }
-        if (!self::isValidExpirationDate($creditCard->getExpiration())) {
-            throw new Exception(self::ERR_INVALID_EXPIRATION);
-        }
-        if (self::exists($creditCard->getNumber(), $creditCard->getIdUser())) {
-            throw new Exception(self::ERR_CARD_EXISTS);
-        }
         $data = $this->entityToArray($creditCard);
+        self::validateCreditCardData($data);
         try {
             //Card insertion
             $result = $db->insert(self::TABLE_NAME, $data);
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
+            //Retrive the last inserted ID
+            $idInserito=$db->getLastInsertedId();
+            if ($idInserito==null) {
+                throw new Exception(self::ERR_MISSING_ID);
+            }
             //Retrive the inserted card by number to get the assigned idCreditCard
-            $storedCard = $db->load(self::TABLE_NAME, 'number', $creditCard->getNumber());
+            $storedCard = $db->load(self::TABLE_NAME, 'idCreditCard', $idInserito);
             if ($storedCard === null) {
                 throw new Exception(self::ERR_RETRIVE_CARD);
             }
             //Assign the retrieved ID to the object
-            $creditCard->setIdCreditCard($storedCard['idCreditCard']);
-            //Return the user id associated with this card
-            return $storedCard['idUser'];
+            $creditCard->setIdCreditCard((int)$idInserito);
+            //Return the id associated with this card
+            return (int)$idInserito;
         } catch (Exception $e) {
             throw $e;
         }
@@ -139,13 +87,13 @@ class FCreditCard {
      * Updates an ECreditCard object in the database.
      *
      * @param ECreditCard $creditCard The ECreditCard object to update.
-     * @param int $userId The ID of the user associated with the credit card.
+     * @param int $idCreditCard The ID associated with the credit card.
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If there is an error during the update operation.
      */
     public static function update(ECreditCard $creditCard): bool {
         $db = FDatabase::getInstance();
-        if (!self::exists($creditCard->getNumber(), $creditCard->getIdUser())) {
+        if (!self::exists($creditCard->getNumber())) {
             throw new Exception(self::ERR_CARD_NOT_FOUND);
         }
         $data = [
@@ -154,6 +102,7 @@ class FCreditCard {
             'holder' => $creditCard->getHolder(),
             'type' => $creditCard->getType(),
         ];
+        self::validateCreditCardData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idCreditCard' => $creditCard->getIdCreditCard()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
@@ -163,8 +112,7 @@ class FCreditCard {
     /**
      * Deletes a credit card from the database.
      *
-     * @param string $numberCard The number of the credit card to delete.
-     * @param int $userId The ID of the user associated with the credit card.
+     * @param int $idCreditCard The ID of the user associated with the credit card.
      * @return bool True if the credit card was successfully deleted, otherwise False.
      * @throws Exception If there is an error during the delete operation.
      */
@@ -174,16 +122,29 @@ class FCreditCard {
     }
 
     /**
-     * Checks if a credit card exists in the database for the given user.
+     * Sets the default credit card for a user.
      *
-     * @param string $numberCard The number of the credit card.
-     * @param int $userId The ID of the user.
-     * @return bool True if the credit card exists, otherwise False.
-     * @throws Exception If there is an error during the check operation.
+     * @param int $idCreditCard The ID of the credit card to set as default.
+     * @param int $idUser The ID of the user.
+     * @return bool True if the operation was successful, false otherwise.
+     * @throws Exception If an error occurs during the operation.
      */
-    public static function exists(string $numberCard, int $userId): bool {
+    public static function setDefault(int $idCreditCard, int $idUser): bool {
         $db = FDatabase::getInstance();
-        return $db->exists(self::TABLE_NAME, ['number' => $numberCard, 'idUser' => $userId]);
+        try {
+            $db->beginTransaction();
+            if (!$db->update(self::TABLE_NAME, ['isDefault' => 0], ['idUser' => $idUser])) {
+                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
+            }
+            if (!$db->update(self::TABLE_NAME, ['isDefault' => 1], ['idCreditCard' => $idCreditCard])) {
+                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
+            }
+            $db->commit();
+            return true;
+        } catch (Exception $e) {
+            $db->rollBack();
+            throw new Exception(self::ERR_DEFAULT_CARD . $e->getMessage());
+        }
     }
 
     /**
@@ -243,65 +204,127 @@ class FCreditCard {
     }
 
     /**
-     * Validates the CVV (Card Verification Value).
+     * Checks if a credit card exists in the database for the given user.
      *
-     * @param string $cvv The CVV to validate.
-     * @param string $type The type of credit card.
-     * @return bool True if the CVV is valid for the specified type, false otherwise.
+     * @param string $numberCard The number of the credit card.
+     * @param int $userId The ID of the user.
+     * @return bool True if the credit card exists, otherwise False.
+     * @throws Exception If there is an error during the check operation.
      */
-    public static function isValidCVV(string $cvv, string $type): bool {
-        $type = ucwords(strtolower($type)); // Normalize the type
-        return match ($type) {
-            'Visa', 'Mastercard', 'Maestro', 'V-Pay', 'PagoBANCOMAT' => preg_match('/^\d{3}$/', $cvv) === 1,
-            'American Express' => preg_match('/^\d{4}$/', $cvv) === 1,
-            default => false,
-        };
-    }
-
-    /**
-     * Validates the expiration date of the credit card.
-     *
-     * @param string $expiration The expiration date of the credit card (format: MM/YY).
-     * @return bool True if the expiration date is valid, false otherwise.
-     */
-    public static function isValidExpirationDate(string $expiration): bool {
-        // Using preg_match to validate the format of the expiration date
-        if (preg_match('/^(0[1-9]|1[0-2])\/([0-9]{2})$/', $expiration, $matches)) {
-            $month = (int)$matches[1];
-            $year = (int)$matches[2] + 2000; // Assume that the year is in the range 2000-2099
-            $currentYear = (int)date('Y');
-            $currentMonth = (int)date('n');
-            // Check if the expiration date is in the future or the current year
-            if ($year > $currentYear || ($year === $currentYear && $month >= $currentMonth)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Sets the default credit card for a user.
-     *
-     * @param int $idCreditCard The ID of the credit card to set as default.
-     * @param int $idUser The ID of the user.
-     * @return bool True if the operation was successful, false otherwise.
-     * @throws Exception If an error occurs during the operation.
-     */
-    public static function setDefault(int $idCreditCard, int $idUser): bool {
+    public static function exists(string $numberCard): bool {
         $db = FDatabase::getInstance();
-        try {
-            $db->beginTransaction();
-            if (!$db->update(self::TABLE_NAME, ['isDefault' => 0], ['idUser' => $idUser])) {
-                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
-            }
-            if (!$db->update(self::TABLE_NAME, ['isDefault' => 1], ['idCreditCard' => $idCreditCard])) {
-                throw new Exception(self::ERR_SET_DEFAULT_FAILED);
-            }
-            $db->commit();
-            return true;
-        } catch (Exception $e) {
-            $db->rollBack();
-            throw new Exception(self::ERR_DEFAULT_CARD . $e->getMessage());
+        return $db->exists(self::TABLE_NAME, ['number' => $numberCard]);
+    }
+
+    /**
+     * Checks whether a credit card is expired based on its expiration date.
+     *
+     * @param string $expiration The expiration date in 'Y-m' format (e.g., '2025-09').
+     * @return bool True if the card is expired, otherwise false.
+     * @throws Exception If the expiration date format is invalid.
+     */
+    public static function isExpired(string $expiration): bool
+    {
+        $expirationDate = DateTime::createFromFormat('Y-m', $expiration);
+        if (!$expirationDate) {
+            throw new Exception(self::ERROR_INVALID_EXPIRATION);
         }
+
+        // Cards typically expire at the end of the expiration month
+        $expirationDate->modify('last day of this month')->setTime(23, 59, 59);
+        $now = new DateTime();
+
+        return $expirationDate < $now;
+    }
+
+    /**
+     * Validates the credit card data before insertion.
+     *
+     * This method checks:
+     * - All required fields are present and non-empty
+     * - Card number has 13-19 digits
+     * - Expiration date is valid and in the future
+     * - CVV has 3 or 4 digits
+     * - Card type is in the allowed list
+     * - The card is not already stored for the same user
+     *
+     * @param array $cardData Associative array with keys:
+     *        number, expiration, cvv, type, holder, idUser
+     * @throws Exception If validation fails
+     */
+    public static function validateCreditCardData(array $cardData): void
+    {
+        $requiredFields = ['number', 'expiration', 'cvv', 'type', 'holder', 'idUser'];
+        foreach ($requiredFields as $field) {
+            if (empty($cardData[$field])) {
+                throw new Exception(self::ERROR_EMPTY_FIELD);
+            }
+        }
+        // Check credit card number: only digits, 13-19 characters
+        if (!preg_match('/^\d{13,19}$/', $cardData['number'])) {
+            throw new Exception(self::ERROR_INVALID_NUMBER);
+        }
+        // Check expiration date format and ensure it's in the future (expected format: 'YYYY-MM')
+        $expiration = DateTime::createFromFormat('Y-m', $cardData['expiration']);
+        $current = new DateTime('first day of this month');
+        if (!$expiration || $expiration < $current) {
+            throw new Exception(self::ERROR_INVALID_EXPIRATION);
+        }
+        // Check CVV format: 3 or 4 digits
+        if (!preg_match('/^\d{3,4}$/', $cardData['cvv'])) {
+            throw new Exception(self::ERROR_INVALID_CVV);
+        }
+        // Check card type is allowed
+        $allowedTypes = ['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
+        if (!in_array($cardData['type'], $allowedTypes, true)) {
+            throw new Exception(self::ERROR_INVALID_TYPE);
+        }
+        // Check if card already exists for the user
+        if (self::exists($cardData['number'])) {
+            throw new Exception(self::ERROR_DUPLICATE_CARD);
+        }
+    }
+
+    /**
+     * Creates an instance of ECreditCard from the given data.
+     *
+     * @param array $data The data array containing credit card information.
+     * @return ECreditCard The created ECreditCard object.
+     * @throws Exception If required fields are missing.
+     */
+    public function arrayToEntity(array $data): ECreditCard {
+        $requiredFields = ['idCreditCard', 'idUser', 'number', 'expiration', 'cvv', 'type', 'holder'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new Exception(self::ERR_MISSING_FIELD . $field);
+            }
+        }
+        return new ECreditCard(
+            $data['idCreditCard'],
+            $data['idUser'],
+            $data['number'],
+            new DateTime($data['expiration']),
+            $data['cvv'],
+            $data['type'],
+            $data['holder']
+        );
+    }
+
+    /**
+     * Converts an ECreditCard object into an associative array for the database.
+     *
+     * @param ECreditCard $creditCard The credit card object to convert.
+     * @return array The credit card data as an array.
+     */
+    public function entityToArray(ECreditCard $creditCard): array {
+        return [
+            'idCreditCard' => $creditCard->getIdCreditCard(),
+            'idUser' => $creditCard->getIdUser(),
+            'number' => $creditCard->getNumber(),
+            'expiration' => $creditCard->getExpiration(),
+            'cvv' => $creditCard->getCvv(),
+            'type' => $creditCard->getType(),
+            'holder' => $creditCard->getHolder()
+        ];
     }
 }
