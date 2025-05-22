@@ -90,8 +90,9 @@ class FReview {
             throw new Exception(self::ERR_REVIEW_NOT_FOUND);
         }
         $data = [
+            'idUser' => $review->getIdUser(),
             'stars' => $review->getStars(),
-            'body' => $review->getBody(),
+            'body' => $review->getBody()
         ];
         self::validateReviewData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idReview' => $review->getIdReview()])) {
@@ -129,22 +130,6 @@ class FReview {
     }
 
     /**
-     * Logically bans (removes) a review by setting its "removed" flag to true.
-     *
-     * @param int $idReview The ID of the review to be banned.
-     * @return bool True if the review was successfully updated.
-     * @throws Exception If the review with the given ID is not found.
-     */
-    public function banReview(int $idReview): bool {
-        $review = $this->read($idReview);
-        if (!$review) {
-            throw new Exception(self::ERR_REVIEW_NOT_FOUND);
-        }
-        $review->setRemoved(true);
-        return $this->update($review);
-    }
-
-    /**
      * Loads the review written by a specific user.
      *
      * @param int $idUser The ID of the user.
@@ -175,7 +160,7 @@ class FReview {
      */
     public static function getReviewsByDate(DateTime $date): array {
         $db = FDatabase::getInstance();
-        $conditions = ['DATE(creationTime)' => $date->format('Y-m-d')];
+        $conditions = ['DATE(creationTime)' => $date->format('Y-m-d H:i:s')];
         $result = $db->loadMultiples(self::TABLE_NAME, $conditions);
         return $result ? self::mapResultsToReviews($result) : [];
     }
@@ -201,7 +186,7 @@ class FReview {
      */
     public static function validateReviewData(array $data): void {
         // idUser must exist
-        if (!isset($data['idUser']) || !is_int($data['idUser']) || !FUser::exists($data['idUser'])) {
+        if (!isset($data['idUser']) || !FUser::exists($data['idUser'])) {
             throw new Exception(self::ERR_INVALID_USER);
         }
         // Body must not be empty
@@ -240,14 +225,12 @@ class FReview {
         $review = new EReview(
             $row['idUser'] ?? null,
             $row['idReview'] ?? null,
-            $row['idReply'] ?? null,
             (int)$row['stars'],
             $row['body'],
             $creationTime,
-            $row['removed'],
+            $row['idReply'] ?? null
         );
         $review->setCreationTime(new DateTime($row['creationTime']));
-        $review->setRemoved((bool)$row['removed']);
         return $review;
     }
 
@@ -268,11 +251,10 @@ class FReview {
         return new EReview(
             $data['idUser'],
             $data['idReview'],
-            $data['idReply'],
             $data['stars'],
             $data['body'],
-            $data['creationTime'],
-            $data['removed']
+            new DateTime($data['creationTime']),
+            $data['idReply'],
         );
     }
 
@@ -286,11 +268,10 @@ class FReview {
         return [
             'idUser' => $review->getIdUser(),
             'idReview' => $review->getIdReview(),
-            'idReply' => $review->getIdReply(),
             'stars' => $review->getStars(),
             'body' => $review->getBody(),
             'creationTime' => $review->getCreationTime(),
-            'removed' => $review->getRemoved(),
+            'idReply' => $review->getIdReply()
         ];
     }
 }

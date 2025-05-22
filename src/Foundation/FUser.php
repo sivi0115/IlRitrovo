@@ -174,7 +174,7 @@ class FUser {
      * @param string $idUser The ID of the user to check.
      * @return bool True if the user exists, false otherwise.
      */
-    public static function exists(string $idUser): bool {
+    public static function exists(int $idUser): bool {
         $db = FDatabase::getInstance();
         return $db->exists(self::TABLE_NAME, ['idUser' => $idUser]);
     }

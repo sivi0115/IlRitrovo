@@ -85,6 +85,7 @@ class FReply {
             throw new Exception(self::ERR_REPLY_NOT_FOUND);
         }
         $data = [
+            'dateReply' => $reply->getDateReply(),
             'body'=> $reply->getBody(),
         ];
         self::validateReplyData($data);
@@ -146,7 +147,7 @@ class FReply {
         }
         return new EReply(
             $data['idReply'] ?? null,
-            $data['dateReply'] ?? null,
+            new DateTime($data['dateReply'])?? null,
             $data['body'] ?? null
         );
     }

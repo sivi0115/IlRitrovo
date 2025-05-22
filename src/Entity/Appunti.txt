@@ -7,6 +7,7 @@ da implementare il frame orario per classi Entity e Foundation
 aggiungere stato Enum per stato pagamento nel db
 implementare FArea
 uniformare il formato delle date in 'Y-m-d H:i:s' - FATTO NELLE CLASSI ENTITY 
+IMPLEMENTARE ASSOLUTAMENTE la modifica del db per gli autoincrementali
 	
 
 —FOUNDATION—
