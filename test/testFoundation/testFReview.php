@@ -212,6 +212,35 @@ function testReadReviewByUserId(): void
     }
 }
 
+/**
+ * Funzione per caricare TUTTE le Review dal db
+ */
+function testReadAllReviews(): void {
+    echo "\nTest: Caricamento di tutte le reviews\n";
+    $fReview = new FReview(FDatabase::getInstance());
+    $reviews = $fReview->readAllReviews();
+
+    if (!is_array($reviews)) {
+        echo "Errore: il risultato non è un array.\nTest: FALLITO\n";
+        return;
+    }
+
+    if (empty($reviews)) {
+        echo "Errore: nessuna review trovata.\nTest: FALLITO\n";
+        return;
+    }
+
+    foreach ($reviews as $review) {
+        if (!$review instanceof EReview) {
+            echo "Errore: elemento non è un'istanza di EReview.\nTest: FALLITO\n";
+            return;
+        }
+    }
+
+    echo count($reviews) . " review(s) caricate correttamente.\n";
+    echo "Test: PASSATO\n";
+}
+
 
 
 
@@ -230,7 +259,8 @@ function testReadReviewByUserId(): void
 //testDeleteReview();
 //testExistsReview();
 //testAddReplyToReview();
-testReadReviewByUserId();
+//testReadReviewByUserId();
+testReadAllReviews();
 
 
 

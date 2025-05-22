@@ -147,7 +147,7 @@ class FReview {
      *
      * @return EReview[] An array of EReview objects or an empty array if none are found.
      */
-    public static function loadAllReviews(): array {
+    public static function readAllReviews(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return self::mapResultsToReviews($result);
