@@ -36,6 +36,11 @@ class FPayment {
      */
     public function create(EPayment $payment): int {
         $db = FDatabase::getInstance();
+        // Retrieve the associated reservation to get the total price
+        $fReservation = new FReservation();
+        $reservation = $fReservation->getById($payment->getIdReservation());
+        // Il valore di totPrice è già validato da FReservation, quindi non ripetiamo il controllo qui
+        $payment->setTotal($reservation->getTotPrice());
         $data = $this->entityToArray($payment);
         self::isCreditCardExpired($payment->getIdCreditCard());
         self::validatePayment($payment);
@@ -101,6 +106,11 @@ class FPayment {
      */
     public static function update(EPayment $payment): bool {
         $db = FDatabase::getInstance();
+        // Retrieve the associated reservation to get the total price
+        $fReservation = new FReservation();
+        $reservation = $fReservation->getById($payment->getIdReservation());
+        // Il valore di totPrice è già validato da FReservation, quindi non ripetiamo il controllo qui
+        $payment->setTotal($reservation->getTotPrice());
         $data = [
             'total' => $payment->getTotal(),
             'creationTime' => $payment->getCreationTime(),
@@ -123,25 +133,6 @@ class FPayment {
     public static function delete(int $idPayment): bool {
         $db = FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idPayment' => $idPayment]);
-    }
-
-    /**
-     * Calculates the total amount of all payments matching the conditions.
-     *
-     * @param array $conditions Conditions to filter payments.
-     * @return float The total amount.
-     */
-    public static function getTotalPaymentsAmount(array $conditions = []): float {
-        $db = FDatabase::getInstance();
-        try {
-            // Use the fetchWhere method to calculate the total sum
-            $payments = $db->fetchWhere(self::TABLE_NAME, $conditions);
-            // Sum the 'total' field from all matching rows
-            $totalAmount = array_reduce($payments, fn($sum, $payment) => $sum + $payment['total'], 0);
-            return $totalAmount;
-        } catch (Exception $e) {
-            throw new Exception(self::ERR_TOT_PAYMENT . $e->getMessage());
-        }
     }
 
     /**

@@ -234,6 +234,24 @@ class FReservation {
         $result = $db->load(self::TABLE_NAME, $column, $value);
         return $result ? self::createReservationFromRow($result) : null;
     }
+    
+    /**
+     * Retrieves a reservation by its unique ID.
+     *
+     * @param int $id The unique identifier of the reservation.
+     * @return EReservation|null The EReservation object if found, null otherwise.
+     * @throws Exception If no reservation is found with the given ID.
+     */
+    public function getById(int $id): ?EReservation {
+        $db = FDatabase::getInstance();
+        $result = $db->load(self::TABLE_NAME, 'id', $id);
+
+        if (empty($result)) {
+            throw new Exception(self::ERR_RES_NOT_FOUND);
+        }
+
+        return $this->arrayToEntity($result);
+    }
 
     /**
      * Gets reservations for a given user ID.
