@@ -158,14 +158,55 @@ class FUser {
     }
 
     /**
-     * Blocks a user in the database. DA RIFARE
+     * Updates the user's review ID in the database, only if the user is allowed to write a review.
+     * A user can write a review if:
+     * - they are a regular user
+     * - they have not already submitted a review
+     * - they have at least one reservation with a date equal to or before today
      *
-     * @param int $idUser The ID of the user.
-     * @return bool True if the operation is successful, False otherwise.
+     * @param EUser $user The user attempting to write a review.
+     * @param int $reviewId The ID of the new review to assign to the user.
+     * @return bool True if the update was successful, false otherwise.
      */
-    public function banUser(int $idUser): bool {
-        $db = FDatabase::getInstance();
-        return $db->update(static::TABLE_NAME, ['ban' => 1], ['idUser' => $idUser]);
+    public function updateReview(EUser $user, int $reviewId): bool {
+        if ($user->canWriteReview()) {
+            $db = FDatabase::getInstance();
+            return $db->update(
+                FUser::TABLE_NAME, ['idReview' => $reviewId], ['idUser' => $user->getIdUser()]
+            );
+        }
+        return false;
+    }
+
+    /**
+     * Bans a user in the database, only if the requesting user is an admin
+     * and the target user has the role of a normal user.
+     *
+     * @param EUser $admin The user attempting to perform the ban (must be an admin).
+     * @param EUser $target The user to be banned (must be a regular user).
+     * @return bool True if the operation was successful, false otherwise.
+     */
+    public function banUser(EUser $admin, EUser $target): bool {
+        if ($admin->isAdmin() && $target->isUser()) {
+            $db = FDatabase::getInstance();
+            return $db->update(FUser::TABLE_NAME, ['ban' => 1], ['idUser' => $target->getIdUser()]);
+        }
+        return false;
+    }
+
+    /**
+     * Unbans a user in the database.
+     *
+     * @param EUser $admin The admin performing the action.
+     * @param EUser $target The user to be unbanned.
+     * @return bool True if the operation was successful, false otherwise.
+     */
+    public function unbanUser(EUser $admin, EUser $target): bool {
+        if ($admin->isAdmin() && $target->isUser()) {
+            $db = FDatabase::getInstance();
+            return $db->update(FUser::TABLE_NAME, ['ban' => 0], ['idUser' => $target->getIdUser()]);
+        }
+        return false;
     }
 
     /**

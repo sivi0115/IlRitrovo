@@ -184,6 +184,32 @@ class EUser implements JsonSerializable {
     }
 
     /**
+     * Checks if the user has the requirements to write a review
+     * @return bool
+     */
+    public function canWriteReview(): bool {
+    if (!$this->isUser() || $this->idReview !== null) {
+        return false;
+    }
+    $now = new DateTime();
+    foreach ($this->reservations as $reservation) {
+        if ($reservation->getReservationDate() <= $now) {
+            return true;
+        }
+    }
+    return false;
+    }
+
+    /**
+     * Returns true if the user has already written the review
+     *
+     * @return bool
+     */
+    public function hasReview(): bool {
+        return $this->isUser() && $this->idReview !== null;
+    }
+
+    /**
      * Gets the username.
      *
      * @return string The user's username.
@@ -242,38 +268,31 @@ class EUser implements JsonSerializable {
      */
     const MIN_PASSWORD_LENGTH = 8;  // Lunghezza minima della password
     const MAX_PASSWORD_LENGTH = 64; // Lunghezza massima della password
-
     public function setPassword(string $password): void {
         // Controllo della lunghezza minima
         if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
             throw new InvalidArgumentException("La password deve contenere almeno " . self::MIN_PASSWORD_LENGTH . " caratteri.");
         }
-
         // Controllo della lunghezza massima (opzionale)
         if (strlen($password) > self::MAX_PASSWORD_LENGTH) {
             throw new InvalidArgumentException("La password non deve superare i " . self::MAX_PASSWORD_LENGTH . " caratteri.");
         }
-
         // Controllo presenza di almeno una lettera maiuscola
         if (!preg_match('/[A-Z]/', $password)) {
             throw new InvalidArgumentException("La password deve contenere almeno una lettera maiuscola.");
         }
-
         // Controllo presenza di almeno una lettera minuscola
         if (!preg_match('/[a-z]/', $password)) {
             throw new InvalidArgumentException("La password deve contenere almeno una lettera minuscola.");
         }
-
         // Controllo presenza di almeno un numero
         if (!preg_match('/[0-9]/', $password)) {
             throw new InvalidArgumentException("La password deve contenere almeno un numero.");
         }
-
         // Controllo presenza di almeno un carattere speciale
         if (!preg_match('/[\W_]/', $password)) {
             throw new InvalidArgumentException("La password deve contenere almeno un carattere speciale (es. @, #, $, etc.).");
         }
-
         // Se passa tutti i controlli, imposta la password
         $this->password = $password;
         $this->passwordChanged = true;
@@ -314,8 +333,7 @@ class EUser implements JsonSerializable {
      *
      * @return int (0 if false not banned, 1 if true banned).
      */
-    public function getBan(): int
-    {
+    public function getBan(): int {
         return $this->ban ? 1:0; 
     }
 
@@ -356,12 +374,20 @@ class EUser implements JsonSerializable {
     }
 
     /**
+     * Checks if the user is a user and if it has at least one reservation
+     * 
+     * @return bool
+     */
+    public function hasReservation(): bool {
+        return $this->isUser() && !empty($this->reservations);
+    }
+
+    /**
      * Gets the user's credit cards.
      *
      * @return array User's credit cards.
      */
-    public function getCreditCards(): array
-    {
+    public function getCreditCards(): array {
         return $this->creditCards;
     }
 
@@ -370,8 +396,7 @@ class EUser implements JsonSerializable {
      *
      * @param ECreditCard $creditCard The credit card to add.
      */
-    public function addCreditCard(ECreditCard $creditCard): void
-    {
+    public function addCreditCard(ECreditCard $creditCard): void {
         $this->creditCards[] = $creditCard;
     }
 
@@ -380,10 +405,19 @@ class EUser implements JsonSerializable {
      *
      * @param ECreditCard $creditCard The credit card to remove.
      */
-    public function removeCreditCard(ECreditCard $creditCard): void
-    {
+    public function removeCreditCard(ECreditCard $creditCard): void {
         $this->creditCards = array_filter($this->creditCards, fn($cc) => $cc !== $creditCard);
     }
+
+    /**
+     * Check if this is a user and if it has at least one credit card.
+     * 
+     * @return bool
+     */
+    public function hasCreditCard(): bool {
+        return $this->isUser() && !empty($this->creditCards);
+    }
+
 
     /**
      * Gets the first name of the user.
@@ -509,7 +543,6 @@ class EUser implements JsonSerializable {
     public function isAdmin(): bool {
         return $this->role === Role::AMMINISTRATORE;
     }
-
 
     /**
      * Implementation of the jsonSerialize method.
