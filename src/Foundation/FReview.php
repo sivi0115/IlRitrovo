@@ -92,7 +92,8 @@ class FReview {
         $data = [
             'idUser' => $review->getIdUser(),
             'stars' => $review->getStars(),
-            'body' => $review->getBody()
+            'body' => $review->getBody(),
+            'idReply' => $review->getIdReply()
         ];
         self::validateReviewData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idReview' => $review->getIdReview()])) {
@@ -135,7 +136,7 @@ class FReview {
      * @param int $idUser The ID of the user.
      * @return EReview|null The review if found, null otherwise.
      */
-    public static function loadReviewByUserId(int $idUser): ?EReview {
+    public static function readReviewByUserId(int $idUser): ?EReview {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, 'idUser', $idUser);
         return $result ? self::arrayToEntity($result) : null;
@@ -150,19 +151,6 @@ class FReview {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return self::mapResultsToReviews($result);
-    }
-
-    /**
-     * Retrieves reviews created on the specified date.
-     *
-     * @param DateTime $date The date to filter reviews by.
-     * @return EReview[] An array of EReview objects created on the specified date.
-     */
-    public static function getReviewsByDate(DateTime $date): array {
-        $db = FDatabase::getInstance();
-        $conditions = ['DATE(creationTime)' => $date->format('Y-m-d H:i:s')];
-        $result = $db->loadMultiples(self::TABLE_NAME, $conditions);
-        return $result ? self::mapResultsToReviews($result) : [];
     }
 
     /**

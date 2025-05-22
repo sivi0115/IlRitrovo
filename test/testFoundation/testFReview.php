@@ -6,6 +6,7 @@ use Foundation\FDatabase;
 use Foundation\FReview;
 use Entity\EReview;
 use Entity\EReply;
+use Foundation\FReply;
 
 /**
  * Funzione per creare un oggetto EReview di test.
@@ -126,6 +127,90 @@ function testDeleteReview(): void
     }
 }
 
+/**
+ * Test: Verifica esistenza di una Review dal suo id.
+ */
+function testExistsReview(): void
+{
+    $existId=4; //ID DA VERIFICARE
+    try {
+        $fReview = new FReview(FDatabase::getInstance());
+        $exists = $fReview->exists($existId);
+
+        if ($exists) {
+            echo "La Review esiste.\n";
+            echo "Test 4: PASSATO\n";
+        } else {
+            echo "La Review non esiste.\n";
+            echo "Test 4: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 4: FALLITO\n";
+    }
+}
+
+/**
+ * Test: Funzione che associa una reply ad una review.
+ */
+function testAddReplyToReview(): void
+{
+    $existingIdReplyToAssociate = 3; // ID della Reply da associare
+    $idReview = 4; // ID della Review alla quale associare la Reply
+
+    echo "\nTest 3: Associazione di una Reply ad una Review\n";
+
+    try {
+        $fReview = new FReview(FDatabase::getInstance());
+
+        // 1. Chiamo il metodo da testare
+        $result = $fReview->addReplyToReview($idReview, $existingIdReplyToAssociate);
+
+        // 2. Verifico che abbia restituito true
+        if ($result) {
+            // 3. Controllo che la review sia aggiornata nel DB
+            $updatedReview = $fReview->read($idReview);
+
+            if ($updatedReview && $updatedReview->getIdReply() === $existingIdReplyToAssociate) {
+                echo "Reply associata correttamente alla Review.\n";
+                echo "Test 3: PASSATO\n";
+            } else {
+                echo "Verifica fallita: idReply non aggiornato correttamente.\n";
+                echo "Test 3: FALLITO\n";
+            }
+        } else {
+            echo "Associazione fallita.\n";
+            echo "Test 3: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 3: FALLITO\n";
+    }
+}
+
+/**
+ * Test: Caricamento di una Review tramite ID di un utente.
+ */
+function testReadReviewByUserId(): void
+{
+    $idKnown=1; //ID DELL'UTENTE DA CARICARE DELLA REVIEW
+    echo "\nTest 2: Caricamento Review tramite ID utente\n";
+    try {
+        $fReview = new FReview(FDatabase::getInstance());
+        $review = $fReview->readReviewByUserId($idKnown);
+
+        if ($review instanceof EReview) {
+            echo "Review caricata correttamente: " . json_encode($review) . "\n";
+            echo "Test 2: PASSATO\n";
+        } else {
+            echo "Review non trovata.\n";
+            echo "Test 2: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 2: FALLITO\n";
+    }
+}
 
 
 
@@ -138,11 +223,14 @@ function testDeleteReview(): void
 
 
 
-testInsertReview();
+
+//testInsertReview();
 //testReadReview();
 //testUpdateReview();
 //testDeleteReview();
-
+//testExistsReview();
+//testAddReplyToReview();
+testReadReviewByUserId();
 
 
 
