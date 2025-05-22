@@ -58,6 +58,10 @@ class FReservation {
             if ($idInserito==null) {
                 throw new Exception(self::ERR_MISSING_ID);
             }
+            // If IdRoom is not null, we search the possible Extra associated
+            if ($reservation->getIdRoom() !== null) {
+                $this->createExtrasInReservation($idInserito, $reservation->getExtras());
+            }
             //Retrive the inserted reservation by number to get the assigned idReservation
             $storedReservation = $db->load(self::TABLE_NAME, 'idReservation', $idInserito);
             if ($storedReservation === null) {
@@ -71,6 +75,35 @@ class FReservation {
             throw $e;
         }
     }
+
+    /**
+     * Associates a list of extras with a given reservation by inserting entries into the
+     * reservation_extra many-to-many relationship table.
+     *
+     * @param int $reservationId The ID of the reservation to associate the extras with.
+     * @param EExtra[] $extras An array of EExtra objects to be linked to the reservation.
+     *
+     * @throws Exception If any element in the extras array is not an instance of EExtra.
+     * @throws Exception If an insertion into the reservation_extra table fails.
+     */
+    public function createExtrasInReservation(int $reservationId, array $extras): void {
+    $db = FDatabase::getInstance();
+
+    foreach ($extras as $extra) {
+        if (!($extra instanceof EExtra)) {
+            throw new Exception("Invalid extra object.");
+        }
+        $data = [
+            'idReservation' => $reservationId,
+            'idExtra' => $extra->getIdExtra()
+        ];
+        $result = $db->insert('reservation_extra', $data);
+        if ($result === null) {
+            throw new Exception("Failed to insert extra in reservation_extra.");
+        }
+    }
+}
+
 
     /**
      * Reads a reservation from the database by their ID.

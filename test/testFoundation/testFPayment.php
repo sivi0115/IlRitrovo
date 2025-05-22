@@ -107,3 +107,50 @@ function testUpdatePayment(): void
         echo "Test 3: FALLITO\n";
     }
 }
+
+/**
+ * Test: Verifica esistenza di un payment.
+ */
+function testExistsPayment(): void
+{
+    $existId=1; //RICONTROLLALO
+    try {
+        $fPayment = new FPayment(FDatabase::getInstance());
+        $exists = $fPayment->exists($existId);
+
+        if ($exists) {
+            echo "Il payment esiste.\n";
+            echo "Test 4: PASSATO\n";
+        } else {
+            echo "Il payment non esiste.\n";
+            echo "Test 4: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 4: FALLITO\n";
+    }
+}
+
+/**
+ * Testa il caricamento di un pagamento tramite ID della prenotazione.
+ */
+function testReadPaymentByIdReservation(): void
+{
+    $idKnown = 4; // RICONTROLLALO, NON CONOSCO L'ID DELLA RESERVATION NEL DATABASE
+    echo "\nTest 5: Caricamento pagamento tramite ID prenotazione\n";
+    try {
+        $fPayment = new FPayment();
+        $payment = $fPayment->readPaymentByIdReservation($idKnown);
+
+        if ($payment instanceof EPayment) {
+            echo "Pagamento caricato correttamente: " . json_encode($payment) . "\n";
+            echo "Test: PASSATO\n";
+        } else {
+            echo "Pagamento non trovato.\n";
+            echo "Test: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test: FALLITO\n";
+    }
+}

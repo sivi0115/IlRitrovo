@@ -77,6 +77,22 @@ class FPayment {
     }
 
     /**
+     * Reads a payment by its ID using flexible conditions.
+     *
+     * @param array $conditions Conditions to filter the query.
+     * @return EPayment The EPayment object or null if not found.
+     * @throws Exception If there is an error during the operation.
+     */
+    public function readPaymentByIdReservation(int $idReservation): ?EPayment {
+        $db = FDatabase::getInstance();
+        $result = $db -> load(self::TABLE_NAME, 'idReservation', $idReservation);
+        if (empty($result)) {
+            throw new Exception(self::ERR_PAYMENT_NOT_FOUND);
+        }
+        return $result ? $this->arrayToEntity($result): null;
+    }
+
+    /**
      * Updates an EPayment object in the database.
      *
      * @param EPayment $payment The EPayment object to update.
@@ -107,22 +123,6 @@ class FPayment {
     public static function delete(int $idPayment): bool {
         $db = FDatabase::getInstance();
         return $db->delete(self::TABLE_NAME, ['idPayment' => $idPayment]);
-    }
-
-    /**
-     * Loads a payment by its ID using flexible conditions.
-     *
-     * @param array $conditions Conditions to filter the query.
-     * @return EPayment The EPayment object or null if not found.
-     * @throws Exception If there is an error during the operation.
-     */
-    public function loadPaymentByIdReservation(int $idReservation): ?EPayment {
-        $db = FDatabase::getInstance();
-        $result = $db -> load(self::TABLE_NAME, 'idReservation', $idReservation);
-        if (empty($results)) {
-            throw new Exception(self::ERR_PAYMENT_NOT_FOUND);
-        }
-        return $result ? $this->arrayToEntity($result): null;
     }
 
     /**

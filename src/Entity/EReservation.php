@@ -50,7 +50,7 @@ class EReservation implements JsonSerializable {
     private DateTime $reservationDate;
 
     /**
-     * @var enum time frame of the reservation
+     * @var TimeFrame enum, time frame of the reservation
      */
     private ?TimeFrame $timeFrame;
 
@@ -80,6 +80,11 @@ class EReservation implements JsonSerializable {
     private string $comment;
 
     /**
+     * @var EExtra[] Array of extras associated with the reservation.
+     */
+    private array $extras = [];
+
+    /**
      * Constructor for the EReservation class with validation checks.
      *
      * @param ?int $idReservation The ID of the reservation.
@@ -106,10 +111,16 @@ class EReservation implements JsonSerializable {
         string $state,
         float $totPrice,
         int $people,
-        string $comment
+        string $comment,
+        array $extras = []
     ) {
         if (empty($state) || !in_array($state, self::VALID_STATES)) {
             throw new InvalidArgumentException("Invalid reservation state: $state");
+        }
+        foreach ($extras as $extra) {
+            if (!($extra instanceof EExtra)) {
+                throw new InvalidArgumentException("Invalid extra in extras array");
+            }
         }
         $this->idReservation = $idReservation;
         $this->idUser = $idUser;
@@ -122,6 +133,7 @@ class EReservation implements JsonSerializable {
         $this->totPrice = $totPrice;
         $this->people = $people;
         $this->comment = $comment;
+        $this->extras = $extras;
     }
 
     /**
@@ -300,6 +312,19 @@ class EReservation implements JsonSerializable {
     }
 
     /**
+     * Calculates the total topay if there are any extras in the Reservation.
+     * 
+     * @return float, the total amount for the extras.
+     */
+    public function calculateTotPriceFromExtras(): float {
+        $total = 0.0;
+        foreach ($this->extras as $extra) {
+            $total += $extra->getPriceExtra();
+        }
+        return $total;
+    }
+
+    /**
      * Get the people number of a reservation
      * 
      * @return int the number
@@ -341,6 +366,30 @@ class EReservation implements JsonSerializable {
     }
 
     /**
+     * Get the extras of a reservation
+     * 
+     * @return array the extras for the reservation
+     */
+    public function getExtras(): array {
+        return $this->extras;
+    }
+
+    /**
+     * Set's the extras for a reservation
+     * 
+     * @param array the extras
+     * @throws InvalidArgumentException if there are any errors.
+     */
+    public function setExtras(array $extras): void {
+        foreach ($extras as $extra) {
+            if (!($extra instanceof EExtra)) {
+                throw new InvalidArgumentException("Invalid extra in extras array");
+            }
+        }
+        $this->extras = $extras;
+    }
+
+    /**
      * Implementation of the jsonSerialize method.
      *
      * @return array Associative array of the object's properties.
@@ -357,7 +406,9 @@ class EReservation implements JsonSerializable {
             'state' => $this->state,
             'totPrice' => $this->totPrice,
             'people' => $this->people,
-            'comment' => $this->comment
+            'comment' => $this->comment,
+            'extras' => $this->extras
+
         ];
     }
 }
