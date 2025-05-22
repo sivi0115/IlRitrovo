@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 
 
-enum TimeFrame: string {
+enum TimeFrame: TimeFrame {
     case PRANZO = 'lunch';
     case CENA = 'dinner';
 }
@@ -263,7 +263,7 @@ class EReservation implements JsonSerializable {
      * @param DateTime $reservationDate The reservation date.
      * @throws InvalidArgumentException If the reservation date is not in the future.
      */
-    public function setReservationTimeFrame(string $timeFrame): void {
+    public function setReservationTimeFrame(TimeFrame $timeFrame): void {
         $enum=TimeFrame::tryFrom($timeFrame);
         if($enum===null) {
             throw new InvalidArgumentException("Invalid Time Frame value");
