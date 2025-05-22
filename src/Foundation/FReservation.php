@@ -35,6 +35,11 @@ class FReservation {
     protected const ERR_RES_NOT_FOUND = 'The reservation does not exist.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const ERR_MISSING_ID= 'Unable to retrieve the ID of the inserted reservation.';
+    protected const ERR_CONVERT_EXTRA = 'Cannot convert extras: idReservation is null.';
+    protected const ERR_INSERT_EXTRA = 'Failed to insert extra in reservation_extra.';
+    protected const ERR_DELETE_EXTRA = 'It was not possible to delete the extras associated with the reservation.';
+    protected const ERR_DELETE_RESERVATION = 'Error during the cancellation of the reservation.';
+    protected const ERR_ID_ROOM_NOT_FOUND = 'Room not found for idRoom = ';
 
     /**
      * Create a new reservation in the database.
@@ -45,6 +50,9 @@ class FReservation {
      */
     public function create(EReservation $reservation): int {
         $db = FDatabase::getInstance();
+         // Calculate the total price first
+        $totPrice = $this->calculateTotalReservationPrice($reservation);
+        $reservation->setTotPrice($totPrice);
         $data = $this->entityToArray($reservation);
         self::validateReservationData($data);
         try {
@@ -54,23 +62,24 @@ class FReservation {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
             //Retrive the last inserted ID
-            $idInserito=$db->getLastInsertedId();
-            if ($idInserito==null) {
+            $createdId=$db->getLastInsertedId();
+            if ($createdId==null) {
                 throw new Exception(self::ERR_MISSING_ID);
             }
             // If IdRoom is not null, we search the possible Extra associated
             if ($reservation->getIdRoom() !== null) {
-                $this->createExtrasInReservation($idInserito, $reservation->getExtras());
+                $reservation->setIdReservation((int)$createdId);  // imposta l'ID prima di usare entityToExtrasArray
+                $this->createExtrasInReservation($reservation);
             }
             //Retrive the inserted reservation by number to get the assigned idReservation
-            $storedReservation = $db->load(self::TABLE_NAME, 'idReservation', $idInserito);
+            $storedReservation = $db->load(self::TABLE_NAME, 'idReservation', $createdId);
             if ($storedReservation === null) {
                 throw new Exception(self::ERR_RETRIVE_RES);
             }
             //Assign the retrieved ID to the object
-            $reservation->setIdReservation((int)$idInserito);
+            $reservation->setIdReservation((int)$createdId);
             //Return the id associated with this reservation
-            return (int)$idInserito;
+            return (int)$createdId;
         } catch (Exception $e) {
             throw $e;
         }
@@ -80,55 +89,65 @@ class FReservation {
      * Associates a list of extras with a given reservation by inserting entries into the
      * reservation_extra many-to-many relationship table.
      *
-     * @param int $reservationId The ID of the reservation to associate the extras with.
-     * @param EExtra[] $extras An array of EExtra objects to be linked to the reservation.
-     *
-     * @throws Exception If any element in the extras array is not an instance of EExtra.
-     * @throws Exception If an insertion into the reservation_extra table fails.
+     * @param EReservation $reservation The reservation entity (must have ID and extras).
+     * @throws Exception If insertion fails.
      */
-    public function createExtrasInReservation(int $reservationId, array $extras): void {
-    $db = FDatabase::getInstance();
+    public function createExtrasInReservation(EReservation $reservation): void {
+        $db = FDatabase::getInstance();
+        $extrasData = $this->entityToExtrasArray($reservation);
 
-    foreach ($extras as $extra) {
-        if (!($extra instanceof EExtra)) {
-            throw new Exception("Invalid extra object.");
-        }
-        $data = [
-            'idReservation' => $reservationId,
-            'idExtra' => $extra->getIdExtra()
-        ];
-        $result = $db->insert('reservation_extra', $data);
-        if ($result === null) {
-            throw new Exception("Failed to insert extra in reservation_extra.");
+        foreach ($extrasData as $data) {
+            $result = $db->insert('extrainreservation', $data);
+            if ($result === null) {
+                throw new Exception(self::ERR_INSERT_EXTRA);
+            }
         }
     }
-}
-
 
     /**
-     * Reads a reservation from the database by their ID.
+     * Reads a reservation from the database by their ID, including associated extras
+     * only if the reservation has an associated room.
      *
      * @param int $idReservation The ID of the reservation to read.
      * @return EReservation|null The reservation object if found, null otherwise.
      */
     public function read(int $idReservation): ?EReservation {
-        $db=FDatabase::getInstance();
-        $result=$db->load(static::TABLE_NAME, 'idReservation', $idReservation);
-        return $result ? $this->arrayToEntity($result) : null;
+        $db = FDatabase::getInstance();
+        // Loads the reservation data
+        $result = $db->load(static::TABLE_NAME, 'idReservation', $idReservation);
+        if (!$result) {
+            return null;
+        }
+        // Converts in Entity
+        $reservation = $this->arrayToEntity($result);
+        // Loads the extras only if this is a room reservation
+        if ($reservation->getIdRoom() !== null) {
+            $reservationExtraRows = $db->loadMultiples('extrainreservation', ['idReservation' => $idReservation]);
+            $idExtras = array_column($reservationExtraRows, 'idExtra');
+            if (!empty($idExtras)) {
+                $extraRows = $db->fetchWhereIn('extra', 'idExtra', $idExtras);
+                $extras = $this->extrasArrayToEntity($extraRows);
+                $reservation->setExtras($extras);
+            }
+        }
+        return $reservation;
     }
 
     /**
-     * Updates an existing reservation in the database.
+     * Updates an existing reservation in the database, including its extras if applicable.
      *
      * @param EReservation $reservation The reservation to update.
-     * @return bool True if the update was successful, false otherwise.
-     * @throws Exception If an error occurred during the update.
+     * @return bool True if the update was successful.
+     * @throws Exception If an error occurs during the update process.
      */
     public function update(EReservation $reservation): bool {
         $db = FDatabase::getInstance();
         if (!self::exists($reservation->getIdReservation())) {
             throw new Exception(self::ERR_RES_NOT_FOUND);
         }
+        // We calculate again the total price with the new informations
+        $totPrice = $this->calculateTotalReservationPrice($reservation);
+        $reservation->setTotPrice($totPrice);
         $data = [
             'reservationDate' => $reservation->getReservationDate(),
             'timeFrame' => $reservation->getReservationTimeFrame(),
@@ -141,18 +160,65 @@ class FReservation {
         if (!$db->update(self::TABLE_NAME, $data, ['idReservation' => $reservation->getIdReservation()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
+        // Updates the extra only if this is a room reservation.
+        if ($reservation->getIdRoom() !== null) {
+            $this->updateExtrasInReservation($reservation);
+        }
         return true;
     }
 
     /**
-     * Deletes a reservation by its ID.
+     * Updates the extras associated with a reservation.
+     * Deletes existing links and inserts the new ones.
+     *
+     * @param EReservation $reservation
+     * @throws Exception If deletion or insertion fails.
+     */
+    private function updateExtrasInReservation(EReservation $reservation): void {
+        $db = FDatabase::getInstance();
+
+        // Deletes all the previous associations.
+        if (!$db->delete('extrainreservation', ['idReservation' => $reservation->getIdReservation()])) {
+            throw new Exception(self::ERR_DELETE_EXTRA);
+        }
+        // Inserts the new associations
+        $extrasData = $this->entityToExtrasArray($reservation);
+        foreach ($extrasData as $data) {
+            if ($db->insert('extrainreservation', $data) === null) {
+                throw new Exception(self::ERR_INSERT_EXTRA);
+            }
+        }
+    }
+
+    /**
+     * Deletes a reservation by its ID, including its associated extras
+     * only if the reservation has an associated room.
      *
      * @param int $idReservation The ID of the reservation to delete.
      * @return bool True if the deletion was successful, false otherwise.
+     * @throws Exception If the deletion of extras or the reservation fails.
      */
     public function delete(int $idReservation): bool {
         $db = FDatabase::getInstance();
-        return $db->delete(self::TABLE_NAME, ['idReservation' => $idReservation]);
+        // Loads the reservation to check idRoom
+        $result = $db->load(self::TABLE_NAME, 'idReservation', $idReservation);
+        if (!$result) {
+            throw new Exception(self::ERR_RES_NOT_FOUND);
+        }
+        $reservation = $this->arrayToEntity($result);
+        // If this is a room reservation, we delete the possible extras associated with the reservation
+        if ($reservation->getIdRoom() !== null) {
+            $deletedExtras = $db->delete('extrainreservation', ['idReservation' => $idReservation]);
+            if (!$deletedExtras) {
+                throw new Exception(self::ERR_DELETE_EXTRA);
+            }
+        }
+        // Deletes the reservation
+        $deletedReservation = $db->delete(self::TABLE_NAME, ['idReservation' => $idReservation]);
+        if (!$deletedReservation) {
+            throw new Exception(self::ERR_DELETE_RESERVATION);
+        }
+        return true;
     }
 
     /**
@@ -340,6 +406,29 @@ class FReservation {
     }
 
     /**
+     * Calculates the total price of a reservation, including extras and room tax if applicable.
+     *
+     * @param EReservation $reservation The reservation object.
+     * @return float The total price to be paid for the reservation.
+     * @throws Exception If room data is missing or invalid.
+     */
+    private function calculateTotalReservationPrice(EReservation $reservation): float {
+        $total = $reservation->calculateTotPriceFromExtras();
+        if ($reservation->getIdRoom() !== null) {
+            // Reetrives the room to obtain $tax
+            $fRoom = new FRoom();
+            $room = $fRoom->read($reservation->getIdRoom());
+            if ($room === null) {
+                throw new Exception(self::ERR_ID_ROOM_NOT_FOUND . $reservation->getIdRoom());
+            }
+            $tax = $room->getTax(); // Supponendo che questo metodo esista in ERoom
+            $total += $tax;
+        }
+
+        return $total;
+    }
+
+    /**
      * Creates an EReservation entity directly from provided data.
      *
      * @param array $data An associative array containing reservation details.
@@ -388,5 +477,46 @@ class FReservation {
             'people' => $reservation->getPeople(),
             'comment' => $reservation->getComment()
         ];
+    }
+
+    /**
+     * Converts the extras of a reservation to an array format suitable for DB insertion in extrainreservation.
+     *
+     * @param EReservation $reservation The reservation entity.
+     * @return array An array of associative arrays, each with 'idReservation' and 'idExtra'.
+     */
+    private function entityToExtrasArray(EReservation $reservation): array {
+        $result = [];
+        $extras = $reservation->getExtras();
+        $idReservation = $reservation->getIdReservation();
+        if ($idReservation === null) {
+            throw new Exception(self::ERR_CONVERT_EXTRA);
+        }
+        foreach ($extras as $extra) {
+            $result[] = [
+                'idReservation' => $idReservation,
+                'idExtra' => $extra->getIdExtra()
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * Converts DB rows from extrainreservation into an array of EExtra entities.
+     *
+     * @param array $rows The result rows from extrainreservation joined with extra.
+     * @return array Array of EExtra entities.
+     */
+    private function extrasArrayToEntity(array $rows): array {
+        $extras = [];
+        foreach ($rows as $row) {
+            // Qui puoi usare un costruttore minimale se hai solo idExtra
+            $extras[] = new \Entity\EExtra(
+                $row['idExtra'],
+                $row['name'] ?? null,
+                $row['price'] ?? null
+            );
+        }
+        return $extras;
     }
 }

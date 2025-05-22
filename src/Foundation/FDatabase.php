@@ -279,6 +279,23 @@ class FDatabase {
         $query = "SELECT * FROM $table WHERE $whereClause";
         return $this->fetchAll($query, array_values($conditions));
     }
+
+    /**
+     * Fetch all records from a table where a column matches one of the values in the array.
+     *
+     * @param string $table Table name.
+     * @param string $column Column name to filter.
+     * @param array $values Array of values for the WHERE IN clause.
+     * @return array Resulting rows.
+     */
+    public function fetchWhereIn(string $table, string $column, array $values): array {
+        if (empty($values)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($values), '?'));
+        $sql = "SELECT * FROM $table WHERE $column IN ($placeholders)";
+        return $this->fetchAll($sql, $values);
+    }
     
     /**
      * Fetches records from the database where a column's value is between two values.
