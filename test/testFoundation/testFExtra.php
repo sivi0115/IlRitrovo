@@ -17,9 +17,9 @@ $insertedId = null;
 function getTestExtraData(): EExtra
 {
     return new EExtra(
-        1,                // ID (sarà impostato dal database)
-        (string)"Palloncini",   // Nome
-        (float)10                // Prezzo
+        2,                // ID (sarà impostato dal database)
+        (string)"Fiori",   // Nome
+        (float)20                // Prezzo
     );
 }
 

@@ -10,7 +10,7 @@ use Entity\ERoom;
 use Entity\ETable;
 use Entity\TimeFrame;
 use Entity\EExtra;
-
+use Foundation\FExtra;
 
 /**
  * Funzione per creare un oggetto EReservation di test.
@@ -93,6 +93,7 @@ function testUpdateReservation(): void
     try {
         $fReservation = new FReservation(FDatabase::getInstance());
         $reservation = $fReservation->read($existingId);
+        
         if (!$reservation) {
             echo "ERRORE: extra con ID $existingId non trovato";
             return;
@@ -103,6 +104,9 @@ function testUpdateReservation(): void
         $reservation->setState('confirmed');
         $reservation->setPeople(10);
         $reservation->setComment('NuovoCommento');
+        $fExtra=new FExtra(FDatabase::getInstance());
+        $newExtra=$fExtra->read(2);
+        $reservation->setExtras([$newExtra]);
         $result=$fReservation->update($reservation);
 
         if ($result) {

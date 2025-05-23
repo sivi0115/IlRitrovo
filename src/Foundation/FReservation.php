@@ -149,12 +149,15 @@ class FReservation {
         $totPrice = $this->calculateTotalReservationPrice($reservation);
         $reservation->setTotPrice($totPrice);
         $data = [
+            'idUser' => $reservation->getIdUser(),
             'reservationDate' => $reservation->getReservationDate(),
             'timeFrame' => $reservation->getReservationTimeFrame(),
             'state' => $reservation->getState(),
             'totPrice' => $reservation->getTotPrice(),
             'people' => $reservation->getPeople(),
-            'comment' => $reservation->getComment()
+            'comment' => $reservation->getComment(),
+            'idTable' => $reservation->getIdTable(),
+            'idRoom' => $reservation->getIdRoom()
         ];
         self::validateReservationData($data);
         if (!$db->update(self::TABLE_NAME, $data, ['idReservation' => $reservation->getIdReservation()])) {
@@ -327,7 +330,7 @@ class FReservation {
      */
     public static function exists(string $idReservation): bool {
         $db = FDatabase::getInstance();
-        return $db->exists(self::TABLE_NAME, ['idExtra' => $idReservation]);
+        return $db->exists(self::TABLE_NAME, ['idReservation' => $idReservation]);
     }
 
     /**
@@ -342,10 +345,10 @@ class FReservation {
         if (!isset($data['idUser']) || !is_int($data['idUser']) || !FUser::exists($data['idUser'])) {
             throw new Exception(self::ERR_INVALID_USER);
         }
-        // Either idTable or idRoom must be set, but not both; at least one required
-        $hasTable = isset($data['idTable']) && !empty($data['idTable']);
-        $hasRoom = isset($data['idRoom']) && !empty($data['idRoom']);
-        if ($hasTable === $hasRoom) { // both true or both false
+        //Check if idRoom and idTable are not the same equal
+        $hasTable = array_key_exists('idTable', $data) && $data['idTable'] !== null;
+        $hasRoom = array_key_exists('idRoom', $data) && $data['idRoom'] !== null;
+        if ($hasTable === $hasRoom) { // entrambi true o entrambi false
             throw new Exception(self::ERR_INVALID_LOCATION);
         }
         // Reservation date must be valid and in the future (allow booking same day for evening)
