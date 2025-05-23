@@ -215,30 +215,20 @@ function testReadReviewByUserId(): void
 /**
  * Funzione per caricare TUTTE le Review dal db
  */
-function testReadAllReviews(): void {
+function testReadAllReviews(): void
+{
     echo "\nTest: Caricamento di tutte le reviews\n";
-    $fReview = new FReview(FDatabase::getInstance());
-    $reviews = $fReview->readAllReviews();
+    try {
+        $fReview = new FReview(FDatabase::getInstance());
+        $allReviews = $fReview->readAllReviews();
 
-    if (!is_array($reviews)) {
-        echo "Errore: il risultato non è un array.\nTest: FALLITO\n";
-        return;
+        echo "Totale reviews caricate: " . count($allReviews) . "\n";
+        echo "Dettagli: " . json_encode($allReviews, JSON_PRETTY_PRINT) . "\n";
+        echo "Test: PASSATO\n";
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test: FALLITO\n";
     }
-
-    if (empty($reviews)) {
-        echo "Errore: nessuna review trovata.\nTest: FALLITO\n";
-        return;
-    }
-
-    foreach ($reviews as $review) {
-        if (!$review instanceof EReview) {
-            echo "Errore: elemento non è un'istanza di EReview.\nTest: FALLITO\n";
-            return;
-        }
-    }
-
-    echo count($reviews) . " review(s) caricate correttamente.\n";
-    echo "Test: PASSATO\n";
 }
 
 

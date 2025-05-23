@@ -9,6 +9,7 @@ use Entity\EUser;
 use Entity\ERoom;
 use Entity\ETable;
 use Entity\TimeFrame;
+use Entity\EExtra;
 
 
 /**
@@ -18,18 +19,20 @@ use Entity\TimeFrame;
  */
 function getTestReservationData(): EReservation
 {
+    $extraFormDb=new EExtra(1, 'Palloncini', 10.00);
     return new EReservation(
+        1,
+        1,
         null,
         1,
-        5,
-        null,
         new DateTime('2025-12-13'),
         new DateTime('2025-12-25'),
         TimeFrame::PRANZO,
         'confirmed',
-        40.40,
         4,
-        'allergiaTest'
+        'allergiaTest',
+        [$extraFormDb] 
+
     );
 }
 
@@ -61,7 +64,7 @@ function testCreateReservation(): void {
  * Funzione per caricare una prenotazione dal db 
  */
 function testReadReservation(): void {
-    $idKnown=2; //ID DA CARICARE
+    $idKnown=1; //ID DA CARICARE
     echo "\nTest 2: Caricamento Prenotazione tramite il suo ID\n";
     try {
         $fReservation = new FReservation(FDatabase::getInstance());
@@ -71,7 +74,7 @@ function testReadReservation(): void {
             echo "Prenotazione caricata correttamente: " . json_encode($reservation) . "\n";
             echo "Test 2: PASSATO\n";
         } else {
-            echo "Extra non trovato.\n";
+            echo "Prenotazione non trovata.\n";
             echo "Test 2: FALLITO\n";
         }
     } catch (Exception $e) {
@@ -80,8 +83,57 @@ function testReadReservation(): void {
     }
 }
 
+/**
+ * Test: Aggiornamento di un extra.
+ */
+function testUpdateReservation(): void
+{
+    $existingId=1; //ID DELL'OGGETTO DA MODIFICARE
+    echo "\nTest 3: Aggiornamento di una prenotazione\n";
+    try {
+        $fReservation = new FReservation(FDatabase::getInstance());
+        $reservation = $fReservation->read($existingId);
+        if (!$reservation) {
+            echo "ERRORE: extra con ID $existingId non trovato";
+            return;
+        }
+        //MODIFICA I DATI DELL'OGGETTO
+        $reservation->setReservationDate(new DateTime('2025-12-26'));
+        $reservation->setReservationTimeFrame('dinner');
+        $reservation->setState('confirmed');
+        $reservation->setPeople(10);
+        $reservation->setComment('NuovoCommento');
+        $result=$fReservation->update($reservation);
+
+        if ($result) {
+            echo "Prenotazione aggiornata correttamente.\n";
+            echo "Test 3: PASSATO\n";
+        } else {
+            echo "Aggiornamento fallito.\n";
+            echo "Test 3: FALLITO\n";
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 3: FALLITO\n";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 //testCreateReservation();
-testReadReservation();
+//testReadReservation();
+testUpdateReservation();

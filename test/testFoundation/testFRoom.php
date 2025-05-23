@@ -14,8 +14,8 @@ use Entity\ERoom;
  */
 function getTestRoomData(): ERoom {
     return new ERoom (
-        null,
-        (string) 'areaNameTest 3',
+        1,
+        (string) 'StanzaRossa',
         (int) 20,
         (float) 100
     );
@@ -182,7 +182,7 @@ function testLoadAllRooms(): void
 
 
 // Execute tests
-//testCreateRoom();
+testCreateRoom();
 //testReadRoom();
 //testUpdateRoom();
 //testDeleteRoom();

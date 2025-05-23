@@ -27,6 +27,7 @@ class FReview {
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
     protected const ERR_MISSING_ID= 'Unable to retrieve the ID of the inserted extra';
     protected const ERR_INSERT_REVIEW = 'The review you are trying to reply to was not found.';
+    protected const ERR_ALL_REVIEWS = 'Error loading all Reviews';
     
     /**
      * Creates a new review in the database.
@@ -147,10 +148,15 @@ class FReview {
      *
      * @return EReview[] An array of EReview objects or an empty array if none are found.
      */
-    public static function readAllReviews(): array {
-        $db = FDatabase::getInstance();
-        $result = $db->loadMultiples(self::TABLE_NAME);
-        return self::mapResultsToReviews($result);
+    public function readAllReviews(): array {
+        try {
+            $db = FDatabase::getInstance(); // Get the singleton instance
+            $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data
+            return array_filter(array_map([$this, 'arrayToEntity'], $results));
+        } catch (Exception $e) {
+            error_log(self::ERR_ALL_REVIEWS . $e->getMessage());
+            return [];
+        }
     }
 
     /**
@@ -189,47 +195,13 @@ class FReview {
     }
 
     /**
-     * Maps the database results to an array of EReview objects.
-     *
-     * @param array $results The database results.
-     * @return EReview[] An array of EReview objects.
-     */
-    private static function mapResultsToReviews(array $results): array {
-        $reviews = [];
-        foreach ($results as $row) {
-            $reviews[] = (new FReview)->mapRowToReview($row);
-        }
-        return $reviews;
-    }
-
-    /**
-     * Maps a database row to an EReview object.
-     *
-     * @param array $row The database row.
-     * @return EReview The created review object.
-     */
-    private function mapRowToReview(array $row): EReview {
-        $creationTime = new DateTime($row['creationTime']); // Convert the string to DateTime
-        $review = new EReview(
-            $row['idUser'] ?? null,
-            $row['idReview'] ?? null,
-            (int)$row['stars'],
-            $row['body'],
-            $creationTime,
-            $row['idReply'] ?? null
-        );
-        $review->setCreationTime(new DateTime($row['creationTime']));
-        return $review;
-    }
-
-    /**
      * Creates an EReview entity from the provided data.
      *
      * @param array $data The data used to create the EReview object.
      * @return EReview The created review object.
      * @throws Exception If an error occurs during the creation of the entity.
      */
-    public static function arrayToEntity(array $data):EReview {
+    public function arrayToEntity(array $data):EReview {
             $requiredFields = ['idUser', 'stars', 'body'];
         foreach ($requiredFields as $field) {
             if (!isset($data[$field])) {

@@ -469,9 +469,10 @@ class FReservation {
             new DateTime($data['reservationDate']) ?? null,
             isset($data['timeFrame']) ? TimeFrame::Tryfrom($data['timeFrame']) : null,
             $data['state'] ?? null,
-            $data['totPrice'] ?? null,
             $data['people'] ?? null,
             $data['comment'] ?? null,
+            [],
+            $data['totPrice'] ?? null,
         );
     }
 
@@ -491,9 +492,9 @@ class FReservation {
             'reservationDate' => $reservation->getReservationDate(),
             'timeFrame' => $reservation->getReservationTimeFrame(),
             'state' => $reservation->getState(),
-            'totPrice' => $reservation->getTotPrice(),
             'people' => $reservation->getPeople(),
-            'comment' => $reservation->getComment()
+            'comment' => $reservation->getComment(),
+            'totPrice' => $reservation->getTotPrice(),
         ];
     }
 

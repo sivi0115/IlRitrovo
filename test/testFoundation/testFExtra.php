@@ -17,9 +17,9 @@ $insertedId = null;
 function getTestExtraData(): EExtra
 {
     return new EExtra(
-        null,                // ID (sarà impostato dal database)
-        (string)"Extra Test Name 4",   // Nome
-        (float)20                // Prezzo
+        1,                // ID (sarà impostato dal database)
+        (string)"Palloncini",   // Nome
+        (float)10                // Prezzo
     );
 }
 
@@ -171,9 +171,9 @@ function testLoadAllExtras(): void
 
 // Esecuzione dei test
 echo "Esecuzione dei test...\n";
-//testInsertExtra(); FATTO
-//testLoadExtraById(1); FATTO
-//testUpdateExtra(); FATTO
+testInsertExtra(); 
+//testLoadExtraById(1); 
+//testUpdateExtra(); 
 //testExistsExtra(); 
 //testLoadAllExtras();
-//testDeleteExtra(); FATTO
+//testDeleteExtra(); 

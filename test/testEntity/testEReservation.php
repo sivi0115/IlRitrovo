@@ -1,6 +1,6 @@
 <?php
-require_once 'EReservation.php';
-require_once 'EExtra.php';
+require_once __DIR__ . '/../../src/Entity/EReservation.php';
+require_once __DIR__ . '/../../src/Entity/EExtra.php';
 
 use Entity\EReservation;
 use Entity\TimeFrame;
@@ -54,7 +54,7 @@ $E1->setIdTable(1);
 $E1->setIdRoom(null);
 $E1->setCreationTime(new DateTime('11-02-2025'));
 $E1->setReservationDate(new DateTime('12-02-2025'));
-$E1->setReservationTimeFrame(TimeFrame::PRANZO);
+$E1->setReservationTimeFrame('lunch');
 $E1->setState('approved');
 $E1->setTotPrice(2);
 $E1->setPeople(5);

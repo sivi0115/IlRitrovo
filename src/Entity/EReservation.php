@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use JsonSerializable;
 
 
-enum TimeFrame: TimeFrame {
+enum TimeFrame: string {
     case PRANZO = 'lunch';
     case CENA = 'dinner';
 }
@@ -98,6 +98,7 @@ class EReservation implements JsonSerializable {
      * @param float $totPrice The total price of the reservation.
      * @param int $people people number in a reservation
      * @param string|null $comment any food intolerances to report (can be null)
+     * @param array array of EExtra object associated to reservation
      * @throws InvalidArgumentException If the state is invalid or if the reservation date is not in the future.
      */
     public function __construct(
@@ -109,10 +110,10 @@ class EReservation implements JsonSerializable {
         DateTime $reservationDate,
         ?TimeFrame $timeFrame,
         string $state,
-        float $totPrice,
         int $people,
         string $comment,
-        array $extras = []
+        array $extras = [],
+        float $totPrice=0.0
     ) {
         if (empty($state) || !in_array($state, self::VALID_STATES)) {
             throw new InvalidArgumentException("Invalid reservation state: $state");
@@ -130,10 +131,10 @@ class EReservation implements JsonSerializable {
         $this->reservationDate = $reservationDate;
         $this->timeFrame = $timeFrame;
         $this->state = $state;
-        $this->totPrice = $totPrice;
         $this->people = $people;
         $this->comment = $comment;
         $this->extras = $extras;
+        $this->totPrice = $totPrice;
     }
 
     /**
@@ -263,7 +264,7 @@ class EReservation implements JsonSerializable {
      * @param DateTime $reservationDate The reservation date.
      * @throws InvalidArgumentException If the reservation date is not in the future.
      */
-    public function setReservationTimeFrame(TimeFrame $timeFrame): void {
+    public function setReservationTimeFrame(string $timeFrame): void {
         $enum=TimeFrame::tryFrom($timeFrame);
         if($enum===null) {
             throw new InvalidArgumentException("Invalid Time Frame value");
