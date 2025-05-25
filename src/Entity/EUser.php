@@ -520,10 +520,14 @@ class EUser implements JsonSerializable {
     /**
      * Sets the peroson's role.
      *
-     * @param Role $role person's role.
+     * @param string $role person's role.
      */
-    public function setRole(Role $role): void {
-        $this->role = $role;
+    public function setRole(string $role): void {
+        $enum=Role::tryFrom($role);
+        if($enum===null) {
+            throw new InvalidArgumentException("Invalid Role value");
+        }
+        $this->role=$enum;
     }
 
     /**

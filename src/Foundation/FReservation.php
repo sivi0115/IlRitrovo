@@ -121,17 +121,29 @@ class FReservation {
         // Converts in Entity
         $reservation = $this->arrayToEntity($result);
         // Loads the extras only if this is a room reservation
-        if ($reservation->getIdRoom() !== null) {
-            $reservationExtraRows = $db->loadMultiples('extrainreservation', ['idReservation' => $idReservation]);
-            $idExtras = array_column($reservationExtraRows, 'idExtra');
-            if (!empty($idExtras)) {
-                $extraRows = $db->fetchWhereIn('extra', 'idExtra', $idExtras);
-                $extras = $this->extrasArrayToEntity($extraRows);
-                $reservation->setExtras($extras);
-            }
-        }
+        $this->readExtrasInReservation($reservation);
         return $reservation;
     }
+
+    /**
+     * Read the extras associated to a Reservation
+     */
+    public function readExtrasInReservation(EReservation $reservation): void {
+    //Controllo se c'è una stanza prenotata
+    if ($reservation->getIdRoom() === null) {
+        return;
+    }
+
+    $db = FDatabase::getInstance();
+    $reservationExtraRows = $db->loadMultiples('extrainreservation', ['idReservation' => $reservation->getIdReservation()]);
+    $idExtras = array_column($reservationExtraRows, 'idExtra');
+
+    if (!empty($idExtras)) {
+        $extraRows = $db->fetchWhereIn('extra', 'idExtra', $idExtras);
+        $extras = $this->extrasArrayToEntity($extraRows);
+        $reservation->setExtras($extras);
+    }
+}
 
     /**
      * Updates an existing reservation in the database, including its extras if applicable.
@@ -225,50 +237,20 @@ class FReservation {
     }
 
     /**
-     * Loads a reservation by a specified value and column.
-     *
-     * @param mixed $value The value to search for.
-     * @param string $column The column to search in.
-     * @return EReservation|null The loaded reservation, or null if not found.
-     * @throws Exception If an error occurs during the database operation.
-     */
-    public static function loadReservation(mixed $value, string $column): ?EReservation {
-        $db = FDatabase::getInstance();
-        $result = $db->load(self::TABLE_NAME, $column, $value);
-        return $result ? self::createReservationFromRow($result) : null;
-    }
-    
-    /**
-     * Retrieves a reservation by its unique ID.
-     *
-     * @param int $id The unique identifier of the reservation.
-     * @return EReservation|null The EReservation object if found, null otherwise.
-     * @throws Exception If no reservation is found with the given ID.
-     */
-    public function getById(int $id): ?EReservation {
-        $db = FDatabase::getInstance();
-        $result = $db->load(self::TABLE_NAME, 'id', $id);
-
-        if (empty($result)) {
-            throw new Exception(self::ERR_RES_NOT_FOUND);
-        }
-
-        return $this->arrayToEntity($result);
-    }
-
-    /**
      * Gets reservations for a given user ID.
      *
      * @param int $userId The ID of the user.
      * @return EReservation[] An array of reservations.
      * @throws Exception If an error occurs during the database operation.
      */
-    public static function getReservationsByUserId(int $userId): array {
+    public function readReservationsByUserId(int $userId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $userId]);
         $reservations = [];
         foreach ($result as $row) {
-            $reservations[] = self::createReservationFromRow($row);
+            $reservation= $this->arrayToEntity($row);
+            $this->readExtrasInReservation($reservation);
+            $reservations[]=$reservation;
         }
         return $reservations;
     }
@@ -280,12 +262,14 @@ class FReservation {
      * @return EReservation[] An array of EReservation objects associated with the table.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public static function getReservationsByTable(int $tableId): array {
+    public function readReservationsByTableId(int $tableId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idTable' => $tableId]);
         $reservations = [];
         foreach ($result as $row) {
-            $reservations[] = self::createReservationFromRow($row);
+            $reservation= $this->arrayToEntity($row);
+            $this->readExtrasInReservation($reservation);
+            $reservations[]=$reservation;
         }
         return $reservations;
     }
@@ -297,29 +281,16 @@ class FReservation {
      * @return EReservation[] An array of EReservation objects associated with the room.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public static function getReservationsByRoom(int $roomId): array {
+    public function readReservationsByRoom(int $roomId): array {
         $db = FDatabase::getInstance();
         $result = $db->fetchWhere(self::TABLE_NAME, ['idRoom' => $roomId]);
         $reservations = [];
         foreach ($result as $row) {
-            $reservations[] = self::createReservationFromRow($row);
+            $reservation= $this->arrayToEntity($row);
+            $this->readExtrasInReservation($reservation);
+            $reservations[]=$reservation;
         }
         return $reservations;
-    }
-
-    /**
-     * Cancels a reservation.
-     *
-     * @param int $idReservation The ID of the reservation.
-     * @return bool True if the cancellation was successful, false otherwise.
-     * @throws Exception If an error occurs during the update.
-     */
-    public static function cancelReservation(int $idReservation, string $newState): bool {
-        $db = FDatabase::getInstance();
-        // Update the reservation status
-        return $db->update(
-            self::TABLE_NAME, ['state' => 'cancelled'], ['idReservation' => $idReservation]
-        );
     }
 
     /**
@@ -367,29 +338,6 @@ class FReservation {
         if (!isset($data['people']) || !is_int($data['people']) || $data['people'] <= 0) {
             throw new Exception(self::ERR_INVALID_PEOPLE);
         }
-    }
-
-    /**
-     * Creates a reservation from a database row.
-     *
-     * @param array $row The database row.
-     * @return EReservation The created reservation object.
-     * @throws Exception If an error occurs during the creation of the reservation.
-     */
-    private static function createReservationFromRow(array $row): EReservation {
-        return new EReservation(
-            $row['idReservation'] ?? null,
-            $row['idUser'] ?? null,
-            $row['idTable'] ?? null,
-            $row['idRoom'] ?? null,
-            $row['creationTime'] ?? null,
-            $row['reservationTime'] ?? null,
-            $row['timeFrame'] ?? null,
-            $row['state'],
-            $row['totPrice'] ?? null,
-            $row['people'] ?? null,
-            $row['comment'] ?? null,
-        );
     }
 
     /**

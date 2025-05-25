@@ -13,7 +13,7 @@ class FTable {
     /**
      * Name of the table associated with the table entity in the database.
      */
-    protected const TABLE_NAME = 'table';
+    protected const TABLE_NAME = 'tables';
 
     // Error messages centralized for consistency
     protected const ERR_INSERTION_FAILED = 'Error during the insertion of the table.';

@@ -5,6 +5,7 @@ namespace Foundation;
 use Entity\EPayment;
 use Entity\StatoPagamento;
 use Foundation\FCreditCard;
+use DateTime;
 use Exception;
 
 /**
@@ -38,7 +39,7 @@ class FPayment {
         $db = FDatabase::getInstance();
         // Retrieve the associated reservation to get the total price
         $fReservation = new FReservation();
-        $reservation = $fReservation->getById($payment->getIdReservation());
+        $reservation = $fReservation->read($payment->getIdReservation());
         // Il valore di totPrice è già validato da FReservation, quindi non ripetiamo il controllo qui
         $payment->setTotal($reservation->getTotPrice());
         $data = $this->entityToArray($payment);
@@ -108,7 +109,7 @@ class FPayment {
         $db = FDatabase::getInstance();
         // Retrieve the associated reservation to get the total price
         $fReservation = new FReservation();
-        $reservation = $fReservation->getById($payment->getIdReservation());
+        $reservation = $fReservation->read($payment->getIdReservation());
         // Il valore di totPrice è già validato da FReservation, quindi non ripetiamo il controllo qui
         $payment->setTotal($reservation->getTotPrice());
         $data = [
@@ -198,8 +199,8 @@ class FPayment {
             $data['idCreditCard'],
             $data['idReservation'],
             $data['total'],
-            $data['creationTime'],
-            $data['state']
+            new DateTime($data['creationTime']) ?? null,
+            isset($data['state']) ? StatoPagamento::Tryfrom($data['state']) : null,
         );
     }
 

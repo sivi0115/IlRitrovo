@@ -15,7 +15,7 @@ use Entity\ECreditCard;
 function getTestCreditCardData(): ECreditCard
 {
     return new ECreditCard(
-        null,
+        1,
         'holderTesting',
         '111222333444555777',
         123,
@@ -210,7 +210,7 @@ function testMaskCreditCardNumber(): void
 // Esecuzione dei test
 echo "Esecuzione dei test per FCreditCard...\n";
 
-//testCreateCreditCard();
+testCreateCreditCard();
 //testReadCreditCard();
 //testUpdateCreditCard();
 //testDeleteCreditCard();

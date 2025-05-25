@@ -3,6 +3,7 @@ namespace Foundation;
 
 use DateTime;
 use Entity\EUser;
+use Entity\Role;
 use Exception;
 
 /**
@@ -106,10 +107,12 @@ class FUser {
         if (!self::exists($user->getIdUser())) {
             throw new Exception(self::ERR_USER_NOT_FOUND);
         }
+        //Hash della password prima di aggiornarla e caricarla
+        $hashedPassword=$this->hashPassword($user->getPassword());
         $data = [
             'username' => $user->getUsername(),
             'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
+            'password' => $hashedPassword,
             'image' => $user->getImage(),
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
@@ -142,7 +145,7 @@ class FUser {
     public function readAllUsers(): array {
         $db = FDatabase::getInstance();
         $results = $db->fetchAllFromTable(static::TABLE_NAME);
-        return array_map([$this, 'createEntityUser'], $results);
+        return array_map([$this, 'arrayToEntity'], $results);
     }
 
     /**
@@ -154,28 +157,7 @@ class FUser {
     public function readBlockedUsers(): array {
         $db = FDatabase::getInstance();
         $results = $db->fetchWhere(static::TABLE_NAME, ['ban' => 1]);
-        return array_map([$this, 'createEntityUser'], $results);
-    }
-
-    /**
-     * Updates the user's review ID in the database, only if the user is allowed to write a review.
-     * A user can write a review if:
-     * - they are a regular user
-     * - they have not already submitted a review
-     * - they have at least one reservation with a date equal to or before today
-     *
-     * @param EUser $user The user attempting to write a review.
-     * @param int $reviewId The ID of the new review to assign to the user.
-     * @return bool True if the update was successful, false otherwise.
-     */
-    public function updateReview(EUser $user, int $reviewId): bool {
-        if ($user->canWriteReview()) {
-            $db = FDatabase::getInstance();
-            return $db->update(
-                FUser::TABLE_NAME, ['idReview' => $reviewId], ['idUser' => $user->getIdUser()]
-            );
-        }
-        return false;
+        return array_map([$this, 'arrayToEntity'], $results);
     }
 
     /**
@@ -298,7 +280,7 @@ class FUser {
             $data['surname'],
             new DateTime($data['birthDate']),
             $data['phone'],
-            $data['role'],
+            isset($data['role']) ? Role::Tryfrom($data['role']) : null,
             $data['ban']
         );
     }

@@ -14,8 +14,8 @@ use Entity\ETable;
  */
 function getTestTableData(): ETable {
     return new ETable (
-        null,
-        (string) 'tableNameTest2',
+        1,
+        (string) 'Tavolo1',
         (int) 4,
     );
 }
@@ -180,9 +180,9 @@ function testLoadAllTables(): void
 
 
 // Execute tests
-//testCreateTable();
+testCreateTable();
 //testReadTable();
 //testUpdateTable();
 //testDeleteTable();
 //testExistsTable();
-testLoadAllTables();
+//testLoadAllTables();

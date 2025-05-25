@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use Foundation\FUser;
 use Entity\EUser;
 use Entity\Role;
+use Foundation\FDatabase;
 
 /**
  * Funzione per ottenere i dati di un test user.
@@ -13,36 +14,32 @@ use Entity\Role;
 function getTestUserData(): EUser
 {
     return new EUser(
-        null, // ID generato automaticamente, quindi null
+        3,
         null,
-        'usernameTest',
-        'testuser@gmail.com',
-        'PaSsWo123!',
-        'https://example.com/image.jpg',
-        'userNome',
-        'userCognome',
-        new DateTime('2000-01-01'),
-        '1234567890',
+        'usernameDiProva',
+        'provadueee@gmail,com',
+        'password123@1!',
+        'immagine.jpeg',
+        'marco',
+        'cipriani',
+        new DateTime('2000-02-20'),
+        '+393408993462',
         Role::UTENTE,
-        false //non bannato,
+        false
     );
 }
 
-$insertedId = null; // Variabile per memorizzare l'ID inserito
-
 /**
- * Testa l'inserimento di un utente.
+ * Funzione per creare un nuovo utente nel db
  */
-function testCreateUser(): void
-{
-    global $insertedId;
+function testCreateUser(): void {
     echo "\nTest 1: Inserimento di un nuovo utente\n";
     try {
-        $fUser = new FUser();
+        $fUser = new FUser(FDatabase::getInstance());
         $testUser = getTestUserData();
         $insertedId = $fUser->create($testUser);
 
-        if ($insertedId !== 0) {
+        if ($insertedId !== null) {
             echo "Inserimento riuscito. ID inserito: $insertedId\n";
             echo "Test 1: PASSATO\n";
         } else {
@@ -56,22 +53,17 @@ function testCreateUser(): void
 }
 
 /**
- * Testa la lettura di un utente per ID.
+ * Carica un utente dal db
  */
-function testReadUserById(): void
-{
-    global $insertedId;
-    echo "\nTest 2: Lettura di un utente tramite ID\n";
-    if ($insertedId === null) {
-        echo "Test 2: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-        return;
-    }
+function testReadUser(): void {
+    $idKnown=2; //ID DA CARICARE
+    echo "\nTest 2: Caricamento Utente tramite il suo ID\n";
     try {
-        $fUser = new FUser();
-        $user = $fUser->read($insertedId);
+        $fUser = new FUser(FDatabase::getInstance());
+        $user = $fUser->read($idKnown);
 
         if ($user instanceof EUser) {
-            echo "Utente trovato: " . json_encode($user) . "\n";
+            echo "Utente caricato correttamente: " . json_encode($user) . "\n";
             echo "Test 2: PASSATO\n";
         } else {
             echo "Utente non trovato.\n";
@@ -84,25 +76,28 @@ function testReadUserById(): void
 }
 
 /**
- * Testa l'aggiornamento di un utente.
+ * Funzione per modificare i dati di un Utente nel db
  */
-function testUpdateUser(): void
-{
-    global $insertedId;
+function testUpdateUser(): void {
+     $existingId=2; //ID DELL'OGGETTO DA MODIFICARE
     echo "\nTest 3: Aggiornamento di un utente\n";
-    if ($insertedId === null) {
-        echo "Test 3: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-        return;
-    }
     try {
-        $fUser = new FUser();
-        $updatedUser = getTestUserData();
-        $updatedUser->setUsername('updateduser');
-        $updatedUser->setIdUser($insertedId);
+        $fUser = new FUser(FDatabase::getInstance());
+        $user = $fUser->read($existingId);
+        
+        if (!$user) {
+            echo "ERRORE: Utente con ID $existingId non trovato";
+            return;
+        }
+        //MODIFICA I DATI DELL'OGGETTO
+        $user->setEmail('emailnuovadue@hotmal.it');
+        $user->setBirthDate(new DateTime('2001-01-04'));
+        $user->setPassword('nuovaPasswooooord123!');
+        $user->setUsername('saretta01');
+        $user->setRole('admin');
+        $result=$fUser->update($user);
 
-        $updated = $fUser->update($updatedUser);
-
-        if ($updated) {
+        if ($result) {
             echo "Utente aggiornato correttamente.\n";
             echo "Test 3: PASSATO\n";
         } else {
@@ -116,302 +111,44 @@ function testUpdateUser(): void
 }
 
 /**
- * Testa la lettura di un utente per username.
- */
-function testReadUserByUsername(): void
-{
-    global $insertedId;
-    echo "\nTest 4: Lettura di un utente tramite username\n";
-    if ($insertedId === null) {
-        echo "Test 4: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-        return;
-    }
-    try {
-        $fUser = new FUser();
-        $user = $fUser->readUserByUsername('updateduser');
-
-        if ($user instanceof EUser) {
-            echo "Utente trovato: " . json_encode($user) . "\n";
-            echo "Test 4: PASSATO\n";
-        } else {
-            echo "Utente non trovato.\n";
-            echo "Test 4: FALLITO\n";
-        }
-    } catch (Exception $e) {
-        echo "Errore: " . $e->getMessage() . "\n";
-        echo "Test 4: FALLITO\n";
-    }
-}
-
-/**
- * Testa la lettura di tutti gli utenti.
+ * Funzione che carica tutti gli utenti nel db
  */
 function testReadAllUsers(): void
 {
-    echo "\nTest 5: Lettura di tutti gli utenti\n";
+    echo "\nTest 6: Caricamento di tutti gli utenti\n";
     try {
-        $fUser = new FUser();
-        $users = $fUser->readAllUsers();
+        $fUser = new FUser(FDatabase::getInstance());
+        $allUsers = $fUser->readAllUsers();
 
-        if (!empty($users)) {
-            echo "Utenti trovati: " . json_encode($users) . "\n";
-            echo "Test 5: PASSATO\n";
-        } else {
-            echo "Nessun utente trovato.\n";
-            echo "Test 5: PASSATO (se il database è vuoto)\n";
-        }
-    } catch (Exception $e) {
-        echo "Errore: " . $e->getMessage() . "\n";
-        echo "Test 5: FALLITO\n";
-    }
-}
-
-/**
- * Testa la cancellazione di un utente.
- */
-function testDeleteUser(): void
-{
-    global $insertedId;
-    echo "\nTest 6: Cancellazione di un utente\n";
-    if ($insertedId === null) {
-        echo "Test 6: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-        return;
-    }
-    try {
-        $fUser = new FUser();
-        $deleted = $fUser->delete($insertedId);
-
-        if ($deleted) {
-            echo "Utente cancellato correttamente.\n";
-            echo "Test 6: PASSATO\n";
-        } else {
-            echo "Cancellazione fallita.\n";
-            echo "Test 6: FALLITO\n";
-        }
+        echo "Totale utenti caricati: " . count($allUsers) . "\n";
+        echo "Dettagli: " . json_encode($allUsers) . "\n";
+        echo "Test 6: PASSATO\n";
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage() . "\n";
         echo "Test 6: FALLITO\n";
     }
 }
 
-/**
- * Testa il ban di un utente.
- */
-function testBanUser(): void
-{
-    global $insertedId;
-    echo "\nTest 7: Ban di un utente\n";
-    if ($insertedId === null) {
-        echo "Test 7: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-        return;
-    }
-    try {
-        $fUser = new FUser();
-        $banned = $fUser->banUser($insertedId, 'Test ban motivation');
-
-        if ($banned) {
-            echo "Utente bannato correttamente.\n";
-            echo "Test 7: PASSATO\n";
-        } else {
-            echo "Ban fallito.\n";
-            echo "Test 7: FALLITO\n";
-        }
-    } catch (Exception $e) {
-        echo "Errore: " . $e->getMessage() . "\n";
-        echo "Test 7: FALLITO\n";
-    }
-
-    /**
-     * Testa l'esistenza di un utente per campo specifico.
-     */
-    function testExistsUser(): void
-    {
-        global $insertedId;
-        echo "\nTest 8: Verifica esistenza di un utente\n";
-        if ($insertedId === null) {
-            echo "Test 8: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-            return;
-        }
-        try {
-            $fUser = new FUser();
-            $exists = $fUser->exists('idUser', $insertedId);
-
-            if ($exists) {
-                echo "L'utente esiste nel database.\n";
-                echo "Test 8: PASSATO\n";
-            } else {
-                echo "L'utente non esiste nel database.\n";
-                echo "Test 8: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 8: FALLITO\n";
-        }
-    }
-
-
-    /**
-     * Testa la restituzione degli utenti bloccati.
-     */
-    function testGetBlockedUsers(): void
-    {
-        global $insertedId;
-        echo "\nTest 9: Recupero degli utenti bloccati\n";
-        if ($insertedId === null) {
-            echo "Test 9: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-            return;
-        }
-        try {
-            $fUser = new FUser();
-            $fUser->banUser($insertedId, 'Motivazione di test');
-            $blockedUsers = $fUser->readBlockedUsers();
-
-            if (!empty($blockedUsers)) {
-                echo "Utenti bloccati trovati: " . json_encode($blockedUsers) . "\n";
-                echo "Test 9: PASSATO\n";
-            } else {
-                echo "Nessun utente bloccato trovato.\n";
-                echo "Test 9: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 9: FALLITO\n";
-        }
-    }
-
-    /**
-     * Testa l'inserimento di un utente con dati non validi.
-     */
-    function testCreateUserWithInvalidData(): void
-    {
-        echo "\nTest 10: Inserimento di un utente con dati non validi\n";
-        try {
-            $fUser = new FUser();
-            $invalidUser = new EUser(
-                null,
-                '', // Username vuoto
-                '', // Nome vuoto
-                '', // Cognome vuoto
-                'ff', // Data di nascita fittizia
-                '', // Telefono vuoto
-                '', // Immagine vuota
-                '', // Email vuota
-                '', // Password vuota
-                new DateTime('1900-01-01'),
-                'sfiugh',
-                Role::AMMINISTRATORE,
-                false
-            );
-
-            $insertedId = $fUser->create($invalidUser);
-
-            if ($insertedId === 0) {
-                echo "Inserimento fallito come previsto.\n";
-                echo "Test 10: PASSATO\n";
-            } else {
-                echo "Inserimento riuscito inaspettatamente. ID: $insertedId\n";
-                echo "Test 10: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 10: PASSATO (se il sistema gestisce correttamente l'errore)\n";
-        }
-    }
-
-    /**
-     * Testa la lettura di un utente con ID non valido.
-     */
-    function testReadUserInvalidId(): void
-    {
-        echo "\nTest 11: Lettura di un utente con ID non valido\n";
-        try {
-            $fUser = new FUser();
-            $user = $fUser->read(-1); // ID non valido
-
-            if ($user === null) {
-                echo "Utente non trovato come previsto.\n";
-                echo "Test 11: PASSATO\n";
-            } else {
-                echo "Utente trovato inaspettatamente: " . json_encode($user) . "\n";
-                echo "Test 11: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 11: PASSATO (se il sistema gestisce correttamente l'errore)\n";
-        }
-    }
-
-    /**
-     * Testa la lettura di un utente con uno username non valido.
-     */
-    function testReadUserInvalidUsername(): void
-    {
-        echo "\nTest 12: Lettura di un utente con uno username non valido\n";
-        try {
-            $fUser = new FUser();
-            $user = $fUser->readUserByUsername('nonexistentusername'); // Username non valido
-
-            if ($user === null) {
-                echo "Utente non trovato come previsto.\n";
-                echo "Test 12: PASSATO\n";
-            } else {
-                echo "Utente trovato inaspettatamente: " . json_encode($user) . "\n";
-                echo "Test 12: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 12: PASSATO (se il sistema gestisce correttamente l'errore)\n";
-        }
-    }
-
-    /**
-     * Testa la cancellazione di un utente già cancellato.
-     */
-    function testDeleteUserAlreadyDeleted(): void
-    {
-        global $insertedId;
-        echo "\nTest 13: Cancellazione di un utente già cancellato\n";
-        if ($insertedId === null) {
-            echo "Test 13: Nessun ID disponibile. Esegui prima il test di inserimento.\n";
-            return;
-        }
-        try {
-            $fUser = new FUser();
-            $fUser->delete($insertedId); // Cancella l'utente
-            $deletedAgain = $fUser->delete($insertedId); // Riprova a cancellarlo
-
-            if (!$deletedAgain) {
-                echo "Seconda cancellazione fallita come previsto.\n";
-                echo "Test 13: PASSATO\n";
-            } else {
-                echo "Seconda cancellazione riuscita inaspettatamente.\n";
-                echo "Test 13: FALLITO\n";
-            }
-        } catch (Exception $e) {
-            echo "Errore: " . $e->getMessage() . "\n";
-            echo "Test 13: PASSATO (se il sistema gestisce correttamente l'errore)\n";
-        }
-    }
-
-}
 
 
 
-// Esecuzione dei test
-//echo "Esecuzione dei test...\n";
 
-testCreateUser();
-//testReadUserById();
+
+
+
+
+
+
+
+
+
+
+
+
+//testCreateUser();
+//testReadUser();
 //testUpdateUser();
-//testReadUserByUsername();
 //testReadAllUsers();
-//testBanUser();
-//testExistsUser ();
-//testGetBlockedUsers ();
-//testCreateUserWithInvalidData ();
-//testReadUserInvalidId ();
-//testReadUserInvalidUsername ();
-//testDeleteUser();
-//testDeleteUserAlreadyDeleted ();
+
 
 

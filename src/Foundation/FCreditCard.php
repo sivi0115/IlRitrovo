@@ -192,7 +192,7 @@ class FCreditCard {
      */
     public static function isExpired(string $expiration): bool
     {
-        $expirationDate = DateTime::createFromFormat('Y-m', $expiration);
+        $expirationDate = DateTime::createFromFormat('Y-m-d', $expiration);
         if (!$expirationDate) {
             throw new Exception(self::ERROR_INVALID_EXPIRATION);
         }

@@ -95,7 +95,7 @@ function testUpdateReservation(): void
         $reservation = $fReservation->read($existingId);
         
         if (!$reservation) {
-            echo "ERRORE: extra con ID $existingId non trovato";
+            echo "ERRORE: Prenotazione con ID $existingId non trovato";
             return;
         }
         //MODIFICA I DATI DELL'OGGETTO
@@ -103,7 +103,7 @@ function testUpdateReservation(): void
         $reservation->setReservationTimeFrame('dinner');
         $reservation->setState('confirmed');
         $reservation->setPeople(10);
-        $reservation->setComment('NuovoCommento');
+        $reservation->setComment('Secondo Update');
         $fExtra=new FExtra(FDatabase::getInstance());
         $newExtra=$fExtra->read(2);
         $reservation->setExtras([$newExtra]);
@@ -122,6 +122,75 @@ function testUpdateReservation(): void
     }
 }
 
+function testreadReservationsByUserId(): void {
+    $existingUserId = 1;
+    echo "\nTest 4: Caricamento prenotazioni dell'utente tramite suo ID\n";
+
+    try {
+        $fReservation = new FReservation(FDatabase::getInstance());
+        $reservations = $fReservation->readReservationsByUserId($existingUserId);
+
+        if (count($reservations) === 0) {
+            echo "Nessuna prenotazione trovata.\n";
+            echo "Test 4: FALLITO\n";
+            return;
+        }
+
+        foreach ($reservations as $reservation) {
+            if (!($reservation instanceof EReservation)) {
+                echo "Errore: elemento non valido nell'array.\n";
+                echo "Test 4: FALLITO\n";
+                return;
+            }
+
+            // Stampa con json_encode come nell'altro test
+            echo "Prenotazione:\n" . json_encode($reservation, JSON_PRETTY_PRINT) . "\n";
+            echo str_repeat("-", 40) . "\n";
+        }
+
+        echo count($reservations) . " prenotazioni trovate e tutte valide.\n";
+        echo "Test 4: PASSATO\n";
+
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 4: FALLITO\n";
+    }
+}
+
+function testreadReservationsByTableId(): void {
+    $existingTableId = 2;
+    echo "\nTest 4: Caricamento prenotazioni tramite Id di un tavolo\n";
+
+    try {
+        $fReservation = new FReservation(FDatabase::getInstance());
+        $reservations = $fReservation->readReservationsByUserId($existingTableId);
+
+        if (count($reservations) === 0) {
+            echo "Nessuna prenotazione trovata.\n";
+            echo "Test 4: FALLITO\n";
+            return;
+        }
+
+        foreach ($reservations as $reservation) {
+            if (!($reservation instanceof EReservation)) {
+                echo "Errore: elemento non valido nell'array.\n";
+                echo "Test 4: FALLITO\n";
+                return;
+            }
+
+            // Stampa con json_encode come nell'altro test
+            echo "Prenotazione:\n" . json_encode($reservation, JSON_PRETTY_PRINT) . "\n";
+            echo str_repeat("-", 40) . "\n";
+        }
+
+        echo count($reservations) . " prenotazioni trovate e tutte valide.\n";
+        echo "Test 4: PASSATO\n";
+
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage() . "\n";
+        echo "Test 4: FALLITO\n";
+    }
+}
 
 
 
@@ -141,3 +210,5 @@ function testUpdateReservation(): void
 //testCreateReservation();
 //testReadReservation();
 testUpdateReservation();
+//testreadReservationsByUserId();
+//testreadReservationsByTableId(); //Il suo funzionamento implica il funzionamento anche di readRes.ByRoomId :)

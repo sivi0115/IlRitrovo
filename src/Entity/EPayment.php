@@ -188,10 +188,14 @@ class EPayment implements JsonSerializable {
     /**
      * Set the payment state.
      *
-     * @param StatoPagamento $state The payment state to set.
+     * @param string $state The payment state to set.
      */
-    public function setState(StatoPagamento $state): void {
-        $this->state = $state;
+    public function setState(string $state): void {
+        $enum=StatoPagamento::tryFrom($state);
+        if($enum===null) {
+            throw new InvalidArgumentException("Invalid Payment State value");
+        }
+        $this->state=$enum;
     }
 
     /**

@@ -17,8 +17,8 @@ function getTestPaymentData(): EPayment
 {
     return new EPayment(
         null,                // ID (sarà impostato dal database)
-        (int) 6,          // ID della credit card
-        (int) 3,         // ID della reservation (RICONTROLLALO)
+        (int) 1,          // ID della credit card
+        (int) 1,         // ID della reservation (RICONTROLLALO)
         (float) 50.50,                 // Totale da pagare
         new DateTime('2025-12-13'),     //timestamp della data in cui avviene questo pagamento
         StatoPagamento::ANNULLATO       //lo stato del pagamento
@@ -29,7 +29,7 @@ function getTestPaymentData(): EPayment
 /**
  * Test: Inserimento di un nuovo payment.
  */
-function testInsertPayment(): void
+function testCreatePayment(): void
 {
     global $insertedId;
     echo "\nTest 1: Inserimento di un nuovo payment\n";
@@ -54,7 +54,7 @@ function testInsertPayment(): void
 /**
  * Test: Caricamento di un payment tramite ID.
  */
-function testLoadPaymentById(): void
+function testReadPaymentById(): void
 {
     $idKnown=1; //RICONTROLLALO
     echo "\nTest 2: Caricamento payment tramite ID\n";
@@ -92,7 +92,7 @@ function testUpdatePayment(): void
         //MODIFICA I DATI DELL'OGGETTO
         $payment->setTotal(60.60);
         $payment->setCreationTime(new DateTime('2025-12-14'));
-        $payment->setState(StatoPagamento::COMPLETATO);
+        $payment->setState('completed');
         $result=$fPayment->update($payment);
 
         if ($result) {
@@ -136,7 +136,7 @@ function testExistsPayment(): void
  */
 function testReadPaymentByIdReservation(): void
 {
-    $idKnown = 4; // RICONTROLLALO, NON CONOSCO L'ID DELLA RESERVATION NEL DATABASE
+    $idKnown = 1; // RICONTROLLALO, NON CONOSCO L'ID DELLA RESERVATION NEL DATABASE
     echo "\nTest 5: Caricamento pagamento tramite ID prenotazione\n";
     try {
         $fPayment = new FPayment();
@@ -154,3 +154,28 @@ function testReadPaymentByIdReservation(): void
         echo "Test: FALLITO\n";
     }
 }
+
+/**
+ * Funzione che verifica se lo stato di un pagamento è valido.
+ */
+function testValidatePayment(): void {
+    echo "\nTesting per la validazione dello stato di un pagamento\n";
+
+    $fPayment=new FPayment(FDatabase::getInstance());
+    $ePayment=$fPayment->read(1);
+    $payment=$fPayment->validatePayment($ePayment);
+
+    if($payment === true) {
+        echo "TEST PASSATO: Stato del pagamento valido";
+    } else {
+        echo "TEST FALLITO: Stato invalido";
+    }
+}
+
+
+
+//testCreatePayment();
+//testReadPaymentById();
+//testReadPaymentByIdReservation();
+//testUpdatePayment();
+//testValidatePayment();
