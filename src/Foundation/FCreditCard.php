@@ -148,6 +148,17 @@ class FCreditCard {
     }
 
     /**
+     * Reads all Credit Card from the database.
+     *
+     * @return ECreditCard[] An array of EUser objects.
+     */
+    public function readAll(): array {
+        $db = FDatabase::getInstance();
+        $results = $db->fetchAllFromTable(static::TABLE_NAME);
+        return array_map([$this, 'arrayToEntity'], $results);
+    }
+
+    /**
      * Masks a credit card number, showing only the last 4 digits.
      *
      * @param string $number The credit card number.

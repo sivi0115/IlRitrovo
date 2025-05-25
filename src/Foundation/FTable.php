@@ -107,7 +107,7 @@ class FTable {
      *
      * @return ETable[]
      */
-    public static function readAllTables(): array {
+    public static function readAll(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return array_map([self::class, 'arrayToEntity'], $result);

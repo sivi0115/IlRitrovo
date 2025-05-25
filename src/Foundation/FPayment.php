@@ -137,6 +137,17 @@ class FPayment {
     }
 
     /**
+     * Reads all payments from the database.
+     *
+     * @return EPayment[] An array of EUser objects.
+     */
+    public function readAll(): array {
+        $db = FDatabase::getInstance();
+        $results = $db->fetchAllFromTable(static::TABLE_NAME);
+        return array_map([$this, 'arrayToEntity'], $results);
+    }
+
+    /**
      * Checks if a payment exists.
      *
      * @param array $conditions Conditions to check existence.

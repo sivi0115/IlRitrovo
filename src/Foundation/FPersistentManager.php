@@ -56,7 +56,7 @@ use Exception;
      * @throws Exception If the class or method is not found or if an error occurs during the store operation.
      */
     public function create(object $obj): int {
-        return $this->performOperation('store', $this->getClassName($obj), $obj);
+        return $this->performOperation('create', $this->getClassName($obj), $obj);
     }
 
     /**
@@ -68,7 +68,7 @@ use Exception;
      * @throws Exception If the class or method is not found.
      */
     public function read(int $id, string $fClass): ?object {
-        return $this->performOperation('load', $fClass, $id);
+        return $this->performOperation('read', $fClass, $id);
     }
 
     /**
@@ -95,32 +95,12 @@ use Exception;
     }
 
     /**
-     * Convert an Entity oject to an Array for db operations
-     * 
-     * @param EEntity Entity Object to convert for db
-     * @return array array returned from db
-     */
-    public function entityToArray(object $obj): array {
-        return $this->performOperation('entityToArray', $this->getClassName($obj), $obj);
-    }
-    
-    /**
-     * Convert a data Array from db to an Entity Object
-     * 
-     * @param array array to convert
-     * @return EEntity Entity Object 
-     */
-    public function arrayToEntity(array $data, string $fClass) {
-        return $this->performOperation('arrayToEntity', $fClass, $data);
-    }
-
-    /**
      * Check if an object exists in db from the Id
      * 
      * @param int the object Id, like useId, reviewId, ecc
      * @return bool true if founded, false not founded
      */
-    public function exists(int $id, string $fClass) {
+    public function exists(int $id, string $fClass): bool {
         return $this->performOperation('exists', $fClass, $id);
     }
     
@@ -131,9 +111,9 @@ use Exception;
      * @return array A list of objects.
      * @throws Exception If the class or method is not found.
      */
-    public function loadAll(string $fClass): array
+    public function readAll(string $fClass): array
     {
-        return $this->performOperation('loadAll', $fClass);
+        return $this->performOperation('readAll', $fClass);
     }
 
     /**
@@ -257,7 +237,8 @@ use Exception;
             throw new Exception("Method not found: $className::$method");
         }
 
-        return $className::$method(...$params);
+        $instance=new $className();
+        return $instance->$method(...$params);
     }
 
     /**

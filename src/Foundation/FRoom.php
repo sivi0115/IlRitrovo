@@ -108,7 +108,7 @@ class FRoom {
      *
      * @return ERoom[]
      */
-    public static function readAllRoom(): array {
+    public static function readAll(): array {
         $db = FDatabase::getInstance();
         $result = $db->loadMultiples(self::TABLE_NAME);
         return array_map([self::class, 'arrayToEntity'], $result);

@@ -142,7 +142,7 @@ class FUser {
      *
      * @return EUser[] An array of EUser objects.
      */
-    public function readAllUsers(): array {
+    public function readAll(): array {
         $db = FDatabase::getInstance();
         $results = $db->fetchAllFromTable(static::TABLE_NAME);
         return array_map([$this, 'arrayToEntity'], $results);

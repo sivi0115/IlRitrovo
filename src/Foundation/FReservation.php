@@ -305,6 +305,17 @@ class FReservation {
     }
 
     /**
+     * Reads all Reservations from the database.
+     *
+     * @return EReservation[] An array of EUser objects.
+     */
+    public function readAll(): array {
+        $db = FDatabase::getInstance();
+        $results = $db->fetchAllFromTable(static::TABLE_NAME);
+        return array_map([$this, 'arrayToEntity'], $results);
+    }
+
+    /**
      * Validates the data for creating or updating a reservation.
      *
      * @param array $data The data array containing reservation info.

@@ -148,7 +148,7 @@ class FReview {
      *
      * @return EReview[] An array of EReview objects or an empty array if none are found.
      */
-    public function readAllReviews(): array {
+    public function readAll(): array {
         try {
             $db = FDatabase::getInstance(); // Get the singleton instance
             $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data

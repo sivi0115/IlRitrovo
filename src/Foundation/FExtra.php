@@ -133,7 +133,7 @@ class FExtra {
      * @return EExtra[] An array of all EExtra objects.
      * @throws Exception If there is an error during the retrieval operation.
      */
-    public function readAllExtra(): array {
+    public function readAll(): array {
         try {
             $db = FDatabase::getInstance(); // Get the singleton instance
             $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data
