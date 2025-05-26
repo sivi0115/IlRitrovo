@@ -4,6 +4,7 @@ namespace Controller;
 
 use DateTime;
 use Entity\EUser;
+use Entity\Role;
 use Exception;
 use Foundation\FUser;
 use InvalidArgumentException;
@@ -21,8 +22,7 @@ class CUser
      *
      * @return bool True se l'utente è loggato, false altrimenti.
      */
-    public function isLogged(): bool
-    {
+    public function isLogged(): bool {
         return isset($_SESSION['user']);
     }
 
@@ -32,8 +32,7 @@ class CUser
      * Se il metodo della richiesta è POST, processa i dati del form e tenta di registrare l'utente.
      * @throws Exception
      */
-    public function register(): void
-    {
+    public function register(): void {
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $view = new VUser();
             $view->showRegistrationForm();
@@ -64,14 +63,17 @@ class CUser
         try {
             $user = new EUser(
                 null,
+                $_POST['idReview'] ?? null,
                 $_POST['username'],
+                $_POST['email'],
+                $_POST['password'],
+                $_POST['image'] ?? null,
                 $_POST['name'],
                 $_POST['surname'],
                 new DateTime($_POST['birthDate']),
                 $_POST['phone'],
-                $_POST['image'] ?? null,
-                $_POST['email'],
-                $_POST['password']
+                Role::UTENTE,
+                $_POST['ban']
             );
         } catch (InvalidArgumentException $e) {
             $view->showRegistrationError($e->getMessage()); // nella view si deve mettere il tipo di errore da mostrare
@@ -79,7 +81,7 @@ class CUser
         }
 
         try {
-            $fUser->createUser($user);
+            $fUser->create($user);
             header('Location: /user/login');
         } catch (Exception $e) {
             $view->showRegistrationError($e->getMessage());
@@ -191,17 +193,17 @@ class CUser
             try {
                 // Aggiorna i dati dell'utente
                 $user->setUsername($_POST['username']);
-                $user->setName($_POST['name']);
-                $user->setSurname($_POST['surname']);
-                $user->setBirthDate(new DateTime($_POST['birthDate']));
-                $user->setPhone($_POST['phone']);
-                $user->setImage($_POST['image'] ?? null);
                 $user->setEmail($_POST['email']);
                 if (!empty($_POST['password'])) {
                     $user->setPassword($_POST['password']);
                 }
+                $user->setImage($_POST['image'] ?? null);
+                $user->setName($_POST['name']);
+                $user->setSurname($_POST['surname']);
+                $user->setBirthDate(new DateTime($_POST['birthDate']));
+                $user->setPhone($_POST['phone']);
 
-                $fUser->updateUser($user);
+                $fUser->update($user);
                 $_SESSION['user'] = serialize($user);
                 header('Location: /user/profile');
             } catch (InvalidArgumentException $e) {
@@ -231,7 +233,7 @@ class CUser
             $user = unserialize($_SESSION['user']);
 
             try {
-                $fUser->deleteUser($user->getIdUser());
+                $fUser->delete($user->getIdUser());
                 session_destroy();
                 header('Location: /user/login');
             } catch (Exception $e) {
