@@ -14,17 +14,17 @@ use Foundation\FDatabase;
 function getTestUserData(): EUser
 {
     return new EUser(
-        3,
+        2,
         null,
-        'usernameDiProva',
-        'provadueee@gmail,com',
+        'usernameAdminDiProva',
+        'admin.prova@gmail,com',
         'password123@1!',
         'immagine.jpeg',
         'marco',
         'cipriani',
         new DateTime('2000-02-20'),
         '+393408993462',
-        Role::UTENTE,
+        Role::AMMINISTRATORE,
         false
     );
 }
@@ -63,7 +63,7 @@ function testReadUser(): void {
         $user = $fUser->read($idKnown);
 
         if ($user instanceof EUser) {
-            echo "Utente caricato correttamente: " . json_encode($user) . "\n";
+            echo "Utente caricato correttamente: " . json_encode($user, JSON_PRETTY_PRINT) . "\n";
             echo "Test 2: PASSATO\n";
         } else {
             echo "Utente non trovato.\n";
@@ -90,11 +90,10 @@ function testUpdateUser(): void {
             return;
         }
         //MODIFICA I DATI DELL'OGGETTO
-        $user->setEmail('emailnuovadue@hotmal.it');
-        $user->setBirthDate(new DateTime('2001-01-04'));
+        $user->setEmail('emailnuovatre@outlook.it');
+        $user->setBirthDate(new DateTime('2001-01-08'));
         $user->setPassword('nuovaPasswooooord123!');
-        $user->setUsername('saretta01');
-        $user->setRole('admin');
+        $user->setUsername('usernameRandoooom');
         $result=$fUser->update($user);
 
         if ($result) {
@@ -118,7 +117,7 @@ function testReadAllUsers(): void
     echo "\nTest 6: Caricamento di tutti gli utenti\n";
     try {
         $fUser = new FUser(FDatabase::getInstance());
-        $allUsers = $fUser->readAllUsers();
+        $allUsers = $fUser->readAll();
 
         echo "Totale utenti caricati: " . count($allUsers) . "\n";
         echo "Dettagli: " . json_encode($allUsers) . "\n";
@@ -129,8 +128,63 @@ function testReadAllUsers(): void
     }
 }
 
+/**
+ * Funzione per bannare un utente
+ */
+function testBanUser(): void {
+    echo "\n Test per bannare un utente\n";
 
+    $fUser=new FUser(FDatabase::getInstance());
+    $admin=$fUser->read(2);
+    $target=$fUser->read(1);
+    $blocked=$fUser->banUser($admin, $target);
 
+    if ($blocked === true) {
+        echo "Operazione avvenuta con successo\n";
+        echo "Utente con ID: " . $target->getIdUser() . " bannato con successo";
+    } else {
+        echo "Operazione fallita";
+    }
+}
+
+/**
+ * Funzione per sbannare un utente
+ */
+function testSbanUser(): void {
+    echo "\n Test per sbannare un utente";
+
+    $fUser=new FUser(FDatabase::getInstance());
+    $admin=$fUser->read(2);
+    $target=$fUser->read(1);
+    $blocked=$fUser->unbanUser($admin, $target);
+
+    if ($blocked === true) {
+        echo "Operazione avvenuta con successo\n";
+        echo "Utente con ID: " . $target->getIdUser() . " sbannato correttamente";
+    } else {
+        echo "Operazione fallita"; 
+    }
+}
+
+/**
+ * Funzione per caricare tutti gli utenti bannati da db
+ */
+function testReadAllBlockedUser(): void {
+    echo "\n Test di caricamento di tutti gli utenti bloccati\n";
+
+    $fUser=new FUser(FDatabase::getInstance());
+    $banUsers=$fUser->readBlockedUsers();
+
+    foreach($banUsers as $user) {
+        if(!$user instanceof EUser) {
+            echo "Caricamento fallito";
+        } else {
+            echo "Operazione avvenuta con successo\n";
+            echo "Ecco tutti gli utenti bannati: \n";
+            echo json_encode($banUsers, JSON_PRETTY_PRINT);
+        }
+    }
+}
 
 
 
@@ -149,6 +203,9 @@ function testReadAllUsers(): void
 //testReadUser();
 //testUpdateUser();
 //testReadAllUsers();
+//testBanUser();
+//testSbanUser();
+//testReadAllBlockedUser();
 
 
 

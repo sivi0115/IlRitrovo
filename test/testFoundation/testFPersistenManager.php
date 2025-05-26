@@ -76,9 +76,9 @@ function testUpdatePm(): void {
         $utente = $pm->read(2, FUser::class);
 
         // Modifico un attributo
-        $utente->setUsername('nuovoUsername');
-        $utente->setEmail('nuovaEmail@yahoo.com');
-        $utente->setName('NomeAggiornato');
+        $utente->setUsername('usernameAggiornato');
+        $utente->setEmail('emailaggionrata@libero.com');
+        $utente->setName('nuovoNomeDiAggionramento');
 
         // Eseguo l'update
         $pm->update($utente);
@@ -94,6 +94,16 @@ function testUpdatePm(): void {
     } catch (Exception $e) {
         echo "Errore durante l'update: " . $e->getMessage() . "\n";
     }
+}
+
+/**
+ * Funzione per eliminare un oggetto da db
+ */
+function testDelete(): void {
+    global $pm;
+    $idKnowed=2;
+    $deleted=$pm->delete($idKnowed, FUser::class);
+    echo "Oggetto eliminato con successo";
 }
 
 function testReadAll(): void {
@@ -152,5 +162,6 @@ function testExists(): void {
 //testCreatePm();
 //testReadPm();
 //testUpdatePm();
+//testDelete();
 //testReadAll();
 //testExists();

@@ -158,7 +158,7 @@ function testLoadAllExtras(): void
     echo "\nTest 6: Caricamento di tutti gli extra\n";
     try {
         $fExtra = new FExtra(FDatabase::getInstance());
-        $allExtras = $fExtra->readAllExtra();
+        $allExtras = $fExtra->readAll();
 
         echo "Totale extra caricati: " . count($allExtras) . "\n";
         echo "Dettagli: " . json_encode($allExtras) . "\n";

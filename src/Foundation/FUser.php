@@ -121,11 +121,11 @@ class FUser {
         ];
         // Checks for duplicates
         $duplicates = self::checkEmailAndUsernameDuplicate($data, $user->getIdUser());
-        if ($duplicates['emailDuplicata']) {
-            throw new Exception('Email already in use by another user.');
-        }
-        if ($duplicates['usernameDuplicato']) {
+        if ($duplicates['duplicateUsername']) {
             throw new Exception('Username already in use by another user.');
+        }
+        if ($duplicates['duplicateEmail']) {
+            throw new Exception('Email already in use by another user.');
         }
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
@@ -277,7 +277,7 @@ class FUser {
         $db = FDatabase::getInstance();
         // Query with condition OR and idUser different
         $users = $db->fetchAll('users', [
-            'OR' => ['email' => $data['email'], 'username' => $data['username']],
+            'OR' => ['username' => $data['username'], 'email' => $data['email']],
             'idUser[!]' => $excludedIdUser
         ]);
         // Initialize flags
@@ -285,15 +285,15 @@ class FUser {
         $duplicateUsername = false;
         // Checks for duplicates
         foreach ($users as $user) {
-            if ($user['email'] === $data['email']) {
+            if ($user['username'] === $data['username']) {
                 $duplicateEmail = true;
             }
-            if ($user['username'] === $data['username']) {
+            if ($user['email'] === $data['email']) {
                 $duplicateUsername = true;
             }
         }
         return [
-            'duplicateEmail' => $duplicateEmail, 'duplicateUsername' => $duplicateUsername];
+            'duplicateUsername' => $duplicateUsername, 'duplicateEmail' => $duplicateEmail];
     }
 
     /**
