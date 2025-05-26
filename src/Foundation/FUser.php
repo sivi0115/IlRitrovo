@@ -119,7 +119,14 @@ class FUser {
             'birthDate' => $user->getBirthDate(),
             'phone' => $user->getPhone(),
         ];
-        self::validateUserData($data);
+        // Checks for duplicates
+        $duplicates = self::checkEmailAndUsernameDuplicate($data, $user->getIdUser());
+        if ($duplicates['emailDuplicata']) {
+            throw new Exception('Email already in use by another user.');
+        }
+        if ($duplicates['usernameDuplicato']) {
+            throw new Exception('Username already in use by another user.');
+        }
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
@@ -253,6 +260,40 @@ class FUser {
             throw new Exception(self::ERR_EMAIL_TAKEN);
         }
         // Other validations (e.g., password, birthDate, phone) are handled in the EUser entity.
+    }
+
+    /**
+     * Checks for duplicate email and username entries in the database,
+     * excluding the user with the specified ID.
+
+     *
+     * @param array $data An associative array containing 'email' and 'username' keys.
+     * @param int $excludedIdUser The user ID to exclude from the duplication check.
+     * @return array An associative array with boolean keys:
+     *               - 'emailDuplicata': true if the email is duplicated, false otherwise.
+     *               - 'usernameDuplicato': true if the username is duplicated, false otherwise.
+     */
+    function checkEmailAndUsernameDuplicate(array $data, int $excludedIdUser): array {
+        $db = FDatabase::getInstance();
+        // Query with condition OR and idUser different
+        $users = $db->fetchAll('users', [
+            'OR' => ['email' => $data['email'], 'username' => $data['username']],
+            'idUser[!]' => $excludedIdUser
+        ]);
+        // Initialize flags
+        $duplicateEmail = false;
+        $duplicateUsername = false;
+        // Checks for duplicates
+        foreach ($users as $user) {
+            if ($user['email'] === $data['email']) {
+                $duplicateEmail = true;
+            }
+            if ($user['username'] === $data['username']) {
+                $duplicateUsername = true;
+            }
+        }
+        return [
+            'duplicateEmail' => $duplicateEmail, 'duplicateUsername' => $duplicateUsername];
     }
 
     /**
