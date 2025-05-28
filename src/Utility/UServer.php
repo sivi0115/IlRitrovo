@@ -1,5 +1,7 @@
 <?php
 
+
+namespace Utility;
 /**
  * class to acces to the $_SERVER superglobal array, you Must use this array instead of using directly the _SERVER array
  */

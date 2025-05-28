@@ -1,6 +1,7 @@
 <?php
 
 namespace Controller;
+namespace Utility;
 
 use DateTime;
 use Entity\EUser;
@@ -9,22 +10,116 @@ use Exception;
 use Foundation\FUser;
 use InvalidArgumentException;
 use View\VUser;
+use Utility\UCookies;
+use Utility\USessions;
+use Foundation\FPersistentManager;
 
 /**
  * Classe UserController
  *
  * Gestisce le azioni relative agli utenti, come la registrazione, il login e la gestione del profilo.
  */
-class CUser
-{
-    /**
-     * Verifica se l'utente è loggato.
-     *
-     * @return bool True se l'utente è loggato, false altrimenti.
-     */
-    public function isLogged(): bool {
-        return isset($_SESSION['user']);
+class CUser {
+
+    public static function isLogged() {
+        $logged = false;
+        
+        //Control if exists a persistent Cookie
+        if(UCookies::isSet('PHPSESSID')){
+            if(session_status() == PHP_SESSION_NONE){
+                USessions::getInstance();
+            }
+        }
+        //Create a new session and verify if is banned
+        if(USessions::isSetSessionElement('user')){
+            $logged = true;
+            self::isBanned(); //da implementare
+        }
+        //Redirect the User at login page
+        if(!$logged){
+            header('Location: /IlRitrovo/Home');
+            exit;
+        }
+        return true;
     }
+
+    /**
+     * Function for login the user
+     */
+    public function login() {
+        $view=new VUser;
+        //Verifico se l'utente è già in sessione, in caso lo reindirizzo alla home
+        if(USessions::getInstance()->isSetSessionElement('idUser')) {
+            header('Location: /IlRitrovo/Home');
+            exit;
+        }
+        //Recupero dei dati dalla richiesta POST HTTP
+        $email=UHTTPMethods::post('email');
+        $password=UHTTPMethods::post('password');
+
+        //Recupero dell'oggetto dal db
+        $user=FPersistentManager::getInstance()->loadEmail('email');
+        if($user->getEmail() != $email) {
+            $view->loginError("Utente Non Trovato");
+            return;
+        }
+        if(!password_verify($password, $user->getPassword())) {
+            $view->loginError("Password Errata");
+            return;
+        }
+        if($user->getBan() == true) {
+            $view->loginError("Utente Bannato");
+            return;
+        }
+        
+        //Check superati, login effettuato e utente inserito in sessione
+        USessions::getInstance()->setSessionElement('idUser', $user->getIdUser());
+        header('Location: /IlRitrovo/Home');
+        exit;
+    }
+
+    /**
+     * Funzione per sloggare un utente
+     */
+    public function logout() {
+        USessions::getInstance();
+        USessions::unsetSession();
+        USessions::destroySession();
+        header('Location: /IlRitrovo/Home');
+        exit;
+    }
+
+    /**
+     * Funzione per registrare un utente
+     */
+    public function signup() {
+        $view = new VUser;
+        $data= [
+            'idUser' => UHTTPMethods::post('idUser'),
+            'idReview' => UHTTPMethods::post('idReview'),
+            'username' => UHTTPMethods::post('username'),
+            'email' => UHTTPMethods::post('email'),
+            'pasword' => password_hash(UHTTPMethods::post('password', PASSWORD_DEFAULT)),
+        ];
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Gestisce la registrazione di un nuovo utente.
@@ -85,21 +180,6 @@ class CUser
             header('Location: /user/login');
         } catch (Exception $e) {
             $view->showRegistrationError($e->getMessage());
-        }
-    }
-
-    /**
-     * Gestisce il login dell'utente.
-     * Se il metodo della richiesta è GET, mostra il form di login.
-     * Se il metodo della richiesta è POST, processa i dati del form e tenta di effettuare il login.
-     */
-    public function login(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            $view = new VUser();
-            $view->showLoginForm();
-        } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $this->loginUser();
         }
     }
 
@@ -242,16 +322,5 @@ class CUser
         } else {
             header('Location: /user/login');
         }
-    }
-
-    /**
-     * Gestisce il logout dell'utente.
-     * Distrugge la sessione e reindirizza l'utente alla pagina di login.
-     */
-    public function logout(): void
-    {
-        session_start();
-        session_destroy();
-        header('Location: /user/login');
     }
 }

@@ -1,9 +1,11 @@
 <?php
 require_once(__DIR__ . '/../../../../config/config.php');
+
+namespace Utility;
 /**
  * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
  */
-class USession{
+class USessions{
 
     /**
      * singleton class
@@ -19,7 +21,7 @@ class USession{
  
      public static function getInstance() {
          if (self::$instance == null) {
-             self::$instance = new USession();
+             self::$instance = new USessions();
          }
  
          return self::$instance;
@@ -42,8 +44,8 @@ class USession{
     /**
      * unset of an element of _SESSION superglobal
      */
-    public static function unsetSessionElement($id){
-        unset($_SESSION[$id]);
+    public static function unsetSessionElement($idUser){
+        unset($_SESSION[$idUser]);
     }
 
     /**

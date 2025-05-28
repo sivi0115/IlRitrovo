@@ -117,15 +117,25 @@ use Exception;
     }
 
     /**
-     * Loads a user from the database.
+     * Loads a user from the database by Username.
      *
      * @param string $username The username of the user to load.
      * @return EUser|null Returns an EUser object if found in the database, otherwise null.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadUser(string $username): ?EUser
-    {
+    public function loadUser(string $username): ?EUser {
         return $this->loadByField(FUser::class, 'username', $username);
+    }
+
+    /**
+     * Loads a user from the database by email.
+     *
+     * @param string $username The username of the user to load.
+     * @return EUser|null Returns an EUser object if found in the database, otherwise null.
+     * @throws Exception If an error occurs during the load operation.
+     */
+    public function loadEmail(string $email): ?EUser {
+        return $this->loadByField(FUser::class, 'email', $email);
     }
 
     /**

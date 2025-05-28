@@ -12,6 +12,14 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
     );
 
     public static $prefixLengthsPsr4 = array (
+        'V' => 
+        array (
+            'View\\' => 5,
+        ),
+        'U' => 
+        array (
+            'Utility\\' => 8,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -29,16 +37,29 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         array (
             'Entity\\' => 7,
         ),
+        'C' => 
+        array (
+            'Controller\\' => 11,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'View\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/View',
+        ),
+        'Utility\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Utility',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
         'Smarty\\' => 
         array (
-            0 => __DIR__ . '/..' . '/smarty/smarty/src',
+            0 => __DIR__ . '/../..' . '/src/Smarty',
+            1 => __DIR__ . '/..' . '/smarty/smarty/src',
         ),
         'None\\EventHubNewMain\\' => 
         array (
@@ -51,6 +72,10 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         'Entity\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Entity',
+        ),
+        'Controller\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Controller',
         ),
     );
 
