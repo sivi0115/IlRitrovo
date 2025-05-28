@@ -22,25 +22,27 @@ use Foundation\FPersistentManager;
 class CUser {
 
     public static function isLogged() {
-        $logged = false;
-        
-        //Control if exists a persistent Cookie
-        if(UCookies::isSet('PHPSESSID')){
-            if(session_status() == PHP_SESSION_NONE){
-                USessions::getInstance();
-            }
+    // Assicura la sessione
+    if(session_status() == PHP_SESSION_NONE) {
+        USessions::getInstance();
+    }
+
+    // Controlla se c’è idUser in sessione
+    if(!USessions::isSetSessionElement('idUser')) {
+        header('Location: /IlRitrovo/Home');
+        exit;
+    }
+
+    // Qui eventualmente controlla se bannato
+    $userId = USessions::getSessionElement('idUser');
+    $user = FPersistentManager::getInstance()->read($userId, FUser::class);
+    if ($user && $user->getBan()) {
+        // Logout o redirect per utente bannato
+        USessions::destroySession();
+        header('Location: /IlRitrovo/Home?banned=1');
+        exit;
         }
-        //Create a new session and verify if is banned
-        if(USessions::isSetSessionElement('user')){
-            $logged = true;
-            self::isBanned(); //da implementare
-        }
-        //Redirect the User at login page
-        if(!$logged){
-            header('Location: /IlRitrovo/Home');
-            exit;
-        }
-        return true;
+    return true;
     }
 
     /**
@@ -48,7 +50,7 @@ class CUser {
      */
     public function login() {
         $view=new VUser;
-        //Verifico se l'utente è già in sessione, in caso lo reindirizzo alla home
+        //Verifico se l'utente è già in sessione, in caso lo reindirizzo alla home, già loggato 
         if(USessions::getInstance()->isSetSessionElement('idUser')) {
             header('Location: /IlRitrovo/Home');
             exit;
@@ -74,8 +76,14 @@ class CUser {
         
         //Check superati, login effettuato e utente inserito in sessione
         USessions::getInstance()->setSessionElement('idUser', $user->getIdUser());
-        header('Location: /IlRitrovo/Home');
-        exit;
+        if($user->getRole() === 'admin') {
+            header('Location: /IlRitrovo/AdminHome');
+            exit;
+        } else { 
+            header('Location: /IlRitrovo/Home');
+            exit;
+        }
+        
     }
 
     /**
@@ -94,16 +102,64 @@ class CUser {
      */
     public function signup() {
         $view = new VUser;
-        $data= [
-            'idUser' => UHTTPMethods::post('idUser'),
-            'idReview' => UHTTPMethods::post('idReview'),
-            'username' => UHTTPMethods::post('username'),
-            'email' => UHTTPMethods::post('email'),
-            'pasword' => password_hash(UHTTPMethods::post('password', PASSWORD_DEFAULT)),
-        ];
-
-
+        //Estraggo i dati dalla richiesta POST per creare un oggetto Entity
+        $user = new EUser(
+            UHTTPMethods::post('idUser'),
+            UHTTPMethods::post('idReview'),
+            UHTTPMethods::post('username'),
+            UHTTPMethods::post('email'),
+            password_hash(UHTTPMethods::post('password'), PASSWORD_DEFAULT),
+            UHTTPMethods::post('image'),
+            UHTTPMethods::post('name'),
+            UHTTPMethods::post('surname'),
+            new DateTime(UHTTPMethods::post('birthDate')),
+            UHTTPMethods::post('phone'),
+            UHTTPMethods::post('role'),
+            UHTTPMethods::post('ban')
+        );
+        $user=FPersistentManager::getInstance()->create($user);
+        USessions::getInstance()->setSessionElement('idUser', $user);
+        //Utente registrato correttamente, reindirizzo alla home page
+        header('Location: /IlRitrovo/Home');
     }
+
+    /**
+     * Funzione per modificare i dati profilo di un utente
+     */
+    public function editProfile() {
+    if (CUser::isLogged()) {
+        $userId = USessions::getInstance()->getSessionElement('idUser');
+        $user = FPersistentManager::getInstance()->read($userId, FUser::class);
+
+        $user->setUsername(UHTTPMethods::post('username'));
+        $user->setEmail(UHTTPMethods::post('email'));
+
+        $newPassword = UHTTPMethods::post('password');
+        if (!empty($newPassword)) {
+            $user->setPassword(password_hash($newPassword, PASSWORD_DEFAULT));
+        }
+
+        $user->setImage(UHTTPMethods::post('image'));
+        $user->setName(UHTTPMethods::post('name'));
+        $user->setSurname(UHTTPMethods::post('surname'));
+        $user->setBirthDate(UHTTPMethods::post('birthDate'));
+        $user->setPhone(UHTTPMethods::post('phone'));
+
+        FPersistentManager::getInstance()->update($user);
+
+        header('Location: /IlRitrovo/Home');
+        exit;
+    } else {
+        header('Location: /IlRitrovo/Home');
+        exit;
+    }
+}
+
+
+        
+
+
+    
 
 
 
@@ -227,27 +283,6 @@ class CUser {
                 $view->showProfile($user, $payments);
             } catch (Exception $e) {
                 $view->showProfileError($e->getMessage());
-            }
-        } else {
-            header('Location: /user/login');
-        }
-    }
-
-    /**
-     * Gestisce la modifica del profilo utente.
-     * Se il metodo della richiesta è GET, mostra il form di modifica del profilo.
-     * Se il metodo della richiesta è POST, processa i dati del form e tenta di aggiornare il profilo.
-     * Reindirizza alla pagina di login se l'utente non è loggato.
-     */
-    public function editProfile(): void
-    {
-        if ($this->isLogged()) {
-            if ($_SERVER['REQUEST_METHOD'] == "GET") {
-                $user = unserialize($_SESSION['user']);
-                $view = new VUser();
-                $view->showEditProfileForm($user);
-            } elseif ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $this->updateProfile();
             }
         } else {
             header('Location: /user/login');

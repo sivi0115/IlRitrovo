@@ -198,7 +198,7 @@ use Exception;
      * @return array An array of EReview objects.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadAllRec(): array
+    public function loadAllReview(): array
     {
         return $this->performOperation('loadAll', FReview::class);
     }
