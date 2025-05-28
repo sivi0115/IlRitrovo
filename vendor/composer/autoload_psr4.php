@@ -6,6 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Smarty\\' => array($vendorDir . '/smarty/smarty/src'),
     'None\\EventHubNewMain\\' => array($baseDir . '/src'),
     'Foundation\\' => array($baseDir . '/src/Foundation'),
     'Entity\\' => array($baseDir . '/src/Entity'),

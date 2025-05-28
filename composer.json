@@ -18,6 +18,6 @@
     ],
     "require": {
       "ext-pdo": "*",
-        "smarty/smarty": "^5.4"
+        "smarty/smarty": "^5.5"
     }
 }

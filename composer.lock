@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d693d299ebe1d0211ddf6e692795d78",
+    "content-hash": "964fa349321a85c1ac89a2acf4c619e1",
     "packages": [
         {
             "name": "smarty/smarty",
-            "version": "v5.4.3",
+            "version": "v5.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/smarty-php/smarty.git",
-                "reference": "c6bff5795081ca5e60aabda59fb87daa511acd1e"
+                "reference": "cbcd66e1de017ae3bcbf8b5fa2a34858f5e2adbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c6bff5795081ca5e60aabda59fb87daa511acd1e",
-                "reference": "c6bff5795081ca5e60aabda59fb87daa511acd1e",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/cbcd66e1de017ae3bcbf8b5fa2a34858f5e2adbc",
+                "reference": "cbcd66e1de017ae3bcbf8b5fa2a34858f5e2adbc",
                 "shasum": ""
             },
             "require": {
@@ -72,9 +72,15 @@
             "support": {
                 "forum": "https://github.com/smarty-php/smarty/discussions",
                 "issues": "https://github.com/smarty-php/smarty/issues",
-                "source": "https://github.com/smarty-php/smarty/tree/v5.4.3"
+                "source": "https://github.com/smarty-php/smarty/tree/v5.5.1"
             },
-            "time": "2024-12-23T00:38:44+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/wisskid",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-19T09:29:42+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -160,12 +166,12 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
         "ext-pdo": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
