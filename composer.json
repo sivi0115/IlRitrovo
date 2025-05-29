@@ -8,10 +8,10 @@
             "None\\EventHubNewMain\\": "src/",
             "Entity\\": "src/Entity/",
             "Foundation\\": "src/Foundation/",
-            "Controller\\": "src/Controller",
-            "View\\": "src/View",
-            "Smarty\\": "src/Smarty",
-            "Utility\\": "src/Utility"
+            "Controller\\": "src/Controller/",
+            "View\\": "src/View/",
+            "Smarty\\": "src/Smarty/",
+            "Utility\\": "src/Utility/"
         }
     },
     "authors": [

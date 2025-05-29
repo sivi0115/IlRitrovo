@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Mag 15, 2025 alle 10:13
--- Versione del server: 10.4.32-MariaDB
--- Versione PHP: 8.2.12
+-- Host: localhost
+-- Creato il: Mag 29, 2025 alle 17:06
+-- Versione del server: 10.4.28-MariaDB
+-- Versione PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,20 +29,27 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `creditcard` (
   `idCreditCard` int(11) NOT NULL,
-  `number` varchar(16) NOT NULL,
-  `cvv` int(3) NOT NULL,
-  `expiration` varchar(7) NOT NULL,
   `holder` varchar(128) NOT NULL,
+  `number` varchar(19) NOT NULL,
+  `cvv` int(3) NOT NULL,
+  `expiration` date NOT NULL,
   `type` varchar(16) NOT NULL,
   `idUser` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `creditcard`
+--
+
+INSERT INTO `creditcard` (`idCreditCard`, `holder`, `number`, `cvv`, `expiration`, `type`, `idUser`) VALUES
+(1, 'holderTesting', '111222333444555777', 123, '2025-12-13', 'Visa', 1);
 
 --
 -- Trigger `creditcard`
 --
 DELIMITER $$
 CREATE TRIGGER `typeCreditCard` BEFORE INSERT ON `creditcard` FOR EACH ROW BEGIN
-    IF LOWER(NEW.type) NOT IN ('visa', 'mastercard', 'american express', 'maestro', 'v-pay', 'pagobancomat') THEN
+    IF LOWER(NEW.type) NOT IN ('Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT') THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid credit card type';
     END IF;
 END
@@ -58,8 +65,16 @@ DELIMITER ;
 CREATE TABLE `extra` (
   `idExtra` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
-  `price` int(4) NOT NULL
+  `price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `extra`
+--
+
+INSERT INTO `extra` (`idExtra`, `name`, `price`) VALUES
+(1, 'Palloncini', 10),
+(2, 'Fiori', 20);
 
 -- --------------------------------------------------------
 
@@ -71,6 +86,13 @@ CREATE TABLE `extrainreservation` (
   `idExtra` int(11) NOT NULL,
   `idReservation` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `extrainreservation`
+--
+
+INSERT INTO `extrainreservation` (`idExtra`, `idReservation`) VALUES
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -99,6 +121,13 @@ CREATE TABLE `payment` (
   `idReservation` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `payment`
+--
+
+INSERT INTO `payment` (`idPayment`, `total`, `creationTime`, `state`, `idCreditCard`, `idReservation`) VALUES
+(1, 120, '2025-12-14', 'completed', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -108,8 +137,7 @@ CREATE TABLE `payment` (
 CREATE TABLE `reply` (
   `idReply` int(11) NOT NULL,
   `dateReply` date NOT NULL,
-  `body` varchar(512) NOT NULL,
-  `idReview` int(11) NOT NULL
+  `body` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -124,13 +152,20 @@ CREATE TABLE `reservation` (
   `reservationDate` datetime NOT NULL,
   `comment` varchar(256) NOT NULL,
   `people` int(3) NOT NULL,
-  `price` int(4) NOT NULL,
+  `totPrice` int(4) NOT NULL,
   `state` varchar(16) NOT NULL,
-  `operationDate` date NOT NULL DEFAULT current_timestamp(),
+  `creationTime` date NOT NULL DEFAULT current_timestamp(),
   `idUser` int(11) NOT NULL,
-  `idRoom` int(11) NOT NULL,
-  `idTable` int(11) NOT NULL
+  `idRoom` int(11) DEFAULT NULL,
+  `idTable` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `reservation`
+--
+
+INSERT INTO `reservation` (`idReservation`, `timeFrame`, `reservationDate`, `comment`, `people`, `totPrice`, `state`, `creationTime`, `idUser`, `idRoom`, `idTable`) VALUES
+(1, 'dinner', '2025-12-26 00:00:00', 'Secondo Update', 10, 120, 'confirmed', '2025-12-13', 1, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -139,11 +174,20 @@ CREATE TABLE `reservation` (
 --
 
 CREATE TABLE `review` (
+  `idUser` int(11) NOT NULL,
   `idReview` int(11) NOT NULL,
   `stars` int(1) NOT NULL,
-  `dateReview` date NOT NULL,
-  `body` varchar(512) NOT NULL
+  `creationTime` date NOT NULL,
+  `body` varchar(512) NOT NULL,
+  `idReply` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `review`
+--
+
+INSERT INTO `review` (`idUser`, `idReview`, `stars`, `creationTime`, `body`, `idReply`) VALUES
+(1, 1, 3, '2025-12-27', 'Corpo della recensione: \n MIAO w i gatetos', 2);
 
 --
 -- Trigger `review`
@@ -167,20 +211,34 @@ CREATE TABLE `room` (
   `idRoom` int(11) NOT NULL,
   `areaName` varchar(64) NOT NULL,
   `maxGuests` int(3) NOT NULL,
-  `tax` int(4) NOT NULL
+  `tax` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `room`
+--
+
+INSERT INTO `room` (`idRoom`, `areaName`, `maxGuests`, `tax`) VALUES
+(1, 'StanzaRossa', 20, 100);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `table`
+-- Struttura della tabella `tables`
 --
 
-CREATE TABLE `table` (
+CREATE TABLE `tables` (
   `idTable` int(11) NOT NULL,
   `areaName` varchar(64) NOT NULL,
   `maxGuests` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `tables`
+--
+
+INSERT INTO `tables` (`idTable`, `areaName`, `maxGuests`) VALUES
+(1, 'Tavolo1', 4);
 
 -- --------------------------------------------------------
 
@@ -190,17 +248,26 @@ CREATE TABLE `table` (
 
 CREATE TABLE `user` (
   `idUser` int(11) NOT NULL,
+  `idReview` int(11) DEFAULT NULL,
   `username` varchar(32) NOT NULL,
   `name` varchar(32) NOT NULL,
   `surname` varchar(32) NOT NULL,
   `birthDate` date NOT NULL,
-  `phone` int(10) NOT NULL,
+  `phone` varchar(20) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `role` enum('user','admin') NOT NULL DEFAULT 'user',
   `email` varchar(64) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `ban` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `user`
+--
+
+INSERT INTO `user` (`idUser`, `idReview`, `username`, `name`, `surname`, `birthDate`, `phone`, `image`, `role`, `email`, `password`, `ban`) VALUES
+(1, 1, 'usernameTest', 'userNome', 'userCognome', '2000-01-01', '1234567890', 'https://example.com/image.jpg', 'user', 'testuser@gmail.com', '$2y$12$XNHfzCIIaI.shqBA9cb/rOIZx/ZkA0YrAsDCcdIQ67zRA93DNRFG6', 0),
+(2, NULL, 'usernameAdminDiProva', 'marco', 'cipriani', '2000-02-20', '+393408993462', 'immagine.jpeg', 'admin', 'admin.prova@gmail,com', '$2y$12$BJrHeZY2JzpRi9M/cOvTSO/iFk.90EK3SbqduSspFKXKJGY/62.h6', 0);
 
 --
 -- Indici per le tabelle scaricate
@@ -247,8 +314,7 @@ ALTER TABLE `payment`
 -- Indici per le tabelle `reply`
 --
 ALTER TABLE `reply`
-  ADD PRIMARY KEY (`idReply`),
-  ADD UNIQUE KEY `idReiew` (`idReview`);
+  ADD PRIMARY KEY (`idReply`);
 
 --
 -- Indici per le tabelle `reservation`
@@ -263,7 +329,8 @@ ALTER TABLE `reservation`
 -- Indici per le tabelle `review`
 --
 ALTER TABLE `review`
-  ADD PRIMARY KEY (`idReview`);
+  ADD PRIMARY KEY (`idReview`),
+  ADD UNIQUE KEY `idReply` (`idReply`);
 
 --
 -- Indici per le tabelle `room`
@@ -272,9 +339,9 @@ ALTER TABLE `room`
   ADD PRIMARY KEY (`idRoom`);
 
 --
--- Indici per le tabelle `table`
+-- Indici per le tabelle `tables`
 --
-ALTER TABLE `table`
+ALTER TABLE `tables`
   ADD PRIMARY KEY (`idTable`);
 
 --
@@ -282,7 +349,8 @@ ALTER TABLE `table`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`idUser`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -292,13 +360,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT per la tabella `creditcard`
 --
 ALTER TABLE `creditcard`
-  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `extra`
 --
 ALTER TABLE `extra`
-  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `image_user`
@@ -310,43 +378,43 @@ ALTER TABLE `image_user`
 -- AUTO_INCREMENT per la tabella `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `idPayment` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPayment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT per la tabella `reply`
 --
 ALTER TABLE `reply`
-  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT per la tabella `review`
 --
 ALTER TABLE `review`
-  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `room`
 --
 ALTER TABLE `room`
-  MODIFY `idRoom` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRoom` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT per la tabella `table`
+-- AUTO_INCREMENT per la tabella `tables`
 --
-ALTER TABLE `table`
-  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tables`
+  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Limiti per le tabelle scaricate
@@ -370,14 +438,6 @@ ALTER TABLE `image_user`
 ALTER TABLE `payment`
   ADD CONSTRAINT `idRservation` FOREIGN KEY (`idReservation`) REFERENCES `reservation` (`idReservation`),
   ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`idCreditCard`) REFERENCES `creditcard` (`idCreditCard`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limiti per la tabella `reservation`
---
-ALTER TABLE `reservation`
-  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`idRoom`) REFERENCES `room` (`idRoom`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`idTable`) REFERENCES `event` (`idEvent`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
