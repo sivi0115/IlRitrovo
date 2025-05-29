@@ -8,6 +8,7 @@ use Utility\UServer;
 use Utility\USessions;
 use DateTime;
 use Entity\EUser;
+use Entity\Role;
 use Foundation\FUser;
 use View\VUser;
 use Foundation\FPersistentManager;
@@ -102,23 +103,23 @@ class CUser {
         //$view = new VUser;
         //Estraggo i dati dalla richiesta POST per creare un oggetto Entity
         $user = new EUser(
-            UHTTPMethods::post('idUser'),
-            UHTTPMethods::post('idReview'),
+            null,
+            null,
             UHTTPMethods::post('username'),
             UHTTPMethods::post('email'),
             password_hash(UHTTPMethods::post('password'), PASSWORD_DEFAULT),
-            UHTTPMethods::post('image'),
+            null,
             UHTTPMethods::post('name'),
             UHTTPMethods::post('surname'),
             new DateTime(UHTTPMethods::post('birthDate')),
             UHTTPMethods::post('phone'),
-            UHTTPMethods::post('role'),
-            UHTTPMethods::post('ban')
+            Role::UTENTE,
+            false
         );
         $user=FPersistentManager::getInstance()->create($user);
         USessions::getInstance()->setSessionElement('idUser', $user);
         //Utente registrato correttamente, reindirizzo alla home page
-        header('Location: /IlRitrovo/Home');
+        header('Location: /~marco/Progetto/IlRitrovo/test/testController/success_signup.html');
     }
 
     /**
