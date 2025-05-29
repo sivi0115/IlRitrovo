@@ -1,0 +1,90 @@
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fdfaf5;
+  color: #4a3b2c;
+  line-height: 1.6;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #f4eadd;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.slogan {
+  font-style: italic;
+  margin-top: 0.5rem;
+  color: #6a5d4d;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+section {
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px dashed #c7b299;
+  padding-bottom: 0.5rem;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 0.8rem;
+}
+
+.price {
+  float: right;
+  color: #8b3a3a;
+  font-weight: bold;
+}
+
+.wines a {
+  color: #8b3a3a;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.wines a:hover {
+  text-decoration: underline;
+}
+
+.fixed-menu {
+  padding: 1.5rem;
+  background-color: #fef7ec;
+  border: 1px solid #e0d5c0;
+  border-radius: 12px;
+}
+
+.fixed-menu .fixed-price {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: #8b3a3a;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #f4eadd;
+  font-size: 0.9rem;
+  color: #6a5d4d;
+  border-top: 1px solid #e0d5c0;
+}
