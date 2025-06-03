@@ -144,12 +144,11 @@ class FUser {
             'email' => $user->getEmail(),
             'password' => $hashedPassword,
         ];
-        //Controllo se esistono duplicati per questi metadati
-        $duplicates = self::checkEmailAndUsernameDuplicate($data, $user->getIdUser());
-        if ($duplicates['duplicateUsername']) {
+        // Controllo se esistono duplicati per email e username
+        if (self::isUsernameDuplicated($data['username'], $user->getIdUser())) {
             throw new Exception('Username already in use by another user.');
         }
-        if ($duplicates['duplicateEmail']) {
+        if (self::isEmailDuplicated($data['email'], $user->getIdUser())) {
             throw new Exception('Email already in use by another user.');
         }
         //Faccio il controllo sui dati, in particolare quelli della password
@@ -366,40 +365,38 @@ class FUser {
         }
     }
 
-
-
-
     /**
-     * Checks for duplicate email and username entries in the database,
+     * Checks if the provided email is duplicated in the database,
      * excluding the user with the specified ID.
      *
-     * @param array $data An associative array containing 'email' and 'username' keys.
-     * @param int $excludedIdUser The user ID to exclude from the duplication check.
-     * @return array An associative array with boolean keys:
-     *               - 'emailDuplicata': true if the email is duplicated, false otherwise.
-     *               - 'usernameDuplicato': true if the username is duplicated, false otherwise.
+     * @param string $email The email to check.
+     * @param int $excludedIdUser The user ID to exclude from the check.
+     * @return bool True if the email is duplicated, false otherwise.
      */
-    function checkEmailAndUsernameDuplicate(array $data, int $excludedIdUser): array {
+    function isEmailDuplicated(string $email, int $excludedIdUser): bool {
         $db = FDatabase::getInstance();
-        // Query with condition OR and idUser different
         $users = $db->fetchAll('users', [
-            'OR' => ['username' => $data['username'], 'email' => $data['email']],
+            'email' => $email,
             'idUser[!]' => $excludedIdUser
         ]);
-        // Initialize flags
-        $duplicateEmail = false;
-        $duplicateUsername = false;
-        // Checks for duplicates
-        foreach ($users as $user) {
-            if ($user['username'] === $data['username']) {
-                $duplicateUsername = true;
-            }
-            if ($user['email'] === $data['email']) {
-                $duplicateEmail = true;
-            }
-        }
-        return [
-            'duplicateUsername' => $duplicateUsername, 'duplicateEmail' => $duplicateEmail];
+        return !empty($users);
+    }
+
+    /**
+     * Checks if the provided username is duplicated in the database,
+     * excluding the user with the specified ID.
+     *
+     * @param string $username The username to check.
+     * @param int $excludedIdUser The user ID to exclude from the check.
+     * @return bool True if the username is duplicated, false otherwise.
+     */
+    function isUsernameDuplicated(string $username, int $excludedIdUser): bool {
+        $db = FDatabase::getInstance();
+        $users = $db->fetchAll('users', [
+            'username' => $username,
+            'idUser[!]' => $excludedIdUser
+        ]);
+        return !empty($users);
     }
 
     /**
