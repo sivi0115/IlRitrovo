@@ -224,9 +224,6 @@ class EUser implements JsonSerializable {
      * @param string $username The username to set.
      */
     public function setUsername(string $username): void {
-        if (empty($username)) {
-            throw new InvalidArgumentException("Username non può essere vuoto");
-        }
         $this->username = $username;
     }
 
@@ -243,12 +240,8 @@ class EUser implements JsonSerializable {
      * Sets the email with validation.
      *
      * @param string $email The email to set.
-     * @throws InvalidArgumentException if email is not valid.
      */
     public function setEmail(string $email): void {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Email non valida");
-        }
         $this->email = $email;
     }
 
@@ -266,34 +259,7 @@ class EUser implements JsonSerializable {
      *
      * @param string $password The password to set.
      */
-    const MIN_PASSWORD_LENGTH = 8;  // Lunghezza minima della password
-    const MAX_PASSWORD_LENGTH = 64; // Lunghezza massima della password
     public function setPassword(string $password): void {
-        // Controllo della lunghezza minima
-        if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
-            throw new InvalidArgumentException("La password deve contenere almeno " . self::MIN_PASSWORD_LENGTH . " caratteri.");
-        }
-        // Controllo della lunghezza massima (opzionale)
-        if (strlen($password) > self::MAX_PASSWORD_LENGTH) {
-            throw new InvalidArgumentException("La password non deve superare i " . self::MAX_PASSWORD_LENGTH . " caratteri.");
-        }
-        // Controllo presenza di almeno una lettera maiuscola
-        if (!preg_match('/[A-Z]/', $password)) {
-            throw new InvalidArgumentException("La password deve contenere almeno una lettera maiuscola.");
-        }
-        // Controllo presenza di almeno una lettera minuscola
-        if (!preg_match('/[a-z]/', $password)) {
-            throw new InvalidArgumentException("La password deve contenere almeno una lettera minuscola.");
-        }
-        // Controllo presenza di almeno un numero
-        if (!preg_match('/[0-9]/', $password)) {
-            throw new InvalidArgumentException("La password deve contenere almeno un numero.");
-        }
-        // Controllo presenza di almeno un carattere speciale
-        if (!preg_match('/[\W_]/', $password)) {
-            throw new InvalidArgumentException("La password deve contenere almeno un carattere speciale (es. @, #, $, etc.).");
-        }
-        // Se passa tutti i controlli, imposta la password
         $this->password = $password;
         $this->passwordChanged = true;
     }
@@ -322,9 +288,6 @@ class EUser implements JsonSerializable {
      * @param string|null $image The image URL to set.
      */
     public function setImage(?string $image): void {
-        if ($image !== null && !filter_var($image, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException("URL dell'immagine non valido");
-        }
         $this->image = $image;
     }
 
@@ -435,9 +398,6 @@ class EUser implements JsonSerializable {
      * @throws InvalidArgumentException if name is empty.
      */
     public function setName(string $name): void {
-        if (empty($name)) {
-            throw new InvalidArgumentException("Il nome non può essere vuoto");
-        }
         $this->name = $name;
     }
 
@@ -456,9 +416,6 @@ class EUser implements JsonSerializable {
      * @param string $surname the surname to set.
      */
     public function setSurname(string $surname): void {
-        if (empty($surname)) {
-            throw new InvalidArgumentException("Il cognome non può essere vuoto");
-        }
         $this->surname = $surname;
     }
 
@@ -478,10 +435,6 @@ class EUser implements JsonSerializable {
      * @throws InvalidArgumentException if birth date is in the future or underage.
      */
     public function setBirthDate(DateTime $birthDate): void {
-        $now = new DateTime();
-        if ($birthDate > $now) {
-            throw new InvalidArgumentException("La data di nascita non può essere nel futuro");
-        }
         $this->birthDate = $birthDate;
     }
 
@@ -501,10 +454,6 @@ class EUser implements JsonSerializable {
      * @throws InvalidArgumentException if phone number is not valid.
      */
     public function setPhone(string $phone): void {
-        // Controllo per numeri telefonici internazionali: + seguito da 7 a 15 cifre
-        if (!preg_match('/^\+?[1-9]\d{6,14}$/', $phone)) {
-            throw new InvalidArgumentException("Numero di telefono non valido. Deve essere un numero di telefono internazionale valido.");
-        }
         $this->phone = $phone;
     }
 
@@ -524,9 +473,6 @@ class EUser implements JsonSerializable {
      */
     public function setRole(string $role): void {
         $enum=Role::tryFrom($role);
-        if($enum===null) {
-            throw new InvalidArgumentException("Invalid Role value");
-        }
         $this->role=$enum;
     }
 

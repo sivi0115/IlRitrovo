@@ -87,12 +87,19 @@ class FUser {
     public function readUserByUsername(string $username): ?EUser {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, 'username', $username);
-        if (!$result) {
-            return null;
-        }
-        // Temporary instance
-        $tmp = new self();
-        return $tmp->arrayToEntity($result);
+        return $result ? $this->arrayToEntity($result) : null;
+    }
+
+    /**
+     * Loads a user from the database by his email.
+     *
+     * @param string $username The email of the user to read.
+     * @return EUser|null The user object if found, null otherwise.
+     */
+    public function readUserByEmail(string $email): ?EUser {
+        $db = FDatabase::getInstance();
+        $result = $db->load(self::TABLE_NAME, 'email', $email);
+        return $result ? $this->arrayToEntity($result) : null;
     }
 
     /**
@@ -238,34 +245,87 @@ class FUser {
      * @return string The hashed password.
      */
     public function hashPassword(string $password): string {
-        return password_hash($password, PASSWORD_BCRYPT);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
-     * Validates user input data that cannot be verified within the EUser entity.
+     * Validates all user parametres
      *
-     * This function ensures the uniqueness of username and email only.
-     * Other fields are validated by the entity during instantiation or via setters.
      *
      * @param array $data Associative array containing user input fields.
      * @throws Exception if any validation fails.
      */
     function validateUserData(array $data): void {
-        // Check if the username is already in use
+        //Validazione Username
+        if (empty($data['username'])) {
+            throw new Exception("Username can't be empty");
+        }
         if (self::existsByUsername($data['username'])) {
             throw new Exception(self::ERR_USERNAME_TAKEN);
         }
-        // Check if the email is already in use
+        //Validazione Nome
+        if (empty($data['name'])) {
+            throw new Exception("Name can't be empy");
+        }
+        //Validazione Cognome
+        if (empty($data['surname'])) {
+            throw new Exception("Surname can't be empty");
+        }
+        //Validazione Data di nascita
+        if (empty($data['birthDate'])) {
+            throw new Exception("Birth Date can't be empty.");
+        }
+        $birthdate = strtotime($data['birthDate']);
+        if ($birthdate === false || $birthdate === 0) {
+            throw new Exception("Birth Date is invalid.");
+        }
+        $now = time();
+            if ($birthdate > $now) {
+        throw new Exception("Birth Date can't be in the future.");
+        }
+        //Validazione email 
+        if(empty($data['email'])) {
+            throw new Exception("email can't be empty");
+        }
         if (self::existsByEmail($data['email'])) {
             throw new Exception(self::ERR_EMAIL_TAKEN);
         }
-        // Other validations (e.g., password, birthDate, phone) are handled in the EUser entity.
+        //Validazione numero di telefono
+        if (empty($data['phone'])) {
+            throw new Exception("Phone number is required.");
+        }
+        $phone = $data['phone'];
+        if (!preg_match('/^\+?\d{8,15}$/', $phone)) {
+            throw new Exception("Phone number must contain only digits and be between 8 and 15 characters.");
+        }
+        //Validazione della Password
+        if (empty($data['password'])) {
+            throw new Exception("Password is required.");
+        }
+        $password = $data['password'];
+        if (strlen($password) < 8) {
+            throw new Exception("Password must be at least 8 characters long.");
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            throw new Exception("Password must contain at least one uppercase letter.");
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            throw new Exception("Password must contain at least one lowercase letter.");
+        }
+        if (!preg_match('/\d/', $password)) {
+            throw new Exception("Password must contain at least one number.");
+        }
+        if (!preg_match('/[^a-zA-Z\d]/', $password)) {
+            throw new Exception("Password must contain at least one special character.");
+        }
     }
+
+
+
 
     /**
      * Checks for duplicate email and username entries in the database,
      * excluding the user with the specified ID.
-
      *
      * @param array $data An associative array containing 'email' and 'username' keys.
      * @param int $excludedIdUser The user ID to exclude from the duplication check.

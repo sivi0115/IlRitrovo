@@ -103,7 +103,16 @@ use Exception;
     public function exists(int $id, string $fClass): bool {
         return $this->performOperation('exists', $fClass, $id);
     }
-    
+
+    /**
+     * Check if an object exists in db by username
+     */
+    public function existByUsername(string $username, string $fClass) {
+        return $this->performOperation('existsByUsername', $fClass, $username);
+    }
+
+
+
     /**
      * Loads a list of objects from the database.
      *
@@ -123,19 +132,19 @@ use Exception;
      * @return EUser|null Returns an EUser object if found in the database, otherwise null.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadUser(string $username): ?EUser {
+    public function readUserByUsername(string $username): ?EUser {
         return $this->loadByField(FUser::class, 'username', $username);
     }
 
     /**
      * Loads a user from the database by email.
      *
-     * @param string $username The username of the user to load.
-     * @return EUser|null Returns an EUser object if found in the database, otherwise null.
-     * @throws Exception If an error occurs during the load operation.
+     * @param string $email The username of the user to load.
+     * @param string $fClass The class name
+     * @return EUser Returns an EUser object if found in the database, otherwise null.
      */
-    public function loadEmail(string $email): ?EUser {
-        return $this->loadByField(FUser::class, 'email', $email);
+    public function readUserByEmail(string $email, string $fClass): ?EUser {
+        return $this->performOperation('readUserByEmail', $fClass, $email);
     }
 
     /**

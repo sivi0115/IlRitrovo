@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+</head>
+<body>
+    <h1>Edit Your Profile</h1>
+    <form action="signupHandler.php" method="POST" novalidate>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="surname">Surname:</label><br>
+        <input type="text" id="surname" name="surname" required><br><br>
+
+        <label for="birthDate">Birth Date:</label><br>
+        <input type="date" id="birthDate" name="birthDate" required><br><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="tel" id="phone" name="phone"><br><br>
+
+        <input type="submit" value="Edit Profile">
+    </form>
+</body>
+</html>

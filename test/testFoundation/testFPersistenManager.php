@@ -73,10 +73,10 @@ function testUpdatePm(): void {
 
     try {
         // Carico l'oggetto dal DB
-        $utente = $pm->read(2, FUser::class);
+        $utente = $pm->read(1, FUser::class);
 
         // Modifico un attributo
-        $utente->setUsername('usernameAggiornato');
+        $utente->setUsername('marcolino');
         $utente->setEmail('emailaggionrata@libero.com');
         $utente->setName('nuovoNomeDiAggionramento');
 
@@ -84,7 +84,7 @@ function testUpdatePm(): void {
         $pm->update($utente);
 
         // Rileggo per conferma
-        $utenteAggiornato = $pm->read(2, FUser::class);
+        $utenteAggiornato = $pm->read(1, FUser::class);
 
         if ($utenteAggiornato->getName() === 'NomeAggiornato') {
             echo "Test di aggiornamento passato con successo!\n";
@@ -155,13 +155,32 @@ function testExists(): void {
     }
 }
 
+function testReadUserByEmail(): void {
+    global $pm;
+    echo "\n Testing per caricare un oggetto dal db\n";
+
+    try {
+        $utente=$pm->readUserByEmail('marcolino@gmail.com', FUser::class);
+
+        if($utente instanceof EUser) {
+            echo "Test passato con successo";
+            echo "\n Oggetto letto dal DB: " . json_encode($utente, JSON_PRETTY_PRINT);
+        } else {
+            echo "Test Fallito";
+        }
+    } catch (Exception $e) {
+        echo "Errore durante il caricamento" . $e->getMessage();
+    }
+}
+
 
 
 
 
 //testCreatePm();
 //testReadPm();
-//testUpdatePm();
+testUpdatePm();
 //testDelete();
 //testReadAll();
 //testExists();
+//testReadUserByEmail();
