@@ -76,10 +76,10 @@ function testReadUser(): void {
 }
 
 /**
- * Funzione per modificare i dati di un Utente nel db
+ * Funzione per modificare i meta dati profilo di un Utente nel db
  */
-function testUpdateUser(): void {
-     $existingId=2; //ID DELL'OGGETTO DA MODIFICARE
+function testUpdateMetadataProfile(): void {
+     $existingId=1; //ID DELL'OGGETTO DA MODIFICARE
     echo "\nTest 3: Aggiornamento di un utente\n";
     try {
         $fUser = new FUser(FDatabase::getInstance());
@@ -90,11 +90,9 @@ function testUpdateUser(): void {
             return;
         }
         //MODIFICA I DATI DELL'OGGETTO
-        $user->setEmail('emailnuovatre@outlook.it');
-        $user->setBirthDate(new DateTime('2001-01-08'));
-        $user->setPassword('nuovaPasswooooord123!');
-        $user->setUsername('usernameRandoooom');
-        $result=$fUser->update($user);
+        $user->setUsername('marcolino00');
+        $user->setEmail('marcociprianituna2000@gmail.com');
+        $result=$fUser->updateMetadataProfile($user);
 
         if ($result) {
             echo "Utente aggiornato correttamente.\n";
@@ -201,7 +199,7 @@ function testReadAllBlockedUser(): void {
 
 //testCreateUser();
 //testReadUser();
-//testUpdateUser();
+testUpdateMetadataProfile();
 //testReadAllUsers();
 //testBanUser();
 //testSbanUser();

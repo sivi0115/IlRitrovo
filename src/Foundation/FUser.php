@@ -103,30 +103,48 @@ class FUser {
     }
 
     /**
-     * Updates an existing user in the database.
+     * Updates Profile data an existing user in the database.
      *
      * @param EUser $user The user object to update.
      * @return bool True if the update was successful, False otherwise.
      * @throws Exception If there is an error during the update operation.
      */
-    public function update(EUser $user): bool {
+    public function updateProfileData(EUser $user): bool {
         $db = FDatabase::getInstance();
         if (!self::exists($user->getIdUser())) {
             throw new Exception(self::ERR_USER_NOT_FOUND);
         }
-        //Hash della password prima di aggiornarla e caricarla
-        $hashedPassword=$this->hashPassword($user->getPassword());
+        //Modifica solo i dati Profilo
         $data = [
-            'username' => $user->getUsername(),
-            'email' => $user->getEmail(),
-            'password' => $hashedPassword,
-            'image' => $user->getImage(),
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
             'birthDate' => $user->getBirthDate(),
             'phone' => $user->getPhone(),
+            'image' => $user->getImage()
         ];
-        // Checks for duplicates
+        if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
+            throw new Exception(self::ERR_UPDATE_FAILED);
+        }
+        return true;
+    }
+
+    /**
+     * Update Username, Email and Password an existing user in db
+     */
+    public function updateMetadataProfile(EUser $user): bool {
+        $db = FDatabase::getInstance();
+        if(!self::exists($user->getIdUser())) {
+            throw new Exception(self::ERR_USER_NOT_FOUND);
+        }
+        //Hashing della password prima di aggiornarla
+        $hashedPassword=$this->hashPassword($user->getPassword());
+        //Modifica dei metadati
+        $data=[
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+            'password' => $hashedPassword,
+        ];
+        //Controllo se esistono duplicati per questi metadati
         $duplicates = self::checkEmailAndUsernameDuplicate($data, $user->getIdUser());
         if ($duplicates['duplicateUsername']) {
             throw new Exception('Username already in use by another user.');
@@ -134,6 +152,34 @@ class FUser {
         if ($duplicates['duplicateEmail']) {
             throw new Exception('Email already in use by another user.');
         }
+        //Faccio il controllo sui dati, in particolare quelli della password
+        if (empty($data['username'])) {
+            throw new Exception("Username is required");
+        }
+        if (empty($data['email'])) {
+            throw new Exception("Email is required");
+        }
+        //Controlli sulla password
+        if (empty($data['password'])) {
+            throw new Exception("Password is required.");
+        }
+        $password = $data['password'];
+        if (strlen($password) < 8) {
+            throw new Exception("Password must be at least 8 characters long.");
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            throw new Exception("Password must contain at least one uppercase letter.");
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            throw new Exception("Password must contain at least one lowercase letter.");
+        }
+        if (!preg_match('/\d/', $password)) {
+            throw new Exception("Password must contain at least one number.");
+        }
+        if (!preg_match('/[^a-zA-Z\d]/', $password)) {
+            throw new Exception("Password must contain at least one special character.");
+        }
+        //Se i controlli vanno a buon fine, aggiorno i vecchi dati
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
@@ -346,10 +392,10 @@ class FUser {
         // Checks for duplicates
         foreach ($users as $user) {
             if ($user['username'] === $data['username']) {
-                $duplicateEmail = true;
+                $duplicateUsername = true;
             }
             if ($user['email'] === $data['email']) {
-                $duplicateUsername = true;
+                $duplicateEmail = true;
             }
         }
         return [

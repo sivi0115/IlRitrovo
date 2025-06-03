@@ -72,14 +72,25 @@ use Exception;
     }
 
     /**
-     * Updates an object in the database.
+     * Updates Profile Data an object in the database.
      *
      * @param object $obj The object to update.
      * @return bool True if the update was successful, false otherwise.
      * @throws Exception If the class or method is not found or if an error occurs during the update operation.
      */
-    public function update(object $obj): bool {
-        return $this->performOperation('update', $this->getClassName($obj), $obj);
+    public function updateProfileData(object $obj): bool {
+        return $this->performOperation('updateProfileData', $this->getClassName($obj), $obj);
+    }
+
+    /**
+     * Updates Metadata an object in the database
+     * 
+     * @param object The object to update
+     * @return bool True if the update was successful, false otherwhise.
+     * @throws Exception If the class or method is not found or if an error occurs during the process
+     */
+    public function updateMetadataProfile(object $obj): bool {
+        return $this->performOperation('updateMetadataProfile', $this->getClassName($obj), $obj);
     }
 
     /**

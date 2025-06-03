@@ -139,7 +139,7 @@ class CUser {
     /**
      * Funzione per modificare i dati profilo di un utente
      */
-    public function editProfile() {
+    public function editProfileData() {
         // Verifica che l'utente sia loggato
         if (!self::isLogged()) {
             header('Location: /IlRitrovo/Login');
@@ -174,23 +174,54 @@ class CUser {
             throw new Exception("Birth Date can't be in the future.");
         }
         if (empty($user->getPhone())) {
-            throw new Exception("Phone number is required.");
+            throw new Exception("Phone number field can't be empty.");
         }
         $phone = $user->getPhone();
         if (!preg_match('/^\+?\d{8,15}$/', $phone)) {
             throw new Exception("Phone number must contain only digits and be between 8 and 15 characters.");
         }
         // Aggiorna l'utente nel DB
-        FPersistentManager::getInstance()->update($user);
+        FPersistentManager::getInstance()->updateProfileData($user);
         // Reindirizza alla pagina profilo o conferma
         header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
         exit;
     }
 
     /**
-     * Funzione per modificare l'username
+     * Funzione per modificare l'username email e password
      */
-    
+    public function editProfileMetadata() {
+        if(!self::isLogged()) {
+            header('Location: /IlRitrovo/HomePage');
+        }
+        //Recupera id Utente dalla sessione
+        $idUser=USessions::getSessionElement('idUser');
+        //Recupera l'oggetto completo dal db per poter modificare
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //In caso di utente non trovato
+        if(!$user) {
+            header('Location: /IlRitrovo/HomePage');
+            exit;
+        }
+        //Imposto il nuovo username dal valore della richiesta post
+        $user->setUsername(UHTTPMethods::post('username'));
+        $user->setEmail(UHTTPMethods::post('email'));
+        $user->setPassword(UHTTPMethods::post('password'));
+        //Controllo che i metadati immessi siano validi (sarà fatto anche lato client da HTML)
+        if(empty($user->getUsername())) {
+            throw new Exception("New Username field can't be empty");
+        }
+        if(empty($user->getEmail())) {
+            throw new Exception("New Emial field can't be empty");
+        }
+        if(empty($user->getPassword())) {
+            throw new Exception("New Password field can't be empty");
+        }
+        //Se è tutto okay, aggiorno il campo su db: Modifica effettuata con successo
+        FPersistentManager::getInstance()->updateMetadataProfile($user);
+        //Reindirizza alla pagina home
+        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+    }
 
     /**
      * Funzione per bannare un utente
