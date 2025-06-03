@@ -30,6 +30,6 @@ $controller = new CUser();
 //Verifica se funziona isLogged()
 //$controller->isLogged();
 //Verifica il funzionamento di editProfileData()
-//$controller->editProfileData();
+$controller->editProfileData();
 //Verifica il funzionamento di editUsername()
-$controller->editProfileMetadata();
+//$controller->editProfileMetadata();
