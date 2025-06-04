@@ -1,0 +1,130 @@
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fdfaf5;
+  color: #4a3b2c;
+}
+
+header {
+  background-color: #f4eadd;
+  border-bottom: 1px solid #e0d5c0;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem; /* avvicina logo e testo */
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.site-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: #4a3b2c;
+  margin: 0;
+  line-height: 1;
+}
+
+.user-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background-color: #8b3a3a;
+  background-image: url('user-icon.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+  cursor: pointer;
+}
+
+.main-nav {
+  background-color: #fef7ec;
+  padding: 0.5rem 2rem;
+}
+
+.main-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: #4a3b2c;
+  font-weight: bold;
+  font-size: 1rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.main-nav a:hover {
+  color: #8b3a3a;
+}
+
+/* MEDIA QUERY per schermi piccoli */
+@media (max-width: 900px) {
+  .logo {
+    height: 60px; /* logo più piccolo su tablet */
+  }
+  .site-name {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  /* header-top diventa colonna per adattarsi a schermi stretti */
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+  }
+
+  .logo-area {
+    gap: 0.3rem;
+  }
+
+  .logo {
+    height: 50px; /* logo più piccolo su smartphone */
+  }
+
+  .site-name {
+    font-size: 1.3rem;
+  }
+
+  .user-button {
+    width: 36px;
+    height: 36px;
+    margin-top: 0.5rem;
+  }
+
+  /* navbar verticale */
+  .main-nav {
+    padding: 1rem 1.5rem;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .main-nav a {
+    font-size: 1.1rem;
+  }
+}
