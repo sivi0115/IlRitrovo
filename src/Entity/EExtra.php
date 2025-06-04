@@ -1,7 +1,6 @@
 <?php
 
 namespace Entity;
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -30,16 +29,8 @@ class EExtra implements JsonSerializable {
      * @param int|null $idExtra The unique identifier for the extra service (managed by the database).
      * @param string $nameExtra The name of the extra service.
      * @param float $priceExtra The price of the extra service.
-     * @throws InvalidArgumentException If the price is negative, or if the name is empty.
      */
     public function __construct(?int $idExtra, string $nameExtra, float $priceExtra) {
-        if ($priceExtra < 0) {
-            throw new InvalidArgumentException("Il prezzo non può essere negativo.");
-        }
-        if (empty($nameExtra)) {
-            throw new InvalidArgumentException("Il nome del servizio extra non può essere vuoto.");
-        }
-
         $this->idExtra = $idExtra;
         $this->nameExtra = $nameExtra;
         $this->priceExtra = $priceExtra;
@@ -76,12 +67,8 @@ class EExtra implements JsonSerializable {
      * Set the name of the extra service.
      *
      * @param string $name The name to set.
-     * @throws InvalidArgumentException If the name is empty.
      */
     public function setNameExtra(string $name): void {
-        if (empty($name)) {
-            throw new InvalidArgumentException("Il nome del servizio extra non può essere vuoto.");
-        }
         $this->nameExtra = $name;
     }
 
@@ -98,12 +85,8 @@ class EExtra implements JsonSerializable {
      * Set the price of the extra service.
      *
      * @param float $price The price to set.
-     * @throws InvalidArgumentException If the price is negative.
      */
     public function setPriceExtra(float $price): void {
-        if ($price < 0) {
-            throw new InvalidArgumentException("Il prezzo non può essere negativo.");
-        }
         $this->priceExtra = $price;
     }
 

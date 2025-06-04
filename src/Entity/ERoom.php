@@ -3,8 +3,6 @@
 namespace Entity;
 require_once 'EArea.php';
 
-use InvalidArgumentException;
-
 /**
  * Class ERoom
  * Represents a room entity that extends the EPArea class.
@@ -27,7 +25,6 @@ class ERoom extends EArea
      * @param ?int $idRoom Room ID, can be null.
      * @param string $areaName room's name
      * @param int $maxGuests max number of guests (can't be negative).
-     * @throws InvalidArgumentException if one of the values not corretct
      */
     public function __construct(
         ?int $idRoom,
@@ -35,9 +32,6 @@ class ERoom extends EArea
         int $maxGuests,
         float $tax
     ) {
-        if ($tax < 0) {
-            throw new InvalidArgumentException("Il prezzo della tassa non può essere negativo.");
-        }
         parent::__construct( $areaName, $maxGuests);
         $this->idRoom = $idRoom;
         $this->tax = $tax;

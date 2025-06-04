@@ -1,7 +1,6 @@
 <?php
 
 namespace Entity;
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -25,15 +24,8 @@ class EArea implements JsonSerializable {
      *
      * @param string $name area's name
      * @param int $maxGuests max number of guests (can't be negative).
-     * @throws InvalidArgumentException if one of the values not corretct
      */
     public function __construct(string $areaName, int $maxGuests) {
-        if (empty($areaName)) {
-            throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
-        }
-        if ($maxGuests < 0) {
-            throw new InvalidArgumentException("Il numero massimo di ospiti dell'area non può essere negativo.");
-        }
         $this->areaName = $areaName;
         $this->maxGuests = $maxGuests;
     }
@@ -51,12 +43,8 @@ class EArea implements JsonSerializable {
      * Sets area's name.
      *
      * @param string $name area's name.
-     * @throws InvalidArgumentException Se il nome è vuoto.
      */
     public function setName(string $name): void {
-        if (empty($name)) {
-            throw new InvalidArgumentException("Il nome dell'area non può essere vuoto.");
-        }
         $this->areaName = $name;
     }
 
@@ -73,12 +61,8 @@ class EArea implements JsonSerializable {
      * Sets max number of guests.
      *
      * @param int $maxGuests max guests.
-     * @throws InvalidArgumentException if a negative number.
      */
     public function setMaxGuests(int $maxGuests): void {
-        if ($maxGuests < 0) {
-            throw new InvalidArgumentException("Il numero massimo di ospiti di un'area non può essere negativo.");
-        }
         $this->maxGuests = $maxGuests;
     }
 

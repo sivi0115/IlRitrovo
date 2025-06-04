@@ -3,7 +3,6 @@
 namespace Entity;
 
 use DateTime;
-use InvalidArgumentException;
 use JsonSerializable;
 
 
@@ -99,7 +98,6 @@ class EReservation implements JsonSerializable {
      * @param int $people people number in a reservation
      * @param string|null $comment any food intolerances to report (can be null)
      * @param array array of EExtra object associated to reservation
-     * @throws InvalidArgumentException If the state is invalid or if the reservation date is not in the future.
      */
     public function __construct(
         ?int $idReservation,
@@ -115,14 +113,6 @@ class EReservation implements JsonSerializable {
         array $extras = [],
         float $totPrice=0.0
     ) {
-        if (empty($state) || !in_array($state, self::VALID_STATES)) {
-            throw new InvalidArgumentException("Invalid reservation state: $state");
-        }
-        foreach ($extras as $extra) {
-            if (!($extra instanceof EExtra)) {
-                throw new InvalidArgumentException("Invalid extra in extras array");
-            }
-        }
         $this->idReservation = $idReservation;
         $this->idUser = $idUser;
         $this->idTable = $idTable;
@@ -240,12 +230,8 @@ class EReservation implements JsonSerializable {
      * Set the reservation date.
      *
      * @param DateTime $reservationDate The reservation date.
-     * @throws InvalidArgumentException If the reservation date is not in the future.
      */
     public function setReservationDate(DateTime $reservationDate): void {
-        if ($reservationDate <= $this->creationTime) {
-            throw new InvalidArgumentException("Reservation date must be in the future.");
-        }
         $this->reservationDate = $reservationDate;
     }
     
@@ -262,13 +248,9 @@ class EReservation implements JsonSerializable {
      * Set the reservation date.
      *
      * @param DateTime $reservationDate The reservation date.
-     * @throws InvalidArgumentException If the reservation date is not in the future.
      */
     public function setReservationTimeFrame(string $timeFrame): void {
         $enum=TimeFrame::tryFrom($timeFrame);
-        if($enum===null) {
-            throw new InvalidArgumentException("Invalid Time Frame value");
-        }
         $this->timeFrame=$enum;
     }
 
@@ -285,12 +267,8 @@ class EReservation implements JsonSerializable {
      * Set the state of the reservation.
      *
      * @param string $state The reservation state.
-     * @throws InvalidArgumentException If the state is invalid.
      */
     public function setState(string $state): void {
-        if (!in_array($state, self::VALID_STATES)) {
-            throw new InvalidArgumentException("Invalid reservation state: $state");
-        }
         $this->state = $state;
     }
 
@@ -340,12 +318,7 @@ class EReservation implements JsonSerializable {
      * @param int $people the number
      */
     public function setPeople(int $people): void {
-        if ($people<=0) {
-            throw new InvalidArgumentException("Il numero di persone nella prenotazione non può essere minore o uguale a 0");
-        }
-        else {
             $this->people = $people;
-        }
     }
 
     /**
@@ -379,14 +352,8 @@ class EReservation implements JsonSerializable {
      * Set's the extras for a reservation
      * 
      * @param array the extras
-     * @throws InvalidArgumentException if there are any errors.
      */
     public function setExtras(array $extras): void {
-        foreach ($extras as $extra) {
-            if (!($extra instanceof EExtra)) {
-                throw new InvalidArgumentException("Invalid extra in extras array");
-            }
-        }
         $this->extras = $extras;
     }
 

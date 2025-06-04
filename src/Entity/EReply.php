@@ -2,8 +2,6 @@
 
 namespace Entity;
 use DateTime;
-use Exception;
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -34,7 +32,6 @@ class EReply implements JsonSerializable {
      * @param int the unique identifier of a reply
      * @param DateTime date of reply
      * @param string the body of the reply
-     * @throws Exception If the body of the replay is empty
      */
 
      public function __construct(?int $idReply, DateTime $dateReply, string $body) {
@@ -94,9 +91,6 @@ class EReply implements JsonSerializable {
      * @param string $body the text body of the reply. Can't be an empty string or null
      */
     public function setBody(string $body): void {
-        if (empty($body)) {
-            throw new InvalidArgumentException("Il campo della risposta non può essere vuoto");
-        }
         $this->body=$body;
     }
 

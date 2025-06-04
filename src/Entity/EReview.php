@@ -2,7 +2,6 @@
 
 namespace Entity;
 use DateTime;
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -51,7 +50,6 @@ class EReview implements JsonSerializable {
      * @param string $body The text body of the review.
      * @param DateTime $creationTime The creation timestamp of the review.
      * @param int|null $idReply The ID of the reply if exists
-     * @throws InvalidArgumentException If the number of stars is not between 1 and 5.
      */
     public function __construct(
         ?int $idUser,
@@ -61,9 +59,6 @@ class EReview implements JsonSerializable {
         DateTime $creationTime,
         ?int $idReply = null
     ) {
-        if ($stars < 1 || $stars > 5) {
-            throw new InvalidArgumentException("Stars must be between 1 and 5.");
-        }
         $this->idUser = $idUser;
         $this->idReview = $idReview;
         $this->stars = $stars;
@@ -139,12 +134,8 @@ class EReview implements JsonSerializable {
      * Sets the star rating of the review.
      *
      * @param int $stars The star rating of the review, between 1 and 5.
-     * @throws InvalidArgumentException If the number of stars is not between 1 and 5.
      */
     public function setStars(int $stars): void {
-        if ($stars < 1 || $stars > 5) {
-            throw new InvalidArgumentException("Stars must be between 1 and 5.");
-        }
         $this->stars = $stars;
     }
 
@@ -163,9 +154,6 @@ class EReview implements JsonSerializable {
      * @param string $body The text body of the review.
      */
     public function setBody(string $body): void {
-        if (empty($body)) {
-            throw new InvalidArgumentException("Il corpo della recensione non può essere vuoto");
-        }
         $this->body = $body;
     }
 

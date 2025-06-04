@@ -2,7 +2,6 @@
 
 namespace Entity;
 use DateTime;
-use InvalidArgumentException;
 use JsonSerializable;
 
 enum Role: string {
@@ -108,7 +107,6 @@ class EUser implements JsonSerializable {
      * @param DateTime $birthDate User's date of birth
      * @param string $phone User's phone number
      * @var Role $role descrive the role of the person
-     * @throws InvalidArgumentException if any input is invalid.
      */
     public function __construct(
         ?int $idUser,
@@ -124,13 +122,6 @@ class EUser implements JsonSerializable {
         Role $role,
         bool $ban = false
     ) {
-        if (empty($username)) {
-            throw new InvalidArgumentException("Username cannot be empty.");
-        }
-        if (empty($email)) {
-            throw new InvalidArgumentException("Email cannot be empty.");
-        }
-
         $this->idUser = $idUser;
         $this->idReview = $idReview;
         $this->username = $username;
@@ -364,7 +355,6 @@ class EUser implements JsonSerializable {
         return $this->isUser() && !empty($this->creditCards);
     }
 
-
     /**
      * Gets the first name of the user.
      *
@@ -378,7 +368,6 @@ class EUser implements JsonSerializable {
      * Sets the first name of the user.
      *
      * @param string $name The first name to set.
-     * @throws InvalidArgumentException if name is empty.
      */
     public function setName(string $name): void {
         $this->name = $name;
@@ -415,7 +404,6 @@ class EUser implements JsonSerializable {
      * Sets the date of birth of the user.
      *
      * @param DateTime $birthDate The date of birth to set.
-     * @throws InvalidArgumentException if birth date is in the future or underage.
      */
     public function setBirthDate(DateTime $birthDate): void {
         $this->birthDate = $birthDate;
@@ -434,7 +422,6 @@ class EUser implements JsonSerializable {
      * Sets the phone number of the person.
      *
      * @param string $phone The phone number to set.
-     * @throws InvalidArgumentException if phone number is not valid.
      */
     public function setPhone(string $phone): void {
         $this->phone = $phone;

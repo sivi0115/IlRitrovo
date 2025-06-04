@@ -25,6 +25,14 @@ class FUser {
     protected const ERR_RETRIVE_USER='Failed to retrive the inserted user.';
     protected const ERR_USER_NOT_FOUND = 'The user does not exist.';
     protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
+    protected const ERR_INVALID_BIRTHDATE = 'Birth Date is invalid.';
+    protected const ERR_BIRTHDATE_IN_FUTURE = 'Birth Date can\'t be in the future.';
+    protected const ERR_PHONE_INVALID = 'Phone number must contain only digits and be between 8 and 15 characters.';
+    protected const ERR_PASSWORD_TOO_SHORT = 'Password must be at least 8 characters long.';
+    protected const ERR_PASSWORD_NO_UPPER = 'Password must contain at least one uppercase letter.';
+    protected const ERR_PASSWORD_NO_LOWER = 'Password must contain at least one lowercase letter.';
+    protected const ERR_PASSWORD_NO_NUMBER = 'Password must contain at least one number.';
+    protected const ERR_PASSWORD_NO_SPECIAL = 'Password must contain at least one special character.';
 
 
     /**
@@ -303,65 +311,65 @@ class FUser {
     function validateUserData(array $data): void {
         //Validazione Username
         if (empty($data['username'])) {
-            throw new Exception("Username can't be empty");
+            throw new Exception(self::ERR_MISSING_FIELD . ' username');
         }
         if (self::existsByUsername($data['username'])) {
             throw new Exception(self::ERR_USERNAME_TAKEN);
         }
         //Validazione Nome
         if (empty($data['name'])) {
-            throw new Exception("Name can't be empy");
+            throw new Exception(self::ERR_MISSING_FIELD . ' name');
         }
         //Validazione Cognome
-        if (empty($data['surname'])) {
-            throw new Exception("Surname can't be empty");
+        if (empty($data['name'])) {
+            throw new Exception(self::ERR_MISSING_FIELD . ' name');
         }
         //Validazione Data di nascita
         if (empty($data['birthDate'])) {
-            throw new Exception("Birth Date can't be empty.");
+            throw new Exception(self::ERR_MISSING_FIELD . ' birthDate');
         }
         $birthdate = strtotime($data['birthDate']);
         if ($birthdate === false || $birthdate === 0) {
-            throw new Exception("Birth Date is invalid.");
+            throw new Exception(self::ERR_INVALID_BIRTHDATE);
         }
         $now = time();
-            if ($birthdate > $now) {
-        throw new Exception("Birth Date can't be in the future.");
+        if ($birthdate > $now) {
+            throw new Exception(self::ERR_BIRTHDATE_IN_FUTURE);
         }
         //Validazione email 
-        if(empty($data['email'])) {
-            throw new Exception("email can't be empty");
+        if (empty($data['email'])) {
+            throw new Exception(self::ERR_MISSING_FIELD . ' email');
         }
         if (self::existsByEmail($data['email'])) {
             throw new Exception(self::ERR_EMAIL_TAKEN);
         }
         //Validazione numero di telefono
         if (empty($data['phone'])) {
-            throw new Exception("Phone number is required.");
+            throw new Exception(self::ERR_MISSING_FIELD . ' phone');
         }
         $phone = $data['phone'];
         if (!preg_match('/^\+?\d{8,15}$/', $phone)) {
-            throw new Exception("Phone number must contain only digits and be between 8 and 15 characters.");
+            throw new Exception(self::ERR_PHONE_INVALID);
         }
         //Validazione della Password
         if (empty($data['password'])) {
-            throw new Exception("Password is required.");
+            throw new Exception(self::ERR_MISSING_FIELD . ' password');
         }
         $password = $data['password'];
         if (strlen($password) < 8) {
-            throw new Exception("Password must be at least 8 characters long.");
+            throw new Exception(self::ERR_PASSWORD_TOO_SHORT);
         }
         if (!preg_match('/[A-Z]/', $password)) {
-            throw new Exception("Password must contain at least one uppercase letter.");
+            throw new Exception(self::ERR_PASSWORD_NO_UPPER);
         }
         if (!preg_match('/[a-z]/', $password)) {
-            throw new Exception("Password must contain at least one lowercase letter.");
+            throw new Exception(self::ERR_PASSWORD_NO_LOWER);
         }
         if (!preg_match('/\d/', $password)) {
-            throw new Exception("Password must contain at least one number.");
+            throw new Exception(self::ERR_PASSWORD_NO_NUMBER);
         }
         if (!preg_match('/[^a-zA-Z\d]/', $password)) {
-            throw new Exception("Password must contain at least one special character.");
+            throw new Exception(self::ERR_PASSWORD_NO_SPECIAL);
         }
     }
 

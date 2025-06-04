@@ -21,6 +21,9 @@ class FReservation {
 
     // Valid reservation timeframes allowed in the system
     protected const VALID_TIMEFRAMES = ['lunch', 'dinner'];
+    
+    // array containing the possible states of a reservation
+    private const VALID_STATES = ['confirmed', 'approved', 'pending', 'canceled'];
 
     // Error messages centralized for consistency
     protected const ERR_MISSING_FIELD= 'Missing required field:';
@@ -348,6 +351,9 @@ class FReservation {
         // People must be set and greater than zero
         if (!isset($data['people']) || !is_int($data['people']) || $data['people'] <= 0) {
             throw new Exception(self::ERR_INVALID_PEOPLE);
+        }
+        if (empty($state) || !in_array($state, self::VALID_STATES)) {
+            throw new Exception("Invalid reservation state: $state");
         }
     }
 

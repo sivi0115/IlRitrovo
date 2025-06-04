@@ -137,7 +137,7 @@ class FReview {
      * @param int $idUser The ID of the user.
      * @return EReview|null The review if found, null otherwise.
      */
-    public static function readReviewByUserId(int $idUser): ?EReview {
+    public function readReviewByUserId(int $idUser): ?EReview {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, 'idUser', $idUser);
         return $result ? self::arrayToEntity($result) : null;

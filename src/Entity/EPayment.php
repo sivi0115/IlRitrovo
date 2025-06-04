@@ -2,7 +2,6 @@
 
 namespace Entity;
 use DateTime;
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -61,7 +60,6 @@ class EPayment implements JsonSerializable {
      * @param float $total The total amount to be paid.
      * @param DateTime $creationTime The creation time of the payment.
      * @param StatoPagamento $state The state of the payment (e.g., completed, pending).
-     * @throws InvalidArgumentException If the total amount is negative.
      */
     public function __construct(
         ?int $idPayment,
@@ -71,9 +69,6 @@ class EPayment implements JsonSerializable {
         DateTime $creationTime,
         StatoPagamento $state
     ) {
-        if ($total < 0) {
-            throw new InvalidArgumentException('Total amount must be non-negative.');
-        }
         $this->idPayment = $idPayment;
         $this->idCreditCard = $idCreditCard;
         $this->idReservation = $idReservation;
@@ -149,12 +144,8 @@ class EPayment implements JsonSerializable {
      * Set the total amount to be paid.
      *
      * @param float $total The total amount.
-     * @throws InvalidArgumentException If the total amount is negative.
      */
     public function setTotal(float $total): void {
-        if ($total < 0) {
-            throw new InvalidArgumentException('Total amount must be non-negative.');
-        }
         $this->total = $total;
     }
 
@@ -169,8 +160,6 @@ class EPayment implements JsonSerializable {
 
     /**
      * Set the creation time of the payment.
-     *
-     * @param DateTime $creationTime The creation time to set.
      */
     public function setCreationTime(DateTime $creationTime): void {
         $this->creationTime = $creationTime;
@@ -192,9 +181,6 @@ class EPayment implements JsonSerializable {
      */
     public function setState(string $state): void {
         $enum=StatoPagamento::tryFrom($state);
-        if($enum===null) {
-            throw new InvalidArgumentException("Invalid Payment State value");
-        }
         $this->state=$enum;
     }
 
