@@ -184,23 +184,6 @@ class EUser implements JsonSerializable {
     }
 
     /**
-     * Checks if the user has the requirements to write a review
-     * @return bool
-     */
-    public function canWriteReview(): bool {
-    if (!$this->isUser() || $this->idReview !== null) {
-        return false;
-    }
-    $now = new DateTime();
-    foreach ($this->reservations as $reservation) {
-        if ($reservation->getReservationDate() <= $now) {
-            return true;
-        }
-    }
-    return false;
-    }
-
-    /**
      * Returns true if the user has already written the review
      *
      * @return bool

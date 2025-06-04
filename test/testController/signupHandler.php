@@ -7,6 +7,8 @@ session_start();
 
 // Includi il file autoload se esiste, oppure manualmente i file necessari
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+use Controller\CReview;
 use Utility\USessions;
 use Controller\CUser;
 use Utility\UCookies;
@@ -21,6 +23,7 @@ use Foundation\FPersistentManager;
 USessions::setSessionElement('idUser', 1);
 // Creo una nuova istanza del controller
 $controller = new CUser();
+$controller2 = new CReview();
 
 
 // Questo metodo si occuperà di validare i dati e fare l'inserimento a DB
@@ -30,6 +33,9 @@ $controller = new CUser();
 //Verifica se funziona isLogged()
 //$controller->isLogged();
 //Verifica il funzionamento di editProfileData()
-$controller->editProfileData();
+//$controller->editProfileData();
 //Verifica il funzionamento di editUsername()
 //$controller->editProfileMetadata();
+//Verifica l'inserimento di una review
+//$controller2->createReview();
+$controller2->editReview(1);

@@ -3,9 +3,14 @@
 namespace Controller;
 
 use DateTime;
+use Entity\EReply;
 use Entity\EReview;
 use Exception;
+use Foundation\FPersistentManager;
+use Foundation\FReservation;
 use Foundation\FReview;
+use Utility\UHTTPMethods;
+use Utility\USessions;
 
 class CReview
 {
@@ -15,176 +20,80 @@ class CReview
      * @return void
      * @throws Exception
      */
-    public function creaReview(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if ((new CUser)->isLogged()) {
-                try {
-                    $utente = unserialize($_SESSION['utente']);
-
-                    $body = $_POST['body'];
-                    $creationTime = new DateTime();
-                    $stars = $_POST['stars'];
-                    $idUser = $utente->getIdUser();
-                    $review = new EReview(
-                        null,
-                        $body,
-                        $creationTime,
-                        false, // false di default
-                        $stars,
-                        "", // vuota di default perché ancora non risposta
-                        $idUser,
-                    );
-
-                    FReview::storeReview($review);
-                    header('Location: /location/' . $idLocation . '?success=review_creata');
-                    exit();
-                } catch (Exception $e) {
-                    header('Location: /location/' . $idLocation . '?error=review_non_creata');
-                    exit();
-                }
-            } else {
-                header('Location: /EventHubWEB/login');
-                exit();
-            }
+    public function createReview(): void {
+        //Verifica che l'utente sia loggato
+        if(!CUser::isLogged()) {
+            header('Location: /IlRitrovo/Login');
+            exit;
         }
-    }
-
-    /**
-     * Visualizza i dettagli di una recensione.
-     *
-     * @param int $id L'ID della recensione.
-     * @return EReview|null La recensione se trovata, altrimenti null.
-     * @throws Exception Se si verifica un errore durante il caricamento della recensione.
-     */
-    public function visualizzaReview(int $id): ?EReview
-    {
-        try {
-            return FReview::loadReview($id);
-        } catch (Exception $e) {
-            // Gestisci l'eccezione (es. logging)
-            return null;
+        //Se l'utente è loggato, recupero il suo id dalla sessione
+        $idUser=USessions::getSessionElement('idUser');
+        //Creo un EReview con i dati provenienti dalla POST
+        $review=new EReview(
+            $idUser,
+            null,
+            UHTTPMethods::post('stars'),
+            UHTTPMethods::post('body'),
+            new DateTime,
+            null,
+        );
+        //Verifico se esistono prenotazioni associate a questo utente
+        if(empty(FPersistentManager::getInstance()->readReservationsByUserId($idUser, FReservation::class))) {
+            throw new Exception("U can't write a Review, past reservation needed");
         }
-    }
-
-    /**
-     * Aggiorna una recensione esistente.
-     *
-     * @param int $id L'ID della recensione da aggiornare.
-     * @throws Exception Se si verifica un errore durante l'aggiornamento della recensione.
-     */
-    public function updateReview(int $id): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if ((new CUser)->isLogged()) {
-                try {
-                    $utente = unserialize($_SESSION['utente']);
-                    $body = $_POST['body'];
-                    $stars = $_POST['stars'];
-                    $idUser = $utente->getIdUser();
-                    $idLocation = $_POST['idLocation'];
-
-                    $review = new EReview(
-                        $id,
-                        $body,
-                        new DateTime(),
-                        false,
-                        $stars,
-                        "",
-                        $idUser,
-                        $idLocation
-                    );
-
-                    FReview::updateReview($review);
-                    header('Location: /user/profile?success=review_aggiornata');
-                    exit();
-                } catch (Exception $e) {
-                    header('Location: /user/profile?error=review_non_aggiornata');
-                    exit();
-                }
-            } else {
-                header('Location: /EventHubWEB/login');
-                exit();
-            }
+        if(empty($review->getStars())) {
+            throw new Exception("Stars field can't be empty");
         }
+        if(empty($review->getBody())) {
+            throw new Exception("Review's body can't be empty");
+        }
+        //Salvataggio nel DB in cui tutti i controlli sono passati
+        FPersistentManager::getInstance()->create($review);
     }
 
     /**
      * Elimina una recensione esistente.
-     *
-     * @param int $id L'ID della recensione da eliminare.
-     * @throws Exception Se si verifica un errore durante l'eliminazione della recensione.
+     * 
+     * @param int $idReview: review's ID taken by the review list user see actually
      */
-    public function eliminaReview(int $id): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            if ((new CUser)->isLogged()) {
-                try {
-                    FReview::deleteReview($id);
-                    header('Location: /user/profile?success=review_eliminata');
-                    exit();
-                } catch (Exception $e) {
-                    header('Location: /user/profile?error=review_non_eliminata');
-                    exit();
-                }
-            } else {
-                header('Location: /EventHubWEB/login');
-                exit();
-            }
+    public function deleteReview(int $idReview) {
+        if(!CUser::isLogged()) {
+            header ("homepage");
         }
+        FPersistentManager::getInstance()->delete($idReview, FReview::class);
+        header('Location: Pagina Review Utente');
     }
 
     /**
-     * Visualizza tutte le recensioni di un utente.
-     *
-     * @param int $idUser L'ID dell'utente di cui visualizzare le recensioni.
-     * @return array Un array di oggetti EReview.
-     * @throws Exception Se si verifica un errore durante il recupero delle recensioni.
+     * Modifica una recensione 
      */
-    public function getReviewsByUser(int $idUser): array
-    {
-        try {
-            return FReview::loadReviewByUserId($idUser);
-        } catch (Exception $e) {
-            throw new Exception("Errore durante il recupero delle recensioni: " . $e->getMessage());
+    public function editReview($idReview) {
+        //Verifico per sicurezza che l'utente sia loggato
+        if(!CUser::isLogged()) {
+            header("Location: HomPage");
+            exit; //Da cambiare con la vera URL della home page
         }
+        //Ottengo l'id dell'utente dalla sessione
+        $idUser=USessions::getSessionElement('idUser');
+        //Arriva una POST HTTP con i dati, che provvedo ad estrarre per creare la EReview modificata
+        $review=new EReview(
+            $idUser, 
+            $idReview, //Campo nascosto nello script HTML o come parametro della funzione
+            UHTTPMethods::post('stars'),
+            UHTTPMethods::post('body'),
+            new DateTime(), //Non deve essere modificabile
+            UHTTPMethods::post('idReply') //Campo nascosto nello script HTML
+        );
+        //Faccio alcuni controlli sui campi inseriti
+        if(empty($review->getStars())) {
+            throw new Exception("Stars field can't be empty");
+        }
+        if (empty($review->getBody())) {
+            throw new Exception("Body field can't be empty");
+        }
+        //Aggiorno la review su db se tutti i check sono stati superati
+        FPersistentManager::getInstance()->update($review);
+        header("Location: Pagina delle rview utente");
     }
 
-    /**
-     * Visualizza tutte le recensioni per una specifica location.
-     *
-     * @param int $idLocation L'ID della location di cui visualizzare le recensioni.
-     * @return array Un array di oggetti EReview.
-     * @throws Exception Se si verifica un errore durante il recupero delle recensioni.
-     */
-    public function getReviewsByLocation(int $idLocation): array
-    {
-        try {
-            return FReview::loadReviewByLocation($idLocation);
-        } catch (Exception $e) {
-            throw new Exception("Errore durante il recupero delle recensioni: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * Gestisce la ricerca di recensioni per ID.
-     *
-     * @return EReview|null La recensione se trovata, altrimenti null.
-     * @throws Exception Se si verifica un errore durante la ricerca della recensione.
-     */
-    public function cercaReviews(): ?EReview
-    {
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            try {
-                $idReview = $_POST['idReview'];
-                if (!is_numeric($idReview)) {
-                    throw new Exception("ID recensione non valido.");
-                }
-                return FReview::loadReview($idReview);
-            } catch (Exception $e) {
-                throw new Exception("Errore durante la ricerca della recensione: " . $e->getMessage());
-            }
-        }
-        return null;
-    }
 }

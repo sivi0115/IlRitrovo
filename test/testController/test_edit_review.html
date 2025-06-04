@@ -1,0 +1,17 @@
+
+
+<form action="signupHandler.php" method="POST">
+  <!-- ID recensione (nascosto) -->
+  <input type="hidden" name="idReview" value="1">
+
+  <!-- Stelle -->
+  <label for="stars">Stelle (1-5):</label>
+  <input type="number" id="stars" name="stars" min="1" max="5" required>
+
+  <!-- Testo recensione -->
+  <label for="body">Testo della recensione:</label>
+  <textarea id="body" name="body" rows="4" cols="50" required></textarea>
+
+  <!-- Submit -->
+  <button type="submit">Salva modifiche</button>
+</form>

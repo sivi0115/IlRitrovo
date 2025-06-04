@@ -227,10 +227,10 @@ class CUser {
      * Funzione per bannare un utente
      */
     public function bannUser() {
-        $view=new VUser;
+        //$view=new VUser;
         if(!CUser::isLogged()) {
             header('Location: /IlRitrovo/Home');
-            $view->loginError();
+            //$view->loginError();
             exit;
         }
         $adminId=USessions::getInstance()->getSessionElement('idUser');

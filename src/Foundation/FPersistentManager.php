@@ -72,6 +72,28 @@ use Exception;
     }
 
     /**
+     * Read all reservations associated to a specific User by his ID
+     * 
+     * @param int $idUser the ID of the user
+     * @param string $fClass the class name
+     * @return array the laoded reservations
+     */
+    public function readReservationsByUserId(int $idUser, string $fClass): array {
+        return $this->performOperation('readReservationsByUserId', $fClass, $idUser);
+    }
+
+    /**
+     * Update a generic object in db
+     * 
+     * @param object $obj the updated object
+     * @return bool true if updated success
+     */
+    public function update(object $obj): bool {
+        return $this->performOperation('update', $this->getClassName($obj), $obj);
+    }
+    
+
+    /**
      * Updates Profile Data an object in the database.
      *
      * @param object $obj The object to update.
