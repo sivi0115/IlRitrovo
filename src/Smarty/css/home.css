@@ -1,0 +1,273 @@
+/* ======= BASE STYLES ======= */
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fdfaf5;
+  color: #4a3b2c;
+  line-height: 1.6;
+}
+
+/* ======= HEADER ======= */
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-color: #f4eadd;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.slogan {
+  font-style: italic;
+  margin-top: 0.5rem;
+  color: #6a5d4d;
+}
+
+/* ======= MAIN STRUCTURE ======= */
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+section {
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px dashed #c7b299;
+  padding-bottom: 0.5rem;
+}
+
+/* ======= LISTS & TEXT ======= */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 0.8rem;
+}
+
+.price {
+  float: right;
+  color: #8b3a3a;
+  font-weight: bold;
+}
+
+.wines a {
+  color: #8b3a3a;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.wines a:hover {
+  text-decoration: underline;
+}
+
+/* ======= FIXED MENU ======= */
+.fixed-menu {
+  padding: 1.5rem;
+  background-color: #fef7ec;
+  border: 1px solid #e0d5c0;
+  border-radius: 12px;
+}
+
+.fixed-menu .fixed-price {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: #8b3a3a;
+}
+
+/* ======= HERO SECTION (CaterServ style) ======= */
+.hero {
+  position: relative;
+  padding: 2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* sposta contenuti in alto */
+  flex-wrap: wrap;
+  max-height: 600px;
+  overflow: hidden;
+  color: #4a3b2c; /* testo ben visibile */
+  background-color: #fffaf5; /* fallback */
+}
+
+/* Immagine specchiata come pseudo-elemento */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../assets/images/home/location.jpg') center/cover no-repeat;
+  transform: scaleX(-1); /* specchia orizzontalmente */
+  z-index: 0;
+  opacity: 0.90; /* meno trasparente */
+  pointer-events: none; /* non interferisce con click */
+}
+
+/* Overlay bianco semitrasparente sopra l’immagine per leggibilità */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 250, 245, 0.6); /* meno coprente */
+  z-index: 1;
+}
+
+/* Contenuto sopra overlay */
+.hero .rhombus-wrapper {
+  position: relative;
+  top:-10px; /* alza contenuto (modifica valore a piacere) */
+  z-index: 2;
+}
+
+.hero .hero-content {
+  position: relative;
+  top: 120px; /* sposta verso il basso di 20px */
+  z-index: 2;
+}
+
+.hero .hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #000;
+  margin-top: 0;       /* azzera margine sopra */
+  margin-bottom: 0.5rem; /* margine sotto ridotto */
+}
+
+.hero .hero-content span.highlight {
+  color: #d4a055;
+  font-family: 'Playball', cursive;
+  font-size: 3rem;
+}
+
+.hero .hero-content p {
+  font-size: 1.1rem;
+  color: #6a5d4d;
+  margin-top: 0;       /* azzera margine sopra */
+  margin-bottom: 0.5rem; /* margine sotto ridotto */
+}
+
+.hero .hero-buttons {
+  margin-top: 0; /* togli margine alto per stringere */
+  margin-bottom: 0; /* azzera margine basso */
+}
+
+.hero .hero-buttons {
+  margin-top: 1.5rem;
+}
+
+.hero .hero-buttons .btn {
+  background-color: #d4a055;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 2rem;
+  margin-right: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.hero .hero-buttons .btn:hover {
+  background-color: #8b3a3a;
+}
+
+/* ======= RHOMBUS IMAGES ======= */
+:root {
+  --offset: 282.8px;
+}
+
+.rhombus-wrapper {
+  margin: 2rem 0 2rem auto; /* sposta i rombi più a destra */
+  left: 40px; /* ulteriore piccolo spostamento a destra */
+  position: relative;
+  width: 600px;
+  height: 600px;
+}
+
+.rhombus {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  transform: rotate(45deg);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 3px solid #c7b299;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.rhombus.large {
+  width: 240px;
+  height: 240px;
+  z-index: 1000;
+}
+
+.rhombus img {
+  width: 160%;        /* aumentiamo ancora un po' */
+  height: 160%;       /* aumentiamo anche l'altezza */
+  object-fit: cover;
+  transform: rotate(-45deg) translate(0, -10%);
+  transition: transform 0.3s ease;
+  position: relative;
+  left: -10%;         /* spostiamo più a sinistra */
+  top: -30%;          /* spostiamo più in alto */
+}
+
+/* Posizioni */
+.rhombus-3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.rhombus-1,
+.rhombus-2,
+.rhombus-4,
+.rhombus-5 {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.rhombus-1 {
+  top: calc(50% - var(--offset) * 0.55);
+  left: calc(50% - var(--offset) * 0.55);
+}
+
+.rhombus-2 {
+  top: calc(50% - var(--offset) * 0.55);
+  left: calc(50% + var(--offset) * 0.55);
+}
+
+.rhombus-4 {
+  top: calc(50% + var(--offset) * 0.55);
+  left: calc(50% - var(--offset) * 0.55);
+}
+
+.rhombus-5 {
+  top: calc(50% + var(--offset) * 0.55);
+  left: calc(50% + var(--offset) * 0.55);
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero .hero-content,
+  .rhombus-container {
+    max-width: 100%;
+  }
+
+  .rhombus-container {
+    margin-top: 2rem;
+  }
+}
