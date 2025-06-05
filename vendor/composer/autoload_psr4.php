@@ -9,7 +9,7 @@ return array(
     'View\\' => array($baseDir . '/src/View'),
     'Utility\\' => array($baseDir . '/src/Utility'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Smarty\\' => array($baseDir . '/src/Smarty', $vendorDir . '/smarty/smarty/src'),
+    'Smarty\\' => array($vendorDir . '/smarty/smarty/src'),
     'None\\EventHubNewMain\\' => array($baseDir . '/src'),
     'Foundation\\' => array($baseDir . '/src/Foundation'),
     'Entity\\' => array($baseDir . '/src/Entity'),

@@ -58,8 +58,7 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         ),
         'Smarty\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/Smarty',
-            1 => __DIR__ . '/..' . '/smarty/smarty/src',
+            0 => __DIR__ . '/..' . '/smarty/smarty/src',
         ),
         'None\\EventHubNewMain\\' => 
         array (
