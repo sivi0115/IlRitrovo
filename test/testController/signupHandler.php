@@ -23,10 +23,11 @@ use Foundation\FPersistentManager;
 // Creo una nuova istanza del controller
 $controller = new CUser();
 $session=USessions::getIstance();
+$session->startSession();
 $session->setValue('idUser', 1);
 
-$controller->showProfile();
 
+$controller->showProfile();
 
 
 

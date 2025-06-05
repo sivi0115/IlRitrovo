@@ -3,22 +3,33 @@
 
 namespace View;
 use Smarty\Smarty;
+use DateTime;
 
 class VUser {
 
-    public function showProfile($username, $email, $name, $username, $birthDate, $phone, $edit_section) {
+    public function showProfile(
+        string $username,
+        string $email,
+        string $name,
+        string $surname,
+        string $birthDate,
+        string $phone,
+        string $edit_section,
+    ) {
         $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
         // Assegna variabili Smarty
-        $smarty->assign('username', $username->getUsername());
-        $smarty->assign('email', $email->getEmail());
-        $smarty->assign('name', $utente->getName());
-        $smarty->assign('surname', $utente->getSurname());
-        $smarty->assign('birthdate', $utente->getBirthDate());
-        $smarty->assign('phone', $utente->getPhone());
+        $smarty->assign('username', $username);
+        $smarty->assign('email', $email);
+        $smarty->assign('name', $name);
+        $smarty->assign('surname', $surname);
+        $smarty->assign('birthdate', $birthDate);
+        $smarty->assign('phone', $phone);
         $smarty->assign('edit_section', $edit_section);
 
         // Mostra il template
-        $smarty->display('user/useProfile.tpl');
+        $smarty->display('userProfile.tpl');
     }
 }

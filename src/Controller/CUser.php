@@ -93,12 +93,12 @@ class CUser {
         $username=$user->getUsername();
         $email=$user->getEmail();
         $name=$user->getName();
-        $username=$user->getSurname();
+        $surname=$user->getSurname();
         $birthDate=$user->getBirthdate();
         $phone=$user->getPhone();
         $edit_section="";
         //Passo i parametri a view
-        $view->showProfile($username, $email, $name, $username, $birthDate, $phone, $edit_section);
+        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section);
     }
 
     /**
