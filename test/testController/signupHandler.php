@@ -22,8 +22,16 @@ use Foundation\FPersistentManager;
 
 // Creo una nuova istanza del controller
 $controller = new CUser();
+$session=USessions::getIstance();
+$session->setValue('idUser', 1);
 
-$controller->checkRegister();
+$res=$controller->isLogged();
+if($res===false) {
+    echo "Utente non loggato";
+} else {
+    echo "Utente loggato";
+}
+print_r($_SESSION);
 
 
 

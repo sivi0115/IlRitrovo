@@ -83,6 +83,17 @@ use Exception;
     }
 
     /**
+     * Read all credit card by user id
+     * 
+     * @param int $idUser
+     * @param string $fClass the class name
+     * @return array the loaded credit cards
+     */
+    public function readCreditCardsByUser(int $idUser, string $fClass): array {
+        return $this->performOperation('readCreditCardsByUserId', $fClass, $idUser);
+    }
+
+    /**
      * Update a generic object in db
      * 
      * @param object $obj the updated object

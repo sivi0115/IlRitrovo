@@ -20,6 +20,13 @@ isLogged()
 showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout VIEW
 implementare logout() -> esegue il logout dell'utente + redirect
 
+CASO D'USO MODIFICA DATI PERSONALI
+isLogged()
+implementare showProfile() -> VIEW -> mostra la pagina utente
+implementare showEditProfileData()
+implementare editProfileData()
+
+
 
 
 

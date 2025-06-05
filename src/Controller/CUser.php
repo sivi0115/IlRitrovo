@@ -45,7 +45,7 @@ class CUser {
         if($session->isValueSet('idUser')) {
             $identifier=true; //Utente loggato
         }
-        return $identifier;
+        return($identifier);
     }
 
     /**
@@ -53,7 +53,15 @@ class CUser {
      */
     public function showLoginRegister() {
         $view=new VUser();
-        $view=showLoginRegisterPage();
+        $view->showLoginRegisterPage();
+    }
+
+    /**
+     * Show Profile/Logout popup from the home pag
+     */
+    public function showProfileLogout() {
+        $view=new VUser();
+        $view->showProfileLogoutPage();
     }
 
     /**
@@ -73,12 +81,51 @@ class CUser {
     }
 
     /**
+     * Show logged user Profile
+     */
+    public function showProfile() {
+        $session=USessions::getIstance();
+        $session->startSession();
+        $idUser=$session->readValue('idUser');
+        $view=new VUser();
+        //Carico l'utente da db per prelevare i suoi dati da visualizzare nel suo profilo
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        $username=$user->getUsername();
+        $email=$user->getEmail();
+        $name=$user->getName();
+        $username=$user->getSurname();
+        $birthDate=$user->getBirthdate();
+        $phone=$user->getPhone();
+        $edit_section="";
+        //Passo i parametri a view
+        $view->showProfile($username, $email, $name, $username, $birthDate, $phone, $edit_section);
+    }
+
+    /**
+     * Show the form for editing the data Profile
+     */
+    public function showEditProfileData() {
+        
+    }
+
+    /**
+     * Function to logout a user
+     */
+    public function logout() {
+        $session=USessions::getIstance();
+        $session->startSession();
+        $session->stopSession();
+        setcookie("PHPSESSID", "");
+        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+
+    }
+
+    /**
      * Function to validate user's data sended by the form and register the user
      */
     public function checkRegister() {
-        //$view=new VUser();
+        $view=new VUser();
         $session=USessions::getIstance();
-        $idUser=$session->readValue('idUser');
         //Creo un nuovo EUser con i dati provenienti dalla form HTML
         $newUser=new EUser(
             null,
@@ -99,7 +146,9 @@ class CUser {
             //Ci sono stati errori nell'inserimento a db, reindirizzo alla schermata home con errore
             $view->registerError();
         } else {
-            //L'operazione ha avuto successo, reindirizzo alla schermata home
+            //L'operazione ha avuto successo, reindirizzo alla schermata home e inserisco l'id dell'utente in sessione
+            $session->startSession();
+            $session->setValue('idUser', $newUser->getIdUser());
             header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
         }
     }
@@ -110,23 +159,29 @@ class CUser {
     public function checkLogin() {
     $view=new VUser();
     $session=USessions::getIstance();
-    $session->readValue('idUser');
     //Verifico se esiste un utente su db con stessa email e password inseriti nelle form HTML
-    $checkUser=FPersistentManager::getInstance()->read('idUser', FUser::class);
+    $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
     $checkEmail=$checkUser->getEmail();
     $checkPassword=$checkUser->getPassword();
     //Controllo effettivo
     if($checkEmail===UHTTPMethods::post('email') && $checkPassword===UHTTPMethods::post('password')) {
         //Controllo superato, verifico se l'utente sia un admin o un utente normale
-        if($checkUser->isAdmin) {
-            //Reindirizzo alla home page dell'admin
-            $view=showAdminHomePage();
-        }
+        if($checkUser->isAdmin()) {
+            //Reindirizzo alla home page dell'admin e aggiungo in sessione l'utente
+            $session->startSession();
+            $session->setValue('idUser', $checkUser->getIdUser());
+            $view->showAdminHomePage();
+            }
         //Verifico se l'utente è bannato
         if($checkUser->getBan()===1) {
             //Utente bannato
-            $view
+            $view->showLoginError();
+            }
         }
-        
+    //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
+    $session->startSession();
+    $session->setValue('idUser', $checkUser->getIdUser());
+    header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
     }
+
 }

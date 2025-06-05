@@ -135,7 +135,7 @@ class FCreditCard {
      * @return ECreditCard[] An array of ECreditCard objects.
      * @throws Exception If an error occurs during the loading of credit cards.
      */
-    public static function readCreditCardsByUser(int $idUser): array {
+    public static function readCreditCardsByUserId(int $idUser): array {
         $db = FDatabase::getInstance();
         try {
             $results = $db->fetchWhere(self::TABLE_NAME, ['idUser' => $idUser]);
