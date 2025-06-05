@@ -5,32 +5,11 @@
       <!-- Template Stylesheet -->
       <link href="../css/styles.css" rel="stylesheet">
       <link href="../css/home.css" rel="stylesheet">
-      <link rel="stylesheet" href="../css/header.css">
-      <link rel="stylesheet" href="../css/footer.css">
   </head>
-
-  <header>
-    <div class="header-top">
-      <!-- Logo e nome sito -->
-      <div class="logo-area">
-        <img src="../assets/images/logo/logo.png" alt="Logo Il Ritrovo" class="logo">
-        <span class="site-name">Il Ritrovo</span>
-      </div>
-      <!-- Barra di navigazione centrata -->
-      <nav class="main-nav">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Rooms</a></li>
-          <li><a href="#">Menù</a></li>
-          <li><a href="#">Reviews</a></li>
-        </ul>
-      </nav>
-      <!-- Pulsante utente -->
-      <button class="user-button" aria-label="User menu"></button>
-    </div>
-  </header>
-
   <body>
+    <!-- Header -->
+    {include file='headerUser.tpl'}
+
     <!-- Booking Section -->
     <section class="booking">
       <div class="booking-content">
@@ -41,24 +20,25 @@
           <div class="booking-buttons">
             <a href="#" class="btn">Book Table</a>
             <a href="#" class="btn">Book Room</a>
-          </div>
-      </div>
+          </div> <!-- /.booking-buttons-->
+      </div> <!-- /.booking-content-->
       <div class="rhombus-wrapper">
           <div class="rhombus small rhombus-1"><img src="../assets/images/menu/chocolate_cake.jpg" alt=""></div>
           <div class="rhombus small rhombus-2"><img src="../assets/images/home/interior.jpg" alt=""></div>
           <div class="rhombus large rhombus-3"><img src="../assets/images/home/location.jpg" alt=""></div>
           <div class="rhombus small rhombus-4"><img src="../assets/images/home/bar.jpg" alt=""></div>
           <div class="rhombus small rhombus-5"><img src="../assets/images/menu/mixed_bruschetta.jpg" alt=""></div>
-      </div>
+      </div> <!-- /.rhombus-wrapper-->
     </section>
 
+    <!-- Rooms Section -->
     <section class="event-section rooms-section">
       <div class="content-wrapper">
-        <!-- IMMAGINE A SINISTRA -->
+        <!-- IMAGE ON THE LEFT -->
         <div class="image-column">
           <img src="../assets/images/home/event.jpg" alt="Rustic and elegant event room" class="framed-image">
-        </div>
-        <!-- TESTO A DESTRA -->
+        </div> <!-- /.image-column-->
+        <!-- TEXT ON THE RIGHT -->
         <div class="content-column">
           <button class="tag-btn">OUR ROOMS</button>
           <h1>Spaces that make your <strong>Moments Special</strong></h1>
@@ -71,19 +51,21 @@
             <li><strong>🍷 Custom menus and wine selection</strong></li>
             <li><strong>🎶 Live music and personalized decorations</strong></li>
           </ul>
-          <!-- BOTTONE CORRETTO -->
           <div class="booking-buttons">
             <a href="#" class="btn">Discover our rooms →</a>
-          </div>
-        </div>
-      </div>
+          </div> <!-- /.booking-buttons-->
+        </div> <!-- /.content-column-->
+      </div> <!-- /.content-wrapper-->
     </section>
 
+    <!-- Menu Section-->
     <section class="menu-section rooms-section">
       <div class="content-column">
         <button class="tag-btn">OUR MENU</button>
         <h1>Authentic Flavors <strong>Served with Heart</strong></h1>
-        <p>From rustic starters to refined main courses, our menu celebrates seasonal ingredients and traditional flavors with a touch of creativity. Ideal for business dinners, family events, or just a cozy evening.</p>
+        <p>
+          From rustic starters to refined main courses, our menu celebrates seasonal ingredients and traditional flavors with a touch of creativity. Ideal for business dinners, family events, or just a cozy evening.
+        </p>
         <ul class="features">
           <li><strong>✓ Handpicked local produce</strong></li>
           <li><strong>✓ Vegetarian & vegan options</strong></li>
@@ -91,21 +73,13 @@
           <li><strong>✓ Seasonal tasting menu</strong></li>
         </ul>
         <a href="menu.html" class="btn">Explore the menu →</a>
-      </div>
+      </div> <!-- /.content-column-->
       <div class="image-column">
         <img src="../assets/images/home/menu.jpg" alt="Menu preview" class="framed-image">
-      </div>
+      </div> <!-- /.image-column-->
     </section>
-  </body>
 
-  <footer>
-    <div class="footer-content">
-      <p><strong>Il Ritrovo</strong> – Where flavours meet</p>
-      <p>📍 Via delle Colline 12, 50100 Firenze (FI)</p>
-      <p>📞 012 3456789 – ✉️ <a href="mailto:info@ilritrovo.it">info@ilritrovo.it</a></p>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Il Ritrovo. Tutti i diritti riservati.</p>
-    </div>
-  </footer>
+    <!-- Footer-->
+    {include file='footerUser.tpl'}
+  </body>
 </html>
