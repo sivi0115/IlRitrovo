@@ -6,12 +6,6 @@ body {
   line-height: 1.6;
 }
 
-header {
-  text-align: center;
-  padding: 2rem 1rem;
-  background-color: #f4eadd;
-}
-
 h1 {
   font-family: 'Playfair Display', serif;
   font-size: 3rem;
@@ -51,6 +45,14 @@ li {
   margin-bottom: 0.8rem;
 }
 
+p {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  color: #4a3b2c; /* stesso colore dei link e del testo nel header */
+  max-width: 65ch;
+  line-height: 1.6;
+}
+
 .price {
   float: right;
   color: #8b3a3a;
@@ -78,13 +80,4 @@ li {
   font-size: 1.2rem;
   margin-top: 1rem;
   color: #8b3a3a;
-}
-
-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  background-color: #f4eadd;
-  font-size: 0.9rem;
-  color: #6a5d4d;
-  border-top: 1px solid #e0d5c0;
 }

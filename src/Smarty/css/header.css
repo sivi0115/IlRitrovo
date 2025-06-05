@@ -1,7 +1,8 @@
+/* === HEADER === */
 header {
   background-color: #f4eadd;
   border-bottom: 1px solid #e0d5c0;
-  height: 30px;
+  height: 70px;
   overflow: visible; /* così non taglia nulla */
 }
 
@@ -10,9 +11,10 @@ header {
   justify-content: space-between;
   align-items: center; /* centra verticalmente */
   padding: 0 1.5rem;
-  height: 100%; /* usa tutta l'altezza 30px */
+  height: 100%; /* usa tutta l'altezza 70px */
   margin: 0;
   gap: 1rem;
+  position: relative; /* <-- importante per posizionare dropdown */
 }
 
 .logo-area {
@@ -140,4 +142,118 @@ header {
   .main-nav a {
     font-size: 1.1rem;
   }
+}
+
+/* === DROPDOWN UTENTE === */
+.user-dropdown {
+  position: absolute;
+  top: 70px;
+  right: 1.5rem;
+  background-color: #fff;
+  border: 1px solid #e0d5c0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 180px;
+  z-index: 999;
+  padding: 0.5rem 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #4a3b2c;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.user-dropdown a:hover {
+  background-color: #f4eadd;
+  color: #8b3a3a;
+}
+
+/* === MODALI LOGIN e REGISTRAZIONE === */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem; /* aggiunto per evitare che il modal tocchi i bordi su schermi piccoli */
+  box-sizing: border-box;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh; /* limita altezza totale del modal */
+  overflow-y: auto;  /* abilita lo scroll verticale se il contenuto è troppo alto */
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;  /* spazio ridotto tra i campi */
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content label {
+  font-weight: 600;
+  margin-top: 0.3rem; /* meno spazio sopra label */
+  font-size: 0.9rem;
+}
+
+.modal-content input {
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.modal-content button {
+  margin-top: 0.7rem;
+  padding: 0.6rem;
+  background-color: #8b3a3a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.modal-content button:hover {
+  background-color: #a44a4a;
+}
+
+.modal-content p {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.modal-content a {
+  color: #8b3a3a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
