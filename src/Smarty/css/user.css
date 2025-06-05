@@ -1,127 +1,310 @@
-/* Profilo */
+/* PROFILO - PANEL */
 .panel {
-  background-color: #fef7ec;
+  background: #fef7ec;
   border: 1px solid #e0d5c0;
   border-radius: 12px;
   padding: 2rem;
   margin: 2rem auto;
-  max-width: 900px;
+  max-width: 1000px;
   font-family: 'Open Sans', sans-serif;
   color: #4a3b2c;
 }
-
 .panel-heading {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: #8b3a3a;
   border-bottom: 2px dashed #c7b299;
   padding-bottom: 0.5rem;
 }
 
+/* CONTENITORE PRINCIPALE */
 .profile-container {
   display: flex;
-  gap: 2rem;
   flex-wrap: wrap;
+  gap: 2.5rem;
   align-items: flex-start;
 }
 
+/* IMMAGINE PROFILO */
 .profile-image-section {
-  flex: 1 1 200px;
+  flex: 0 0 180px;
+  text-align: center;
 }
-
 .profile-img {
-  width: 100%;
-  max-width: 180px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   border: 3px solid #e0d5c0;
+  object-fit: cover;
+}
+.edit-image-btn {
+  margin-top: 0.7rem;
+  background: transparent;
+  border: 1px solid #8b3a3a;
+  color: #8b3a3a;
+  font: 0.9rem 'Open Sans', sans-serif;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s,color 0.3s;
+}
+.edit-image-btn:hover {
+  background: #8b3a3a;
+  color: #fff;
 }
 
+/* SEZIONE DATI */
 .profile-info-section {
-  flex: 2 1 300px;
+  flex: 1 1 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
-
-.username {
+.username-header h3 {
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.separator {
-  border: none;
-  border-top: 1px solid #d4c2ac;
-  margin: 1rem 0;
-}
-
-.info-list {
-  list-style: none;
-  padding: 0;
+  font-size: 1.6rem;
+  color: #6a4a4a;
   margin: 0;
 }
-
-.info-list li {
-  margin-bottom: 0.8rem;
+.user-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+}
+.credentials-row, .personal-data-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.credential-item, .personal-item {
+  flex: 1 1 45%;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.credential-item input, .personal-item input {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid #c7b299;
+  border-radius: 4px;
+  font: 0.95rem 'Open Sans', sans-serif;
+}
+.user-info-group .edit-btn {
+  align-self: flex-end;
+  background: #8b3a3a;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  transition: background-color 0.3s;
+}
+.user-info-group .edit-btn:hover {
+  background: #a14444;
 }
 
-/* Carte */
+/* SEPARATORE */
+.separator {
+  border: none;
+  border-top: 1px dashed #c7b299;
+  margin: 1.2rem 0;
+}
+
+/* CARTE DI PAGAMENTO */
 .card-row {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
+  margin-top: 2rem;
 }
-
 .credit-card {
-  flex: 1 1 250px;
+  flex: 1 1 280px;
   border: 1px solid #e0d5c0;
   border-radius: 10px;
-  overflow: hidden;
-  background-color: #ffffff;
+  background: #fff;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  overflow: hidden;
 }
-
 .card-header {
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
   color: #fff;
   padding: 0.75rem 1rem;
+  text-transform: uppercase;
 }
-
+.mastercard {background-color:#ff9f43;}
+.visa {background-color:#4a90e2;}
+.american-express {background-color:#2a9d8f;}
+.maestro {background-color:#f94144;}
+.v-pay {background-color:#577590;}
+.pago-bancomat {background-color:#f9844a;}
+.mastercard .card-header,
+.visa .card-header,
+.american-express .card-header,
+.maestro .card-header,
+.v-pay .card-header,
+.pago-bancomat .card-header {
+  background-color: inherit;
+}
 .card-body {
   padding: 1rem;
   font-size: 0.95rem;
 }
-
 .card-body ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .card-body li {
   margin-bottom: 0.6rem;
 }
 
-/* Colori dinamici per tipo carta */
-.mastercard .card-header {
-  background-color: #ff9f43; /* Arancione Mastercard */
+/* Pulsanti Modifica/Elimina carte */
+.edit-btn, .card-edit-btn, .card-delete-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-left: 0.5rem;
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+}
+.edit-btn, .card-edit-btn {
+  background: #8b3a3a;
+}
+.edit-btn:hover, .card-edit-btn:hover {
+  background: #a14444;
+}
+.card-delete-btn {
+  background: #a02f2f;
+}
+.card-delete-btn:hover {
+  background: #d13a3a;
 }
 
-.visa .card-header {
-  background-color: #4a90e2; /* Blu Visa */
+/* Pulsante aggiungi carta */
+.add-card-btn {
+  flex: 0 0 280px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background: #fef7ec;
+  border: 1px dashed #ff9f43;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  color: #ff9f43;
+  font-family: 'Playfair Display', serif;
+  transition: background-color 0.3s,color 0.3s;
+  text-align: center;
+}
+.add-card-btn:hover {
+  background: #ff9f43;
+  color: #fff;
+}
+.add-card-btn .card-header {
+  font-size: 2.5rem;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
+/* Form inserimento/modifica carta */
+.card-form {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  max-width: 280px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.card-form label {
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+}
+.card-form input, .card-form select {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid #c7b299;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: 'Open Sans', sans-serif;
+}
+.save-btn, .cancel-btn {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  transition: background-color 0.3s ease,color 0.3s ease;
+  border: none;
+  margin-right: 1rem;
+}
+.save-btn {
+  background: #8b3a3a;
+  color: #fff;
+}
+.save-btn:hover {
+  background: #a14444;
+}
+.cancel-btn {
+  background: transparent;
+  color: #8b3a3a;
+  border: 1px solid #8b3a3a;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 0;
+}
+.cancel-btn:hover {
+  background: #8b3a3a;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Allineamento pulsanti form */
+.form-action-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* RESPONSIVE */
+@media (max-width:768px) {
   .profile-container {
     flex-direction: column;
     align-items: center;
   }
-
-  .card-row {
+  .profile-info-section {
+    width: 100%;
+  }
+  .credentials-row, .personal-data-row {
     flex-direction: column;
   }
-
-  .credit-card {
+  .credential-item, .personal-item {
     width: 100%;
+  }
+  .user-info-group .edit-btn {
+    align-self: center;
+    width: 100%;
+  }
+  .card-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .credit-card, .card-form {
+    width: 100%;
+    max-width: 320px;
   }
 }
