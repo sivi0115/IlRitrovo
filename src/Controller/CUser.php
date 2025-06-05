@@ -21,228 +21,112 @@ use Exception;
  * Gestisce le azioni relative agli utenti, come la registrazione, il login e la gestione del profilo.
  */
 class CUser {
-
-   public static function isLogged(): bool {
-    // Variabile di supporto
-    $identificato = false;
-    // Se non c'è una sessione attiva, la attivo (PHP controllerà PHPSESSID da solo)
-    if (session_status() === PHP_SESSION_NONE) {
-        USessions::getInstance();
-        var_dump($identificato); // Chiama session_start()
-    }
-    // Verifico se l'id dell'utente è presente nella sessione
-    if (USessions::isSetSessionElement('idUser')) {
-        $identificato = true;
-        // Eventuale controllo aggiuntivo: utente bannato?
-        // (Se implementato)
-    }
-    // Se non è loggato, faccio redirect alla pagina di login
-    if (!$identificato) {
-         // Personalizza il path
-        var_dump($identificato);
-        exit;
-    }
-        // Altrimenti restituisco true (utente autenticato)
-        var_dump($identificato);
-        return $identificato;
+    /**
+     * Constructor
+     */
+    public function __construct() {
     }
 
     /**
-     * Function for login the user
+     * Function to verify if a user is logged
+     * 
+     * @return bool
      */
-    public function login() {
-        USessions::getInstance();
-        $pm=FPersistentManager::getInstance();
-        //Recupero dei dati dalla richiesta POST HTTP
-        $email=UHTTPMethods::post('email');
-        $password=UHTTPMethods::post('password');
-        if(empty($email)||empty($password)) {
-            Usessions::setSessionElement('error_message','Inserire email e password');
-            header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_error_signup.html');
+    static function isLogged() {
+        $identifier=false;
+        $session=USessions::getIstance();
+        //Controllo se esiste il cookie PHPSESSID
+        if($session->isSessionSet()) {
+            if($session->isSessionNone()) {
+                $session->startSession();
+            }
         }
-        try {
-            //Controllo dell'email
-            $user=$pm->readUserByEmail($email, FUser::class);
-            if(!$user instanceof EUser) {
-                USessions::setSessionElement('error_message', 'Email o password invalidi');
-                header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_error_signup.html');
-                exit;
-            }
-            //Controllo della password
-            if(!password_verify($password, $user->getPassword())) {
-                USessions::setSessionElement('error_message', 'Email o password invalidi');
-                header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_error_signup.html');
-                exit;
-            }
-            if($user->getBan()===1) {
-                USessions::setSessionElement('error_message', 'Il tuo account è stato sospeso');
-                header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_error_signup.html');
-                exit;
-            }
-            USessions::setSessionElement('idUser', $user);
-            if($user->getRole()==='user') {
-                header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
-                exit;
-            } else {
-                header('Pagina Admin');
-                exit;
-            }
-        } catch (Exception $e) {
-            USessions::setSessionElement('error_message', 'Si è verificato un errore');
+        //Controllo se l'utente è nella sessione dal suo id
+        if($session->isValueSet('idUser')) {
+            $identifier=true; //Utente loggato
         }
+        return $identifier;
     }
 
     /**
-     * Funzione per sloggare un utente
+     * Show Login/Register popup from the home page
      */
-    public function logout() {
-        USessions::getInstance();
-        USessions::unsetSession();
-        USessions::destroySession();
-        header('Location: /IlRitrovo/Home');
-        exit;
+    public function showLoginRegister() {
+        $view=new VUser();
+        $view=showLoginRegisterPage();
     }
 
     /**
-     * Funzione per registrare un utente
+     * Show Login page after clicking "login" button in the popup menù
      */
-    public function signup() {
-    try {
-        // Estrazione dati dalla POST e creazione dell'oggetto EUser
-        $user = new EUser(
+    public function showLogin() {
+        $view=new VUser();
+        $view=showLoginPage();
+    }
+
+    /**
+     * Show Register page after clicking "register" button in the popup menù
+     */
+    public function showRegister() {
+        $view=new VUser();
+        $view=showRegisterPage();
+    }
+
+    /**
+     * Function to validate user's data sended by the form and register the user
+     */
+    public function checkRegister() {
+        //$view=new VUser();
+        $session=USessions::getIstance();
+        $idUser=$session->readValue('idUser');
+        //Creo un nuovo EUser con i dati provenienti dalla form HTML
+        $newUser=new EUser(
             null,
             null,
             UHTTPMethods::post('username'),
             UHTTPMethods::post('email'),
             UHTTPMethods::post('password'),
-            null,
+            UHTTPMethods::post('image'),
             UHTTPMethods::post('name'),
             UHTTPMethods::post('surname'),
-            new DateTime(UHTTPMethods::post('birthDate')),
+            new DateTime(UHTTPMethods::post('dateTime')),
             UHTTPMethods::post('phone'),
             Role::UTENTE,
             false
         );
-        // Inserimento nel DB
-        $user = FPersistentManager::getInstance()->create($user);
-        // Salvataggio in sessione
-        USessions::getInstance()->setSessionElement('idUser', $user);
-        // Reindirizzamento alla pagina di successo
-        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
-    } catch (Exception $e) {
-        // Reindirizzamento in caso di errore
-        header('Pagina di errore login');
-        exit();
+        //Inserisco l'utente nel db (il controllo sulla validità dei campi è affidato a foundation)
+        if(FPersistentManager::getInstance()->create($newUser)===null) {
+            //Ci sono stati errori nell'inserimento a db, reindirizzo alla schermata home con errore
+            $view->registerError();
+        } else {
+            //L'operazione ha avuto successo, reindirizzo alla schermata home
+            header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
         }
     }
 
     /**
-     * Funzione per modificare i dati profilo di un utente
+     * Function to validate user's data sended by the form and log the user
      */
-    public function editProfileData() {
-        // Verifica che l'utente sia loggato
-        if (!self::isLogged()) {
-            header('Location: /IlRitrovo/Login');
-            exit;
+    public function checkLogin() {
+    $view=new VUser();
+    $session=USessions::getIstance();
+    $session->readValue('idUser');
+    //Verifico se esiste un utente su db con stessa email e password inseriti nelle form HTML
+    $checkUser=FPersistentManager::getInstance()->read('idUser', FUser::class);
+    $checkEmail=$checkUser->getEmail();
+    $checkPassword=$checkUser->getPassword();
+    //Controllo effettivo
+    if($checkEmail===UHTTPMethods::post('email') && $checkPassword===UHTTPMethods::post('password')) {
+        //Controllo superato, verifico se l'utente sia un admin o un utente normale
+        if($checkUser->isAdmin) {
+            //Reindirizzo alla home page dell'admin
+            $view=showAdminHomePage();
         }
-        // Recupera l'id dell'utente dalla sessione
-        $idUser = USessions::getSessionElement('idUser');
-        // Recupera l'oggetto utente completo dal DB
-        $user = FPersistentManager::getInstance()->read($idUser, FUser::class);
-        if (!$user) {
-            // Utente non trovato, potresti loggare un errore o reindirizzare
-            header('Location: /IlRitrovo/Error');
-            exit;
+        //Verifico se l'utente è bannato
+        if($checkUser->getBan()===1) {
+            //Utente bannato
+            $view
         }
-        // Imposta i nuovi valori dai dati POST
-        $user->setName(UHTTPMethods::post('name'));
-        $user->setSurname(UHTTPMethods::post('surname'));
-        $user->setBirthDate(new Datetime(UHTTPMethods::post('birthDate')));
-        $user->setPhone(UHTTPMethods::post('phone'));
-        //Alcuni controlli prima di aggionrare sulla validità dei campi (già fatta anche il HTML)
-        if (empty($user->getName())) {
-            throw new Exception("Name can't be empy");
-        }
-        if (empty($user->getSurname())) {
-            throw new Exception("Surname can't be empty");
-        }
-        if (empty($user->getBirthDate())) {
-            throw new Exception("Birth Date can't be empty.");
-        }
-        $now = new DateTime();
-        if ($user->getBirthDate() > $now) {
-            throw new Exception("Birth Date can't be in the future.");
-        }
-        if (empty($user->getPhone())) {
-            throw new Exception("Phone number field can't be empty.");
-        }
-        $phone = $user->getPhone();
-        if (!preg_match('/^\+?\d{8,15}$/', $phone)) {
-            throw new Exception("Phone number must contain only digits and be between 8 and 15 characters.");
-        }
-        // Aggiorna l'utente nel DB
-        FPersistentManager::getInstance()->updateProfileData($user);
-        // Reindirizza alla pagina profilo o conferma
-        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
-        exit;
-    }
-
-    /**
-     * Funzione per modificare l'username email e password
-     */
-    public function editProfileMetadata() {
-        if(!self::isLogged()) {
-            header('Location: /IlRitrovo/HomePage');
-        }
-        //Recupera id Utente dalla sessione
-        $idUser=USessions::getSessionElement('idUser');
-        //Recupera l'oggetto completo dal db per poter modificare
-        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
-        //In caso di utente non trovato
-        if(!$user) {
-            header('Location: /IlRitrovo/HomePage');
-            exit;
-        }
-        //Imposto il nuovo username dal valore della richiesta post
-        $user->setUsername(UHTTPMethods::post('username'));
-        $user->setEmail(UHTTPMethods::post('email'));
-        $user->setPassword(UHTTPMethods::post('password'));
-        //Controllo che i metadati immessi siano validi (sarà fatto anche lato client da HTML)
-        if(empty($user->getUsername())) {
-            throw new Exception("New Username field can't be empty");
-        }
-        if(empty($user->getEmail())) {
-            throw new Exception("New Emial field can't be empty");
-        }
-        if(empty($user->getPassword())) {
-            throw new Exception("New Password field can't be empty");
-        }
-        //Se è tutto okay, aggiorno il campo su db: Modifica effettuata con successo
-        FPersistentManager::getInstance()->updateMetadataProfile($user);
-        //Reindirizza alla pagina home
-        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
-    }
-
-    /**
-     * Funzione per bannare un utente
-     */
-    public function bannUser() {
-        //$view=new VUser;
-        if(!CUser::isLogged()) {
-            header('Location: /IlRitrovo/Home');
-            //$view->loginError();
-            exit;
-        }
-        $adminId=USessions::getInstance()->getSessionElement('idUser');
-        $admin=FPersistentManager::getInstance()->read($adminId, FUser::class);
-        //Controllo se sia effettivmente un admin per evitare attacchi URL
-        if($admin->isAdmin()) {
-            //prendo l'id dell'utente dalla richiesta post che l'admin ha inviato al server
-            $idToBan=UHTTPMethods::post('idUser');
-            $userToBan=FPersistentManager::getInstance()->read($idToBan, FUser::class);
-            $admin->bannUser($adminId, $userToBan);
-            header("Location: /IlRitrovo/UserList");
-            exit;
-        }
+        
     }
 }

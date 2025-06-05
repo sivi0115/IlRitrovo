@@ -1,17 +1,24 @@
 STILE DI SCRITTURA E FORMATTAZIONE:
 Ci atteniamo allo standard PRS-12
 
-APPUNTI GENERALI DA FARE:
-da riadattare a PRS-12
-da implementare il frame orario per classi Entity e Foundation
-aggiungere stato Enum per stato pagamento nel db
-implementare FArea
-uniformare il formato delle date in 'Y-m-d H:i:s' - FATTO NELLE CLASSI ENTITY 
-IMPLEMENTARE ASSOLUTAMENTE la modifica del db per gli autoincrementali
-	
+Classe CUser:
 
-—FOUNDATION TESTING ULTERIORE-
-	load email
+CASO D'USO REGISTRAZIONE
+implemetare isLogged()
+showLoginregister() -> mostra il popup che contiente i pulsanti accedi e registrati VIEW
+showRegister() -> mostra la pagina con i form per la registrazione VIEW
+implementare checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
+
+CASO D'USO LOGIN
+isLogged()
+showLoginRegister
+showLogin() -> mostra la pagina con i form per il login VIEW
+implementare checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
+
+CASO D'USO LOGOUT
+isLogged()
+showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout VIEW
+implementare logout() -> esegue il logout dell'utente + redirect
 
 
 

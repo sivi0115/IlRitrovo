@@ -7,78 +7,104 @@ require_once(__DIR__ . '/../../config.php');
 /**
  * class to access to the $_SESSION superglobal array, you Must use this class instead of using directly the array
  */
-class USessions{
-
+class USessions {
+    private static $istance=null;
     /**
-     * singleton class
-     * class for the session, if you want to manipulate the _SESSION superglobal ypu need to use this class
+     * Costructor
      */
-
-     private static $instance;
-
-     private function __construct() {
-        session_set_cookie_params(COOKIE_EXP_TIME); //set the duration of the session cookie
-        session_start(); //start the session
-     }
- 
-     public static function getInstance() {
-         if (self::$instance == null) {
-             self::$instance = new USessions();
-         }
- 
-         return self::$instance;
-     }
-
-    /**
-     * return session status. If you want to check if the session is staretd you can use this
-     */
-    public static function getSessionStatus(){
-        return session_status();
+    private function __construct() {
+        
     }
 
     /**
-     * unset all the elements in the _SESSION superglobal
+     * Use this for having session istance
      */
-    public static function unsetSession(){
+    public static function getIstance() {
+        if(self::$istance==null) {
+            self::$istance=new USessions();
+        }
+        return self::$istance;
+    }
+
+    /**
+     * Set a value in $_SESSION
+     * 
+     * @param $key
+     * @param $value
+     */
+    function setValue($key, $value) {
+        $_SESSION[$key]=$value;
+    }
+
+    /**
+     * Delete a value in $_SESSION
+     * 
+     * @param $key
+     */
+    function deleteValue($key) {
+        unset($_SESSION[$key]);
+    }
+
+    /**
+     * Read a value in $_SESSION. If value is in $_SESSION true, false otherwhise
+     * 
+     * @param $key
+     * @return false|mixed
+     */
+    function readValue($key) {
+        if(isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Return true if a value's key is setted, false otherwhise
+     */
+    function isValueSet($key) {
+        if(isset($_SESSION[$key])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Use this to start a session
+     */
+    function startSession() {
+        session_start();
+    }
+
+    /**
+     * Use this to stop a session
+     */
+    public function stopSession() {
         session_unset();
-    }
-
-    /**
-     * unset of an element of _SESSION superglobal
-     */
-    public static function unsetSessionElement($idUser){
-        unset($_SESSION[$idUser]);
-    }
-
-    /**
-     * destroy the session
-     */
-    public static function destroySession(){
         session_destroy();
     }
 
     /**
-     * get element in the _SESSION superglobal
+     * Use this to verify if PHPSESSID cookie is comed
+     * 
+     * @return bool (true if cookie is comed, false otherwhise)
      */
-    public static function getSessionElement($id){
-        return $_SESSION[$id];
-    }
-
-    /**
-     * set an element in _SESSION superglobal
-     */
-    public static function setSessionElement($id, $value){
-        $_SESSION[$id] = $value;
-    }
-
-    /**
-     * check if an element is set or not
-     * @return boolean
-     */
-    public static function isSetSessionElement($id){
-        if(isset($_SESSION[$id])){
+    function isSessionSet(): bool {
+        if(isset($_COOKIE['PHPSESSID'])) {
             return true;
-        }else{
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Use this to check session's status. If session's status NONE get true, false otherwhise
+     */
+    function isSessionNone(): bool {
+        if(session_status()==PHP_SESSION_NONE) {
+            return true;
+        } else {
             return false;
         }
     }
