@@ -10,7 +10,6 @@
             "Foundation\\": "src/Foundation/",
             "Controller\\": "src/Controller/",
             "View\\": "src/View/",
-            "Smarty\\": "src/Smarty/",
             "Utility\\": "src/Utility/"
         }
     },

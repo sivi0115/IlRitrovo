@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../../../vendor/smarty/smarty/libs/Smarty.class.php';
+
+namespace View;
+
 
 class VUser {
 
