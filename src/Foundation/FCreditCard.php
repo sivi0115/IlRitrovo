@@ -44,7 +44,7 @@ class FCreditCard {
      * Create an ECreditCard object in the database.
      *
      * @param ECreditCard $creditCard The ECreditCard object to create.
-     * @return bool True if the operation was successful, otherwise False.
+     * @return int $createdId, the id inserted in db 
      * @throws Exception If there is an error during the store operation.
      */
     public function create(ECreditCard $creditCard): int {

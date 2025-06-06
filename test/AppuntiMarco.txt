@@ -1,30 +1,42 @@
 STILE DI SCRITTURA E FORMATTAZIONE:
 Ci atteniamo allo standard PRS-12
 
-Classe CUser:
+CLASSE CUSER:
 
 CASO D'USO REGISTRAZIONE
-implemetare isLogged()
+isLogged()
 showLoginregister() -> mostra il popup che contiente i pulsanti accedi e registrati VIEW
 showRegister() -> mostra la pagina con i form per la registrazione VIEW
-implementare checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
+checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
 
 CASO D'USO LOGIN
 isLogged()
 showLoginRegister
 showLogin() -> mostra la pagina con i form per il login VIEW
-implementare checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
+checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
 
 CASO D'USO LOGOUT
 isLogged()
 showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout VIEW
-implementare logout() -> esegue il logout dell'utente + redirect
+logout() -> esegue il logout dell'utente + redirect
 
 CASO D'USO MODIFICA DATI PERSONALI
 isLogged()
-implementare showProfile() -> VIEW -> mostra la pagina utente
-implementare showEditProfileData()
-implementare editProfileData()
+showProfile() -> VIEW -> mostra la pagina utente
+showEditProfileData() -> mostra le form per l'inserimento dei dati da modificare
+editProfileData()
+
+-Da rimuovere le funzioni che mostrano il popup (fatto da js)
+-Da reindirizzare correttamente i metodi alla home page e alle schermate di errore
+-Da riorganizzare l'ordine dei metodi in un ordine logico
+
+CLASSE CCREDITCARD:
+
+CASO D'USO AGGIUNTA CARTA DI CREDITO
+implementare showAddCreditCard() -> mostra la form per l'inserimento di una nuova carta
+implementare checkAddCreditCard() -> esegue l'inserimento della carta nel db associata a questo utente + redirect. DA FARE TESTING STA SERA
+
+CASO D'USO RIMOZIONE DI UNA CARTA DI CREDITO
 
 
 

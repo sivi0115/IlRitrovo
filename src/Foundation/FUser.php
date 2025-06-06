@@ -130,6 +130,25 @@ class FUser {
             'phone' => $user->getPhone(),
             'image' => $user->getImage()
         ];
+        //Controllo se i campi inseriti non sono vuoti
+        if(empty($data['name'])) {
+            throw new Exception("Name field can't be empty");
+        }
+        if(empty($data['surname'])) {
+            throw new Exception("Username field can't be empty");
+        }
+        if(empty($data['birthDate'])) {
+            throw new Exception("Birth date can't be empty");
+        }
+        //Verifico che la data inserita non sia nel fututo
+        $today=new DateTime();
+        $birthDate=new DateTime($data['birthDate']);
+        if($birthDate>$today) {
+            throw new Exception("Birth date can't be in future");
+        }
+        if(empty($data['phone'])) {
+            throw new Exception("Phone field can't be empty");
+        }
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
@@ -139,18 +158,16 @@ class FUser {
     /**
      * Update Username, Email and Password an existing user in db
      */
-    public function updateMetadataProfile(EUser $user): bool {
+    public function updateProfileMetadata(EUser $user): bool {
         $db = FDatabase::getInstance();
         if(!self::exists($user->getIdUser())) {
             throw new Exception(self::ERR_USER_NOT_FOUND);
         }
-        //Hashing della password prima di aggiornarla
-        $hashedPassword=$this->hashPassword($user->getPassword());
         //Modifica dei metadati
         $data=[
             'username' => $user->getUsername(),
             'email' => $user->getEmail(),
-            'password' => $hashedPassword,
+            'password' => $user->getPassword(),
         ];
         // Controllo se esistono duplicati per email e username
         if (self::isUsernameDuplicated($data['username'], $user->getIdUser())) {
@@ -186,7 +203,9 @@ class FUser {
         if (!preg_match('/[^a-zA-Z\d]/', $password)) {
             throw new Exception("Password must contain at least one special character.");
         }
-        //Se i controlli vanno a buon fine, aggiorno i vecchi dati
+        //Se i controlli vanno a buon fine, aggiorno i vecchi dati e faccio l'hashing della password
+        $hashedPassword=$this->hashPassword($user->getPassword());
+        $data['password']=$hashedPassword;
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }

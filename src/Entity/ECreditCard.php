@@ -65,7 +65,7 @@ class ECreditCard implements JsonSerializable {
         int $cvv,
         DateTime $expiration,
         string $type,
-        ?int $idUser = null
+        ?int $idUser
     ) {
         $this->idCreditCard = $idCreditCard;
         $this->holder = $holder;

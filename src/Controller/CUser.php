@@ -14,6 +14,7 @@ use Foundation\FUser;
 use View\VUser;
 use Foundation\FPersistentManager;
 use Exception;
+use Foundation\FPayment;
 
 /**
  * Classe UserController
@@ -105,6 +106,75 @@ class CUser {
      * Show the form for editing the data Profile
      */
     public function showEditProfileData() {
+        //Da discutere bene il funzionamento
+    }
+
+    /**
+     * Used to modify user's personal data
+     */
+    public function editProfileData() {
+        //$view=new VUser();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Prendo l'id utente dalla sessione
+        $idUser=$session->readValue('idUser');
+        //Carico l'oggetto entity di questo utente dal db
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //Modifico i dati personali dell'oggetto con quelli inseriti nelle form HTML
+        $user->setName(UHTTPMethods::post('name'));
+        $user->setSurname(UHTTPMethods::post('surname'));
+        $user->setBirthDate(new DateTime(UHTTPMethods::post('birthDate')));
+        $user->setPhone(UHTTPMethods::post('phone'));
+        //Aggiorno l'oggetto entity con questi nuovi valori. Metto il tutto in un blocco try catch che gestirà gli errori che provengono dalle validazioni foundation
+        try {
+            $updated=FPersistentManager::getInstance()->updateProfileData($user);
+            //Verifico se ci sono errori
+            if($updated) {
+                //Nessun errore, reindirizzo alla home page
+                header("Home Page");
+            }
+        } catch (Exception $e) {
+            //Se ci sono stati errori reindirizzo ad una schermata di errore
+            $view->showError();
+            echo "Errore" . $e->getMessage();
+        }
+    }
+
+    /**
+     * Show the form for editing personal metadata
+     */
+    public function showEditProfileMetadata() {
+        //Da definire
+    }
+
+    /**
+     * Used to modify user's personal metadata 
+     */
+    public function editProfileMetadata() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Prendo l'id utente dalla sessione
+        $idUser=$session->readValue('idUser');
+        //Carico l'oggetto entity da DB di questo utente
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //Modifico i metadati dell'oggetto con quelli inseriti nella form HTML
+        $user->setUsername(UHTTPMethods::post('username'));
+        $user->setEmail(UHTTPMethods::post('email'));
+        $user->setPassword(UHTTPMethods::post('password'));
+        //Aggiorno l'oggetto entity con i nuovi metadati. Metto il tutto in un blocco try per la gestione degli errori 
+        try {
+            $updated=FPersistentManager::getInstance()->updateProfileMetadata($user);
+            //Verifico se ci sono errori
+            if($updated) {
+                //Nessun errore, reindirizzo alla pagina home con dati modificati
+                echo "Operazione avvenuta con successo";
+            } 
+        } catch (Exception $e) {
+            //Se ci sono stati errori reindirizzo ad una schermata di errore
+            //$view->showError();
+            echo "Errore" . $e->getMessage();
+        }
         
     }
 

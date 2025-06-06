@@ -27,7 +27,7 @@ $session->startSession();
 $session->setValue('idUser', 1);
 
 
-$controller->showProfile();
+$controller->editProfileMetadata();
 
 
 

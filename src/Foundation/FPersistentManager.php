@@ -122,8 +122,8 @@ use Exception;
      * @return bool True if the update was successful, false otherwhise.
      * @throws Exception If the class or method is not found or if an error occurs during the process
      */
-    public function updateMetadataProfile(object $obj): bool {
-        return $this->performOperation('updateMetadataProfile', $this->getClassName($obj), $obj);
+    public function updateProfileMetadata(object $obj): bool {
+        return $this->performOperation('updateProfileMetadata', $this->getClassName($obj), $obj);
     }
 
     /**
