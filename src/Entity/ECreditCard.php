@@ -136,7 +136,7 @@ class ECreditCard implements JsonSerializable {
      * @return string The expiration date. (string because PHP can't print DateTime object)
      */
     public function getExpiration(): string {
-        return $this->expiration->format('Y-m-d H:i:s');
+        return $this->expiration->format('Y-m-d');
     }
 
     /**

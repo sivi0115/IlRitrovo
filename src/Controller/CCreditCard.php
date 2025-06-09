@@ -14,13 +14,14 @@ use Foundation\FUser;
 use View\VUser;
 use Foundation\FPersistentManager;
 use Exception;
+use Foundation\FCreditCard;
 use Foundation\FPayment;
 
 /**
  * Classe Controller CCreditCard
  * Gestisce tutte le operazioni legate a una carta di credito
  */
-class CCrediCard {
+class CCreditCard {
     /**
      * Costruttore
      */
@@ -55,17 +56,32 @@ class CCrediCard {
             UHTTPMethods::post('type'),
             $idUser
         );
-        //Inserisco l'oggeto nel db, la validazione dei campi sarà affidata a foundation
-        if(FPersistentManager::getInstance()->create($newCreditCard)===null) {
-            //Ci sono stati errori durante la creazione, reindirizzo alla schermata di errore
-            echo "Operazione non effettuata";
-        } else {
-            //Operazione effettuata reindirizzo alla schermata di informazioni personali
-            echo "Operazioe avvenuta con successo";
-        }
+        //Inserisco l'oggeto nel db, la validazione dei campi sarà affidata a foundation, gestisco il tutto con un blocco try
+        try {
+            if(FPersistentManager::getInstance()->create($newCreditCard)!=null) {
+                //Operazione effettuata reindirizzo alla schermata di informazioni personali
+                echo "Operazioe avvenuta con successo";
+                print_r($_SESSION);
+            } 
+        } catch (Exception $e) {
+            //Se ci sono stati errori, reindirizzo alla pagina di errore
+            //$view->showCreditCardError();
+            echo "Operazione non effettuata: " . $e->getMessage();
+            }
+        
     }
 
-
+    /**
+     * Function for delete an existing credit card
+     * 
+     * @param $idCreditCard, recived by the HTTP POST request sended by user when press "delete"
+     */
+    public function deleteCreditcard($idCreditCard) {
+        //id della carta direttamente nella richiesta post quando di preme su "delete"
+        FPersistentManager::getInstance()->delete($idCreditCard, FCreditCard::class);
+        //reindirizzo alla pagina informazioni utente con la carta rimossa correttamente
+        header("Informazioni Personali");
+    }
 
 
 

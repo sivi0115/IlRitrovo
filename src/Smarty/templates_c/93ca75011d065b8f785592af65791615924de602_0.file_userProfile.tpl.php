@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-05 23:40:25
+/* Smarty version 5.5.1, created on 2025-06-09 10:51:08
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68420ec98a1b03_96379479',
+  'unifunc' => 'content_6846a07cede0d9_48453431',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '93ca75011d065b8f785592af65791615924de602' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1749159621,
+      1 => 1749459067,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68420ec98a1b03_96379479 (\Smarty\Template $_smarty_tpl) {
+function content_6846a07cede0d9_48453431 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -152,24 +152,24 @@ $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('card')->value) {
 $foreach0DoElse = false;
 ?>
-                <?php $_smarty_tpl->assign('cardClass', $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('card')['cardType'], 'UTF-8'),'/[^a-z]/',''), false, NULL);?>
+                <?php $_smarty_tpl->assign('cardClass', $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('card')->getType(), 'UTF-8'),'/[^a-z]/',''), false, NULL);?>
                     <div class="credit-card <?php echo $_smarty_tpl->getValue('cardClass');?>
 ">
-                        <div class="card-header"><?php echo $_smarty_tpl->getValue('card')['cardType'];?>
+                        <div class="card-header"><?php echo $_smarty_tpl->getValue('card')->getType();?>
 </div>
                         <div class="card-body">
                             <ul>
-                                <li><strong>Number:</strong> **** **** **** <?php echo substr((string) $_smarty_tpl->getValue('number'), (int) -4);?>
+                                <li><strong>Number:</strong> **** **** **** <?php echo substr((string) $_smarty_tpl->getValue('card')->getNumber(), (int) -4);?>
 </li>
-                                <li><strong>Holder:</strong> <?php echo $_smarty_tpl->getValue('holder');?>
+                                <li><strong>Holder:</strong> <?php echo $_smarty_tpl->getValue('card')->getHolder();?>
 </li>
-                                <li><strong>Expiration:</strong> <?php echo $_smarty_tpl->getValue('expiation');?>
+                                <li><strong>Expiration:</strong> <?php echo $_smarty_tpl->getValue('card')->getExpiration();?>
 </li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="?action=editCard&id=<?php echo $_smarty_tpl->getValue('card')['id'];?>
+                                <a href="?action=editCard&id=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
 " class="card-edit-btn">Edit</a>
-                                <a href="?action=deleteCard&id=<?php echo $_smarty_tpl->getValue('card')['id'];?>
+                                <a href="?action=deleteCard&id=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
 " 
                                 class="card-delete-btn" 
                                 onclick="return confirm('Do you really wat to delete this card?');">Delete</a>
@@ -223,6 +223,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <!-- Reservations-->
 
         <!-- Footer-->
-             </body>
+            </body>
 </html><?php }
 }

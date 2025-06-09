@@ -16,28 +16,28 @@ enum Role: string {
 class EUser implements JsonSerializable {
     /** 
      * IDENTIFIERS
-     * @var ?int User ID, can be null if not assigned. 
+     * @var ?int The univocal identifier for a single user, managed by the database. 
      */
     private ?int $idUser;
 
     /** 
-     * @var int The unique identifier for a single Review, managed by the database.
+     * @var int The univocal identifier for a single Review, managed by the database.
      */
     private ?int $idReview;
 
     /**
      * METADATA
-     * @var string Username of the user, protected access. 
+     * @var string Username of the user. 
      */
     protected string $username;
 
     /** 
-     * @var string Email of the user, protected access. 
+     * @var string Email of the user. 
      */
     protected string $email;
 
     /** 
-     * @var string Password of the user, protected access. 
+     * @var string Password of the user. 
      */
     protected string $password;
 
@@ -88,12 +88,12 @@ class EUser implements JsonSerializable {
     public string $phone;
 
     /**
-     * @var Role descrive the role of the Person
+     * @var Role describes the role of the User
      */
     private Role $role;
 
     /**
-     * Constructor for the EUser class with validation checks.
+     * Constructor for the EUser class.
      *
      * @param int $idUser User ID, can be null.
      * @param int $idReview Review ID, can be an optional.

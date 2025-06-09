@@ -3,13 +3,13 @@
     <head>
         <meta charset="utf-8">       
         <!-- Template Stylesheet -->
-        <link href="../css/styles.css" rel="stylesheet">
-        <link href="../css/user.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
         <!-- Header -->
-        {include file='headerUser.tpl'}
+        {* {include file='headerUser.tpl'} *}
 
         <!-- Profile -->
         <div class="panel panel-default">
@@ -112,18 +112,18 @@
             <div class="panel-heading">My Credit Cards</div>
             <div class="card-row">
                 {foreach from=$cards item=card}
-                {assign var=cardClass value=$card.cardType|lower|regex_replace:'/[^a-z]/':''}
+                {assign var=cardClass value=$card->getType()|lower|regex_replace:'/[^a-z]/':''}
                     <div class="credit-card {$cardClass}">
-                        <div class="card-header">{$card.cardType}</div>
+                        <div class="card-header">{$card->getType()}</div>
                         <div class="card-body">
                             <ul>
-                                <li><strong>Number:</strong> **** **** **** {$number|substr:-4}</li>
-                                <li><strong>Holder:</strong> {$holder}</li>
-                                <li><strong>Expiration:</strong> {$expiation}</li>
+                                <li><strong>Number:</strong> **** **** **** {$card->getNumber()|substr:-4}</li>
+                                <li><strong>Holder:</strong> {$card->getHolder()}</li>
+                                <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="?action=editCard&id={$card.id}" class="card-edit-btn">Edit</a>
-                                <a href="?action=deleteCard&id={$card.id}" 
+                                <a href="?action=editCard&id={$card->getIdCreditCard()}" class="card-edit-btn">Edit</a>
+                                <a href="?action=deleteCard&id={$card->getIdCreditCard()}" 
                                 class="card-delete-btn" 
                                 onclick="return confirm('Do you really wat to delete this card?');">Delete</a>
                             </div> <!-- /.form-action-right-->
@@ -160,6 +160,6 @@
         <!-- Reservations-->
 
         <!-- Footer-->
-        {include file='footerUser.tpl'}
+        {* {include file='footerUser.tpl'} *}
     </body>
 </html>

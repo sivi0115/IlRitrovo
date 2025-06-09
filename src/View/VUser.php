@@ -4,6 +4,7 @@
 namespace View;
 use Smarty\Smarty;
 use DateTime;
+use Entity\ECreditCard;
 
 class VUser {
 
@@ -15,6 +16,7 @@ class VUser {
         string $birthDate,
         string $phone,
         string $edit_section,
+        array $userCreditCards
     ) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
@@ -28,6 +30,9 @@ class VUser {
         $smarty->assign('birthdate', $birthDate);
         $smarty->assign('phone', $phone);
         $smarty->assign('edit_section', $edit_section);
+        $smarty->assign('cards', $userCreditCards);
+        //Assegna carte di credito a Smarty
+
 
         // Mostra il template
         $smarty->display('userProfile.tpl');

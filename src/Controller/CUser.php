@@ -14,6 +14,7 @@ use Foundation\FUser;
 use View\VUser;
 use Foundation\FPersistentManager;
 use Exception;
+use Foundation\FCreditCard;
 use Foundation\FPayment;
 
 /**
@@ -29,7 +30,7 @@ class CUser {
     }
 
     /**
-     * Function to verify if a user is logged
+     * Function to check if a user is logged
      * 
      * @return bool
      */
@@ -66,7 +67,7 @@ class CUser {
     }
 
     /**
-     * Show Login page after clicking "login" button in the popup menù
+     * Show Login page after clicking the "login" button in the popup menu
      */
     public function showLogin() {
         $view=new VUser();
@@ -74,7 +75,7 @@ class CUser {
     }
 
     /**
-     * Show Register page after clicking "register" button in the popup menù
+     * Show Register page after clicking the "register" button in the popup menu
      */
     public function showRegister() {
         $view=new VUser();
@@ -82,7 +83,7 @@ class CUser {
     }
 
     /**
-     * Show logged user Profile
+     * Show logged user's Profile
      */
     public function showProfile() {
         $session=USessions::getIstance();
@@ -91,6 +92,7 @@ class CUser {
         $view=new VUser();
         //Carico l'utente da db per prelevare i suoi dati da visualizzare nel suo profilo
         $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //Inserisco i dati da visualizzare nelle variabili che poi saranno passate a view
         $username=$user->getUsername();
         $email=$user->getEmail();
         $name=$user->getName();
@@ -98,19 +100,21 @@ class CUser {
         $birthDate=$user->getBirthdate();
         $phone=$user->getPhone();
         $edit_section="";
+        //Carico tutte le carte di credito dell'utente
+        $userCreditCards=FPersistentManager::getInstance()->readCreditCardsByUser($idUser, FCreditCard::class);
         //Passo i parametri a view
-        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section);
+        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards);
     }
 
     /**
-     * Show the form for editing the data Profile
+     * Show the form to edit the data Profile
      */
     public function showEditProfileData() {
         //Da discutere bene il funzionamento
     }
 
     /**
-     * Used to modify user's personal data
+     * Used to edit user's personal data
      */
     public function editProfileData() {
         //$view=new VUser();
@@ -141,14 +145,14 @@ class CUser {
     }
 
     /**
-     * Show the form for editing personal metadata
+     * Show the form to edit personal metadata
      */
     public function showEditProfileMetadata() {
         //Da definire
     }
 
     /**
-     * Used to modify user's personal metadata 
+     * Used to edit user's personal metadata 
      */
     public function editProfileMetadata() {
         $view=new VUser();
@@ -179,7 +183,7 @@ class CUser {
     }
 
     /**
-     * Function to logout a user
+     * Function used to logout the user
      */
     public function logout() {
         $session=USessions::getIstance();
@@ -191,7 +195,8 @@ class CUser {
     }
 
     /**
-     * Function to validate user's data sended by the form and register the user
+     * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
+     * A new user will be added in the database if registration was successful
      */
     public function checkRegister() {
         $view=new VUser();
@@ -224,7 +229,8 @@ class CUser {
     }
 
     /**
-     * Function to validate user's data sended by the form and log the user
+     * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
+     * If register, the user will be logged.
      */
     public function checkLogin() {
     $view=new VUser();

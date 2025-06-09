@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 // Includi il file autoload se esiste, oppure manualmente i file necessari
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+use Controller\CCreditCard;
 use Controller\CReview;
 use Utility\USessions;
 use Controller\CUser;
@@ -17,17 +18,23 @@ use Utility\UServer;
 use Entity\EUser;
 use Foundation\FUser;
 use Foundation\FPersistentManager;
+use Entity\ECreditCard;
+use Foundation\FCreditCard;
 
 
 
 // Creo una nuova istanza del controller
 $controller = new CUser();
+//$controller2 = new CCreditCard();
 $session=USessions::getIstance();
 $session->startSession();
 $session->setValue('idUser', 1);
 
+$controller->showProfile();
+//$controller2->checkAddCreditCard();
 
-$controller->editProfileMetadata();
+
+
 
 
 

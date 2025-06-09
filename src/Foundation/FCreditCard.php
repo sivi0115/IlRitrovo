@@ -233,8 +233,8 @@ class FCreditCard {
         if (!preg_match('/^\d{13,19}$/', $cardData['number'])) {
             throw new Exception(self::ERROR_INVALID_NUMBER);
         }
-        // Check expiration date format and ensure it's in the future (expected format: 'YYYY-MM-DD')
-        $expiration = DateTime::createFromFormat('Y-m-d H:i:s', $cardData['expiration']);
+        // Check expiration date format and ensure it's in the future (expected format: 'YYYY-MM')
+        $expiration = DateTime::createFromFormat('Y-m-d', $cardData['expiration']);
         $current = new DateTime('first day of this month');
         if (!$expiration || $expiration < $current) {
             throw new Exception(self::ERROR_INVALID_EXPIRATION);
@@ -244,7 +244,7 @@ class FCreditCard {
             throw new Exception(self::ERROR_INVALID_CVV);
         }
         // Check card type is allowed
-        $allowedTypes = ['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
+        $allowedTypes = ['Visa', 'MasterCard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
         if (!in_array($cardData['type'], $allowedTypes, true)) {
             throw new Exception(self::ERROR_INVALID_TYPE);
         }
