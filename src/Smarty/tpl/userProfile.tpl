@@ -158,6 +158,41 @@
         </div> <!-- /.panel-->
 
         <!-- Reservations-->
+        <div class="panel">
+            <div class="panel-heading">My Reservations</div>
+            {foreach from=$reservations item=reservation}
+                <div class="reservation-card">
+                    <ul>
+                        <li><strong>Type:</strong>
+                            {if $reservation->getIdRoom() !== null}
+                                Room
+                            {elseif $reservation->getIdTable() !== null}
+                                Table
+                            {else}
+                                Unknown
+                            {/if}
+                        </li>
+                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
+                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
+                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
+                        <li><strong>Status:</strong> {$reservation->getState()}</li>
+                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
+                        <li><strong>Extras:</strong>
+                            {if $reservation->getExtras()|@count > 0}
+                                <ul>
+                                    {foreach from=$reservation->getExtras() item=extra}
+                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
+                                    {/foreach}
+                                </ul>
+                            {else}
+                                No
+                            {/if}
+                        </li>
+                        <li><strong>Total Amount:</strong> {$reservation->getTotPrice()}</li>
+                    </ul>
+                </div>
+            {/foreach}
+        </div>
 
         <!-- Footer-->
         {* {include file='footerUser.tpl'} *}

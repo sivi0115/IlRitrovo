@@ -30,19 +30,22 @@ editProfileData()
 -Da rimuovere le funzioni che mostrano il popup (fatto da js)
 -Da reindirizzare correttamente i metodi alla home page e alle schermate di errore
 -Da riorganizzare l'ordine dei metodi in un ordine logico
--Da modificare la funzione showProfile, per mostrare anche le carte di credito e le recensioni dell'utente
+-Da modificare la funzione showProfile, per mostrare le recensioni dell'utente MANCANO I CSS
 
 CLASSE CCREDITCARD:
 
 CASO D'USO AGGIUNTA CARTA DI CREDITO
 implementare showAddCreditCard() -> mostra la form per l'inserimento di una nuova carta
-implementare checkAddCreditCard() -> esegue l'inserimento della carta nel db associata a questo utente + redirect.
+checkAddCreditCard() -> esegue l'inserimento della carta nel db associata a questo utente + redirect.
     Da rivedere la gestione delle date e l'errore quando si inserisce una carta già presente nel db
         Il formato data deve essere MM-YYYY e l'errore non viene visualizzato correttamente
 
 CASO D'USO RIMOZIONE DI UNA CARTA DI CREDITO
 implementare deleteCreditCard (l'id viene preso dalla richiesta post premendo su "delete")
 
+CLASSE CREVIEW
+
+Da fare i diagrammi SSD
 
 
 
