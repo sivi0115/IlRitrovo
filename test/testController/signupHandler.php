@@ -20,18 +20,20 @@ use Foundation\FUser;
 use Foundation\FPersistentManager;
 use Entity\ECreditCard;
 use Foundation\FCreditCard;
+use Entity\EReview;
 
 
-
+//$r1=new EReview(1, null, 5, "Il nostro software è una bomba", new DateTime(), null);
 // Creo una nuova istanza del controller
 $controller = new CUser();
 //$controller2 = new CCreditCard();
-$session=USessions::getIstance();
-$session->startSession();
-$session->setValue('idUser', 1);
+$controller3 = new CReview();
 
-$controller->showProfile();
+//$controller->showProfile();
+//$controller->checkLogin();
 //$controller2->checkAddCreditCard();
+$controller3->checkAddReview();
+//$controller3->deleteReview(13);
 
 
 

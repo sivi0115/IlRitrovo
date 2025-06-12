@@ -7,6 +7,7 @@ use Entity\EReservation;
 use Foundation\FUser;
 use Entity\TimeFrame;
 use Exception;
+use Smarty\Data;
 
 /**
  * Class FReservation represents a reservation entity.
@@ -259,6 +260,48 @@ class FReservation {
     }
 
     /**
+     * Gets all the past reservations given user ID
+     * 
+     * @param int $idUser
+     * @return EReservation[] An array of reservations
+     * @throws Exception If an error occurs
+     */
+    public function readPastReservationsByUserId($idUser) {
+        $allReservations=$this->readReservationsByUserId($idUser);
+        $pastReservations=[];
+        $today=new DateTime();
+
+        foreach ($allReservations as $reservation) {
+            $reservationDate=new DateTime($reservation->getReservationDate());
+            if($reservationDate<$today) {
+                $pastReservations[]=$reservation;
+            }
+        }
+        return $pastReservations;
+    }
+
+    /**
+     * Gets all the future reservations given user ID
+     * 
+     * @param int $idUser
+     * @return EReservation[] An array of reservations
+     * @throws Exceprion If an error occours
+     */
+    public function readFutureReservationsByUserId($idUser) {
+        $allReservations=$this->readReservationsByUserId($idUser);
+        $futureReservations=[];
+        $today=new DateTime();
+
+        foreach ($allReservations as $reservation) {
+            $reservationDate=new DateTime($reservation->getReservationDate());
+            if($reservationDate>=$today) {
+                $futureReservations[]=$reservation;
+            }
+        }
+        return $futureReservations;
+    }
+
+    /**
      * Gets reservations for a specific table.
      *
      * @param int $idTable The ID of the table.
@@ -353,7 +396,7 @@ class FReservation {
             throw new Exception(self::ERR_INVALID_PEOPLE);
         }
         if (empty($state) || !in_array($state, self::VALID_STATES)) {
-            throw new Exception("Invalid reservation state: $state");
+            throw new Exception("Invalid reservation state");
         }
     }
 

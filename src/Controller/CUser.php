@@ -103,10 +103,12 @@ class CUser {
         $edit_section="";
         //Carico tutte le carte di credito dell'utente
         $userCreditCards=FPersistentManager::getInstance()->readCreditCardsByUser($idUser, FCreditCard::class);
-        //Carico tutte le prenotazioni associate a quest'utente
-        $userReservations=FPersistentManager::getInstance()->readReservationsByUserId($idUser, FReservation::class);
+        //Carico tutte le prenotazioni passate associate a quest'utente
+        $userPastReservations=FPersistentManager::getInstance()->readPastReservationsByUserId($idUser, FReservation::class);
+        //Carico tutte le prenotazioni future associate a quest'utente
+        $userFutureReservations=FPersistentManager::getInstance()->readFutureReservationsByUserId($idUser, FReservation::class);
         //Passo i parametri a view
-        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userReservations);
+        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userPastReservations, $userFutureReservations);
     }
 
     /**
@@ -239,27 +241,36 @@ class CUser {
     $view=new VUser();
     $session=USessions::getIstance();
     //Verifico se esiste un utente su db con stessa email e password inseriti nelle form HTML
-    $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
+    try {
+        $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        exit;
+    }
+    //Controllo effettivo
     $checkEmail=$checkUser->getEmail();
     $checkPassword=$checkUser->getPassword();
-    //Controllo effettivo
-    if($checkEmail===UHTTPMethods::post('email') && $checkPassword===UHTTPMethods::post('password')) {
+    if($checkEmail===UHTTPMethods::post('email') && password_verify(UHTTPMethods::post('password'), $checkPassword)) {
         //Controllo superato, verifico se l'utente sia un admin o un utente normale
         if($checkUser->isAdmin()) {
             //Reindirizzo alla home page dell'admin e aggiungo in sessione l'utente
             $session->startSession();
             $session->setValue('idUser', $checkUser->getIdUser());
-            $view->showAdminHomePage();
+            //$view->showAdminHomePage();
             }
         //Verifico se l'utente è bannato
         if($checkUser->getBan()===1) {
             //Utente bannato
-            $view->showLoginError();
+            //$view->showLoginError();
             }
+        } else {
+            echo "Operazione di login fallita";
+            exit;
         }
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
+    print_r($_SESSION);
     header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
     }
 

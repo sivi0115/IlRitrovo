@@ -4,48 +4,70 @@ Da modificare l'attributo Entity in User: image->profileImage
 
 CLASSE CUSER:
 
-CASO D'USO REGISTRAZIONE
-isLogged()
-showLoginregister() -> mostra il popup che contiente i pulsanti accedi e registrati VIEW
-showRegister() -> mostra la pagina con i form per la registrazione VIEW
+---CU REGISTRAZIONE---
+isLogged() -> controlla se un utente è loggato
+    -Da fare ulteriore testing
+showLoginregister() -> mostra il popup che contiente i pulsanti accedi e registrati
+    -Da rimuovere, sarà fatto da Java Script
+showRegister() -> mostra la pagina con i form per la registrazione
+    -Da rimuovere, sarà fatto da Java Script
 checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
+    -Da impostare le redirect alle pagine giuste
 
-CASO D'USO LOGIN
+---CU LOGIN---
 isLogged()
 showLoginRegister
-showLogin() -> mostra la pagina con i form per il login VIEW
+showLogin() -> mostra la pagina con i form per il login
+    -Da rimuovere, sarà fatto da Java Script
 checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
+    -Da impostare le redirect alle pagine giuste
 
-CASO D'USO LOGOUT
+---CU LOGOUT---
 isLogged()
-showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout VIEW
+showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout
+    -Da rimuovere, sarà fatto da Java Script
 logout() -> esegue il logout dell'utente + redirect
+    -Da impostare le redirect alle pagine giuste
 
-CASO D'USO MODIFICA DATI PERSONALI
+---CU MODIFICA ANAGRAFICA e METADATA---
 isLogged()
-showProfile() -> VIEW -> mostra la pagina utente
+showProfile() -> mostra la pagina utente con le sue informazioni e altro
 showEditProfileData() -> mostra le form per l'inserimento dei dati da modificare
-editProfileData()
+    -Da implementare
+editProfileData() -> modifica i dati e reindirizza alla schermata informazioni aggiornata
+    -Da impostare i redirect
 
--Da rimuovere le funzioni che mostrano il popup (fatto da js)
--Da reindirizzare correttamente i metodi alla home page e alle schermate di errore
 -Da riorganizzare l'ordine dei metodi in un ordine logico
--Da modificare la funzione showProfile, per mostrare le recensioni dell'utente MANCANO I CSS
+
 
 CLASSE CCREDITCARD:
 
-CASO D'USO AGGIUNTA CARTA DI CREDITO
+---CU AGGIUNTA CARTA---
 implementare showAddCreditCard() -> mostra la form per l'inserimento di una nuova carta
 checkAddCreditCard() -> esegue l'inserimento della carta nel db associata a questo utente + redirect.
     Da rivedere la gestione delle date e l'errore quando si inserisce una carta già presente nel db
         Il formato data deve essere MM-YYYY e l'errore non viene visualizzato correttamente
 
-CASO D'USO RIMOZIONE DI UNA CARTA DI CREDITO
-implementare deleteCreditCard (l'id viene preso dalla richiesta post premendo su "delete")
+---CU RIMOZIONE CARTA---
+deleteCreditCard (l'id viene preso dalla richiesta post premendo su "delete")
 
-CLASSE CREVIEW
+CLASSE CREVIEW:
 
-Da fare i diagrammi SSD
+---CU AGGIUNTA RECENSIONE---
+showProfileLogout() -> Mostra il popup
+showProfile() -> Mostra pagina informazioni utente
+showAddReview() -> mostra la form per l'inserimento di una recensione
+    -Da implementare
+checkAddReview() -> esegue l'inserimento della recensione nel db + redirect
+    -Da impostare i redirect
+
+---CU RIMOZIONE RECENSIONE---
+showReviewsPage() -> mostra tutte le reviews dell'applicazione quando si clicca su "reviews" dalla home page
+    -Da implementare la view
+showDelete() -> mostra il popup di conferma operazione
+    -Da implementare
+deleteReview() -> permette di eliminare la review + redirect
+    -Da impostare le redirect
 
 
 

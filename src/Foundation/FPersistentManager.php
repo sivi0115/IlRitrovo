@@ -83,6 +83,28 @@ use Exception;
     }
 
     /**
+     * Read all past reservations associated to a specific User by his ID
+     * 
+     * @param int idUser
+     * @param string $fClass the class name
+     * @return array the loaded past reservations
+     */
+    public function readPastReservationsByUserId(int $idUser, string $fClass): array {
+        return $this->performOperation('readPastreservationsByUserId', $fClass, $idUser);
+    }
+
+    /**
+     * Read all future reservations to a spicific User by his ID
+     * 
+     * @param int $idUser
+     * @param string $fClass the class name
+     * @return array the loaded reservations
+     */
+    public function readFutureReservationsByUserId(int $idUser, string $fClass): array {
+        return $this->performOperation('readFutureReservationsByUserId', $fClass, $idUser);
+    }
+
+    /**
      * Read all credit card by user id
      * 
      * @param int $idUser

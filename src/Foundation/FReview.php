@@ -192,6 +192,12 @@ class FReview {
         if (!isset($data['stars']) || !is_numeric($data['stars']) || $data['stars'] < 1 || $data['stars'] > 5) {
             throw new Exception(self::ERR_INVALID_STARS);
         }
+        //Controllo se l'utente abbia delle prenotazioni passate
+        $pastReservation=new FReservation();
+        $res=$pastReservation->readReservationsByUserId($data['idUser']);
+        if(empty($res)) {
+            throw new Exception("U can't write a review, needed past reservation before");
+        }
     }
 
     /**

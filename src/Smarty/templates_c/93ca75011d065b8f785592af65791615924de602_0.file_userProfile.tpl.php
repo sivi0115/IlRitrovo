@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-09 16:04:09
+/* Smarty version 5.5.1, created on 2025-06-11 17:40:02
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_6846e9d98ef254_29623865',
+  'unifunc' => 'content_6849a3529e40d4_58090243',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '93ca75011d065b8f785592af65791615924de602' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1749477842,
+      1 => 1749656398,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6846e9d98ef254_29623865 (\Smarty\Template $_smarty_tpl) {
+function content_6849a3529e40d4_58090243 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -220,11 +220,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <?php }?>
         </div> <!-- /.panel-->
 
-        <!-- Reservations-->
+        <!-- PAST Reservations-->
         <div class="panel">
-            <div class="panel-heading">My Reservations</div>
+            <div class="panel-heading">My Past Reservations</div>
             <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservations'), 'reservation');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('pastReservations'), 'reservation');
 $foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
 $foreach2DoElse = false;
@@ -258,6 +258,65 @@ $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_
 $foreach3DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('extra')->value) {
 $foreach3DoElse = false;
+?>
+                                        <li><?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
+ - €<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>
+</li>
+                                    <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+                                </ul>
+                            <?php } else { ?>
+                                No
+                            <?php }?>
+                        </li>
+                        <li><strong>Total Amount:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getTotPrice();?>
+</li>
+                    </ul>
+                </div>
+            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
+        </div>
+
+        <!-- FUTURE Reservations-->
+        <div class="panel">
+            <div class="panel-heading">My Future Reservations</div>
+            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('futureReservations'), 'reservation');
+$foreach4DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
+$foreach4DoElse = false;
+?>
+                <div class="reservation-card">
+                    <ul>
+                        <li><strong>Type:</strong>
+                            <?php if ($_smarty_tpl->getValue('reservation')->getIdRoom() !== null) {?>
+                                Room
+                            <?php } elseif ($_smarty_tpl->getValue('reservation')->getIdTable() !== null) {?>
+                                Table
+                            <?php } else { ?>
+                                Unknown
+                            <?php }?>
+                        </li>
+                        <li><strong>Guests:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getPeople();?>
+</li>
+                        <li><strong>Reservation Date:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getReservationDate();?>
+</li>
+                        <li><strong>Time Frame:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getReservationTimeFrame();?>
+</li>
+                        <li><strong>Status:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getState();?>
+</li>
+                        <li><strong>Notes:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getComment();?>
+</li>
+                        <li><strong>Extras:</strong>
+                            <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('reservation')->getExtras()) > 0) {?>
+                                <ul>
+                                    <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservation')->getExtras(), 'extra');
+$foreach5DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('extra')->value) {
+$foreach5DoElse = false;
 ?>
                                         <li><?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
  - €<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>

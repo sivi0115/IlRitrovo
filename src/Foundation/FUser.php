@@ -102,11 +102,15 @@ class FUser {
      * Loads a user from the database by his email.
      *
      * @param string $username The email of the user to read.
-     * @return EUser|null The user object if found, null otherwise.
+     * @return EUser The user object if found, null otherwise.
+     * @throws Exception if no user founded with this email
      */
-    public function readUserByEmail(string $email): ?EUser {
+    public function readUserByEmail(string $email): EUser {
         $db = FDatabase::getInstance();
         $result = $db->load(self::TABLE_NAME, 'email', $email);
+        if ($result===null) {
+            throw new Exception("No user founded with this email");
+        }
         return $result ? $this->arrayToEntity($result) : null;
     }
 

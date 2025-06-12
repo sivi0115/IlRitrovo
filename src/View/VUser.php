@@ -17,7 +17,8 @@ class VUser {
         string $phone,
         string $edit_section,
         array $userCreditCards,
-        array $userReservations
+        array $userPastReservations,
+        array $userFutureReservations
     ) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
@@ -32,7 +33,8 @@ class VUser {
         $smarty->assign('phone', $phone);
         $smarty->assign('edit_section', $edit_section);
         $smarty->assign('cards', $userCreditCards);
-        $smarty->assign('reservations', $userReservations);
+        $smarty->assign('pastReservations', $userPastReservations);
+        $smarty->assign('futureReservations', $userFutureReservations);
         //Assegna carte di credito a Smarty
 
 

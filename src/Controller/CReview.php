@@ -9,91 +9,96 @@ use Exception;
 use Foundation\FPersistentManager;
 use Foundation\FReservation;
 use Foundation\FReview;
+use Foundation\FUser;
 use Utility\UHTTPMethods;
 use Utility\USessions;
+use View\VUser;
 
-class CReview
-{
+class CReview {
     /**
-     * Crea una nuova recensione.
-     *
-     * @return void
-     * @throws Exception
+     * Constructor
      */
-    public function createReview(): void {
-        //Verifica che l'utente sia loggato
-        if(!CUser::isLogged()) {
-            header('Location: /IlRitrovo/Login');
-            exit;
-        }
-        //Se l'utente è loggato, recupero il suo id dalla sessione
-        $idUser=USessions::getSessionElement('idUser');
-        //Creo un EReview con i dati provenienti dalla POST
-        $review=new EReview(
+    public function __construct() {
+    }
+
+    /**
+     * Function used to show Review's form (Dalla schermata di informazioni personali)
+     */
+    public function showAddReview() {
+
+    }
+
+    /**
+     * Function to show delete confirm popup
+     */
+    public function showDelete() {
+        
+    }
+
+    /**
+     * Function to add a Review (past reservation needed)
+     */
+    public function checkAddReview() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Carico dalla sessione l'id dell'utente
+        $idUser=$session->readValue('idUser');
+        //Creo un'oggetto Review con i dati provenienti dalla form HTML
+        $newReview=new EReview(
             $idUser,
             null,
             UHTTPMethods::post('stars'),
             UHTTPMethods::post('body'),
-            new DateTime,
-            null,
+            new DateTime(),
+            null
         );
-        //Verifico se esistono prenotazioni associate a questo utente
-        if(empty(FPersistentManager::getInstance()->readReservationsByUserId($idUser, FReservation::class))) {
-            throw new Exception("U can't write a Review, past reservation needed");
+        //Salvo la recensione creata e reindirizzo alla schermata informazioni. Tutte le validazioni sono affidate a foundation
+        try {
+            FPersistentManager::getInstance()->create($newReview);
+            echo "Operazione effettuata con successo";
+        } catch (Exception $e) {
+            echo "Operazione non effettuata" . $e->getMessage();
+            //$view->showAddReviewError;
         }
-        if(empty($review->getStars())) {
-            throw new Exception("Stars field can't be empty");
-        }
-        if(empty($review->getBody())) {
-            throw new Exception("Review's body can't be empty");
-        }
-        //Salvataggio nel DB in cui tutti i controlli sono passati
-        FPersistentManager::getInstance()->create($review);
     }
 
     /**
-     * Elimina una recensione esistente.
+     * Function to delete a review
      * 
-     * @param int $idReview: review's ID taken by the review list user see actually
+     * @param $idReview taken from the HTTP request
+     * @return bool true if success, false otherwise
      */
-    public function deleteReview(int $idReview) {
-        if(!CUser::isLogged()) {
-            header ("homepage");
+    public function deleteReview($idReview) {
+        $deleted=FPersistentManager::getInstance()->delete($idReview, FReview::class);
+        if($deleted) {
+            echo "Operazione avvenuta con successo";
+            header("Review's Page");
+        } else {
+            echo "Errore nell'esecuzione della cancellazione";
+            header("Review's Page");
         }
-        FPersistentManager::getInstance()->delete($idReview, FReview::class);
-        header('Location: Pagina Review Utente');
     }
 
     /**
-     * Modifica una recensione 
+     * Function to show the review's page
      */
-    public function editReview($idReview) {
-        //Verifico per sicurezza che l'utente sia loggato
-        if(!CUser::isLogged()) {
-            header("Location: HomPage");
-            exit; //Da cambiare con la vera URL della home page
+    public function showReviewsPage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Carico l'id dell'utente dalla sessione
+        $idUser=$session->readValue('idUser');
+        //Carico l'oggetto EUser dal suo id
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //Carico tutte le recensioni esistenti
+        $allReviews=FPersistentManager::getInstance()->readAll(FReview::class);
+        //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin
+        if($user->isAdmin()) {
+            //$view->showReviewAdminPage($allReviews);
+        } else {
+            //Altrimenti visualizzerà la pagina recensioni dell'utente normale
+            //$view->showReviewUserPage($allReviews);
         }
-        //Ottengo l'id dell'utente dalla sessione
-        $idUser=USessions::getSessionElement('idUser');
-        //Arriva una POST HTTP con i dati, che provvedo ad estrarre per creare la EReview modificata
-        $review=new EReview(
-            $idUser, 
-            $idReview, //Campo nascosto nello script HTML o come parametro della funzione
-            UHTTPMethods::post('stars'),
-            UHTTPMethods::post('body'),
-            new DateTime(), //Non deve essere modificabile
-            UHTTPMethods::post('idReply') //Campo nascosto nello script HTML
-        );
-        //Faccio alcuni controlli sui campi inseriti
-        if(empty($review->getStars())) {
-            throw new Exception("Stars field can't be empty");
-        }
-        if (empty($review->getBody())) {
-            throw new Exception("Body field can't be empty");
-        }
-        //Aggiorno la review su db se tutti i check sono stati superati
-        FPersistentManager::getInstance()->update($review);
-        header("Location: Pagina delle rview utente");
     }
-
 }
