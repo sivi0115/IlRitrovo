@@ -19,7 +19,7 @@
                     <!-- Profile Image -->
                     <div class="profile-image-section">
                         <img src="../assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
-                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="edit-image-btn" aria-label="Modifica immagine profilo">✎</a>
+                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="btn edit" aria-label="Modifica immagine profilo">✎</a>
                     </div> <!-- /.profile-image-section-->
                     <!-- Metadata Section -->
                     <div class="profile-info-section">
@@ -34,7 +34,7 @@
                                 <div class="credential-item"><strong>Password: </strong>********</div>
                             </div> <!-- /.credentials-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="edit-btn">Edit</a>
+                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="btn edit">Edit</a>
                             </div> <!-- /.form-action-right-->
                             {if $edit_section == 'metadata'}
                                 <form method="post" action="CFrontController.php?controller=CUser&task=editProfileMetadata" class="edit-form open">
@@ -55,7 +55,7 @@
                                         </div> <!-- /.credential-item-->
                                     </div> <!-- /.credentials-row-->
                                     <div class="form-action-right">
-                                        <button type="submit" class="edit-btn">Save access data</button>
+                                        <button type="submit" class="btn edit">Save access data</button>
                                     </div> <!-- /.form-action-right-->
                                 </form>
                             {/if}
@@ -72,7 +72,7 @@
                                 <div class="personal-item"><strong>Phone:</strong> {$phone}</div>
                             </div> <!-- /.personal-data-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="edit-btn">Edit</a>
+                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="btn edit">Edit</a>
                             </div><!-- /.form-action-right-->
                             {if $edit_section == 'data'}
                                 <form method="post" action="CFrontController.php?controller=CUser&task=editProfileData" class="edit-form open">
@@ -97,7 +97,7 @@
                                         </div> <!-- /.personal-data-item-->
                                     </div> <!-- /.personal-data-row-->
                                     <div class="form-action-right">
-                                        <button type="submit" class="edit-btn">Save Data</button>
+                                        <button type="submit" class="btn edit">Save Data</button>
                                     </div> <!-- /.form-action-right-->
                                 </form>
                             {/if}
@@ -112,9 +112,9 @@
             <div class="panel-heading">My Credit Cards</div>
             <div class="card-row">
                 {foreach from=$cards item=card}
-                {assign var=cardClass value=$card->getType()|lower|regex_replace:'/[^a-z]/':''}
-                    <div class="credit-card {$cardClass}">
-                        <div class="card-header">{$card->getType()}</div>
+                    {assign var=cardClass value=$card->getType()|lower|regex_replace:'/[^a-z]/':''}
+                    <div class="credit-card">
+                        <div class="card-header {$cardClass}">{$card->getType()}</div>
                         <div class="card-body">
                             <ul>
                                 <li><strong>Number:</strong> **** **** **** {$card->getNumber()|substr:-4}</li>
@@ -122,13 +122,12 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="?action=editCard&id={$card->getIdCreditCard()}" class="card-edit-btn">Edit</a>
                                 <a href="?action=deleteCard&id={$card->getIdCreditCard()}" 
-                                class="card-delete-btn" 
+                                class="btn delete" 
                                 onclick="return confirm('Do you really wat to delete this card?');">Delete</a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
-                    </div> <!-- /.credit-card-class-->
+                    </div> <!-- /.credit-card-->
                 {/foreach}
                 <div class="credit-card add-card-btn" onclick="location.href='?action=addCard'" title="Aggiungi nuova carta">
                     <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
@@ -150,49 +149,12 @@
                     <label for="expiryDate">Expiration (MM/AA)</label>
                     <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
                     <div class="form-action-right">
-                        <button type="submit" name="save" class="save-btn">Save</button>
-                        <a href="{$cancelUrl}" class="cancel-btn">Cancel</a>
+                        <button type="submit" name="save" class="btn save">Save</button>
+                        <a href="{$cancelUrl}" class="btn cancel">Cancel</a>
                     </div> <!-- /.form-action-right-->
                 </form>
             {/if}
         </div> <!-- /.panel-->
-
-        <!-- PAST Reservations-->
-        <div class="panel">
-            <div class="panel-heading">My Past Reservations</div>
-            {foreach from=$pastReservations item=reservation}
-                <div class="reservation-card">
-                    <ul>
-                        <li><strong>Type:</strong>
-                            {if $reservation->getIdRoom() !== null}
-                                Room
-                            {elseif $reservation->getIdTable() !== null}
-                                Table
-                            {else}
-                                Unknown
-                            {/if}
-                        </li>
-                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
-                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
-                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
-                        <li><strong>Status:</strong> {$reservation->getState()}</li>
-                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
-                        <li><strong>Extras:</strong>
-                            {if $reservation->getExtras()|@count > 0}
-                                <ul>
-                                    {foreach from=$reservation->getExtras() item=extra}
-                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
-                                    {/foreach}
-                                </ul>
-                            {else}
-                                No
-                            {/if}
-                        </li>
-                        <li><strong>Total Amount:</strong> {$reservation->getTotPrice()}</li>
-                    </ul>
-                </div>
-            {/foreach}
-        </div>
 
         <!-- FUTURE Reservations-->
         <div class="panel">
@@ -216,7 +178,7 @@
                         <li><strong>Notes:</strong> {$reservation->getComment()}</li>
                         <li><strong>Extras:</strong>
                             {if $reservation->getExtras()|@count > 0}
-                                <ul>
+                                <ul class="extras-list">
                                     {foreach from=$reservation->getExtras() item=extra}
                                         <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
                                     {/foreach}
@@ -225,11 +187,78 @@
                                 No
                             {/if}
                         </li>
-                        <li><strong>Total Amount:</strong> {$reservation->getTotPrice()}</li>
+                        <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
                     </ul>
-                </div>
+                </div> <!-- /.reservation-card-->
             {/foreach}
-        </div>
+        </div> <!-- /.panel-->
+
+        <!-- PAST Reservations-->
+        <div class="panel">
+            <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>My Past Reservations</span>
+                <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
+            </div> <!-- /.panel-heading-->
+            {if $userReview === null || $editReview}
+                <div class="review-form">
+                    <form action="CFrontController.php?controller=CReview&task={if $editMode}checkEditReview{else}checkAddReview{/if}" method="post">
+                        <label for="stars">Rating:</label>
+                        <div class="rating-stars">
+                            {for $i=5 to 1 step -1}
+                                <input type="radio" name="stars" id="star{$i}" value="{$i}" {if $editMode && $userReview->getStars() == $i}checked{/if} required>
+                                <label for="star{$i}">★</label>
+                            {/for}
+                        </div> <!-- /.rating-stars-->
+                        <label for="body">Your Review:</label>
+                        <textarea name="body" id="body" rows="4" required>{if $editMode}{$userReview->getBody()}{/if}</textarea>
+                        <div class="form-action-right">
+                            <button type="submit" class="btn save">{if $editMode}Update{else}Submit{/if}</button>
+                        </div> <!-- /.form-action-right-->
+                    </form>
+                </div> <!-- /.review-form-->
+            {else}
+                <div class="existing-review">
+                    <p><strong>Rating:</strong> {$userReview->getStars()} / 5</p>
+                    <p><strong>Review:</strong> {$userReview->getBody()}</p>
+                    <div class="form-action-right">
+                        <a href="CFrontController.php?controller=CReview&task=showEditReview" class="btn edit">Edit</a>
+                        <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
+                    </div> <!-- /.form-action-right-->
+                </div> <!-- /.existing-review-->
+            {/if}
+            {foreach from=$pastReservations item=reservation}
+                <div class="reservation-card">
+                    <ul>
+                        <li><strong>Type:</strong>
+                            {if $reservation->getIdRoom() !== null}
+                                Room
+                            {elseif $reservation->getIdTable() !== null}
+                                Table
+                            {else}
+                                Unknown
+                            {/if}
+                        </li>
+                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
+                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
+                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
+                        <li><strong>Status:</strong> {$reservation->getState()}</li>
+                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
+                        <li><strong>Extras:</strong>
+                            {if $reservation->getExtras()|@count > 0}
+                                <ul class="extras-list">
+                                    {foreach from=$reservation->getExtras() item=extra}
+                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
+                                    {/foreach}
+                                </ul>
+                            {else}
+                                No
+                            {/if}
+                        </li>
+                        <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
+                    </ul>
+                </div> <!-- /.reservation-card-->
+            {/foreach}
+        </div> <!-- /.panel-->
 
         <!-- Footer-->
         {* {include file='footerUser.tpl'} *}
