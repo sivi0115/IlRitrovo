@@ -93,12 +93,24 @@ class CReview {
         $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
         //Carico tutte le recensioni esistenti
         $allReviews=FPersistentManager::getInstance()->readAll(FReview::class);
+        //Per ogni recensione carico l'utente relativo per ottenere l'username
+        foreach($allReviews as $review) {
+            $idReviewUser=$review->getIdUser();
+            $reviewUser=FPersistentManager::getInstance()->read($idReviewUser, FUser::class);
+            //Associo l'username ad ogni recensione
+            if($reviewUser!==null) {
+                $review->setUsername($reviewUser->getUsername());
+            } else {
+                //Se per qualche motivo l'utente non esiste
+                $review->setUsername('Unknown User');
+            }
+        }
         //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin
         if($user->isAdmin()) {
             //$view->showReviewAdminPage($allReviews);
         } else {
             //Altrimenti visualizzerà la pagina recensioni dell'utente normale
-            //$view->showReviewUserPage($allReviews);
+            $view->showReviewsUserPage($allReviews);
         }
     }
 }

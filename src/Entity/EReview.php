@@ -9,6 +9,7 @@ use JsonSerializable;
  * Represents a review entity with properties.
  */
 class EReview implements JsonSerializable {
+    private ?string $username = null;
     /** 
      * IDENTIFIERS
      * @var int|null $idUser The ID of the user who made the review 
@@ -173,6 +174,14 @@ class EReview implements JsonSerializable {
      */
     public function setCreationTime(DateTime $creationTime): void {
         $this->creationTime = $creationTime;
+    }
+
+    public function getUsername(): ?string {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): void {
+        $this->username=$username;
     }
 
     /**

@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">       
     <title>Reviews - Il Ritrovo</title>
-    <link href="../css/styles.css" rel="stylesheet">
-    <link href="../css/reviews.css" rel="stylesheet">
+    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-container">

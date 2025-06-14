@@ -29,11 +29,12 @@ $controller = new CUser();
 //$controller2 = new CCreditCard();
 $controller3 = new CReview();
 
-//$controller->showProfile();
+$controller->showProfile();
 //$controller->checkLogin();
 //$controller2->checkAddCreditCard();
-$controller3->checkAddReview();
+//$controller3->checkAddReview();
 //$controller3->deleteReview(13);
+//$controller3->showReviewsPage();
 
 
 
