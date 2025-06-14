@@ -23,7 +23,7 @@
         <li><a href="#">Home</a></li>
         <li><a href="#">Users</a></li>
         <li><a href="#">Extras</a></li>
-        <li><a href="adminReview.html">Reviews</a></li>
+        <li><a href="adminReviews.html">Reviews</a></li>
       </ul>
     </nav>
   </header>

@@ -122,9 +122,11 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="?action=deleteCard&id={$card->getIdCreditCard()}" 
+                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&id=<?php echo $idCreditCard; ?>" 
                                 class="btn delete" 
-                                onclick="return confirm('Do you really wat to delete this card?');">Delete</a>
+                                onclick="return confirm('Do you really want to delete this card?');">
+                                Delete
+                                </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
                     </div> <!-- /.credit-card-->
@@ -195,37 +197,38 @@
 
         <!-- PAST Reservations-->
         <div class="panel">
-            <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-                <span>My Past Reservations</span>
+        <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>My Past Reservations</span>
+            {if $userReview === null}
                 <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
-            </div> <!-- /.panel-heading-->
-            {if $userReview === null || $editReview}
-                <div class="review-form">
-                    <form action="CFrontController.php?controller=CReview&task={if $editMode}checkEditReview{else}checkAddReview{/if}" method="post">
-                        <label for="stars">Rating:</label>
-                        <div class="rating-stars">
-                            {for $i=5 to 1 step -1}
-                                <input type="radio" name="stars" id="star{$i}" value="{$i}" {if $editMode && $userReview->getStars() == $i}checked{/if} required>
-                                <label for="star{$i}">★</label>
-                            {/for}
-                        </div> <!-- /.rating-stars-->
-                        <label for="body">Your Review:</label>
-                        <textarea name="body" id="body" rows="4" required>{if $editMode}{$userReview->getBody()}{/if}</textarea>
-                        <div class="form-action-right">
-                            <button type="submit" class="btn save">{if $editMode}Update{else}Submit{/if}</button>
-                        </div> <!-- /.form-action-right-->
-                    </form>
-                </div> <!-- /.review-form-->
-            {else}
-                <div class="existing-review">
-                    <p><strong>Rating:</strong> {$userReview->getStars()} / 5</p>
-                    <p><strong>Review:</strong> {$userReview->getBody()}</p>
-                    <div class="form-action-right">
-                        <a href="CFrontController.php?controller=CReview&task=showEditReview" class="btn edit">Edit</a>
-                        <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
-                    </div> <!-- /.form-action-right-->
-                </div> <!-- /.existing-review-->
             {/if}
+        </div> <!-- /.panel-heading-->
+        {if $userReview === null}
+            <div class="review-form">
+                <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+                    <label for="stars">Rating:</label>
+                    <div class="rating-stars">
+                        {for $i=5 to 1 step -1}
+                            <input type="radio" name="stars" id="star{$i}" value="{$stars}" required>
+                            <label for="star{$i}">★</label>
+                        {/for}
+                    </div> <!-- /.rating-stars-->
+                    <label for="body">Your Review:</label>
+                    <textarea name="body" value="$body" rows="4" required></textarea>
+                    <div class="form-action-right">
+                        <button type="submit" class="btn save">Submit</button>
+                    </div> <!-- /.form-action-right-->
+                </form>
+            </div> <!-- /.review-form-->
+        {else}
+            <div class="existing-review">
+                <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
+                <p><strong>Review:</strong> {$review->getBody()}</p>
+                <div class="form-action-right">
+                    <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
+                </div> <!-- /.form-action-right-->
+            </div> <!-- /.existing-review-->
+        {/if}
             {foreach from=$pastReservations item=reservation}
                 <div class="reservation-card">
                     <ul>

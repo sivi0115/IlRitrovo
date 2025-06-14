@@ -1,0 +1,61 @@
+APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
+
+IN GENERALE: riorganizzare i css in modo coerente (DA FARE ALLA FINE DELLE PAGINE)
+
+PAGINE PER L'UTENTE:
+ 1. HOME:
+    sistemare i collegamenti alle altre pagine
+ 2. ROOMS
+    da fare
+ 3. REVIEWS
+    fatta, aspettare opinione di marco
+    Nota: in foundation/controller bisogna prevedere qualcosa che ordini le review dalla più recente alla
+    più vecchia
+    Nota 2: gestire bene il fatto che inReview ho l'id dello user e mi devo collegare a quello per prendere lo
+    username
+ 4. MENU
+    ok
+
+PAGINE PER L'UTENTE REGISTRATO:
+ 5. USER-PROFILE
+    ok
+ 6. RESERVATION-TABLE-1
+    da fare
+ 7. RESERVATION-TABLE-2
+     da fare
+ 8. RESERVATION-TABLE-3
+     da fare
+ 9. RESERVATION-ROOM-1
+     da fare (uguale a reservation-table-1)
+10. RESERVATION-ROOM-2
+     da fare (uguale a reservation-table-2)
+11. RESERVATION-ROOM-3
+     da fare (uguale a reservation-table-3)
+12. RESERVATION-ROOM-4
+    da fare
+
+SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
+1. HEADER-USER
+   sistemare il funzionamento del js
+2. FOOTER-USER
+   ok
+
+PAGINE PER L'ADMIN:
+1. HOME
+   da fare (riciclare le card delle reservations dalla pagina profilo dello user e fare solo due sezioni
+   con le prenotazioni attive divise in room e table, valutare se fare sotto una sezione con le prenotazioni
+   scadute (sconsigliato da parte mia, soprattutto nella home, rischiamo di fare na pagina lunghissima e di
+   dover usare la paginazione))
+2. USERS
+   da fare (vedi la pagina che avevi già fatto per il vecchio progetto, in questo caso la paginazione credo
+   sia indispensabile)
+3. EXTRAS
+   da fare (vedi la sezione che avevi già fatto per il vecchio progetto)
+4. REVIEWS
+   fatta, aspettare opinione di marco
+
+SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
+1. HEADER-ADMIN:
+   aggiungere il js (in questo caso prevede solo il logout)
+2. FOOTER ADMIN:
+   ok
