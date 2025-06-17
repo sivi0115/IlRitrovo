@@ -192,6 +192,14 @@ function testreadReservationsByTableId(): void {
     }
 }
 
+function testGetAvalibleTables() {
+    echo "Testing dei tavoli disponibili";
+    $fReservation=new FReservation(FDatabase::getInstance());
+    $avalibleTables=$fReservation->getAvaliableTables('2025-06-20', 'lunch', 6);
+
+    echo (json_encode($avalibleTables));
+}
+
 
 
 
@@ -209,6 +217,7 @@ function testreadReservationsByTableId(): void {
 
 //testCreateReservation();
 //testReadReservation();
-testUpdateReservation();
+//testUpdateReservation();
 //testreadReservationsByUserId();
 //testreadReservationsByTableId(); //Il suo funzionamento implica il funzionamento anche di readRes.ByRoomId :)
+testGetAvalibleTables();

@@ -17,6 +17,7 @@ use Exception;
 use Foundation\FCreditCard;
 use Foundation\FPayment;
 use Foundation\FReservation;
+use Foundation\FReview;
 
 /**
  * Classe UserController
@@ -107,8 +108,10 @@ class CUser {
         $userPastReservations=FPersistentManager::getInstance()->readPastReservationsByUserId($idUser, FReservation::class);
         //Carico tutte le prenotazioni future associate a quest'utente
         $userFutureReservations=FPersistentManager::getInstance()->readFutureReservationsByUserId($idUser, FReservation::class);
+        //Carico le recensioni di questo utente
+        $userReview=FPersistentManager::getInstance()->readReviewByUserId($idUser, FReview::class);
         //Passo i parametri a view
-        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userPastReservations, $userFutureReservations);
+        $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userPastReservations, $userFutureReservations, $userReview);
     }
 
     /**

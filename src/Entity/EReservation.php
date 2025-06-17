@@ -81,7 +81,7 @@ class EReservation implements JsonSerializable {
     /**
      * @var EExtra[] Array of extras associated with the reservation.
      */
-    private array $extras = [];
+    private ?array $extras = [];
 
     /**
      * Constructor for the EReservation class with validation checks.
@@ -97,7 +97,7 @@ class EReservation implements JsonSerializable {
      * @param float $totPrice The total price of the reservation.
      * @param int $people people number in a reservation
      * @param string|null $comment any food intolerances to report (can be null)
-     * @param array array of EExtra object associated to reservation
+     * @param ?array array of EExtra object associated to reservation
      */
     public function __construct(
         ?int $idReservation,
@@ -110,7 +110,7 @@ class EReservation implements JsonSerializable {
         string $state,
         int $people,
         string $comment,
-        array $extras = [],
+        ?array $extras = [],
         float $totPrice=0.0
     ) {
         $this->idReservation = $idReservation;

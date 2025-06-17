@@ -273,9 +273,18 @@ use Exception;
      * @return array An array of EReview objects.
      * @throws Exception If an error occurs during the load operation.
      */
-    public function loadAllReview(): array
-    {
+    public function loadAllReview(): array {
         return $this->performOperation('loadAll', FReview::class);
+    }
+
+    /**
+     * Load a single review from the db by user Id
+     * 
+     * @param $idUser the id User
+     * @return EReview|null the review
+     */
+    public function readReviewByUserId(int $idUser, string $fClass) {
+        return $this->performOperation('readReviewByUserId', $fClass, $idUser);
     }
 
     /**

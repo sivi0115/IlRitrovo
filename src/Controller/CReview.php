@@ -25,13 +25,6 @@ class CReview {
      * Function used to show Review's form (Dalla schermata di informazioni personali)
      */
     public function showAddReview() {
-
-    }
-
-    /**
-     * Function to show delete confirm popup
-     */
-    public function showDelete() {
         
     }
 

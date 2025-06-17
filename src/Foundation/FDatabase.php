@@ -392,7 +392,7 @@ class FDatabase {
         }
 
         $whereClause = implode(' AND ', $whereParts);
-        $sql = "SELECT * FROM `Table` WHERE $whereClause";
+        $sql = "SELECT * FROM `tables` WHERE $whereClause";
 
         return $this->fetchAll($sql, $params);
     }

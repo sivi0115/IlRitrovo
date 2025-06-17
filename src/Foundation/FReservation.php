@@ -401,6 +401,15 @@ class FReservation {
     }
 
     /**
+     * Function to retrive avalibles tables from db
+     */
+    public function getAvaliableTables(string $reservationDate, string $timeFrame, int $guests): array {
+        $db=FDatabase::getInstance();
+        $avalibleTables=$db->getAvailableTables($reservationDate, $timeFrame, $guests);
+        return $avalibleTables;
+    }
+
+    /**
      * Updates the state of a reservation.
      *
      * @param int $idReservation The ID of the reservation.

@@ -122,7 +122,7 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard={$creditCard->getIdCreditCard()}" 
+                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard={$card->getIdCreditCard()}" 
                                 class="btn delete"> Delete </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
@@ -199,7 +199,7 @@
                 <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
             {/if}
         </div> <!-- /.panel-heading-->
-        {if $userReview === null}
+        {if $review === null}
             <div class="review-form">
                 <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
                     <label for="stars">Rating:</label>

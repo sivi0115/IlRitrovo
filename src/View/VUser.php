@@ -5,6 +5,7 @@ namespace View;
 use Smarty\Smarty;
 use DateTime;
 use Entity\ECreditCard;
+use Entity\EReview;
 
 class VUser {
 
@@ -18,7 +19,8 @@ class VUser {
         string $edit_section,
         array $userCreditCards,
         array $userPastReservations,
-        array $userFutureReservations
+        array $userFutureReservations,
+        ?EReview $userReview
     ) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
@@ -35,6 +37,7 @@ class VUser {
         $smarty->assign('cards', $userCreditCards);
         $smarty->assign('pastReservations', $userPastReservations);
         $smarty->assign('futureReservations', $userFutureReservations);
+        $smarty->assign('review', $userReview);
         //Assegna carte di credito a Smarty
 
         // Mostra il template
