@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-11 17:40:02
+/* Smarty version 5.5.1, created on 2025-06-17 14:42:11
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_6849a3529e40d4_58090243',
+  'unifunc' => 'content_685162a3650793_94137873',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '93ca75011d065b8f785592af65791615924de602' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1749656398,
+      1 => 1750164098,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_6849a3529e40d4_58090243 (\Smarty\Template $_smarty_tpl) {
+function content_685162a3650793_94137873 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -42,7 +42,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
                     <!-- Profile Image -->
                     <div class="profile-image-section">
                         <img src="../assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
-                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="edit-image-btn" aria-label="Modifica immagine profilo">✎</a>
+                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="btn edit" aria-label="Modifica immagine profilo">✎</a>
                     </div> <!-- /.profile-image-section-->
                     <!-- Metadata Section -->
                     <div class="profile-info-section">
@@ -59,7 +59,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
                                 <div class="credential-item"><strong>Password: </strong>********</div>
                             </div> <!-- /.credentials-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="edit-btn">Edit</a>
+                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="btn edit">Edit</a>
                             </div> <!-- /.form-action-right-->
                             <?php if ($_smarty_tpl->getValue('edit_section') == 'metadata') {?>
                                 <form method="post" action="CFrontController.php?controller=CUser&task=editProfileMetadata" class="edit-form open">
@@ -82,7 +82,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
                                         </div> <!-- /.credential-item-->
                                     </div> <!-- /.credentials-row-->
                                     <div class="form-action-right">
-                                        <button type="submit" class="edit-btn">Save access data</button>
+                                        <button type="submit" class="btn edit">Save access data</button>
                                     </div> <!-- /.form-action-right-->
                                 </form>
                             <?php }?>
@@ -103,7 +103,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
 </div>
                             </div> <!-- /.personal-data-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="edit-btn">Edit</a>
+                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="btn edit">Edit</a>
                             </div><!-- /.form-action-right-->
                             <?php if ($_smarty_tpl->getValue('edit_section') == 'data') {?>
                                 <form method="post" action="CFrontController.php?controller=CUser&task=editProfileData" class="edit-form open">
@@ -132,7 +132,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
                                         </div> <!-- /.personal-data-item-->
                                     </div> <!-- /.personal-data-row-->
                                     <div class="form-action-right">
-                                        <button type="submit" class="edit-btn">Save Data</button>
+                                        <button type="submit" class="btn edit">Save Data</button>
                                     </div> <!-- /.form-action-right-->
                                 </form>
                             <?php }?>
@@ -152,10 +152,10 @@ $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('card')->value) {
 $foreach0DoElse = false;
 ?>
-                <?php $_smarty_tpl->assign('cardClass', $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('card')->getType(), 'UTF-8'),'/[^a-z]/',''), false, NULL);?>
-                    <div class="credit-card <?php echo $_smarty_tpl->getValue('cardClass');?>
-">
-                        <div class="card-header"><?php echo $_smarty_tpl->getValue('card')->getType();?>
+                    <?php $_smarty_tpl->assign('cardClass', $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('card')->getType(), 'UTF-8'),'/[^a-z]/',''), false, NULL);?>
+                    <div class="credit-card">
+                        <div class="card-header <?php echo $_smarty_tpl->getValue('cardClass');?>
+"><?php echo $_smarty_tpl->getValue('card')->getType();?>
 </div>
                         <div class="card-body">
                             <ul>
@@ -167,15 +167,12 @@ $foreach0DoElse = false;
 </li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="?action=editCard&id=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
-" class="card-edit-btn">Edit</a>
-                                <a href="?action=deleteCard&id=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
+                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
 " 
-                                class="card-delete-btn" 
-                                onclick="return confirm('Do you really wat to delete this card?');">Delete</a>
+                                class="btn delete"> Delete </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
-                    </div> <!-- /.credit-card-class-->
+                    </div> <!-- /.credit-card-->
                 <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
@@ -212,19 +209,17 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['expiration'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 ">
                     <div class="form-action-right">
-                        <button type="submit" name="save" class="save-btn">Save</button>
-                        <a href="<?php echo $_smarty_tpl->getValue('cancelUrl');?>
-" class="cancel-btn">Cancel</a>
+                        <button type="submit" name="save" class="btn save">Save</button>
                     </div> <!-- /.form-action-right-->
                 </form>
             <?php }?>
         </div> <!-- /.panel-->
 
-        <!-- PAST Reservations-->
+        <!-- FUTURE Reservations-->
         <div class="panel">
-            <div class="panel-heading">My Past Reservations</div>
+            <div class="panel-heading">My Future Reservations</div>
             <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('pastReservations'), 'reservation');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('futureReservations'), 'reservation');
 $foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
 $foreach2DoElse = false;
@@ -252,7 +247,7 @@ $foreach2DoElse = false;
 </li>
                         <li><strong>Extras:</strong>
                             <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('reservation')->getExtras()) > 0) {?>
-                                <ul>
+                                <ul class="extras-list">
                                     <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservation')->getExtras(), 'extra');
 $foreach3DoElse = true;
@@ -270,20 +265,63 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 No
                             <?php }?>
                         </li>
-                        <li><strong>Total Amount:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getTotPrice();?>
+                        <li><strong>Total Amount:</strong> €<?php echo $_smarty_tpl->getValue('reservation')->getTotPrice();?>
 </li>
                     </ul>
-                </div>
+                </div> <!-- /.reservation-card-->
             <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-        </div>
+        </div> <!-- /.panel-->
 
-        <!-- FUTURE Reservations-->
+        <!-- PAST Reservations-->
         <div class="panel">
-            <div class="panel-heading">My Future Reservations</div>
+        <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>My Past Reservations</span>
+            <?php if ($_smarty_tpl->getValue('userReview') === null) {?>
+                <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
+            <?php }?>
+        </div> <!-- /.panel-heading-->
+        <?php if ($_smarty_tpl->getValue('review') === null) {?>
+            <div class="review-form">
+                <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+                    <label for="stars">Rating:</label>
+                    <div class="rating-stars">
+                        <?php
+$_smarty_tpl->assign('i', null);$_smarty_tpl->tpl_vars['i']->step = -1;$_smarty_tpl->tpl_vars['i']->total = (int) ceil(($_smarty_tpl->tpl_vars['i']->step > 0 ? 1+1 - (5) : 5-(1)+1)/abs($_smarty_tpl->tpl_vars['i']->step));
+if ($_smarty_tpl->tpl_vars['i']->total > 0) {
+for ($_smarty_tpl->tpl_vars['i']->value = 5, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
+$_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
+                            <input type="radio" name="stars" id="star<?php echo $_smarty_tpl->getValue('i');?>
+" value="<?php echo $_smarty_tpl->getValue('stars');?>
+" required>
+                            <label for="star<?php echo $_smarty_tpl->getValue('i');?>
+">★</label>
+                        <?php }
+}
+?>
+                    </div> <!-- /.rating-stars-->
+                    <label for="body">Your Review:</label>
+                    <textarea name="body" value="$body" rows="4" required></textarea>
+                    <div class="form-action-right">
+                        <button type="submit" class="btn save">Submit</button>
+                    </div> <!-- /.form-action-right-->
+                </form>
+            </div> <!-- /.review-form-->
+        <?php } else { ?>
+            <div class="existing-review">
+                <p><strong>Rating:</strong> <?php echo $_smarty_tpl->getValue('review')->getStars();?>
+ / 5</p>
+                <p><strong>Review:</strong> <?php echo $_smarty_tpl->getValue('review')->getBody();?>
+</p>
+                <div class="form-action-right">
+                    <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview=<?php echo $_smarty_tpl->getValue('review')->getIdReview();?>
+" class="btn delete">Delete</a>
+                </div> <!-- /.form-action-right-->
+            </div> <!-- /.existing-review-->
+        <?php }?>
             <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('futureReservations'), 'reservation');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('pastReservations'), 'reservation');
 $foreach4DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
 $foreach4DoElse = false;
@@ -311,7 +349,7 @@ $foreach4DoElse = false;
 </li>
                         <li><strong>Extras:</strong>
                             <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('reservation')->getExtras()) > 0) {?>
-                                <ul>
+                                <ul class="extras-list">
                                     <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservation')->getExtras(), 'extra');
 $foreach5DoElse = true;
@@ -329,14 +367,14 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                                 No
                             <?php }?>
                         </li>
-                        <li><strong>Total Amount:</strong> <?php echo $_smarty_tpl->getValue('reservation')->getTotPrice();?>
+                        <li><strong>Total Amount:</strong> €<?php echo $_smarty_tpl->getValue('reservation')->getTotPrice();?>
 </li>
                     </ul>
-                </div>
+                </div> <!-- /.reservation-card-->
             <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-        </div>
+        </div> <!-- /.panel-->
 
         <!-- Footer-->
             </body>

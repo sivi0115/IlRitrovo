@@ -195,9 +195,9 @@ function testreadReservationsByTableId(): void {
 function testGetAvalibleTables() {
     echo "Testing dei tavoli disponibili";
     $fReservation=new FReservation(FDatabase::getInstance());
-    $avalibleTables=$fReservation->getAvaliableTables('2025-06-20', 'lunch', 6);
+    $avalibleTables=$fReservation->getAvaliableTables('2025-06-23', 'dinner', 4);
 
-    echo (json_encode($avalibleTables));
+    echo json_encode($avalibleTables, JSON_PRETTY_PRINT);
 }
 
 

@@ -49,8 +49,8 @@ class CReservation {
             0
         );
         //Cerco dei tavoli disponibili in base a questi parametri e li mostro all'utente
-        $avalibleTables=FPersistentManager::getInstance()->findAvalibleTables();
-        
+        $avalibleTables=FPersistentManager::getInstance()->getAvalibleTables();
+
     }
 
     /**
