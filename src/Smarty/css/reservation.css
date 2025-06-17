@@ -133,3 +133,46 @@
   background: #8b3a3a;
   color: #fff;
 }
+
+/* Riepilogo su due righe */
+.reservation-summary {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px dashed #c7b299;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  color: #4a3b2c;
+  width: 1000px;      /* larghezza fissa più stretta */
+  max-width: 100%;   /* per essere responsive su schermi piccoli */
+  margin: 0 auto 2rem auto;
+
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-row p {
+  flex: 1 1 45%;
+  margin: 0;
+}
+
+/* Mappa del ristorante più piccola */
+.restaurant-map {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.restaurant-map img {
+  max-width: 80%;
+  max-height: 450px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #e0d5c0;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+}

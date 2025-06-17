@@ -25,9 +25,9 @@ PAGINE PER L'UTENTE REGISTRATO:
                     - salvarli in sessione/database
                     - e infine caricare la prossima pagina (es. tableReservation2.html)
  7. RESERVATION-TABLE-2
-     da fare
+    ok
  8. RESERVATION-TABLE-3
-     da fare
+    ok
  9. RESERVATION-ROOM-1
      da fare (uguale a reservation-table-1)
 10. RESERVATION-ROOM-2
