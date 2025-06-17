@@ -355,4 +355,45 @@ class FDatabase {
             return null;
         }
     }
+
+    /**
+     * Retrieves all tables available for reservation on a specified date and time frame,
+     * accommodating the given number of guests.
+     * Excludes tables already reserved at that date and time frame.
+     *
+     * @param string $reservationDate Reservation date (YYYY-MM-DD).
+     * @param string $timeFrame Time frame of the reservation.
+     * @param int $guests Number of guests.
+     * @return array Available tables matching the criteria.
+     */
+    public function getAvailableTables(string $reservationDate, string $timeFrame, int $guests): array {
+        // Prima recupero gli idTable prenotati per data e fascia
+        $reservedSql = "SELECT r.idTable FROM Reservation r
+                        WHERE r.reservationDate = ?
+                        AND r.timeFrame = ?
+                        AND r.idRoom IS NULL";
+        $reservedStmt = $this->query($reservedSql, [$reservationDate, $timeFrame]);
+        $reservedTables = $reservedStmt ? $reservedStmt->fetchAll(\PDO::FETCH_COLUMN) : [];
+
+        // Condizioni dinamiche per maxGuests
+        $conditions = [
+            'maxGuests >=' => $guests,
+            'maxGuests <=' => $guests + 1,
+        ];
+
+        $whereParts = array_map(fn($key) => "$key ?", array_keys($conditions));
+        $params = array_values($conditions);
+
+        // Escludo tavoli prenotati se ce ne sono
+        if (count($reservedTables) > 0) {
+            $placeholders = implode(',', array_fill(0, count($reservedTables), '?'));
+            $whereParts[] = "idTable NOT IN ($placeholders)";
+            $params = array_merge($params, $reservedTables);
+        }
+
+        $whereClause = implode(' AND ', $whereParts);
+        $sql = "SELECT * FROM `Table` WHERE $whereClause";
+
+        return $this->fetchAll($sql, $params);
+    }
 }

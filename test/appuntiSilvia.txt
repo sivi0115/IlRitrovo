@@ -18,7 +18,12 @@ PAGINE PER L'UTENTE REGISTRATO:
  5. USER-PROFILE
     ok
  6. RESERVATION-TABLE-1
-    da fare
+    ok
+    NOTA PER MARCO: Il bottone non ha un link esplicito, ma attiva l'invio del form all’indirizzo specificato.
+                    Sarà poi il controller CReservation con il metodo tableReservationStepTwo() a decidere cosa fare:
+                    - validare i dati
+                    - salvarli in sessione/database
+                    - e infine caricare la prossima pagina (es. tableReservation2.html)
  7. RESERVATION-TABLE-2
      da fare
  8. RESERVATION-TABLE-3

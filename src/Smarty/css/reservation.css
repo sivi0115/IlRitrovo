@@ -1,0 +1,135 @@
+/* Step Indicator */
+.step-indicator {
+  margin-top: 2rem;  /* aggiunge spazio sopra l’intera sezione dei pallini */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #c7b299;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #c7b299;
+  background: #fff;
+  font-family: 'Playfair Display', serif;
+}
+
+.step-circle.active {
+  background-color: #8b3a3a;
+  color: #fff;
+  border-color: #8b3a3a;
+}
+
+.step-line {
+  flex: 0 0 40px;
+  height: 2px;
+  background-color: #c7b299;
+}
+
+.step-separator {
+  border: none;
+  border-top: 1px dashed #c7b299;
+  margin: 2rem 0;
+}
+
+/* Booking Title */
+.panel-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #8b3a3a;
+  text-align: center;
+  letter-spacing: 1px;
+  border-bottom: none;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.panel-heading::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background-color: #c7b299;
+  margin: 0.6rem auto 0;
+  border-radius: 2px;
+}
+
+/* Booking Form */
+.booking-form {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.booking-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.booking-form label {
+  display: block;
+  font-weight: 600;
+  color: #4a3b2c;
+  margin-bottom: 0.5rem;
+}
+
+.booking-form select,
+.booking-form input[type="number"],
+.booking-form input[type="date"],
+.booking-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #c7b299;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #4a3b2c;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Buttons */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.form-buttons .btn {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-width: 140px;
+  text-align: center;
+}
+
+.btn.save {
+  background: #8b3a3a;
+  color: #fff;
+  border: none;
+}
+
+.btn.save:hover {
+  background: #a14444;
+}
+
+.btn.cancel {
+  background: transparent;
+  color: #8b3a3a;
+  border: 1px solid #8b3a3a;
+}
+
+.btn.cancel:hover {
+  background: #8b3a3a;
+  color: #fff;
+}
