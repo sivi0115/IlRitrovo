@@ -122,11 +122,8 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&id=<?php echo $idCreditCard; ?>" 
-                                class="btn delete" 
-                                onclick="return confirm('Do you really want to delete this card?');">
-                                Delete
-                                </a>
+                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard={$creditCard->getIdCreditCard()}" 
+                                class="btn delete"> Delete </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
                     </div> <!-- /.credit-card-->
@@ -152,7 +149,6 @@
                     <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
                     <div class="form-action-right">
                         <button type="submit" name="save" class="btn save">Save</button>
-                        <a href="{$cancelUrl}" class="btn cancel">Cancel</a>
                     </div> <!-- /.form-action-right-->
                 </form>
             {/if}
@@ -225,7 +221,7 @@
                 <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
                 <p><strong>Review:</strong> {$review->getBody()}</p>
                 <div class="form-action-right">
-                    <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
+                    <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
                 </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
         {/if}

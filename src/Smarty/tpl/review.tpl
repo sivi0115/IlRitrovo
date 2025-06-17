@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">       
     <title>Reviews - Il Ritrovo</title>
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/reviews.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-container">
@@ -42,7 +42,7 @@
               <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
               <p><strong>Review:</strong> {$review->getBody()}</p>
               <div class="form-action-right">
-                <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
+                <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
               </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
           {/if}

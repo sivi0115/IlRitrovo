@@ -6,13 +6,11 @@ PAGINE PER L'UTENTE:
  1. HOME:
     sistemare i collegamenti alle altre pagine
  2. ROOMS
-    da fare
+    ok
  3. REVIEWS
-    fatta, aspettare opinione di marco
+    ok
     Nota: in foundation/controller bisogna prevedere qualcosa che ordini le review dalla più recente alla
     più vecchia
-    Nota 2: gestire bene il fatto che inReview ho l'id dello user e mi devo collegare a quello per prendere lo
-    username
  4. MENU
     ok
 
@@ -52,7 +50,7 @@ PAGINE PER L'ADMIN:
 3. EXTRAS
    da fare (vedi la sezione che avevi già fatto per il vecchio progetto)
 4. REVIEWS
-   fatta, aspettare opinione di marco
+   ok
 
 SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
 1. HEADER-ADMIN:

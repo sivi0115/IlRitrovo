@@ -42,7 +42,6 @@
                                         </div>
                                     </form>
                                 </section>
-                                <a href="CFrontController.php?controller=CReview&task=backAdminReview" class="btn delete">Cancel</a>
                             {else}
                                 <a href="CFrontController.php?controller=CReply&task=showReplyForm={$review->getIdReview()}" class="btn save">Reply</a>
                             {/if}
