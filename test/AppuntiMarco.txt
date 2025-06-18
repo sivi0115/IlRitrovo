@@ -75,10 +75,11 @@ CLASSE CRESERVATION:
 --CU PRENOTAZIONE DI UN TAVOLO--
 showTableForm() -> Mostra la pagina con le form per i dati della prenotazione di un tavolo
 showValidTable() -> A seguito dei dati inseriti controlla e mostra tutti i tavoli disponibili per la data desiderata
-Da implementare dataTableReservation() -> Prende i dati e mostra il repilogo dei dati della prenotazione + bottone conferma
-Da implementare checkTableReservation() -> Valida i dati e crea la prenotazione
+dataTableReservation() -> Prende i dati e mostra il repilogo dei dati della prenotazione + bottone conferma
+checkTableReservation() -> Valida i dati e crea la prenotazione
 Da implementare i metodi che permettono di tornare agli step precedenti mantenendo i dati 
-Da cambiare il parametro delle date nel metodo getAvalibleTables() nel DB e in FReservation
+Da cambiare tutti i avaliable in available
+Da completare il testing in VReservation
 
 
 

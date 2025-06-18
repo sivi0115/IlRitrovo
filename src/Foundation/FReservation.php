@@ -402,6 +402,10 @@ class FReservation {
 
     /**
      * Function to retrive avalibles tables from db
+     * 
+     * @param string $reservationDate
+     * @param Enum $time Frame
+     * @param int $guests
      */
     public function getAvaliableTables(string $reservationDate, string $timeFrame, int $guests): array {
         $db=FDatabase::getInstance();

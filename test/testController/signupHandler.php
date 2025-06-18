@@ -9,6 +9,7 @@ error_reporting(E_ALL);
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Controller\CCreditCard;
+use Controller\CReservation;
 use Controller\CReview;
 use Utility\USessions;
 use Controller\CUser;
@@ -28,13 +29,15 @@ use Entity\EReview;
 $controller = new CUser();
 //$controller2 = new CCreditCard();
 $controller3 = new CReview();
+$controller4 = new CReservation();
 
-$controller->showProfile();
+//$controller->showProfile();
 //$controller->checkLogin();
 //$controller2->checkAddCreditCard();
 //$controller3->checkAddReview();
 //$controller3->deleteReview(13);
 //$controller3->showReviewsPage();
+$controller4->showValidTable();
 
 
 

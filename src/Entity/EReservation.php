@@ -41,7 +41,7 @@ class EReservation implements JsonSerializable {
      * METADATA
      * @var DateTime creation time of the reservation
      */
-    private DateTime $creationTime;
+    private ?DateTime $creationTime;
     
     /**
      * @var DateTime date of the reservation
@@ -90,7 +90,7 @@ class EReservation implements JsonSerializable {
      * @param ?int $idUser The ID of the user who made the reservation.
      * @param ?int $idTable The ID of the Table reserved.
      * @param ?int $idRoom The ID of the Room reserved.
-     * @param DateTime $creationTime The creation timestamp of the reservation.
+     * @param ?DateTime $creationTime The creation timestamp of the reservation.
      * @param DateTime $reservationDate The date of the reservation.
      * @param TimeFrame $timeFrame The time frame of a reservation (lunch or dinner)
      * @param string $state The state of the reservation (e.g., confirmed, approved).
@@ -104,9 +104,9 @@ class EReservation implements JsonSerializable {
         ?int $idUser,
         ?int $idTable,
         ?int $idRoom,
-        DateTime $creationTime,
+        ?DateTime $creationTime,
         DateTime $reservationDate,
-        ?TimeFrame $timeFrame,
+        TimeFrame $timeFrame,
         string $state,
         int $people,
         string $comment,

@@ -288,6 +288,18 @@ use Exception;
     }
 
     /**
+     * Function to get Avaliable table's
+     * 
+     * @param string $reservationDate
+     * @param Enum $timeFrame
+     * @param int $guests
+     * @param string $fClass the class of the method
+     */
+    public function getAvaliableTables(string $reservationDate, string $timeFrame, int $guests, string $fClass) {
+        return $this->performOperation('getAvaliableTables', $fClass, $reservationDate, $timeFrame, $guests);
+    }
+
+    /**
      * Gets the class name for an entity object.
      *
      * @param object $entity The entity object.
