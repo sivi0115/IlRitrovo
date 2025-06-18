@@ -53,9 +53,9 @@
                     <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances...">{$reservationData.comment|default:''}</textarea>
                 </div>
 
-                <div class="form-buttons">
-                    <a href="home.html" class="btn cancel">Back to Home</a>
-                    <button type="submit" class="btn save">Next</button>
+                <div class="reservation-form-buttons">
+                    <a href="CFrontController.php?controller=CFrontController&task=showHome" class="btn-cancel-step">Back to Home</a>
+                    <button type="submit" class="btn-save-step">Next</button>
                 </div>
             </form>
 

@@ -18,10 +18,10 @@
         <!-- Navigation bar -->
         <nav class="main-nav">
           <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="rooms.html">Rooms</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="review.html">Reviews</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showRooms">Rooms</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showMenu">Menu</a></li>
+            <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
         <!-- User button -->

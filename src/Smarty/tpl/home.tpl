@@ -18,8 +18,8 @@
           <p><strong>Enjoy our carefully crafted dishes made from the freshest local ingredients.</strong></p>
           <p><strong>Relax in a warm and inviting atmosphere, perfect for any occasion.</strong></p>
           <div class="booking-buttons">
-            <a href="#" class="btn">Book Table</a>
-            <a href="#" class="btn">Book Room</a>
+            <a href="CFrontController.php?controller=CReservation&task=showTableForm" class="btn">Book Table</a>
+            <a href="CFrontController.php?controller=CReservation&task=showRoomForm" class="btn">Book Room</a>
           </div> <!-- /.booking-buttons-->
       </div> <!-- /.booking-content-->
       <div class="rhombus-wrapper">

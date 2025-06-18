@@ -41,9 +41,9 @@
 
             <!-- Pulsanti conferma -->
             <form method="post" action="CFrontController.php?controller=CReservation&task=checkTableReservation" class="booking-form">
-                <div class="form-buttons">
-                    <a href="CFrontController.php?controller=CReservation&task=tableReservationStepTwo" class="btn cancel">Back</a>
-                    <button type="submit" class="btn save">Confirm</button>
+                <div class="reservation-form-buttons">
+                    <a href="CFrontController.php?controller=CReservation&task=tableReservationStepTwo" class="btn-cancel-step">Back</a>
+                    <button type="submit" class="btn-save-step">Confirm</button>
                 </div>
             </form>
         </div> <!-- /.panel-->

@@ -51,10 +51,10 @@
                     </select>
                 </div> <!-- /.form-group-->
 
-                <div class="form-buttons">
-                    <a href="CFrontController.php?controller=CReservation&task=tableReservationStepOne" class="btn cancel">Back</a>
-                    <button type="submit" class="btn save">Next</button>
-                </div> <!--/.form-buttons-->
+                <div class="reservation-form-buttons">
+                    <a href="CFrontController.php?controller=CReservation&task=tableReservationStepOne" class="btn-cancel-step">Back</a>
+                    <button type="submit" class="btn-save-step">Next</button>
+                </div> <!--/.reservation-form-buttons-->
             </form>
         </div> <!-- /.panel-->
 

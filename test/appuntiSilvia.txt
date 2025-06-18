@@ -4,7 +4,7 @@ IN GENERALE: riorganizzare i css in modo coerente (DA FARE ALLA FINE DELLE PAGIN
 
 PAGINE PER L'UTENTE:
  1. HOME:
-    sistemare i collegamenti alle altre pagine
+    ok
  2. ROOMS
     ok
  3. REVIEWS
@@ -29,17 +29,35 @@ PAGINE PER L'UTENTE REGISTRATO:
  8. RESERVATION-TABLE-3
     ok
  9. RESERVATION-ROOM-1
-     da fare (uguale a reservation-table-1)
+    ok
 10. RESERVATION-ROOM-2
-     da fare (uguale a reservation-table-2)
+    ok
 11. RESERVATION-ROOM-3
-     da fare (uguale a reservation-table-3)
+    ok
 12. RESERVATION-ROOM-4
-    da fare
+    ok
 
 SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
 1. HEADER-USER
    sistemare il funzionamento del js
+   Aggiungere al front controller i metodi per visualizzare le pagine presenti nell'header. Richiesto perchè header
+   e footer sono file a parte e il link diretto alla pagina non farebbe funzionare quel pezzo
+   // Metodo per mostrare la home page
+    public function showHome() {
+        $this->smarty->display('home.tpl');
+    }
+
+    // Metodo per mostrare la pagina rooms
+    public function showRooms() {
+        $this->smarty->display('rooms.tpl');
+    }
+
+    // Metodo per mostrare la pagina menu
+    public function showMenu() {
+        $this->smarty->display('menu.tpl');
+    }
+   Per la pagina delle review ci servirà in CReview showReviewsPage che sarà lievemente più complesso perchè deve
+   tenere contodi un funzionamento lievemente più complesso
 2. FOOTER-USER
    ok
 
