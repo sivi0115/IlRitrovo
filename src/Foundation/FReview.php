@@ -150,14 +150,22 @@ class FReview {
      */
     public function readAll(): array {
         try {
-            $db = FDatabase::getInstance(); // Get the singleton instance
-            $results = $db->loadMultiples(self::TABLE_NAME); // Use the loadMultiples method to load the data
-            return array_filter(array_map([$this, 'arrayToEntity'], $results));
+            $db = FDatabase::getInstance();
+            $results = $db->loadMultiples(self::TABLE_NAME);
+            $entities = array_filter(array_map([$this, 'arrayToEntity'], $results));
+
+            // Ordina dalla più recente alla più vecchia
+            usort($entities, function ($a, $b) {
+                return $b->getCreationTime() <=> $a->getCreationTime();
+            });
+
+            return $entities;
         } catch (Exception $e) {
             error_log(self::ERR_ALL_REVIEWS . $e->getMessage());
             return [];
         }
     }
+
 
     /**
      * Checks if a review exists in the database based on a specific field.

@@ -1,6 +1,13 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
-IN GENERALE: riorganizzare i css in modo coerente (DA FARE ALLA FINE DELLE PAGINE)
+ELENCO PRIORITA' DA FARE:
+- elenco delle room OK
+- elenco degli extra OK
+- query per le room come per i table OK
+- sistemare in FReview il metodo che fa il fetch di tutte le review in modo tale che le metta dalla
+   più recente a scendere OK
+- vedere come simulare il pagamento con stripe (VISTO, AIUTO)
+- pagine mancanti dell'admin
 
 PAGINE PER L'UTENTE:
  1. HOME:
@@ -9,8 +16,6 @@ PAGINE PER L'UTENTE:
     ok
  3. REVIEWS
     ok
-    Nota: in foundation/controller bisogna prevedere qualcosa che ordini le review dalla più recente alla
-    più vecchia
  4. MENU
     ok
 

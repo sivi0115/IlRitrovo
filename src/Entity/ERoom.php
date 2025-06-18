@@ -25,6 +25,7 @@ class ERoom extends EArea
      * @param ?int $idRoom Room ID, can be null.
      * @param string $areaName room's name
      * @param int $maxGuests max number of guests (can't be negative).
+     * @param float $tax price for reserve the room
      */
     public function __construct(
         ?int $idRoom,

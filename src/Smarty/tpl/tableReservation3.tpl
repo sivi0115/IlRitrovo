@@ -35,7 +35,6 @@
                 </div>
                 <div class="summary-row">
                     <p><strong>Selected Table:</strong> {$selectedTable.areaName}</p>
-                    <p><strong>Max Seats:</strong> {$selectedTable.maxGuests}</p>
                 </div>
             </div>
 

@@ -396,4 +396,45 @@ class FDatabase {
 
         return $this->fetchAll($sql, $params);
     }
+
+    /**
+     * Retrieves all rooms available for reservation on a specified date and time frame,
+     * accommodating the given number of guests.
+     * Excludes rooms already reserved at that date and time frame.
+     *
+     * @param string $reservationDate Reservation date (YYYY-MM-DD).
+     * @param string $timeFrame Time frame of the reservation.
+     * @param int $guests Number of guests.
+     * @return array Available rooms matching the criteria.
+     */
+    public function getAvailableRooms(string $reservationDate, string $timeFrame, int $guests): array {
+        // Recupera gli idRoom già prenotati in quella data e timeFrame (solo prenotazioni di tipo "room")
+        $reservedSql = "SELECT r.idRoom FROM Reservation r
+                        WHERE r.reservationDate = ?
+                        AND r.timeFrame = ?
+                        AND r.idTable IS NULL";
+        $reservedStmt = $this->query($reservedSql, [$reservationDate, $timeFrame]);
+        $reservedRooms = $reservedStmt ? $reservedStmt->fetchAll(\PDO::FETCH_COLUMN) : [];
+
+        // Condizioni su maxGuests con tolleranza di 10 posti
+        $conditions = [
+            'maxGuests >=' => $guests,
+            'maxGuests <=' => $guests + 10,
+        ];
+
+        $whereParts = array_map(fn($key) => "$key ?", array_keys($conditions));
+        $params = array_values($conditions);
+
+        // Escludi stanze già prenotate
+        if (count($reservedRooms) > 0) {
+            $placeholders = implode(',', array_fill(0, count($reservedRooms), '?'));
+            $whereParts[] = "idRoom NOT IN ($placeholders)";
+            $params = array_merge($params, $reservedRooms);
+        }
+
+        $whereClause = implode(' AND ', $whereParts);
+        $sql = "SELECT * FROM `rooms` WHERE $whereClause";
+
+        return $this->fetchAll($sql, $params);
+    }
 }
