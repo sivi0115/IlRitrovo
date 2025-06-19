@@ -45,6 +45,9 @@ $controller4 = new CReservation();
 //$controller4->dataTableReservation();
 //$controller4->checkTableReservation();
 
+//$controller4->showRoomForm();
+$controller4->showValidRooms();
+
 
 
 

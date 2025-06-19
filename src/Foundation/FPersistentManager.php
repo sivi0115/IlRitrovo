@@ -288,7 +288,7 @@ use Exception;
     }
 
     /**
-     * Function to get Avaliable table's
+     * Function to get Available tables
      * 
      * @param string $reservationDate
      * @param Enum $timeFrame
@@ -297,6 +297,13 @@ use Exception;
      */
     public function getAvaliableTables(string $reservationDate, string $timeFrame, int $guests, string $fClass) {
         return $this->performOperation('getAvaliableTables', $fClass, $reservationDate, $timeFrame, $guests);
+    }
+
+    /**
+     * Function to get Available rooms
+     */
+    public function getAvailableRooms(string $reservationDate, string $timeFrame, int $guests, string $fClass) {
+        return $this->performOperation('getAvailableRooms', $fClass, $reservationDate, $timeFrame, $guests);
     }
 
     /**

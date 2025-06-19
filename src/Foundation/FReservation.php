@@ -415,6 +415,19 @@ class FReservation {
     }
 
     /**
+     * Function to retrive avaliables rooms from db
+     * 
+     * @param string $reservationDate
+     * @param Enum $time Frame
+     * @param int $guests
+     */
+    public function getAvailableRooms(string $reservationDate, string $timeFrame, int $guests): array {
+        $db=FDatabase::getInstance();
+        $availableRooms=$db->getAvailableRooms($reservationDate, $timeFrame, $guests);
+        return $availableRooms;
+    }
+
+    /**
      * Updates the state of a reservation.
      *
      * @param int $idReservation The ID of the reservation.

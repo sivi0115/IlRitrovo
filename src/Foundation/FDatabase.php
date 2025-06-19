@@ -419,7 +419,7 @@ class FDatabase {
         // Condizioni su maxGuests con tolleranza di 10 posti
         $conditions = [
             'maxGuests >=' => $guests,
-            'maxGuests <=' => $guests + 10,
+            'maxGuests <=' => $guests + 20,
         ];
 
         $whereParts = array_map(fn($key) => "$key ?", array_keys($conditions));
@@ -433,7 +433,7 @@ class FDatabase {
         }
 
         $whereClause = implode(' AND ', $whereParts);
-        $sql = "SELECT * FROM `rooms` WHERE $whereClause";
+        $sql = "SELECT * FROM `room` WHERE $whereClause";
 
         return $this->fetchAll($sql, $params);
     }
