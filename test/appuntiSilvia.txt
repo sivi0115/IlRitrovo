@@ -1,13 +1,11 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
-- elenco delle room OK
-- elenco degli extra OK
-- query per le room come per i table OK
-- sistemare in FReview il metodo che fa il fetch di tutte le review in modo tale che le metta dalla
-   più recente a scendere OK
-- vedere come simulare il pagamento con stripe (VISTO, AIUTO)
 - pagine mancanti dell'admin
+- sistemare il js nell'header
+- fare il frontController
+- fare il mapping delle url
+- vedere come simulare il pagamento con stripe (VISTO, AIUTO)
 
 PAGINE PER L'UTENTE:
  1. HOME:
@@ -24,11 +22,6 @@ PAGINE PER L'UTENTE REGISTRATO:
     ok
  6. RESERVATION-TABLE-1
     ok
-    NOTA PER MARCO: Il bottone non ha un link esplicito, ma attiva l'invio del form all’indirizzo specificato.
-                    Sarà poi il controller CReservation con il metodo tableReservationStepTwo() a decidere cosa fare:
-                    - validare i dati
-                    - salvarli in sessione/database
-                    - e infine caricare la prossima pagina (es. tableReservation2.html)
  7. RESERVATION-TABLE-2
     ok
  8. RESERVATION-TABLE-3
@@ -68,13 +61,9 @@ SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
 
 PAGINE PER L'ADMIN:
 1. HOME
-   da fare (riciclare le card delle reservations dalla pagina profilo dello user e fare solo due sezioni
-   con le prenotazioni attive divise in room e table, valutare se fare sotto una sezione con le prenotazioni
-   scadute (sconsigliato da parte mia, soprattutto nella home, rischiamo di fare na pagina lunghissima e di
-   dover usare la paginazione))
+   ok
 2. USERS
-   da fare (vedi la pagina che avevi già fatto per il vecchio progetto, in questo caso la paginazione credo
-   sia indispensabile)
+   ok
 3. EXTRAS
    da fare (vedi la sezione che avevi già fatto per il vecchio progetto)
 4. REVIEWS

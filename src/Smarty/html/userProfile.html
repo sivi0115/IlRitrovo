@@ -154,110 +154,152 @@
             {/if}
         </div> <!-- /.panel-->
 
-        <!-- FUTURE Reservations-->
+        <!-- FUTURE Reservations -->
         <div class="panel">
-            <div class="panel-heading">My Future Reservations</div>
-            {foreach from=$futureReservations item=reservation}
-                <div class="reservation-card">
-                    <ul>
-                        <li><strong>Type:</strong>
+            <div class="panel-heading">My Future Reservations 🟢</div>
+            <div class="reservation-container">
+                {foreach from=$futureReservations item=reservation}
+                    <div class="reservation-card">
+                        <div class="reservation-header">
                             {if $reservation->getIdRoom() !== null}
-                                Room
+                                Reservation Room
                             {elseif $reservation->getIdTable() !== null}
-                                Table
+                                Reservation Table
                             {else}
-                                Unknown
+                                Reservation
                             {/if}
-                        </li>
-                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
-                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
-                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
-                        <li><strong>Status:</strong> {$reservation->getState()}</li>
-                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
-                        <li><strong>Extras:</strong>
-                            {if $reservation->getExtras()|@count > 0}
-                                <ul class="extras-list">
-                                    {foreach from=$reservation->getExtras() item=extra}
-                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
-                                    {/foreach}
-                                </ul>
-                            {else}
-                                No
-                            {/if}
-                        </li>
-                        <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
-                    </ul>
-                </div> <!-- /.reservation-card-->
-            {/foreach}
-        </div> <!-- /.panel-->
+                            #{$reservation->getIdReservation()}
+                        </div> <!-- /.reservation-header-->
+                        <div class="reservation-details">
+                            <div class="reservation-row">
+                                <span><strong>Type:</strong>
+                                    {if $reservation->getIdRoom() !== null}
+                                        Room
+                                    {elseif $reservation->getIdTable() !== null}
+                                        Table
+                                    {else}
+                                        Unknown
+                                    {/if}
+                                </span>
+                                <span><strong>Guests:</strong> {$reservation->getPeople()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</span>
+                                <span><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Status:</strong> {$reservation->getState()}</span>
+                                <span><strong>Notes:</strong> {$reservation->getComment()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Extras:</strong>
+                                    {if $reservation->getExtras()|@count > 0}
+                                        <ul class="extras-list">
+                                            {foreach from=$reservation->getExtras() item=extra}
+                                                <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
+                                            {/foreach}
+                                        </ul>
+                                    {else}
+                                        No
+                                    {/if}
+                                </span>
+                                <span><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</span>
+                            </div>
+                        </div> <!-- /.reservation-details-->
+                    </div> <!-- /.reservation-card-->
+                {/foreach}
+            </div> <!-- /.reservation-container-->
+        </div> <!-- /.panel -->
 
-        <!-- PAST Reservations-->
+        <!-- PAST Reservations -->
         <div class="panel">
-        <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>My Past Reservations</span>
+            <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>My Past Reservations 🔴 </span>
+                {if $userReview === null}
+                    <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
+                {/if}
+            </div> <!-- /.panel-heading-->
+
             {if $userReview === null}
-                <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
-            {/if}
-        </div> <!-- /.panel-heading-->
-        {if $userReview === null}
-            <div class="review-form">
-                <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
-                    <label for="stars">Rating:</label>
-                    <div class="rating-stars">
-                        {for $i=5 to 1 step -1}
-                            <input type="radio" name="stars" id="star{$i}" value="{$stars}" required>
-                            <label for="star{$i}">★</label>
-                        {/for}
-                    </div> <!-- /.rating-stars-->
-                    <label for="body">Your Review:</label>
-                    <textarea name="body" value="$body" rows="4" required></textarea>
+                <div class="review-form">
+                    <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+                        <label for="stars">Rating:</label>
+                        <div class="rating-stars">
+                            {for $i=5 to 1 step -1}
+                                <input type="radio" name="stars" id="star{$i}" value="{$stars}" required>
+                                <label for="star{$i}">★</label>
+                            {/for}
+                        </div> <!-- /.rating-stars-->
+                        <label for="body">Your Review:</label>
+                        <textarea name="body" value="$body" rows="4" required></textarea>
+                        <div class="form-action-right">
+                            <button type="submit" class="btn save">Submit</button>
+                        </div> <!-- /.form-action-right-->
+                    </form>
+                </div> <!-- /.review-form-->
+            {else}
+                <div class="existing-review">
+                    <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
+                    <p><strong>Review:</strong> {$review->getBody()}</p>
                     <div class="form-action-right">
-                        <button type="submit" class="btn save">Submit</button>
+                        <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
                     </div> <!-- /.form-action-right-->
-                </form>
-            </div> <!-- /.review-form-->
-        {else}
-            <div class="existing-review">
-                <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
-                <p><strong>Review:</strong> {$review->getBody()}</p>
-                <div class="form-action-right">
-                    <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
-                </div> <!-- /.form-action-right-->
-            </div> <!-- /.existing-review-->
-        {/if}
-            {foreach from=$pastReservations item=reservation}
-                <div class="reservation-card">
-                    <ul>
-                        <li><strong>Type:</strong>
+                </div> <!-- /.existing-review-->
+            {/if}
+
+            <div class="reservation-container">
+                {foreach from=$pastReservations item=reservation}
+                    <div class="reservation-card">
+                        <div class="reservation-header">
                             {if $reservation->getIdRoom() !== null}
-                                Room
+                                Reservation Room
                             {elseif $reservation->getIdTable() !== null}
-                                Table
+                                Reservation Table
                             {else}
-                                Unknown
+                                Reservation
                             {/if}
-                        </li>
-                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
-                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
-                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
-                        <li><strong>Status:</strong> {$reservation->getState()}</li>
-                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
-                        <li><strong>Extras:</strong>
-                            {if $reservation->getExtras()|@count > 0}
-                                <ul class="extras-list">
-                                    {foreach from=$reservation->getExtras() item=extra}
-                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
-                                    {/foreach}
-                                </ul>
-                            {else}
-                                No
-                            {/if}
-                        </li>
-                        <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
-                    </ul>
-                </div> <!-- /.reservation-card-->
-            {/foreach}
-        </div> <!-- /.panel-->
+                            #{$reservation->getIdReservation()}
+                        </div> <!-- /.reservation-header-->
+                        <div class="reservation-details">
+                            <div class="reservation-row">
+                                <span><strong>Type:</strong>
+                                    {if $reservation->getIdRoom() !== null}
+                                        Room
+                                    {elseif $reservation->getIdTable() !== null}
+                                        Table
+                                    {else}
+                                        Unknown
+                                    {/if}
+                                </span>
+                                <span><strong>Guests:</strong> {$reservation->getPeople()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</span>
+                                <span><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Status:</strong> {$reservation->getState()}</span>
+                                <span><strong>Notes:</strong> {$reservation->getComment()}</span>
+                            </div>
+                            <div class="reservation-row">
+                                <span><strong>Extras:</strong>
+                                    {if $reservation->getExtras()|@count > 0}
+                                        <ul class="extras-list">
+                                            {foreach from=$reservation->getExtras() item=extra}
+                                                <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
+                                            {/foreach}
+                                        </ul>
+                                    {else}
+                                        No extra selected.
+                                    {/if}
+                                </span>
+                                <span><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</span>
+                            </div>
+                        </div> <!-- /.reservation-details-->
+                    </div> <!-- /.reservation-card-->
+                {/foreach}
+            </div> <!-- /.reservation-container-->
+        </div> <!-- /.panel -->
 
         <!-- Footer-->
         {* {include file='footerUser.tpl'} *}
