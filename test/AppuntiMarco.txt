@@ -79,7 +79,12 @@ dataTableReservation() -> Prende i dati e mostra il repilogo dei dati della pren
 checkTableReservation() -> Valida i dati e crea la prenotazione
 Da implementare i metodi che permettono di tornare agli step precedenti mantenendo i dati 
 Da cambiare tutti i avaliable in available
-Da completare il testing in VReservation
+Da cambiare le action nei tpl
+
+
+
+
+
 
 
 

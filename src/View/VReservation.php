@@ -17,28 +17,30 @@ class VReservation {
         $smarty->display('tableReservation1.tpl');
     }
     
-    public function showSummary(string $timeFrame, int $people, DateTime $reservationDate, string $comment) {
+    public function showSummaryAndAvaliableTables(string $timeFrame, int $people, string $reservationDate, string $comment, array $avaliableTables) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
-        $smarty->assign('$reservationData.timeFrame', $timeFrame);
-        $smarty->assign('$reservationData.guests', $people);
-        $smarty->assign('$reservationData.reservationDate', $reservationDate);
-        $smarty->assign('reservationDate.comment', $comment);
-    }
-
-    public function showAvaliableTablesList(array $avaliableTables) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty->assign('timeFrame', $timeFrame);
+        $smarty->assign('people', $people);
+        $smarty->assign('reservationDate', $reservationDate);
+        $smarty->assign('comment', $comment);
         $smarty->assign('availableTables', $avaliableTables);
-
         $smarty->display('tableReservation2.tpl');
     }
-
-
-
     
+    public function showFullSummary(string $timeFrame, int $people, string $reservationDate, string $comment, int $idTable) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('timeFrame', $timeFrame);
+        $smarty->assign('people', $people);
+        $smarty->assign('reservationDate', $reservationDate);
+        $smarty->assign('comment', $comment);
+        $smarty->assign('idTable', $idTable);
+
+        $smarty->display('tableReservation3.tpl');
+    }
 }

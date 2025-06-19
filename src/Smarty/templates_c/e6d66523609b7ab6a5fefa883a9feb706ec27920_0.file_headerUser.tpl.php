@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-14 20:28:58
+/* Smarty version 5.5.1, created on 2025-06-18 23:27:25
   from 'file:headerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_684dbf6a77ebb2_41123709',
+  'unifunc' => 'content_68532f3d2f4225_93748616',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e6d66523609b7ab6a5fefa883a9feb706ec27920' => 
     array (
       0 => 'headerUser.tpl',
-      1 => 1749924911,
+      1 => 1750245637,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_684dbf6a77ebb2_41123709 (\Smarty\Template $_smarty_tpl) {
+function content_68532f3d2f4225_93748616 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -42,10 +42,10 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
         <!-- Navigation bar -->
         <nav class="main-nav">
           <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="rooms.html">Rooms</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="review.html">Reviews</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showRooms">Rooms</a></li>
+            <li><a href="CFrontController.php?controller=CFrontController&task=showMenu">Menu</a></li>
+            <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
         <!-- User button -->

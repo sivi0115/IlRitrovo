@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Table - Step 3</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/reservation.css">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
         <!-- Header -->
@@ -26,20 +26,20 @@
             <!-- Riepilogo completo -->
             <div class="reservation-summary">
                 <div class="summary-row">
-                    <p><strong>Time Frame:</strong> {$reservationData.timeFrame}</p>
-                    <p><strong>Guests:</strong> {$reservationData.guests}</p>
+                    <p><strong>Time Frame:</strong> {$timeFrame}</p>
+                    <p><strong>Guests:</strong> {$people}</p>
                 </div>
                 <div class="summary-row">
-                    <p><strong>Date:</strong> {$reservationData.reservationDate}</p>
-                    <p><strong>Comment:</strong> {$reservationData.comment|default:'—'}</p>
+                    <p><strong>Date:</strong> {$reservationDate}</p>
+                    <p><strong>Comment:</strong> {$comment|default:'—'}</p>
                 </div>
                 <div class="summary-row">
-                    <p><strong>Selected Table:</strong> {$selectedTable.areaName}</p>
+                    <p><strong>Selected Table:</strong> {$idTable}</p>
                 </div>
             </div>
 
             <!-- Pulsanti conferma -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=checkTableReservation" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="reservation-form-buttons">
                     <a href="CFrontController.php?controller=CReservation&task=tableReservationStepTwo" class="btn-cancel-step">Back</a>
                     <button type="submit" class="btn-save-step">Confirm</button>

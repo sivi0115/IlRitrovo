@@ -395,7 +395,8 @@ class FReservation {
         if (!isset($data['people']) || !is_int($data['people']) || $data['people'] <= 0) {
             throw new Exception(self::ERR_INVALID_PEOPLE);
         }
-        if (empty($state) || !in_array($state, self::VALID_STATES)) {
+        // State must be one of the allowed values
+        if (!isset($data['state']) || !in_array($data['state'], self::VALID_STATES, true)) {
             throw new Exception("Invalid reservation state");
         }
     }

@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Table - Step 2</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/reservation.css">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
         <!-- Header -->
@@ -26,12 +26,12 @@
             <!-- Riepilogo scelte -->
             <div class="reservation-summary">
                 <div class="summary-row">
-                    <p><strong>Time Frame:</strong> {$reservationData.timeFrame}</p>
-                    <p><strong>Guests:</strong> {$reservationData.guests}</p>
+                    <p><strong>Time Frame:</strong> {$timeFrame}</p>
+                    <p><strong>Guests:</strong> {$people}</p>
                 </div> <!-- /.summary-row-->
                 <div class="summary-row">
-                    <p><strong>Date:</strong> {$reservationData.reservationDate}</p>
-                    <p><strong>Comment:</strong> {$reservationData.comment|default:'—'}</p>
+                    <p><strong>Date:</strong> {$reservationDate}</p>
+                    <p><strong>Comment:</strong> {$comment|default:'—'}</p>
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
@@ -41,10 +41,10 @@
             </div> <!-- /.restaurrant-map-->
 
             <!-- Selezione tavolo -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=dataTableReservation" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="form-group">
                     <label for="table">Select a Table</label>
-                    <select name="table" id="table" required>
+                    <select name="idTable" id="table" required>
                         {foreach from=$availableTables item=table}
                             <option value="{$table.idTable}">Table {$table.areaName} – Seats: {$table.maxGuests}</option>
                         {/foreach}

@@ -37,7 +37,14 @@ $controller4 = new CReservation();
 //$controller3->checkAddReview();
 //$controller3->deleteReview(13);
 //$controller3->showReviewsPage();
-$controller4->showValidTable();
+
+
+//$controller4->showTableForm();
+//$controller4->showValidTable();
+//print_r($_SESSION);
+//$controller4->dataTableReservation();
+//$controller4->checkTableReservation();
+
 
 
 

@@ -12,6 +12,7 @@ use Utility\UHTTPMethods;
 use Utility\USessions;
 use View\VReservation;
 use View\VUser;
+use Controller\CUser;
 
 class CReservation {
     /**
@@ -24,9 +25,20 @@ class CReservation {
      * Function to show Reservation Table forms
      */
     public function showTableForm() {
-        $view=new VUser(); //da cambiare in VReservation
-        $view->showTableForm();
+    $view = new VReservation();
+    $session = USessions::getIstance();
+    // Se utente loggato, salva idUser in sessione (se non già presente)
+    if (CUser::isLogged()) {
+        if (!$session->isValueSet('idUser')) {
+            $userId = $session->readValue('idUser'); // Prova a leggere l'idUser
+            // Se per qualche motivo non c'è, recuperalo dalla fonte giusta (es. DB, token, ecc)
+            // Altrimenti potresti settarlo qui se già disponibile (dipende dalla logica)
+            // Ma probabilmente qui basta solo confermare che è già in sessione
+        }
     }
+    // Mostro la form
+    $view->showTableForm();
+}
 
     /**
      * Function to find available tables to show to the user based on the data entered
@@ -34,8 +46,9 @@ class CReservation {
      * @throws Excpetion if detected errors
      */
     public function showValidTable() {
-        $view=new VUser(); //Da cambiare in VReservation
+        $view=new VReservation(); 
         $session=USessions::getIstance();
+        $session->startSession();
         $idUser=$session->readValue('idUser');
         $reservation=new EReservation(
             null,
@@ -46,7 +59,7 @@ class CReservation {
             new DateTime(UHTTPMethods::post('reservationDate')),
             TimeFrame::from(UHTTPMethods::post('timeFrame')),
             'pending',
-            UHTTPMethods::post('people'),
+            (int)UHTTPMethods::post('people'),
             UHTTPMethods::post('comment'),
             [],
             0
@@ -70,8 +83,8 @@ class CReservation {
         $session->setValue('avaliableTables', $avaliableTables);
         $session->setValue('reservation', $reservation);
         //Passo i parametri a view
-        $view->showSummary($timeFrame, $people, $reservationDate, $comment);
-        $view->showAvaliableTablesList($avaliableTables);
+        $view->showSummaryAndAvaliableTables($timeFrame, $people, $reservationDate, $comment, $avaliableTables);
+
     }
 
     /**
@@ -80,17 +93,18 @@ class CReservation {
     public function dataTableReservation() {
 
         //Mostrare lo spet3 
-        $view=new VUser(); //Da cambiare in VReservation
+        $view=new VReservation(); 
         $session=USessions::getIstance();
-        $timeFrame=$session->readValue('timeFrame');
+        $session->startSession();
+        $timeFrame =$session->readValue('timeFrame');
         $people=$session->readValue('people');
         $date=$session->readValue('date');
         $comment=$session->readValue('comment');
-        $selectedTable=UHTTPMethods::post('selectedTable');
+        $selectedTable=UHTTPMethods::post('idTable');
         //Aggiungo il tavolo selezionato in sessione
         $session->setValue('selectedTable', $selectedTable);
         //Passo le informazioni a View
-        $view->showFullSummary();
+        $view->showFullSummary($timeFrame, $people, $date, $comment, $selectedTable);
     }
 
     /**
@@ -98,6 +112,7 @@ class CReservation {
      */
     public function checkTableReservation() {
         $session=USessions::getIstance();
+        $session->startSession();
         //Carico dalla sessione tutte le informazioni per aggiornare l'oggetto EReservation con i dati mancanti
         $reservation=$session->readValue('reservation');
         $selectedTable=$session->readValue('selectedTable');
@@ -115,7 +130,7 @@ class CReservation {
         $session->deleteValue('comment');
         $session->deleteValue('avaliableTables');
         //Reindirizzo alla home page
-        header("Home Page");
+        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
     }
 
 }
