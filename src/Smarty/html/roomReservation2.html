@@ -61,7 +61,7 @@
                     <label for="table">Select a Room</label>
                     <select name="room" id="room" required>
                         {foreach from=$availableRooms item=room}
-                        <option value="{$room.idRoom}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
+                            <option value="{$room.idRoom}" data-tax="{$room.tax}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
                         {/foreach}
                     </select>
                 </div> <!-- /.form-group-->
