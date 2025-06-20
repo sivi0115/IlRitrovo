@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-20 13:08:50
+/* Smarty version 5.5.1, created on 2025-06-20 16:21:58
   from 'file:roomReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_6855414264ed30_92133722',
+  'unifunc' => 'content_68556e86d929c9_03851874',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '26eed108d77d537483d181fee9fed532ad0b1b33' => 
     array (
       0 => 'roomReservation2.tpl',
-      1 => 1750417655,
+      1 => 1750429280,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_6855414264ed30_92133722 (\Smarty\Template $_smarty_tpl) {
+function content_68556e86d929c9_03851874 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -107,10 +107,11 @@ $foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('room')->value) {
 $foreach1DoElse = false;
 ?>
-                        <option value="<?php echo $_smarty_tpl->getValue('room')['idRoom'];?>
-"> Room <?php echo $_smarty_tpl->getValue('room')['areaName'];?>
- – Seats: <?php echo $_smarty_tpl->getValue('room')['maxGuests'];?>
- – €<?php echo $_smarty_tpl->getValue('room')['tax'];?>
+                        <option value="<?php echo $_smarty_tpl->getValue('room')->getIdRoom();?>
+" data-tax="<?php echo $_smarty_tpl->getValue('room')->getTax();?>
+"> Room <?php echo $_smarty_tpl->getValue('room')->getAreaName();?>
+ – Seats: <?php echo $_smarty_tpl->getValue('room')->getMaxGuests();?>
+ – €<?php echo $_smarty_tpl->getValue('room')->getTax();?>
  </option>
                         <?php
 }
@@ -142,7 +143,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         const selectRoom = document.getElementById("idRoom");
 
         // Recupera lo span dove viene mostrato il prezzo totale
-        const priceDisplay = document.getElementById("totPrice");
+        const priceDisplay = document.getElementById("totalPrice");
 
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00

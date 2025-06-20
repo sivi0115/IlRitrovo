@@ -61,7 +61,7 @@
                     <label for="room">Select a Room</label>
                     <select name="idRoom" id="idRoom" required>
                         {foreach from=$availableRooms item=room}
-                        <option value="{$room.idRoom}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
+                        <option value="{$room.idRoom}" data-tax="{$room.tax}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
                         {/foreach}
                     </select>
                 </div> <!-- /.form-group-->
@@ -87,7 +87,7 @@
         const selectRoom = document.getElementById("idRoom");
 
         // Recupera lo span dove viene mostrato il prezzo totale
-        const priceDisplay = document.getElementById("totPrice");
+        const priceDisplay = document.getElementById("totalPrice");
 
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00
