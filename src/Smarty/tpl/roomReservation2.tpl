@@ -58,8 +58,8 @@
             <!-- Selezione stanza -->
             <form method="post" action="CFrontController.php?controller=CReservation&task=paymentRoomReservation" class="booking-form">
                 <div class="form-group">
-                    <label for="table">Select a Room</label>
-                    <select name="room" id="room" required>
+                    <label for="room">Select a Room</label>
+                    <select name="idRoom" id="idRoom" required>
                         {foreach from=$availableRooms item=room}
                         <option value="{$room.idRoom}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
                         {/foreach}
@@ -67,7 +67,7 @@
                 </div> <!-- /.form-group-->
 
                 <div class="total-extras-box" id="totalExtrasBox">
-                    <strong>Total Price:</strong> €<span id="totalPrice">{$reservationData.totalPrice}</span>
+                    <strong>Total Price:</strong> €<span id="totalPrice">{$totPriceExtra}</span>
                 </div>
 
                 <div class="reservation-form-buttons">
@@ -84,10 +84,10 @@
          momento dall'utente, non era possibile eseguire questo comportamento con solo html/tpl senza dover ricaricare la pagina ogni volta, poco user-friendly-->
         <script>
         // Recupera il menu a tendina delle stanze
-        const selectRoom = document.getElementById("room");
+        const selectRoom = document.getElementById("idRoom");
 
         // Recupera lo span dove viene mostrato il prezzo totale
-        const priceDisplay = document.getElementById("totalPrice");
+        const priceDisplay = document.getElementById("totPrice");
 
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00

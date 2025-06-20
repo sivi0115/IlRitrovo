@@ -368,15 +368,14 @@ class EReservation implements JsonSerializable {
             'idUser' => $this->idUser,
             'idTable' => $this->idTable,
             'idRoom' => $this->idRoom,
-            'creationTime' => $this->creationTime->format('Y-m-d H:i:s'),
+            'creationTime' => $this->creationTime?->format('Y-m-d H:i:s'),
             'reservationDate' => $this->reservationDate->format('Y-m-d H:i:s'),
             'timeFrame'=> $this->timeFrame?->value,
             'state' => $this->state,
             'totPrice' => $this->totPrice,
             'people' => $this->people,
             'comment' => $this->comment,
-            'extras' => $this->extras
-
+            'extras' => array_map(fn($e) => $e->jsonSerialize(), $this->extras)
         ];
     }
 }

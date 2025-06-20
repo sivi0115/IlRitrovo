@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-19 17:52:50
+/* Smarty version 5.5.1, created on 2025-06-20 13:08:50
   from 'file:roomReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685432529703f8_96634722',
+  'unifunc' => 'content_6855414264ed30_92133722',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '26eed108d77d537483d181fee9fed532ad0b1b33' => 
     array (
       0 => 'roomReservation2.tpl',
-      1 => 1750348286,
+      1 => 1750417655,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685432529703f8_96634722 (\Smarty\Template $_smarty_tpl) {
+function content_6855414264ed30_92133722 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -86,7 +86,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div> <!-- /.extras-row-->
                 <?php }?>
                 <div class="summary-row price-row">
-                    <p><strong>Partial Total (so far):</strong> €<?php echo $_smarty_tpl->getValue('reservationData')['totalPrice'];?>
+                    <p><strong>Partial Total (so far):</strong> €<?php echo $_smarty_tpl->getValue('totPriceExtra');?>
 </p>
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
@@ -99,8 +99,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <!-- Selezione stanza -->
             <form method="post" action="CFrontController.php?controller=CReservation&task=paymentRoomReservation" class="booking-form">
                 <div class="form-group">
-                    <label for="table">Select a Room</label>
-                    <select name="room" id="room" required>
+                    <label for="room">Select a Room</label>
+                    <select name="idRoom" id="idRoom" required>
                         <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('availableRooms'), 'room');
 $foreach1DoElse = true;
@@ -119,7 +119,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div> <!-- /.form-group-->
 
                 <div class="total-extras-box" id="totalExtrasBox">
-                    <strong>Total Price:</strong> €<span id="totalPrice"><?php echo $_smarty_tpl->getValue('reservationData')['totalPrice'];?>
+                    <strong>Total Price:</strong> €<span id="totalPrice"><?php echo $_smarty_tpl->getValue('totPriceExtra');?>
 </span>
                 </div>
 
@@ -139,10 +139,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <?php echo '<script'; ?>
 >
         // Recupera il menu a tendina delle stanze
-        const selectRoom = document.getElementById("room");
+        const selectRoom = document.getElementById("idRoom");
 
         // Recupera lo span dove viene mostrato il prezzo totale
-        const priceDisplay = document.getElementById("totalPrice");
+        const priceDisplay = document.getElementById("totPrice");
 
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00

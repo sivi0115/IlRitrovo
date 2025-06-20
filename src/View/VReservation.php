@@ -69,7 +69,7 @@ class VReservation {
     /**
      * Mostra la pagina con la mappa delle sale totali e un selettore per scegliere tra le disponibili
      */
-    public function showSummaryAndAvailableRooms(string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, float $totPriceExtra, array $availableRooms) {
+    public function showSummaryAndAvailableRooms(string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, float $totPriceExtra, array $availableRooms, ) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
@@ -80,7 +80,7 @@ class VReservation {
         $smarty->assign('comment', $comment);
         $smarty->assign('extras', $selectedExtras);
         $smarty->assign('totPriceExtra', $totPriceExtra);
-        $smarty->assign('availableTables', $availableRooms);
+        $smarty->assign('availableRooms', $availableRooms);
         $smarty->display('roomReservation2.tpl');
     }
 }

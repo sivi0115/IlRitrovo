@@ -13,6 +13,7 @@ use Utility\USessions;
 use View\VReservation;
 use View\VUser;
 use Controller\CUser;
+use Entity\EExtra;
 use Foundation\FDatabase;
 use Foundation\FExtra;
 
@@ -66,9 +67,6 @@ class CReservation {
             [],
             0
         );
-        if ($reservation->getReservationDate()>new DateTime()) {
-            throw new Exception("Reservation date can't be in future");
-        }
         //Estraggo dall'oggetto le informazioni necessarie a caricare i tavoli disponibili in base alla richiesta
         $reservationDate=$reservation->getReservationDate();
         $timeFrame=$reservation->getReservationTimeFrame();
@@ -161,78 +159,63 @@ class CReservation {
      * @throws Excpetion if something goes wrong
      */
     public function showValidRooms() {
-    $view = new VReservation();
-    $session = USessions::getIstance();
-    $idUser = $session->readValue('idUser');
-
-    // Recupera gli ID degli extra dal POST
-    $selectedExtraIds = UHTTPMethods::post('extras') ?? [];
-
-    // Carica gli oggetti EExtra corrispondenti
-    $selectedExtras = [];
-    if (is_array($selectedExtraIds)) {
-        foreach ($selectedExtraIds as $idExtra) {
-            $idExtraInt = (int)$idExtra;  // cast a intero
-            $extra = FPersistentManager::getInstance()->read($idExtraInt, FExtra::class);
-            if ($extra !== null) {
-                $selectedExtras[] = $extra;
+        $view=new VReservation();
+        $session=USessions::getIstance();
+        $session->startSession();
+        $idUser=$session->readValue('idUser');
+        //Carico gli extra selezionati dall'utente in $selectedExtras[]
+        $selectedExtras=[];
+        if(UHTTPMethods::post('extras')) {
+            foreach(UHTTPMethods::post('extras') as $id) {
+                $id=(int) $id; //cast esplicito a intero. Gli id in $_POST sono stringhe
+                $extra=FPersistentManager::getInstance()->read($id, FExtra::class);
+                if($extra!==null) {
+                    $selectedExtras[]=$extra;
+                }
             }
         }
+        //Calcolo il prezzo totale degli extra selezionati dall'utente
+        $totalPriceExtra=0;
+        if(!empty($selectedExtras)) {
+            foreach($selectedExtras as $extra) {
+                if ($extra instanceof EExtra) {
+                    $totalPriceExtra += $extra->getPriceExtra();
+                }
+            }
+        }
+        $reservation=new EReservation(
+            null,
+            $idUser,
+            null,
+            null,
+            null,
+            new DateTime(UHTTPMethods::post('reservationDate')),
+            TimeFrame::from(UHTTPMethods::post('timeFrame')),
+            'pending',
+            (int)UHTTPMethods::post('people'),
+            UHTTPMethods::post('comment'),
+            $selectedExtras,
+            $totalPriceExtra
+        );
+        //Estraggo dall'oggetto le informazioni necessarie a caricare le sale disponibili in base alla richiesta
+        $reservationDate=$reservation->getReservationDate();
+        $timeFrame=$reservation->getReservationTimeFrame();
+        $people=$reservation->getPeople();
+        $comment=$reservation->getComment();
+        $totalPriceExtra=$reservation->getTotPrice();
+        //Cerco delle sale disponibili in base a questi parametri e le mostro all'utente
+        $availableRooms=FPersistentManager::getInstance()->getAvailableRooms($reservationDate, $timeFrame, $people, FReservation::class);
+        //Salvo i dati in sessione
+        $session->setValue('timeFrame', $timeFrame);
+        $session->setValue('people', $people);
+        $session->setValue('date', $reservationDate);
+        $session->setValue('comment', $comment);
+        $session->setValue('extras', $selectedExtras);
+        $session->setValue('totPrice', $totalPriceExtra);
+        $session->setValue('availableRooms', $availableRooms);
+        $session->setValue('reservation', $reservation);
+        //Passo i parametri a View 
+        $view->showSummaryAndAvailableRooms($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $totalPriceExtra, $availableRooms);
     }
-
-    // Costruzione oggetto EReservation
-    $reservation = new EReservation(
-        null,
-        $idUser,
-        null,
-        null,
-        null,
-        new DateTime(UHTTPMethods::post('reservationDate')),
-        TimeFrame::from(UHTTPMethods::post('timeFrame')),
-        'pending',
-        UHTTPMethods::post('people'),
-        UHTTPMethods::post('comment'),
-        $selectedExtraIds,  // Solo gli ID vengono salvati dentro EReservation
-        0
-    );
-
-    // Validazione data
-    if ($reservation->getReservationDate() > new DateTime()) {
-        throw new Exception("Reservation date can't be in future");
-    }
-
-    // Estrazione dati per la view
-    $reservationDate = $reservation->getReservationDate();
-    $timeFrame = $reservation->getReservationTimeFrame();
-    $people = $reservation->getPeople();
-    $comment = $reservation->getComment();
-    $totPriceExtra= $reservation->calculateTotPriceFromExtras();
-
-    // Sale disponibili
-    $availableRooms = FPersistentManager::getInstance()->getAvailableRooms(
-        $reservationDate, $timeFrame, $people, FReservation::class
-    );
-
-    // Salvataggio in sessione
-    $session->setValue('timeFrame', $timeFrame);
-    $session->setValue('people', $people);
-    $session->setValue('date', $reservationDate);
-    $session->setValue('comment', $comment);
-    $session->setValue('extras', $selectedExtraIds); // array di ID
-    $session->setValue('totPriceExtra',$totPriceExtra);
-    $session->setValue('avaliableRooms', $availableRooms);
-    $session->setValue('reservation', $reservation);
-
-    // Passaggio alla view: invia gli oggetti EExtra
-    $view->showSummaryAndAvailableRooms(
-        $timeFrame,
-        $people,
-        $reservationDate,
-        $comment,
-        $selectedExtras, // oggetti completi
-        $totPriceExtra,
-        $availableRooms
-    );
-}
 
 }

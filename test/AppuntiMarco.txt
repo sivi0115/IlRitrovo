@@ -82,7 +82,9 @@ Da cambiare tutti i avaliable in available
 Da cambiare le action nei tpl
 
 --CU PRENOTAZIONE DI UNA SALA--
-
+da implementare dataRoomReservation()
+da implementare checkRoomReservation()
+NON implementabili se non si sblocca il totalprice
 
 
 
