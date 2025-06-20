@@ -1,7 +1,6 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
-- pagine mancanti dell'admin
 - sistemare il js nell'header
 - fare il frontController
 - fare il mapping delle url
@@ -11,21 +10,21 @@ PAGINE PER L'UTENTE:
  1. HOME:
     ok
  2. ROOMS
-    ok
+    testata
  3. REVIEWS
     ok
  4. MENU
-    ok
+    testata
 
 PAGINE PER L'UTENTE REGISTRATO:
  5. USER-PROFILE
     ok
  6. RESERVATION-TABLE-1
-    ok
+    testata
  7. RESERVATION-TABLE-2
-    ok
+    testata
  8. RESERVATION-TABLE-3
-    ok
+    testata
  9. RESERVATION-ROOM-1
     ok
 10. RESERVATION-ROOM-2
@@ -65,7 +64,7 @@ PAGINE PER L'ADMIN:
 2. USERS
    ok
 3. EXTRAS
-   da fare (vedi la sezione che avevi già fatto per il vecchio progetto)
+   ok
 4. REVIEWS
    ok
 
