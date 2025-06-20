@@ -92,20 +92,19 @@
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00
 
-        // Aggiunge un listener per quando l'utente cambia la selezione della stanza
-        selectRoom.addEventListener("change", function () {
-            // Recupera l'opzione attualmente selezionata
-            const selectedOption = selectRoom.options[selectRoom.selectedIndex];
+        //Funzione che aggiorna il prezzo totale in base alla stanza selezionata
+        function updateTotalPrice() {
+            const selectedOption=selectRoom.options[selectRoom.selectedIndex];
+            const roomTax=parseFloat(selectedOption.dataset.tax || 0);
+            const updatedTotal=basePrice+roomTax;
+            priceDisplay.textContent=updatedTotal.toFixed(2);
+        }
 
-            // Estrae il valore dell'attributo data-tax della stanza selezionata
-            const roomTax = parseFloat(selectedOption.dataset.tax || 0); // Se non c'è, usa 0
+        //Aggiorna subito il prezzo anche al caricamento iniziale
+        updateTotalPrice();
 
-            // Calcola il nuovo totale sommando la tassa della stanza al prezzo base
-            const updatedTotal = basePrice + roomTax;
-
-            // Aggiorna l'interfaccia utente mostrando il nuovo prezzo con due decimali
-            priceDisplay.textContent = updatedTotal.toFixed(2);
-        });
+        //E anche ogni volta che si cambia selezione
+        selectRoom.addEventListener("change", updateTotalPrice);
         </script>
 
     </body>

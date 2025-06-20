@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-20 16:21:58
+/* Smarty version 5.5.1, created on 2025-06-20 16:43:37
   from 'file:roomReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68556e86d929c9_03851874',
+  'unifunc' => 'content_685573998e9a47_42698860',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '26eed108d77d537483d181fee9fed532ad0b1b33' => 
     array (
       0 => 'roomReservation2.tpl',
-      1 => 1750429280,
+      1 => 1750430545,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68556e86d929c9_03851874 (\Smarty\Template $_smarty_tpl) {
+function content_685573998e9a47_42698860 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -107,11 +107,11 @@ $foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('room')->value) {
 $foreach1DoElse = false;
 ?>
-                        <option value="<?php echo $_smarty_tpl->getValue('room')->getIdRoom();?>
-" data-tax="<?php echo $_smarty_tpl->getValue('room')->getTax();?>
-"> Room <?php echo $_smarty_tpl->getValue('room')->getAreaName();?>
- – Seats: <?php echo $_smarty_tpl->getValue('room')->getMaxGuests();?>
- – €<?php echo $_smarty_tpl->getValue('room')->getTax();?>
+                        <option value="<?php echo $_smarty_tpl->getValue('room')['idRoom'];?>
+" data-tax="<?php echo $_smarty_tpl->getValue('room')['tax'];?>
+"> Room <?php echo $_smarty_tpl->getValue('room')['areaName'];?>
+ – Seats: <?php echo $_smarty_tpl->getValue('room')['maxGuests'];?>
+ – €<?php echo $_smarty_tpl->getValue('room')['tax'];?>
  </option>
                         <?php
 }
@@ -148,20 +148,19 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00
 
-        // Aggiunge un listener per quando l'utente cambia la selezione della stanza
-        selectRoom.addEventListener("change", function () {
-            // Recupera l'opzione attualmente selezionata
-            const selectedOption = selectRoom.options[selectRoom.selectedIndex];
+        //Funzione che aggiorna il prezzo totale in base alla stanza selezionata
+        function updateTotalPrice() {
+            const selectedOption=selectRoom.options[selectRoom.selectedIndex];
+            const roomTax=parseFloat(selectedOption.dataset.tax || 0);
+            const updatedTotal=basePrice+roomTax;
+            priceDisplay.textContent=updatedTotal.toFixed(2);
+        }
 
-            // Estrae il valore dell'attributo data-tax della stanza selezionata
-            const roomTax = parseFloat(selectedOption.dataset.tax || 0); // Se non c'è, usa 0
+        //Aggiorna subito il prezzo anche al caricamento iniziale
+        updateTotalPrice();
 
-            // Calcola il nuovo totale sommando la tassa della stanza al prezzo base
-            const updatedTotal = basePrice + roomTax;
-
-            // Aggiorna l'interfaccia utente mostrando il nuovo prezzo con due decimali
-            priceDisplay.textContent = updatedTotal.toFixed(2);
-        });
+        //E anche ogni volta che si cambia selezione
+        selectRoom.addEventListener("change", updateTotalPrice);
         <?php echo '</script'; ?>
 >
 
