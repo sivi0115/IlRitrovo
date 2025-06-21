@@ -85,6 +85,7 @@ Da cambiare le action nei tpl
 da implementare dataRoomReservation()
 da implementare checkRoomReservation()
 NON implementabili se non si sblocca il totalprice
+Da cambiare Room in Hall
 
 
 

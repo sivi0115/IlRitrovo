@@ -16,6 +16,7 @@ use Controller\CUser;
 use Entity\EExtra;
 use Foundation\FDatabase;
 use Foundation\FExtra;
+use Foundation\FRoom;
 
 class CReservation {
     /**
@@ -108,7 +109,7 @@ class CReservation {
     }
 
     /**
-     * 
+     *Function to finalize and adding a new Table Reservation in db
      */
     public function checkTableReservation() {
         $session=USessions::getIstance();
@@ -132,6 +133,13 @@ class CReservation {
         //Reindirizzo alla home page
         header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
     }
+
+
+
+
+
+
+
 
     /**
      * Function to show Reservation Room form
@@ -216,6 +224,23 @@ class CReservation {
         $session->setValue('reservation', $reservation);
         //Passo i parametri a View 
         $view->showSummaryAndAvailableRooms($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $totalPriceExtra, $availableRooms);
+    }
+
+    /**
+     * Function to show summary with total price (extra+room) and payment methods
+     */
+    public function dataRoomReservation() {
+        $view=new VReservation();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Prendo il prezzo della stanza selezionata dalla richiesta post
+        $idRoom=UHTTPMethods::post('idRoom');
+        echo "ID della stanza . $idRoom";
+        var_dump($idRoom);
+        $room=FPersistentManager::getInstance()->read($idRoom, FRoom::class);
+        echo json_encode($room, JSON_PRETTY_PRINT);
+        exit;
+        //Carico dalla sessione i dati da mostrare nel riepilogo
     }
 
 }

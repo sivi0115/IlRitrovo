@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-20 16:43:37
+/* Smarty version 5.5.1, created on 2025-06-21 13:37:18
   from 'file:roomReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685573998e9a47_42698860',
+  'unifunc' => 'content_6856996eeef406_23325424',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '26eed108d77d537483d181fee9fed532ad0b1b33' => 
     array (
       0 => 'roomReservation2.tpl',
-      1 => 1750430545,
+      1 => 1750505593,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685573998e9a47_42698860 (\Smarty\Template $_smarty_tpl) {
+function content_6856996eeef406_23325424 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -97,7 +97,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </div> <!-- /.restaurrant-map-->
 
             <!-- Selezione stanza -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=paymentRoomReservation" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="form-group">
                     <label for="room">Select a Room</label>
                     <select name="idRoom" id="idRoom" required>
@@ -125,7 +125,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div>
 
                 <div class="reservation-form-buttons">
-                    <a href="CFrontController.php?controller=CReservation&task=roomReservationStepOne" class="btn-cancel-step">Back</a>
+                    <a href="signupHandler.php" class="btn-cancel-step">Back</a>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div> <!--/.reservation-form-buttons-->
             </form>

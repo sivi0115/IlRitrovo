@@ -56,7 +56,7 @@
             </div> <!-- /.restaurrant-map-->
 
             <!-- Selezione stanza -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=paymentRoomReservation" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="form-group">
                     <label for="room">Select a Room</label>
                     <select name="idRoom" id="idRoom" required>
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="reservation-form-buttons">
-                    <a href="CFrontController.php?controller=CReservation&task=roomReservationStepOne" class="btn-cancel-step">Back</a>
+                    <a href="signupHandler.php" class="btn-cancel-step">Back</a>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div> <!--/.reservation-form-buttons-->
             </form>
