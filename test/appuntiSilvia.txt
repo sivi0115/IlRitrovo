@@ -1,8 +1,17 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
+APPUNTI PER MARCO:
+Ciau Marco, questa mattina ho fatto un po' di cosine e ti aggiorno:
+1. Dovrei aver fatto una versione definitiva dei vari js per login-register-logout-vedi profilo che si basa 
+   su CUser che hai scritto (o almeno dovrebbe).
+   Se la cosa non dovesse andare vedo di semplificare la cosa e di fare delle pagine dedicate e vaffanculo.
+2. Ho scritto il Front Controller che si dovrebbe occupare anche della gestione degli errori.
+   Come dovrebbe funzionare è abbastanza semplice, il punto per gli errori è che c'è una sorta di pagina unica
+   di errore con una variabile $errorMessage che teoricamente dovrebbe essere in ogni metodo con un messaggio
+   diverso in base al contesto del metodo, così non c'è bisogno di fare 100 pagine di errore e basta questa
+
+
 ELENCO PRIORITA' DA FARE:
-- sistemare il js nell'header
-- fare il frontController
 - fare il mapping delle url
 - vedere come simulare il pagamento con stripe (VISTO, AIUTO)
 
@@ -36,25 +45,7 @@ PAGINE PER L'UTENTE REGISTRATO:
 
 SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
 1. HEADER-USER
-   sistemare il funzionamento del js
-   Aggiungere al front controller i metodi per visualizzare le pagine presenti nell'header. Richiesto perchè header
-   e footer sono file a parte e il link diretto alla pagina non farebbe funzionare quel pezzo
-   // Metodo per mostrare la home page
-    public function showHome() {
-        $this->smarty->display('home.tpl');
-    }
-
-    // Metodo per mostrare la pagina rooms
-    public function showRooms() {
-        $this->smarty->display('rooms.tpl');
-    }
-
-    // Metodo per mostrare la pagina menu
-    public function showMenu() {
-        $this->smarty->display('menu.tpl');
-    }
-   Per la pagina delle review ci servirà in CReview showReviewsPage che sarà lievemente più complesso perchè deve
-   tenere contodi un funzionamento lievemente più complesso
+   ok
 2. FOOTER-USER
    ok
 
@@ -70,6 +61,6 @@ PAGINE PER L'ADMIN:
 
 SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
 1. HEADER-ADMIN:
-   aggiungere il js (in questo caso prevede solo il logout)
+   ok
 2. FOOTER ADMIN:
    ok

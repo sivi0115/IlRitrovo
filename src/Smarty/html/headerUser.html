@@ -2,20 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Header - Il Ritrovo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Il Ritrovo - Header</title>
     <link rel="stylesheet" href="../css/header.css" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
   <body>
     <header>
       <div class="header-top">
-        <!-- Logo and site name -->
         <div class="logo-area">
           <img src="../assets/images/logo/logo.png" alt="The Meeting Place Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
         </div> <!-- /.logo-area-->
-        <!-- Navigation bar -->
+
         <nav class="main-nav">
           <ul>
             <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
@@ -24,18 +23,26 @@
             <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
-        <!-- User button -->
+
         <button class="user-button" aria-label="User menu"></button>
-        <!-- User dropdown -->
-        <div class="user-dropdown hidden" id="userDropdown"></div>
-      </div>
+
+        <div class="user-dropdown hidden" id="userDropdown">
+          {if $isLoggedIn}
+            <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
+            <a href="CFrontController.php?controller=CUser&task=logout">Logout</a>
+          {else}
+            <a href="#" id="openLogin">Login</a>
+            <a href="#" id="openRegister">Register</a>
+          {/if}
+        </div> <!-- /.user-dropdown-->
+      </div> <!-- /.header-top-->
     </header>
 
-    <!-- === LOGIN MODAL === -->
+    <!-- Modal Login -->
     <div class="modal hidden" id="loginModal">
       <div class="modal-content">
         <h2>Login</h2>
-        <form id="loginForm">
+        <form id="loginForm" method="post" action="CFrontController.php?controller=CUser&task=login">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" name="email" required />
           <label for="loginPassword">Password</label>
@@ -46,11 +53,11 @@
       </div> <!-- /.modal-content-->
     </div> <!-- /.modal-hidden-->
 
-    <!-- === REGISTER MODAL === -->
+    <!-- Modal Register -->
     <div class="modal hidden" id="registerModal">
       <div class="modal-content">
         <h2>Register</h2>
-        <form id="registerForm">
+        <form id="registerForm" method="post" action="CFrontController.php?controller=CUser&task=register">
           <label for="regUsername">Username</label>
           <input type="text" id="regUsername" name="username" required />
           <label for="regEmail">Email</label>
@@ -71,98 +78,58 @@
       </div> <!-- /.modal-content-->
     </div> <!-- /.modal-hidden-->
 
-    <!-- === SCRIPT === -->
     <script>
-      // Simulate login state: set to true to simulate logged-in user
-      let isLoggedIn = false; 
-
+      // Qui il JS per gestire i click sui pulsanti, la visualizzazione dei dropdown e modali
       const userButton = document.querySelector('.user-button');
       const dropdown = document.getElementById('userDropdown');
+      const loginModal = document.getElementById('loginModal');
+      const registerModal = document.getElementById('registerModal');
 
       userButton.addEventListener('click', (e) => {
         e.stopPropagation();
         dropdown.classList.toggle('hidden');
-        updateDropdownContent();
       });
 
-      document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target) && !userButton.contains(e.target)) {
-          dropdown.classList.add('hidden');
-        }
-      });
-
-      function updateDropdownContent() {
-        if (isLoggedIn) {
-          dropdown.innerHTML = `
-            <a href="/profile">Go to your profile</a>
-            <a href="#" id="logout">Logout</a>
-          `;
-
-          document.getElementById('logout').addEventListener('click', (e) => {
-            e.preventDefault();
-            logoutUser();
-          });
-
-        } else {
-          dropdown.innerHTML = `
-            <a href="#" id="openLogin">Login</a>
-            <a href="#" id="openRegister">Register</a>
-          `;
-
-          setTimeout(() => {
-            document.getElementById('openLogin').addEventListener('click', (e) => {
-              e.preventDefault();
-              dropdown.classList.add('hidden');
-              document.getElementById('loginModal').classList.remove('hidden');
-            });
-
-            document.getElementById('openRegister').addEventListener('click', (e) => {
-              e.preventDefault();
-              dropdown.classList.add('hidden');
-              document.getElementById('registerModal').classList.remove('hidden');
-            });
-          }, 0);
-        }
-      }
-
-      function logoutUser() {
-        // Here you would clear session, tokens etc.
-        alert("Logging out...");
-        // Simulate logout by setting state false and reloading
-        isLoggedIn = false;
+      document.addEventListener('click', () => {
         dropdown.classList.add('hidden');
-        location.reload();
-      }
+      });
 
-      // Switch between login and registration modals
-      document.addEventListener("DOMContentLoaded", () => {
-        const loginModal = document.getElementById("loginModal");
-        const registerModal = document.getElementById("registerModal");
-        const toRegister = document.getElementById("toRegister");
-        const toLogin = document.getElementById("toLogin");
+      // Apri modale Login
+      document.getElementById('openLogin')?.addEventListener('click', e => {
+        e.preventDefault();
+        dropdown.classList.add('hidden');
+        loginModal.classList.remove('hidden');
+      });
 
-        if (toRegister) {
-          toRegister.addEventListener("click", (e) => {
-            e.preventDefault();
-            loginModal.classList.add("hidden");
-            registerModal.classList.remove("hidden");
-          });
-        }
+      // Apri modale Register
+      document.getElementById('openRegister')?.addEventListener('click', e => {
+        e.preventDefault();
+        dropdown.classList.add('hidden');
+        registerModal.classList.remove('hidden');
+      });
 
-        if (toLogin) {
-          toLogin.addEventListener("click", (e) => {
-            e.preventDefault();
-            registerModal.classList.add("hidden");
-            loginModal.classList.remove("hidden");
-          });
-        }
+      // Cambia da Login a Register
+      document.getElementById('toRegister')?.addEventListener('click', e => {
+        e.preventDefault();
+        loginModal.classList.add('hidden');
+        registerModal.classList.remove('hidden');
+      });
 
-        document.addEventListener("click", (e) => {
-          if (e.target.classList.contains("modal")) {
-            e.target.classList.add("hidden");
+      // Cambia da Register a Login
+      document.getElementById('toLogin')?.addEventListener('click', e => {
+        e.preventDefault();
+        registerModal.classList.add('hidden');
+        loginModal.classList.remove('hidden');
+      });
+
+      // Chiudi modali cliccando fuori
+      [loginModal, registerModal].forEach(modal => {
+        modal.addEventListener('click', e => {
+          if (e.target === modal) {
+            modal.classList.add('hidden');
           }
         });
       });
     </script>
   </body>
-  </html>
+</html>

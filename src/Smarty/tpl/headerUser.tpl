@@ -10,12 +10,13 @@
   <body>
     <header>
       <div class="header-top">
-        <!-- Logo and site name -->
+        <!-- Logo e nome del sito -->
         <div class="logo-area">
           <img src="../assets/images/logo/logo.png" alt="The Meeting Place Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
-        </div> <!-- /.logo-area-->
-        <!-- Navigation bar -->
+        </div>
+
+        <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
             <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
@@ -24,18 +25,20 @@
             <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
-        <!-- User button -->
+
+        <!-- Pulsante utente (sfera) -->
         <button class="user-button" aria-label="User menu"></button>
-        <!-- User dropdown -->
+
+        <!-- Menù a tendina dell'utente -->
         <div class="user-dropdown hidden" id="userDropdown"></div>
       </div>
     </header>
 
-    <!-- === LOGIN MODAL === -->
+    <!-- === MODALE LOGIN === -->
     <div class="modal hidden" id="loginModal">
       <div class="modal-content">
         <h2>Login</h2>
-        <form id="loginForm">
+        <form id="loginForm" method="post" action="CFrontController.php?controller=CUser&task=login">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" name="email" required />
           <label for="loginPassword">Password</label>
@@ -43,14 +46,14 @@
           <button type="submit">Login</button>
           <p>Don't have an account? <a href="#" id="toRegister">Register</a></p>
         </form>
-      </div> <!-- /.modal-content-->
-    </div> <!-- /.modal-hidden-->
+      </div>
+    </div>
 
-    <!-- === REGISTER MODAL === -->
+    <!-- === MODALE REGISTRAZIONE === -->
     <div class="modal hidden" id="registerModal">
       <div class="modal-content">
         <h2>Register</h2>
-        <form id="registerForm">
+        <form id="registerForm" method="post" action="CFrontController.php?controller=CUser&task=register">
           <label for="regUsername">Username</label>
           <input type="text" id="regUsername" name="username" required />
           <label for="regEmail">Email</label>
@@ -68,76 +71,79 @@
           <button type="submit">Register</button>
           <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
         </form>
-      </div> <!-- /.modal-content-->
-    </div> <!-- /.modal-hidden-->
+      </div>
+    </div>
 
-    <!-- === SCRIPT === -->
+    {*
+      === GESTIONE DELLO STATO DI LOGIN (isLoggedIn) ===
+      - Smarty non può interpretare JavaScript direttamente.
+      - Quindi assegniamo prima la variabile lato server con {assign}
+      - Poi la stampiamo nel <script> usando {literal} per evitare problemi in editor (es. VS Code)
+    *}
+    {assign var="isLoggedInJs" value=false}
+    {if isset($user)}
+      {assign var="isLoggedInJs" value=true}
+    {/if}
+
+    {literal}
     <script>
-      // Simulate login state: set to true to simulate logged-in user
-      let isLoggedIn = false; 
+      // Questa variabile sarà "true" o "false" in base alla sessione utente
+      const isLoggedIn = {/literal}{$isLoggedInJs|json_encode}{literal};
 
+      // === JavaScript per il menu utente e le modali ===
+
+      // Prendiamo gli elementi dalla pagina
       const userButton = document.querySelector('.user-button');
       const dropdown = document.getElementById('userDropdown');
+      const loginModal = document.getElementById("loginModal");
+      const registerModal = document.getElementById("registerModal");
 
+      // Mostra/nasconde il menù cliccando sul pulsante utente
       userButton.addEventListener('click', (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // previene la chiusura automatica
         dropdown.classList.toggle('hidden');
         updateDropdownContent();
       });
 
+      // Chiude il menù se clicco fuori
       document.addEventListener('click', (e) => {
         if (!dropdown.contains(e.target) && !userButton.contains(e.target)) {
           dropdown.classList.add('hidden');
         }
       });
 
+      // Controlla se l’utente è loggato e aggiorna il contenuto del menù
       function updateDropdownContent() {
         if (isLoggedIn) {
           dropdown.innerHTML = `
-            <a href="/profile">Go to your profile</a>
-            <a href="#" id="logout">Logout</a>
+            <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
+            <a href="CFrontController.php?controller=CUser&task=logout">Logout</a>
           `;
-
-          document.getElementById('logout').addEventListener('click', (e) => {
-            e.preventDefault();
-            logoutUser();
-          });
-
         } else {
           dropdown.innerHTML = `
             <a href="#" id="openLogin">Login</a>
             <a href="#" id="openRegister">Register</a>
           `;
 
+          // Eventi per aprire le modali
           setTimeout(() => {
             document.getElementById('openLogin').addEventListener('click', (e) => {
               e.preventDefault();
               dropdown.classList.add('hidden');
-              document.getElementById('loginModal').classList.remove('hidden');
+              loginModal.classList.remove('hidden');
             });
 
             document.getElementById('openRegister').addEventListener('click', (e) => {
               e.preventDefault();
               dropdown.classList.add('hidden');
-              document.getElementById('registerModal').classList.remove('hidden');
+              registerModal.classList.remove('hidden');
             });
           }, 0);
         }
       }
 
-      function logoutUser() {
-        // Here you would clear session, tokens etc.
-        alert("Logging out...");
-        // Simulate logout by setting state false and reloading
-        isLoggedIn = false;
-        dropdown.classList.add('hidden');
-        location.reload();
-      }
-
-      // Switch between login and registration modals
+      // Cambio tra Login e Registrazione
       document.addEventListener("DOMContentLoaded", () => {
-        const loginModal = document.getElementById("loginModal");
-        const registerModal = document.getElementById("registerModal");
         const toRegister = document.getElementById("toRegister");
         const toLogin = document.getElementById("toLogin");
 
@@ -157,6 +163,7 @@
           });
         }
 
+        // Chiude le modali cliccando fuori
         document.addEventListener("click", (e) => {
           if (e.target.classList.contains("modal")) {
             e.target.classList.add("hidden");
@@ -164,5 +171,6 @@
         });
       });
     </script>
+    {/literal}
   </body>
-  </html>
+</html>
