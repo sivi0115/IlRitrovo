@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-18 23:27:25
+/* Smarty version 5.5.1, created on 2025-06-22 15:20:37
   from 'file:headerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68532f3d2f4225_93748616',
+  'unifunc' => 'content_68580325a73568_28581194',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e6d66523609b7ab6a5fefa883a9feb706ec27920' => 
     array (
       0 => 'headerUser.tpl',
-      1 => 1750245637,
+      1 => 1750596401,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68532f3d2f4225_93748616 (\Smarty\Template $_smarty_tpl) {
+function content_68580325a73568_28581194 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -34,12 +34,13 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
   <body>
     <header>
       <div class="header-top">
-        <!-- Logo and site name -->
+        <!-- Logo e nome del sito -->
         <div class="logo-area">
           <img src="../assets/images/logo/logo.png" alt="The Meeting Place Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
-        </div> <!-- /.logo-area-->
-        <!-- Navigation bar -->
+        </div>
+
+        <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
             <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
@@ -48,18 +49,20 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
             <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
-        <!-- User button -->
+
+        <!-- Pulsante utente (sfera) -->
         <button class="user-button" aria-label="User menu"></button>
-        <!-- User dropdown -->
+
+        <!-- Menù a tendina dell'utente -->
         <div class="user-dropdown hidden" id="userDropdown"></div>
       </div>
     </header>
 
-    <!-- === LOGIN MODAL === -->
+    <!-- === MODALE LOGIN === -->
     <div class="modal hidden" id="loginModal">
       <div class="modal-content">
         <h2>Login</h2>
-        <form id="loginForm">
+        <form id="loginForm" method="post" action="CFrontController.php?controller=CUser&task=login">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" name="email" required />
           <label for="loginPassword">Password</label>
@@ -67,14 +70,14 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
           <button type="submit">Login</button>
           <p>Don't have an account? <a href="#" id="toRegister">Register</a></p>
         </form>
-      </div> <!-- /.modal-content-->
-    </div> <!-- /.modal-hidden-->
+      </div>
+    </div>
 
-    <!-- === REGISTER MODAL === -->
+    <!-- === MODALE REGISTRAZIONE === -->
     <div class="modal hidden" id="registerModal">
       <div class="modal-content">
         <h2>Register</h2>
-        <form id="registerForm">
+        <form id="registerForm" method="post" action="CFrontController.php?controller=CUser&task=register">
           <label for="regUsername">Username</label>
           <input type="text" id="regUsername" name="username" required />
           <label for="regEmail">Email</label>
@@ -92,77 +95,75 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
           <button type="submit">Register</button>
           <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
         </form>
-      </div> <!-- /.modal-content-->
-    </div> <!-- /.modal-hidden-->
+      </div>
+    </div>
 
-    <!-- === SCRIPT === -->
+        <?php $_smarty_tpl->assign('isLoggedInJs', false, false, NULL);?>
+    <?php if ((true && ($_smarty_tpl->hasVariable('user') && null !== ($_smarty_tpl->getValue('user') ?? null)))) {?>
+      <?php $_smarty_tpl->assign('isLoggedInJs', true, false, NULL);?>
+    <?php }?>
+
+    
     <?php echo '<script'; ?>
 >
-      // Simulate login state: set to true to simulate logged-in user
-      let isLoggedIn = false; 
+      // Questa variabile sarà "true" o "false" in base alla sessione utente
+      const isLoggedIn = <?php echo json_encode($_smarty_tpl->getValue('isLoggedInJs'));?>
+;
 
+      // === JavaScript per il menu utente e le modali ===
+
+      // Prendiamo gli elementi dalla pagina
       const userButton = document.querySelector('.user-button');
       const dropdown = document.getElementById('userDropdown');
+      const loginModal = document.getElementById("loginModal");
+      const registerModal = document.getElementById("registerModal");
 
+      // Mostra/nasconde il menù cliccando sul pulsante utente
       userButton.addEventListener('click', (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // previene la chiusura automatica
         dropdown.classList.toggle('hidden');
         updateDropdownContent();
       });
 
+      // Chiude il menù se clicco fuori
       document.addEventListener('click', (e) => {
         if (!dropdown.contains(e.target) && !userButton.contains(e.target)) {
           dropdown.classList.add('hidden');
         }
       });
 
+      // Controlla se l’utente è loggato e aggiorna il contenuto del menù
       function updateDropdownContent() {
         if (isLoggedIn) {
           dropdown.innerHTML = `
-            <a href="/profile">Go to your profile</a>
-            <a href="#" id="logout">Logout</a>
+            <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
+            <a href="CFrontController.php?controller=CUser&task=logout">Logout</a>
           `;
-
-          document.getElementById('logout').addEventListener('click', (e) => {
-            e.preventDefault();
-            logoutUser();
-          });
-
         } else {
           dropdown.innerHTML = `
             <a href="#" id="openLogin">Login</a>
             <a href="#" id="openRegister">Register</a>
           `;
 
+          // Eventi per aprire le modali
           setTimeout(() => {
             document.getElementById('openLogin').addEventListener('click', (e) => {
               e.preventDefault();
               dropdown.classList.add('hidden');
-              document.getElementById('loginModal').classList.remove('hidden');
+              loginModal.classList.remove('hidden');
             });
 
             document.getElementById('openRegister').addEventListener('click', (e) => {
               e.preventDefault();
               dropdown.classList.add('hidden');
-              document.getElementById('registerModal').classList.remove('hidden');
+              registerModal.classList.remove('hidden');
             });
           }, 0);
         }
       }
 
-      function logoutUser() {
-        // Here you would clear session, tokens etc.
-        alert("Logging out...");
-        // Simulate logout by setting state false and reloading
-        isLoggedIn = false;
-        dropdown.classList.add('hidden');
-        location.reload();
-      }
-
-      // Switch between login and registration modals
+      // Cambio tra Login e Registrazione
       document.addEventListener("DOMContentLoaded", () => {
-        const loginModal = document.getElementById("loginModal");
-        const registerModal = document.getElementById("registerModal");
         const toRegister = document.getElementById("toRegister");
         const toLogin = document.getElementById("toLogin");
 
@@ -182,6 +183,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
           });
         }
 
+        // Chiude le modali cliccando fuori
         document.addEventListener("click", (e) => {
           if (e.target.classList.contains("modal")) {
             e.target.classList.add("hidden");
@@ -190,6 +192,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
       });
     <?php echo '</script'; ?>
 >
+    
   </body>
-  </html><?php }
+</html><?php }
 }

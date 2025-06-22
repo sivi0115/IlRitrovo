@@ -13,6 +13,7 @@ use Foundation\FUser;
 use Utility\UHTTPMethods;
 use Utility\USessions;
 use View\VUser;
+use View\VReview;
 
 class CReview {
     /**
@@ -65,11 +66,10 @@ class CReview {
     public function deleteReview($idReview) {
         $deleted=FPersistentManager::getInstance()->delete($idReview, FReview::class);
         if($deleted) {
-            echo "Operazione avvenuta con successo";
-            header("Review's Page");
+            header("Location: http://localhost/~marco/Progetto/IlRitrovo/src/CFrontController.php?controller=CReview&task=showReviewsPage");
+        exit;
         } else {
             echo "Errore nell'esecuzione della cancellazione";
-            header("Review's Page");
         }
     }
 
@@ -77,7 +77,7 @@ class CReview {
      * Function to show the review's page
      */
     public function showReviewsPage() {
-        $view=new VUser();
+        $view=new VReview();
         $session=USessions::getIstance();
         $session->startSession();
         //Carico l'id dell'utente dalla sessione
@@ -100,7 +100,7 @@ class CReview {
         }
         //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin
         if($user->isAdmin()) {
-            //$view->showReviewAdminPage($allReviews);
+            $view->showReviewsAdminPage($allReviews);
         } else {
             //Altrimenti visualizzerà la pagina recensioni dell'utente normale
             $view->showReviewsUserPage($allReviews);

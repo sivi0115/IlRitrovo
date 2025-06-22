@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-14 22:12:58
+/* Smarty version 5.5.1, created on 2025-06-22 17:04:31
   from 'file:review.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_684dd7cad00874_53980327',
+  'unifunc' => 'content_68581b7f61a6c1_49631235',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3c87d30f4456ccaf01f1561698e107ef6bfb3f22' => 
     array (
       0 => 'review.tpl',
-      1 => 1749931975,
+      1 => 1750604660,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_684dd7cad00874_53980327 (\Smarty\Template $_smarty_tpl) {
+function content_68581b7f61a6c1_49631235 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -30,7 +30,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
     <meta charset="utf-8">       
     <title>Reviews - Il Ritrovo</title>
     <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-container">
@@ -80,7 +80,8 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 
               <p><strong>Review:</strong> <?php echo $_smarty_tpl->getValue('review')->getBody();?>
 </p>
               <div class="form-action-right">
-                <a href="CFrontController.php?controller=CReview&task=showDelete" class="btn delete" onclick="return confirm('Delete your review?');">Delete</a>
+                <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview=<?php echo $_smarty_tpl->getValue('review')->getIdReview();?>
+" class="btn delete">Delete</a>
               </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
           <?php }?>

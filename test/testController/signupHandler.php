@@ -33,10 +33,12 @@ $controller4 = new CReservation();
 
 //$controller->showProfile();
 //$controller->checkLogin();
+//$controller->checkRegister();
 //$controller2->checkAddCreditCard();
 //$controller3->checkAddReview();
 //$controller3->deleteReview(13);
-//$controller3->showReviewsPage();
+$controller3->showReviewsPage();
+
 
 
 //$controller4->showTableForm();
@@ -47,7 +49,8 @@ $controller4 = new CReservation();
 
 //$controller4->showRoomForm();
 //$controller4->showValidRooms();
-$controller4->dataRoomReservation();
+//$controller4->dataRoomReservation();
+
 
 
 

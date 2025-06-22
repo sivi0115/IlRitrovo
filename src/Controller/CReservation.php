@@ -14,6 +14,7 @@ use View\VReservation;
 use View\VUser;
 use Controller\CUser;
 use Entity\EExtra;
+use Foundation\FCreditCard;
 use Foundation\FDatabase;
 use Foundation\FExtra;
 use Foundation\FRoom;
@@ -233,14 +234,46 @@ class CReservation {
         $view=new VReservation();
         $session=USessions::getIstance();
         $session->startSession();
-        //Prendo il prezzo della stanza selezionata dalla richiesta post
-        $idRoom=UHTTPMethods::post('idRoom');
-        echo "ID della stanza . $idRoom";
-        var_dump($idRoom);
-        $room=FPersistentManager::getInstance()->read($idRoom, FRoom::class);
-        echo json_encode($room, JSON_PRETTY_PRINT);
-        exit;
-        //Carico dalla sessione i dati da mostrare nel riepilogo
+        //Recupero i dati dalla sessione
+        $idUser=$session->readValue('idUser');
+        $timeFrame=$session->readValue('timeFrame');
+        $people=$session->readValue('people');
+        $reservationDate=$session->readValue('reservationDate');
+        $comment=$session->readValue('comment');
+        $selectedExtras=$session->readValue('extras');
+        $totalPriceExtra=$session->readValue('totPrice');
+        //Prendo l'id della stanza selezionata dalla richiesta post
+        $idSelectedRoom=UHTTPMethods::post('idRoom');
+        //Ottengo il prezzo della stanza che sommo al prezzo degli extra (salvato in sessione)
+        $selectedRoom=FPersistentManager::getInstance()->read($idSelectedRoom, FRoom::class);
+        $roomTax=$selectedRoom->getTax();
+        $extraAndRoomPrice=$totalPriceExtra+$roomTax;
+        //Carico le carte di credito associate all'utente per visualizzarle
+        $userCreditCards=FPersistentManager::getInstance()->readCreditCardsByUser($idUser, FCreditCard::class);
+        //Aggiungo in sessione i dati necessari al prossimo step, ossia la stanza selezionata e il prezzo totale
+        $session->setValue('selectedRoom', $selectedRoom);
+        $session->setValue('extraAndRoomPrice', $extraAndRoomPrice);
+        //Passo i valori a View per la visualizzazione del riepilogo dati precedentemente inseriti
+        $view->showSummaryAndPaymentMethods($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $userCreditCards);
+    }
+
+    /**
+     * Function to show full summary and the credit card select by the user for the payment
+     */
+    public function showSummaryRoom() {
+        $view=new VReservation();
+        $session=USessions::getIstance();
+        $session->startSession();
+        //Recupero i dati del riepilogo dalla sessione
+        $timeFrame=$session->readValue('timeFrame');
+        $people=$session->readValue('people');
+        $reservationDate=$session->readValue('reservationDate');
+        $comment=$session->readValue('comment');
+        $selectedExtras=$session->readValue('extras');
+        $selectedRoom=$session->readValue('selectedRoom');
+        $extraAndRoomPrice=$session->readValue('extraAndRoomPrice');
+        
+
     }
 
 }

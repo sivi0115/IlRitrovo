@@ -2,6 +2,10 @@ STILE DI SCRITTURA E FORMATTAZIONE:
 Ci atteniamo allo standard PRS-12
 Da modificare l'attributo Entity in User: image->profileImage
 
+UTENTI PER IL TESTING
+idUser1 -> glaceooon00@gmail.com nuovaPassword123! user
+idUser2 -> marioRossi@gmail.com  miaPassword123! admin
+
 CLASSE CUSER:
 
 ---CU REGISTRAZIONE---
@@ -86,6 +90,18 @@ da implementare dataRoomReservation()
 da implementare checkRoomReservation()
 NON implementabili se non si sblocca il totalprice
 Da cambiare Room in Hall
+
+
+--CU RIMOZIONE DI UNA RECENSIONE ADIMN-- RIPRENDERE DA QUI
+da testare
+--CU RISPOSTA AD UNA RECENSIONE--
+da testare
+--CU AGGIUNTA DI UN EXTRA--
+da implementare
+--CU RIMOZIONE DI UN EXTRA--
+da implementare
+--CU BANNARE UN UTENTE--
+da implementare
 
 
 

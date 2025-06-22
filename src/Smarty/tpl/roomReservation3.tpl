@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 3</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/reservation.css">
-        <link rel="stylesheet" href="../css/user.css">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
     <body>
         <!-- Header -->
@@ -29,28 +29,28 @@
             <!-- Riepilogo scelte -->
             <div class="reservation-summary">
                 <div class="summary-row">
-                    <p><strong>Time Frame:</strong> {$reservationData.timeFrame}</p>
-                    <p><strong>Guests:</strong> {$reservationData.guests}</p>
+                    <p><strong>Time Frame:</strong> {$timeFrame}</p>
+                    <p><strong>Guests:</strong> {$people}</p>
                 </div> <!-- /.summary-row-->
                 <div class="summary-row">
-                    <p><strong>Date:</strong> {$reservationData.reservationDate}</p>
-                    <p><strong>Comment:</strong> {$reservationData.comment|default:'—'}</p>
+                    <p><strong>Date:</strong> {$reservationDate}</p>
+                    <p><strong>Comment:</strong> {$comment|default:'—'}</p>
                 </div> <!-- /.summary-row-->
-                {if $reservationData.extras|@count > 0}
+                {if $extras|@count > 0}
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
                     <ul class="extras-list">
-                        {foreach from=$reservationData.extras item=extra}
-                            <li>{$extra.name} – €{$extra.price}</li>
+                        {foreach from=$extras item=extra}
+                            <li>{$extra->getNameExtra()} – €{$extra->getPriceExtra()}</li>
                         {/foreach}
                     </ul>
                 </div> <!-- /.summary-row-->
                 {/if}
                 <div class="summary-row room-row">
-                    <p><strong>Room Selected:</strong> {$reservationData.room.areaName} – €{$reservationData.room.tax}</p>
+                    <p><strong>Room Selected:</strong> {$selectedRoom->getAreaName()} – €{$selectedRoom->getTax()}</p>
                 </div> <!-- /.summary-row-->
                 <div class="summary-row price-row">
-                    <p><strong>Total Price to Pay:</strong> €{$reservationData.totalPrice}</p>
+                    <p><strong>Total Price to Pay:</strong> €{$totalPrice}</p>
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
@@ -58,7 +58,7 @@
             <div class="panel">
                 <div class="panel-heading">Choose a Payment Method</div>
                 <div class="card-row">
-                    {foreach from=$cards item=card}
+                    {foreach from=$userCreditCards item=card}
                         {assign var=cardClass value=$card->getType()|lower|regex_replace:'/[^a-z]/':''}
                         <div class="credit-card">
                             <div class="card-header {$cardClass}">{$card->getType()}</div>
@@ -68,7 +68,7 @@
                                     <li><strong>Holder:</strong> {$card->getHolder()}</li>
                                     <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                                 </ul>
-                                <form method="post" action="CFrontController.php?controller=CPayment&task=selectCard">
+                                <form method="post" action="signupHandler.php">
                                     <input type="hidden" name="idCreditCard" value="{$card->getIdCreditCard()}">
                                     <button type="submit" class="btn save">Select Card</button>
                                 </form>
