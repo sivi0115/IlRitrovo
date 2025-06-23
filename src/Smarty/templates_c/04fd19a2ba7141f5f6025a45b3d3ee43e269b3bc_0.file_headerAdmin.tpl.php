@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-22 17:39:52
+/* Smarty version 5.5.1, created on 2025-06-24 00:06:15
   from 'file:headerAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685823c8313a13_90522741',
+  'unifunc' => 'content_6859cfd7c853e7_43577723',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '04fd19a2ba7141f5f6025a45b3d3ee43e269b3bc' => 
     array (
       0 => 'headerAdmin.tpl',
-      1 => 1750596401,
+      1 => 1750716066,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685823c8313a13_90522741 (\Smarty\Template $_smarty_tpl) {
+function content_6859cfd7c853e7_43577723 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -28,7 +28,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header - Il Ritrovo (Admin)</title>
-    <link rel="stylesheet" href="../css/header.css" />
+    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
   <body>

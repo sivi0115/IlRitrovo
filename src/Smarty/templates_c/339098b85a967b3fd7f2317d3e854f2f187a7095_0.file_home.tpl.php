@@ -1,4 +1,29 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-23 23:49:29
+  from 'file:home.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_6859cbe92dfb46_89989886',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '339098b85a967b3fd7f2317d3e854f2f187a7095' => 
+    array (
+      0 => 'home.tpl',
+      1 => 1750715365,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:footerUser.tpl' => 1,
+  ),
+))) {
+function content_6859cbe92dfb46_89989886 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
   <head>
       <meta charset="utf-8">     
@@ -80,6 +105,8 @@
     </section>
 
     <!-- Footer-->
-    {include file='footerUser.tpl'}
+    <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+?>
   </body>
-</html>
+</html><?php }
+}

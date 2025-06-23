@@ -11,16 +11,50 @@ class VUser {
     /**
      * Function to show login/register pop up
      */
-    public function showLoginRegisterPage(bool $isLogged) {
+    public function showLoginRegisterPopUp(bool $isLogged) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
         $smarty->assign('isLogged', $isLogged);
-
         $smarty->display('headerUser.tpl');
     }
 
+    /**
+     * Function to show logged user home page
+     */
+    public function showLoggedUserHomePage() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('home.tpl');
+    }
+
+    /**
+     * Function to show admin's header
+     */
+    public function showAdminHeader() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('admin', true);
+        $smarty->display('headerAdmin.tpl');
+
+    }
+
+    /**
+     * Function to show logged admin home page
+     */
+    public function showLoggedAdminHomePage() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('headerAdmin.tpl');
+        $smarty->display('adminHome.tpl');
+    }
 
 
 

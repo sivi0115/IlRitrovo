@@ -32,7 +32,7 @@ $controller3 = new CReview();
 $controller4 = new CReservation();
 
 
-
+//$controller->showHomePage();
 $controller->showLoginRegister();
 //$controller->showProfile();
 //$controller->checkLogin();

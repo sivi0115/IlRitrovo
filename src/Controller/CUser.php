@@ -59,7 +59,7 @@ class CUser {
         $view=new VUser();
         $isLogged=CUser::isLogged();
         var_dump($isLogged);
-        $view->showLoginRegisterPage($isLogged);
+        $view->showLoginRegisterPopUp($isLogged);
     }
 
     /**
@@ -261,6 +261,37 @@ class CUser {
     $session->setValue('idUser', $checkUser->getIdUser());
     print_r($_SESSION);
     header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+    }
+
+    /**
+     * Function to show home Page if user is logged or if is admin
+     */
+    public function showHomePage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+            //Carico l'utente da db
+            $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+            //Controllo che sia amministratore o utente normale, se è utente normale controllo anche se sia bannato
+            if($user->isUser() && $user->getBan()===0) {
+                //Mostro l'header con l'informazione che l'utente è loggato
+                $view->showLoginRegisterPopUp($isLogged);
+                //Carico la home page correttamente
+                $view->showLoggedUserHomePage();
+            }
+            elseif($user->isUser() && $user->getBan()===1) {
+                //Mostro all'utene un messaggio di ban
+            }
+            elseif($user->isAdmin()) {
+                //Carico l'header con l'informazione che l'admin è loggato
+                $view->showAdminHeader();
+                //Carico la home page correttamente
+                $view->showLoggedAdminHomePage();
+            }
+        } else {
+            print ("Mostra pagina utente non loggato con limitazioni");
+        }
     }
 
 }
