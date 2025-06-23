@@ -12,8 +12,9 @@ Ciau Marco, questa mattina ho fatto un po' di cosine e ti aggiorno:
 
 
 ELENCO PRIORITA' DA FARE:
+- rimuovere il tasto back
 - fare il mapping delle url
-- vedere come simulare il pagamento con stripe (VISTO, AIUTO)
+- SIMULAZIONE CON STRIPE NON NECESSARIA (yei, best day evah) 
 
 PAGINE PER L'UTENTE:
  1. HOME:
@@ -35,9 +36,9 @@ PAGINE PER L'UTENTE REGISTRATO:
  8. RESERVATION-TABLE-3
     testata
  9. RESERVATION-ROOM-1
-    ok
+    testata
 10. RESERVATION-ROOM-2
-    ok
+    testata
 11. RESERVATION-ROOM-3
     ok
 12. RESERVATION-ROOM-4

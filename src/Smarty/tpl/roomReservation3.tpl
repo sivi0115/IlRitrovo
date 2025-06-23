@@ -6,9 +6,14 @@
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <style>
+            .credit-card.selected {
+                border: 2px solid #28a745;
+                background-color: #e6ffe6;
+            }
+        </style>
     </head>
     <body>
-        <!-- Header -->
         {include file='headerUser.tpl'}
 
         <div class="panel">
@@ -31,11 +36,11 @@
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
                     <p><strong>Guests:</strong> {$people}</p>
-                </div> <!-- /.summary-row-->
+                </div>
                 <div class="summary-row">
                     <p><strong>Date:</strong> {$reservationDate}</p>
                     <p><strong>Comment:</strong> {$comment|default:'—'}</p>
-                </div> <!-- /.summary-row-->
+                </div>
                 {if $extras|@count > 0}
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
@@ -44,15 +49,15 @@
                             <li>{$extra->getNameExtra()} – €{$extra->getPriceExtra()}</li>
                         {/foreach}
                     </ul>
-                </div> <!-- /.summary-row-->
+                </div>
                 {/if}
                 <div class="summary-row room-row">
                     <p><strong>Room Selected:</strong> {$selectedRoom->getAreaName()} – €{$selectedRoom->getTax()}</p>
-                </div> <!-- /.summary-row-->
+                </div>
                 <div class="summary-row price-row">
                     <p><strong>Total Price to Pay:</strong> €{$totalPrice}</p>
-                </div> <!-- /.summary-row-->
-            </div> <!-- /.reservation-summary-->
+                </div>
+            </div>
 
             <!-- Payment Methods -->
             <div class="panel">
@@ -60,7 +65,7 @@
                 <div class="card-row">
                     {foreach from=$userCreditCards item=card}
                         {assign var=cardClass value=$card->getType()|lower|regex_replace:'/[^a-z]/':''}
-                        <div class="credit-card">
+                        <div class="credit-card {if $card->getIdCreditCard() == $selectedCardId}selected{/if}">
                             <div class="card-header {$cardClass}">{$card->getType()}</div>
                             <div class="card-body">
                                 <ul>
@@ -68,20 +73,16 @@
                                     <li><strong>Holder:</strong> {$card->getHolder()}</li>
                                     <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                                 </ul>
-                                <form method="post" action="signupHandler.php">
-                                    <input type="hidden" name="idCreditCard" value="{$card->getIdCreditCard()}">
-                                    <button type="submit" class="btn save">Select Card</button>
-                                </form>
-                            </div> <!-- /.card-body-->
-                        </div> <!-- /.credit-card-->
+                                <button type="button" class="btn save" onclick="selectCard({$card->getIdCreditCard()}, this)">Select Card</button>
+                            </div>
+                        </div>
                     {/foreach}
                     <div class="credit-card add-card-btn" onclick="location.href='CFrontController.php?controller=CCreditCard&task=showAddForm'" title="Add new card">
                         <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                    </div> <!-- /.add-card-btn-->
-                </div> <!-- /.card-row-->
+                    </div>
+                </div>
 
                 {if $showForm}
-                    <!-- Form per aggiungere carta, lasciato invariato -->
                     <form method="post" action="{$formAction}" class="card-form">
                         <label for="cardType">Type</label>
                         <select name="cardType" id="cardType" required>
@@ -98,11 +99,11 @@
                         <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
                         <div class="form-action-right">
                             <button type="submit" name="save" class="btn save">Save</button>
-                        </div> <!-- /.form-action-right-->
+                        </div>
                     </form>
                 {/if}
-            </div> <!-- /.panel-->
-            
+            </div>
+
             <!-- Bottoni di navigazione -->
             <form method="post" action="CFrontController.php?controller=CReservation&task=checkRoomReservation">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
@@ -112,7 +113,22 @@
                 </div>
             </form>
 
-        <!-- Footer -->
+        </div>
+
         {include file='footerUser.tpl'}
+
+        <!-- JavaScript per selezione carta -->
+        <script>
+            function selectCard(cardId, button) {
+                document.getElementById('selectedCardId').value = cardId;
+                document.querySelectorAll('.credit-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                const cardDiv = button.closest('.credit-card');
+                if (cardDiv) {
+                    cardDiv.classList.add('selected');
+                }
+            }
+        </script>
     </body>
 </html>
