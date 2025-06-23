@@ -31,13 +31,16 @@ $controller = new CUser();
 $controller3 = new CReview();
 $controller4 = new CReservation();
 
+
+
+//$controller->showLoginRegister();
 //$controller->showProfile();
 //$controller->checkLogin();
 //$controller->checkRegister();
 //$controller2->checkAddCreditCard();
 //$controller3->checkAddReview();
-//$controller3->deleteReview(13);
-$controller3->showReviewsPage();
+//$controller3->deleteReview();
+//$controller3->showReviewsPage();
 
 
 

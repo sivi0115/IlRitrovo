@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header - Il Ritrovo</title>
-    <link rel="stylesheet" href="../css/header.css" />
+    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
   <body>
@@ -38,7 +38,7 @@
     <div class="modal hidden" id="loginModal">
       <div class="modal-content">
         <h2>Login</h2>
-        <form id="loginForm" method="post" action="CFrontController.php?controller=CUser&task=login">
+        <form id="loginForm" method="post" action="signupHandler.php">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" name="email" required />
           <label for="loginPassword">Password</label>
@@ -53,7 +53,7 @@
     <div class="modal hidden" id="registerModal">
       <div class="modal-content">
         <h2>Register</h2>
-        <form id="registerForm" method="post" action="CFrontController.php?controller=CUser&task=register">
+        <form id="registerForm" method="post" action="signupHandler.php">
           <label for="regUsername">Username</label>
           <input type="text" id="regUsername" name="username" required />
           <label for="regEmail">Email</label>

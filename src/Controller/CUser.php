@@ -69,22 +69,6 @@ class CUser {
     }
 
     /**
-     * Show Login page after clicking the "login" button in the popup menu
-     */
-    public function showLogin() {
-        $view=new VUser();
-        $view=showLoginPage();
-    }
-
-    /**
-     * Show Register page after clicking the "register" button in the popup menu
-     */
-    public function showRegister() {
-        $view=new VUser();
-        $view=showRegisterPage();
-    }
-
-    /**
      * Show logged user's Profile
      */
     public function showProfile() {

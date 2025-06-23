@@ -8,7 +8,30 @@ use Entity\ECreditCard;
 use Entity\EReview;
 
 class VUser {
+    /**
+     * Function to show login/register pop up
+     */
+    public function showLoginRegisterPage() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
+        $smarty->display('headerUser.tpl');
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Function to show user's info profile
+     */
     public function showProfile(
         string $username,
         string $email,

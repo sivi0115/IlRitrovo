@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-22 15:20:37
+/* Smarty version 5.5.1, created on 2025-06-23 15:27:16
   from 'file:headerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68580325a73568_28581194',
+  'unifunc' => 'content_68595634c627f6_63273973',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e6d66523609b7ab6a5fefa883a9feb706ec27920' => 
     array (
       0 => 'headerUser.tpl',
-      1 => 1750596401,
+      1 => 1750685189,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68580325a73568_28581194 (\Smarty\Template $_smarty_tpl) {
+function content_68595634c627f6_63273973 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -28,7 +28,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header - Il Ritrovo</title>
-    <link rel="stylesheet" href="../css/header.css" />
+    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
   <body>
@@ -62,7 +62,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
     <div class="modal hidden" id="loginModal">
       <div class="modal-content">
         <h2>Login</h2>
-        <form id="loginForm" method="post" action="CFrontController.php?controller=CUser&task=login">
+        <form id="loginForm" method="post" action="signupHandler.php">
           <label for="loginEmail">Email</label>
           <input type="email" id="loginEmail" name="email" required />
           <label for="loginPassword">Password</label>
@@ -77,7 +77,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
     <div class="modal hidden" id="registerModal">
       <div class="modal-content">
         <h2>Register</h2>
-        <form id="registerForm" method="post" action="CFrontController.php?controller=CUser&task=register">
+        <form id="registerForm" method="post" action="signupHandler.php">
           <label for="regUsername">Username</label>
           <input type="text" id="regUsername" name="username" required />
           <label for="regEmail">Email</label>
