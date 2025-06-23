@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="utf-8">       
-      <!-- Template Stylesheet -->
+      <meta charset="utf-8">     
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Il Ritrovo – Home</title>  
       <link href="../css/styles.css" rel="stylesheet">
       <link href="../css/home.css" rel="stylesheet">
   </head>
@@ -23,11 +24,11 @@
           </div> <!-- /.booking-buttons-->
       </div> <!-- /.booking-content-->
       <div class="rhombus-wrapper">
-          <div class="rhombus small rhombus-1"><img src="../assets/images/menu/chocolate_cake.jpg" alt=""></div>
-          <div class="rhombus small rhombus-2"><img src="../assets/images/home/interior.jpg" alt=""></div>
-          <div class="rhombus large rhombus-3"><img src="../assets/images/home/location.jpg" alt=""></div>
-          <div class="rhombus small rhombus-4"><img src="../assets/images/home/bar.jpg" alt=""></div>
-          <div class="rhombus small rhombus-5"><img src="../assets/images/menu/mixed_bruschetta.jpg" alt=""></div>
+          <div class="rhombus small rhombus-1"><img src="../assets/images/menu/chocolate_cake.jpg" alt="Chocolate cake"></div>
+          <div class="rhombus small rhombus-2"><img src="../assets/images/home/interior.jpg" alt="Interior"></div>
+          <div class="rhombus large rhombus-3"><img src="../assets/images/home/location.jpg" alt="Exterior"></div>
+          <div class="rhombus small rhombus-4"><img src="../assets/images/home/bar.jpg" alt="Bar"></div>
+          <div class="rhombus small rhombus-5"><img src="../assets/images/menu/mixed_bruschetta.jpg" alt="Mixed bruschetta"></div>
       </div> <!-- /.rhombus-wrapper-->
     </section>
 
@@ -52,7 +53,7 @@
             <li><strong>🎶 Live music and personalized decorations</strong></li>
           </ul>
           <div class="booking-buttons">
-            <a href="#" class="btn">Discover our rooms →</a>
+            <a href="CFrontController.php?controller=CFrontController&task=showRooms" class="btn">Discover our rooms →</a>
           </div> <!-- /.booking-buttons-->
         </div> <!-- /.content-column-->
       </div> <!-- /.content-wrapper-->
@@ -72,7 +73,7 @@
           <li><strong>✓ Curated wine pairings</strong></li>
           <li><strong>✓ Seasonal tasting menu</strong></li>
         </ul>
-        <a href="menu.html" class="btn">Explore the menu →</a>
+        <a href="CFrontController.php?controller=CFrontController&task=showMenu" class="btn">Explore the menu →</a>
       </div> <!-- /.content-column-->
       <div class="image-column">
         <img src="../assets/images/home/menu.jpg" alt="Menu preview" class="framed-image">

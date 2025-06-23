@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">       
+    <meta charset="utf-8">   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews - Il Ritrovo</title>
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/reviews.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-container">
@@ -26,12 +27,12 @@
               <label for="stars">Rating:</label>
                 <div class="rating-stars">
                   {for $i=5 to 1 step -1}
-                    <input type="radio" name="stars" id="star{$i}" value="{$stars}" required>
+                    <input type="radio" name="stars" id="star{$i}" value="{$i}" required>
                     <label for="star{$i}">★</label>
                   {/for}
                 </div> <!-- /.rating-stars-->
               <label for="body">Your Review:</label>
-              <textarea name="body" value="$body" rows="4" required></textarea>
+              <textarea name="body" rows="4" required>{$body|default:''|escape}</textarea>
               <div class="form-action-right">
                 <button type="submit" class="btn save">Submit</button>
               </div> <!-- /.form-action-right-->

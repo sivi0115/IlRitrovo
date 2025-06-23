@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">       
-        <title>Reviews - Il Ritrovo</title>
+        <title>Users - Il Ritrovo</title>
         <link href="../css/styles.css" rel="stylesheet">
         <link href="../css/admin.css" rel="stylesheet">
     </head>
     <body>
         <!-- Header -->
-        {* {include file='headerAdmin.tpl'} *}
+        {include file='headerAdmin.tpl'}
 
         <!--Utenti bloccati-->
         <div class="panel panel-default">
@@ -27,9 +27,9 @@
                                 <p class="birthDate"><strong>Birth Date: </strong> {$user->getBirthDate()}</p>
                                 <p class="phone"><strong>Phone: </strong> {$user->getPhone()}</p>
                                 <div class="action-buttons">
-                                        <form action="CFrontController.php?controller=CUser&task=unbanUser={$user->getIdUser()}" method="post">
-                                            <input type="hidden" name="userId" value="{$user.idUser}">
-                                            <button type="submit" name="action" value="unban" class="unban-user">Unban</button>
+                                        <form action="CFrontController.php?controller=CUser&task=unbanUser&id={$user->getIdUser()}" method="post">
+                                            <input type="hidden" name="userId" value="{$user->getIdUser()}">
+                                            <button type="submit" name="action" title="Unban this user" value="unban" class="unban-user">Unban</button>
                                         </form>
                                 </div> <!--/.buttons-->
                             </div> <!--/.profile-card-->
@@ -58,9 +58,9 @@
                                 <p class="birthDate"><strong>Birth Date: </strong> {$user->getBirthDate()}</p>
                                 <p class="phone"><strong>Phone: </strong> {$user->getPhone()}</p>
                                 <div class="action-buttons">
-                                    <form action="CFrontController.php?controller=CUser&task=banUser={$user->getIdUser()}" method="post">
-                                        <input type="hidden" name="userId" value="{$user.idUser}">
-                                        <button type="submit" name="action" value="ban" class="ban-user">Ban</button>
+                                    <form action="CFrontController.php?controller=CUser&task=banUser&id={$user->getIdUser()}" method="post">
+                                        <input type="hidden" name="userId" value="{$user->getIdUser()}">
+                                        <button type="submit" name="action" title="Ban this user" value="ban" class="ban-user">Ban</button>
                                     </form>
                                 </div> <!--/.buttons-->
                             </div> <!--/.profile-card-->

@@ -10,10 +10,9 @@ Ciau Marco, questa mattina ho fatto un po' di cosine e ti aggiorno:
    di errore con una variabile $errorMessage che teoricamente dovrebbe essere in ogni metodo con un messaggio
    diverso in base al contesto del metodo, così non c'è bisogno di fare 100 pagine di errore e basta questa
 
-
 ELENCO PRIORITA' DA FARE:
 - rimuovere il tasto back
-- fare il mapping delle url
+- vedere dove aggiungere gli |escape per la sicurezza
 - SIMULAZIONE CON STRIPE NON NECESSARIA (yei, best day evah) 
 
 PAGINE PER L'UTENTE:

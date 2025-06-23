@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 2</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/reservation.css">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
         <!-- Header -->
@@ -28,25 +28,25 @@
             <!-- Riepilogo scelte -->
             <div class="reservation-summary">
                 <div class="summary-row">
-                    <p><strong>Time Frame:</strong> {$reservationData.timeFrame}</p>
-                    <p><strong>Guests:</strong> {$reservationData.guests}</p>
+                    <p><strong>Time Frame:</strong> {$timeFrame}</p>
+                    <p><strong>Guests:</strong> {$people}</p>
                 </div> <!-- /.summary-row-->
                 <div class="summary-row">
-                    <p><strong>Date:</strong> {$reservationData.reservationDate}</p>
-                    <p><strong>Comment:</strong> {$reservationData.comment|default:'—'}</p>
+                    <p><strong>Date:</strong> {$reservationDate}</p>
+                    <p><strong>Comment:</strong> {$comment|default:'—'}</p>
                 </div> <!-- /.summary-row-->
-                {if $reservationData.extras|@count > 0}
+                {if $extras|@count > 0}
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
                     <ul class="extras-list">
-                        {foreach from=$reservationData.extras item=extra}
-                            <li>{$extra.name} – €{$extra.price}</li>
+                        {foreach from=$extras item=extra}
+                            <li>{$extra->getNameExtra()} – €{$extra->getPriceExtra()}</li>
                         {/foreach}
                     </ul>
                 </div> <!-- /.extras-row-->
                 {/if}
                 <div class="summary-row price-row">
-                    <p><strong>Partial Total (so far):</strong> €{$reservationData.totalPrice}</p>
+                    <p><strong>Partial Total (so far):</strong> €{$totPriceExtra}</p>
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
@@ -56,22 +56,22 @@
             </div> <!-- /.restaurrant-map-->
 
             <!-- Selezione stanza -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=paymentRoomReservation" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="form-group">
-                    <label for="table">Select a Room</label>
-                    <select name="room" id="room" required>
+                    <label for="room">Select a Room</label>
+                    <select name="idRoom" id="idRoom" required>
                         {foreach from=$availableRooms item=room}
-                            <option value="{$room.idRoom}" data-tax="{$room.tax}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
+                        <option value="{$room.idRoom}" data-tax="{$room.tax}"> Room {$room.areaName} – Seats: {$room.maxGuests} – €{$room.tax} </option>
                         {/foreach}
                     </select>
                 </div> <!-- /.form-group-->
 
                 <div class="total-extras-box" id="totalExtrasBox">
-                    <strong>Total Price:</strong> €<span id="totalPrice">{$reservationData.totalPrice}</span>
+                    <strong>Total Price:</strong> €<span id="totalPrice">{$totPriceExtra}</span>
                 </div>
 
                 <div class="reservation-form-buttons">
-                    <a href="CFrontController.php?controller=CReservation&task=roomReservationStepOne" class="btn-cancel-step">Back</a>
+                    <a href="signupHandler.php" class="btn-cancel-step">Back</a>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div> <!--/.reservation-form-buttons-->
             </form>
@@ -84,7 +84,7 @@
          momento dall'utente, non era possibile eseguire questo comportamento con solo html/tpl senza dover ricaricare la pagina ogni volta, poco user-friendly-->
         <script>
         // Recupera il menu a tendina delle stanze
-        const selectRoom = document.getElementById("room");
+        const selectRoom = document.getElementById("idRoom");
 
         // Recupera lo span dove viene mostrato il prezzo totale
         const priceDisplay = document.getElementById("totalPrice");
@@ -92,20 +92,19 @@
         // Legge il prezzo totale calcolato allo step precedente (lo converte in numero)
         const basePrice = parseFloat(priceDisplay.textContent); // Esempio: 50.00
 
-        // Aggiunge un listener per quando l'utente cambia la selezione della stanza
-        selectRoom.addEventListener("change", function () {
-            // Recupera l'opzione attualmente selezionata
-            const selectedOption = selectRoom.options[selectRoom.selectedIndex];
+        //Funzione che aggiorna il prezzo totale in base alla stanza selezionata
+        function updateTotalPrice() {
+            const selectedOption=selectRoom.options[selectRoom.selectedIndex];
+            const roomTax=parseFloat(selectedOption.dataset.tax || 0);
+            const updatedTotal=basePrice+roomTax;
+            priceDisplay.textContent=updatedTotal.toFixed(2);
+        }
 
-            // Estrae il valore dell'attributo data-tax della stanza selezionata
-            const roomTax = parseFloat(selectedOption.dataset.tax || 0); // Se non c'è, usa 0
+        //Aggiorna subito il prezzo anche al caricamento iniziale
+        updateTotalPrice();
 
-            // Calcola il nuovo totale sommando la tassa della stanza al prezzo base
-            const updatedTotal = basePrice + roomTax;
-
-            // Aggiorna l'interfaccia utente mostrando il nuovo prezzo con due decimali
-            priceDisplay.textContent = updatedTotal.toFixed(2);
-        });
+        //E anche ogni volta che si cambia selezione
+        selectRoom.addEventListener("change", updateTotalPrice);
         </script>
 
     </body>

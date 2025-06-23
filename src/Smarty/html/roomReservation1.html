@@ -3,8 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 1</title>
-        <link rel="stylesheet" href="../css/styles.css">
-        <link rel="stylesheet" href="../css/reservation.css">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
 
@@ -30,29 +30,29 @@
             <h2 class="panel-heading">Book a Room with us</h2>
 
             <!-- Booking Form -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=showValidRoom" class="booking-form">
+            <form method="post" action="signupHandler.php" class="booking-form">
                 <div class="form-group">
-                    <label for="time_frame">Time Frame</label>
-                    <select name="time_frame" id="time_frame" required>
+                    <label for="timeframe">Time Frame</label>
+                    <select name="timeFrame" id="timeFrame" required>
                         <option value="">-- Select --</option>
-                        <option value="lunch" {if $reservationData.timeFrame == 'lunch'}selected{/if}>Lunch</option>
-                        <option value="dinner" {if $reservationData.timeFrame == 'dinner'}selected{/if}>Dinner</option>
+                        <option value="lunch" {if $timeFrame == 'lunch'}selected{/if}>Lunch</option>
+                        <option value="dinner" {if $timeFrame == 'dinner'}selected{/if}>Dinner</option>
                     </select>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
-                    <label for="guests">Guests</label>
-                    <input type="number" name="guests" id="guests" min="1" max="100" value="{$reservationData.guests|default:''}" required>
+                    <label for="people">Guests</label>
+                    <input type="number" name="people" id="people" min="1" max="100" value="{$people|default:''}" required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
-                    <label for="date">Date</label>
-                    <input type="date" name="date" id="date" value="{$reservationData.reservationDate|default:''}" required>
+                    <label for="reservationDate">Date</label>
+                    <input type="date" name="reservationDate" id="reservationDate" value="{$reservationDate|default:''}" required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="comment">Comment</label>
-                    <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances...">{$reservationData.comment|default:''}</textarea>
+                    <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances...">{$comment|default:''}</textarea>
                 </div> <!-- /.form-group-->
 
                 {if isset($extras) && $extras|@count > 0}

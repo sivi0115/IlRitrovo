@@ -27,7 +27,7 @@
                             <p class="review-body">{$review->getBody()}</p>
                         </div> <!-- /.review-meta-->
                         <!-- Pulsante elimina recensione -->
-                        <form action="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" method="post" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                        <form action="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" method="post">
                             <button type="submit" class="btn delete">Delete Review</button>
                         </form>
 
@@ -43,13 +43,13 @@
                                     </form>
                                 </section>
                             {else}
-                                <a href="CFrontController.php?controller=CReply&task=showReplyForm={$review->getIdReview()}" class="btn save">Reply</a>
+                                <a href="CFrontController.php?controller=CReply&task=showReplyForm&idReview={$review->getIdReview()}" class="btn save">Reply</a>
                             {/if}
                         {else}
                             <div class="admin-reply">
                                 <p><strong>Reply from the restaurant:</strong></p>
                                 <p>{$review->getReply()->getBody()}</p>
-                                <form action="CFrontController.php?controller=CReview&task=deleteReply&idReply={$review->getIdReply()}" method="post" onsubmit="return confirm('Are you sure you want to delete this reply?');">
+                                <form action="CFrontController.php?controller=CReview&task=deleteReply&idReply={$review->getIdReply()}" method="post">
                                     <button type="submit" class="btn delete">Delete Reply</button>
                                 </form>
                             </div> <!-- /.admin-reply-->
