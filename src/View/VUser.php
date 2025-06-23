@@ -11,10 +11,12 @@ class VUser {
     /**
      * Function to show login/register pop up
      */
-    public function showLoginRegisterPage() {
+    public function showLoginRegisterPage(bool $isLogged) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('isLogged', $isLogged);
 
         $smarty->display('headerUser.tpl');
     }

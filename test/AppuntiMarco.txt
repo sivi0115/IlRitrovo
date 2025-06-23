@@ -9,27 +9,26 @@ idUser2 -> marioRossi@gmail.com  miaPassword123! admin
 CLASSE CUSER:
 
 ---CU REGISTRAZIONE---
-isLogged() -> controlla se un utente è loggato
-    -Da fare ulteriore testing
-showLoginregister() -> mostra il popup che contiente i pulsanti accedi e registrati
-    -Da rimuovere, sarà fatto da Java Script
-showRegister() -> mostra la pagina con i form per la registrazione
-    -Da rimuovere, sarà fatto da Java Script
-checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
-    -Da impostare le redirect alle pagine giuste
+showLoginRegister($isLogged)
+    Mostra il popup con i pulsanti login e signup -> FUNZIONANTE
+checkRegister()
+    Valida i dati inseriti e inserisce un nuovo utente nel db
+    Da impostare le redirect alla home page
 
 ---CU LOGIN---
-isLogged()
-showLoginRegister
-checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
-    -Da impostare le redirect alle pagine giuste
+showLoginRegister($isLogged)
+    Mostra il popup con i pulsanti login e signup se l'utente non è loggato -> FUNZIONANTE
+        Se l'utente è loggato mostra profilo e logout -> FUNZIONANTE
+checkLogin()
+    Valida se le credenziali sono giuste
+    Da impostare le redirect alla home page
 
 ---CU LOGOUT---
-isLogged()
-showProfileLogout() -> mostra il popup che contiene i pulsanti mostra profilo e logout
-    -Da rimuovere, sarà fatto da Java Script
-logout() -> esegue il logout dell'utente + redirect
-    -Da impostare le redirect alle pagine giuste
+showProfileLogout()
+    Mostra popup con profilo e logout -> FUNZIONANTE
+logout()
+    Da impostare il redirect alla home page
+
 
 ---CU MODIFICA ANAGRAFICA e METADATA---
 isLogged()

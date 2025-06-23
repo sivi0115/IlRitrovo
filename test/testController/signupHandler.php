@@ -37,10 +37,12 @@ $controller->showLoginRegister();
 //$controller->showProfile();
 //$controller->checkLogin();
 //$controller->checkRegister();
+//$controller->logout();
 //$controller2->checkAddCreditCard();
 //$controller3->checkAddReview();
 //$controller3->deleteReview();
 //$controller3->showReviewsPage();
+
 
 
 

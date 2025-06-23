@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-23 15:27:16
+/* Smarty version 5.5.1, created on 2025-06-23 20:41:26
   from 'file:headerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68595634c627f6_63273973',
+  'unifunc' => 'content_68599fd65ab5b0_42454313',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e6d66523609b7ab6a5fefa883a9feb706ec27920' => 
     array (
       0 => 'headerUser.tpl',
-      1 => 1750685189,
+      1 => 1750703902,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68595634c627f6_63273973 (\Smarty\Template $_smarty_tpl) {
+function content_68599fd65ab5b0_42454313 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -98,10 +98,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
       </div>
     </div>
 
-        <?php $_smarty_tpl->assign('isLoggedInJs', false, false, NULL);?>
-    <?php if ((true && ($_smarty_tpl->hasVariable('user') && null !== ($_smarty_tpl->getValue('user') ?? null)))) {?>
-      <?php $_smarty_tpl->assign('isLoggedInJs', true, false, NULL);?>
-    <?php }?>
+        <?php $_smarty_tpl->assign('isLoggedInJs', $_smarty_tpl->getValue('isLogged'), false, NULL);?>
 
     
     <?php echo '<script'; ?>
@@ -137,7 +134,7 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
         if (isLoggedIn) {
           dropdown.innerHTML = `
             <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
-            <a href="CFrontController.php?controller=CUser&task=logout">Logout</a>
+            <a href="signupHandler.php">Logout</a>
           `;
         } else {
           dropdown.innerHTML = `

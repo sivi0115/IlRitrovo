@@ -80,10 +80,7 @@
       - Quindi assegniamo prima la variabile lato server con {assign}
       - Poi la stampiamo nel <script> usando {literal} per evitare problemi in editor (es. VS Code)
     *}
-    {assign var="isLoggedInJs" value=false}
-    {if isset($user)}
-      {assign var="isLoggedInJs" value=true}
-    {/if}
+    {assign var="isLoggedInJs" value=$isLogged}
 
     {literal}
     <script>
@@ -117,7 +114,7 @@
         if (isLoggedIn) {
           dropdown.innerHTML = `
             <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
-            <a href="CFrontController.php?controller=CUser&task=logout">Logout</a>
+            <a href="signupHandler.php">Logout</a>
           `;
         } else {
           dropdown.innerHTML = `

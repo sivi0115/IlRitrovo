@@ -57,7 +57,9 @@ class CUser {
      */
     public function showLoginRegister() {
         $view=new VUser();
-        $view->showLoginRegisterPage();
+        $isLogged=CUser::isLogged();
+        var_dump($isLogged);
+        $view->showLoginRegisterPage($isLogged);
     }
 
     /**
