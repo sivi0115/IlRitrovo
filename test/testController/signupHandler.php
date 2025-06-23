@@ -33,7 +33,7 @@ $controller4 = new CReservation();
 
 
 
-//$controller->showLoginRegister();
+$controller->showLoginRegister();
 //$controller->showProfile();
 //$controller->checkLogin();
 //$controller->checkRegister();
@@ -53,7 +53,7 @@ $controller4 = new CReservation();
 //$controller4->showRoomForm();
 //$controller4->showValidRooms();
 //$controller4->dataRoomReservation();
-
+//$controller4->showSummaryRoomAndPaymentForm();
 
 
 

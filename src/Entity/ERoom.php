@@ -87,7 +87,7 @@ class ERoom extends EArea
     {
         return [
             'idRoom' => $this->idRoom,
-            'name' => $this->getareaName(),
+            'name' => $this->getAreaName(),
             'maxGuests' => $this->getMaxGuests(),
             'tax' => $this->getTax(),
         ];

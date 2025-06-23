@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-22 16:09:59
+/* Smarty version 5.5.1, created on 2025-06-23 16:19:18
   from 'file:roomReservation3.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68580eb7a5d6e8_11056437',
+  'unifunc' => 'content_68596266b4ce19_16959727',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ee41208587db5249e2bfc9fc92c8c763cec90956' => 
     array (
       0 => 'roomReservation3.tpl',
-      1 => 1750601302,
+      1 => 1750688285,
       2 => 'file',
     ),
   ),
@@ -22,7 +22,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68580eb7a5d6e8_11056437 (\Smarty\Template $_smarty_tpl) {
+function content_68596266b4ce19_16959727 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -32,9 +32,14 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
         <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <style>
+            .credit-card.selected {
+                border: 2px solid #28a745;
+                background-color: #e6ffe6;
+            }
+        </style>
     </head>
     <body>
-        <!-- Header -->
         <?php $_smarty_tpl->renderSubTemplate('file:headerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
 
@@ -60,13 +65,13 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
 </p>
                     <p><strong>Guests:</strong> <?php echo $_smarty_tpl->getValue('people');?>
 </p>
-                </div> <!-- /.summary-row-->
+                </div>
                 <div class="summary-row">
                     <p><strong>Date:</strong> <?php echo $_smarty_tpl->getValue('reservationDate');?>
 </p>
                     <p><strong>Comment:</strong> <?php echo (($tmp = $_smarty_tpl->getValue('comment') ?? null)===null||$tmp==='' ? '—' ?? null : $tmp);?>
 </p>
-                </div> <!-- /.summary-row-->
+                </div>
                 <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('extras')) > 0) {?>
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
@@ -84,18 +89,18 @@ $foreach0DoElse = false;
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </ul>
-                </div> <!-- /.summary-row-->
+                </div>
                 <?php }?>
                 <div class="summary-row room-row">
                     <p><strong>Room Selected:</strong> <?php echo $_smarty_tpl->getValue('selectedRoom')->getAreaName();?>
  – €<?php echo $_smarty_tpl->getValue('selectedRoom')->getTax();?>
 </p>
-                </div> <!-- /.summary-row-->
+                </div>
                 <div class="summary-row price-row">
                     <p><strong>Total Price to Pay:</strong> €<?php echo $_smarty_tpl->getValue('totalPrice');?>
 </p>
-                </div> <!-- /.summary-row-->
-            </div> <!-- /.reservation-summary-->
+                </div>
+            </div>
 
             <!-- Payment Methods -->
             <div class="panel">
@@ -108,7 +113,7 @@ foreach ($_from ?? [] as $_smarty_tpl->getVariable('card')->value) {
 $foreach1DoElse = false;
 ?>
                         <?php $_smarty_tpl->assign('cardClass', $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('card')->getType(), 'UTF-8'),'/[^a-z]/',''), false, NULL);?>
-                        <div class="credit-card">
+                        <div class="credit-card <?php if ($_smarty_tpl->getValue('card')->getIdCreditCard() == $_smarty_tpl->getValue('selectedCardId')) {?>selected<?php }?>">
                             <div class="card-header <?php echo $_smarty_tpl->getValue('cardClass');?>
 "><?php echo $_smarty_tpl->getValue('card')->getType();?>
 </div>
@@ -121,23 +126,19 @@ $foreach1DoElse = false;
                                     <li><strong>Expiration:</strong> <?php echo $_smarty_tpl->getValue('card')->getExpiration();?>
 </li>
                                 </ul>
-                                <form method="post" action="signupHandler.php">
-                                    <input type="hidden" name="idCreditCard" value="<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
-">
-                                    <button type="submit" class="btn save">Select Card</button>
-                                </form>
-                            </div> <!-- /.card-body-->
-                        </div> <!-- /.credit-card-->
+                                <button type="button" class="btn save" onclick="selectCard(<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
+, this)">Select Card</button>
+                            </div>
+                        </div>
                     <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <div class="credit-card add-card-btn" onclick="location.href='CFrontController.php?controller=CCreditCard&task=showAddForm'" title="Add new card">
                         <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                    </div> <!-- /.add-card-btn-->
-                </div> <!-- /.card-row-->
+                    </div>
+                </div>
 
                 <?php if ($_smarty_tpl->getValue('showForm')) {?>
-                    <!-- Form per aggiungere carta, lasciato invariato -->
                     <form method="post" action="<?php echo $_smarty_tpl->getValue('formAction');?>
 " class="card-form">
                         <label for="cardType">Type</label>
@@ -167,13 +168,13 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 ">
                         <div class="form-action-right">
                             <button type="submit" name="save" class="btn save">Save</button>
-                        </div> <!-- /.form-action-right-->
+                        </div>
                     </form>
                 <?php }?>
-            </div> <!-- /.panel-->
-            
+            </div>
+
             <!-- Bottoni di navigazione -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=checkRoomReservation">
+            <form method="post" action="signupHandler.php">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="<?php echo $_smarty_tpl->getValue('selectedCardId');?>
 ">
                 <div class="reservation-form-buttons">
@@ -182,9 +183,27 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div>
             </form>
 
-        <!-- Footer -->
+        </div>
+
         <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
+
+        <!-- JavaScript per selezione carta -->
+        <?php echo '<script'; ?>
+>
+            function selectCard(cardId, button) {
+                document.getElementById('selectedCardId').value = cardId;
+                document.querySelectorAll('.credit-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                const cardDiv = button.closest('.credit-card');
+                if (cardDiv) {
+                    cardDiv.classList.add('selected');
+                }
+            }
+        <?php echo '</script'; ?>
+>
     </body>
-</html><?php }
+</html>
+<?php }
 }

@@ -105,7 +105,7 @@
             </div>
 
             <!-- Bottoni di navigazione -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=checkRoomReservation">
+            <form method="post" action="signupHandler.php">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
                 <div class="reservation-form-buttons">
                     <button type="button" class="btn-cancel-step" onclick="location.href='CFrontController.php?controller=CReservation&task=roomReservationStepTwo'">Back</button>

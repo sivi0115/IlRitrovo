@@ -2,6 +2,7 @@
 
 namespace View;
 use DateTime;
+use Entity\ECreditCard;
 use Smarty\Smarty;
 use Entity\EReservation;
 use Entity\ERoom;
@@ -86,7 +87,7 @@ class VReservation {
     }
 
     /**
-     * Mostra la pagina di riepilogo con i metodi  di pagamento
+     * Mostra la pagina di riepilogo con i metodi  di pagamento da selezionare
      */
     public function showSummaryAndPaymentMethods( string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, ERoom $selectedRoom, float $extraAndRoomPrice, array $userCreditCards) {
         $smarty = new Smarty();
@@ -103,5 +104,26 @@ class VReservation {
         $smarty->assign('userCreditCards', $userCreditCards);
 
         $smarty->display('roomReservation3.tpl');
+    }
+
+    /**
+     * Mostra lo step 4, quindi i dati di riepilogo di nuovo, e il metodo di pagamento selezionato
+     */
+    public function showSummaryRoomAndPaymentMethodes(string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, ERoom $selectedRoom, float $extraAndRoomPrice, ECreditCard $selectedCard) {
+
+    $smarty = new Smarty();
+    $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+    $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+    $smarty->assign('timeFrame', $timeFrame);
+    $smarty->assign('people', $people);
+    $smarty->assign('reservationDate', $reservationDate);
+    $smarty->assign('comment', $comment);
+    $smarty->assign('extras', $selectedExtras);
+    $smarty->assign('selectedRoom', $selectedRoom);
+    $smarty->assign('totalPrice', $extraAndRoomPrice);
+    $smarty->assign('selectedCard', $selectedCard);
+
+    $smarty->display('roomReservation4.tpl');
     }
 }

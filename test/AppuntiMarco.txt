@@ -21,8 +21,6 @@ checkRegister() -> CUser -> prende i dati dalla form HTML e computa + redirect
 ---CU LOGIN---
 isLogged()
 showLoginRegister
-showLogin() -> mostra la pagina con i form per il login
-    -Da rimuovere, sarà fatto da Java Script
 checkLogin() -> CUser -> prende i dati dlla form HTML e computa + redirect
     -Da impostare le redirect alle pagine giuste
 
@@ -86,7 +84,6 @@ Da cambiare tutti i avaliable in available
 Da cambiare le action nei tpl
 
 --CU PRENOTAZIONE DI UNA SALA--
-da implementare dataRoomReservation()
 da implementare checkRoomReservation()
 NON implementabili se non si sblocca il totalprice
 Da cambiare Room in Hall

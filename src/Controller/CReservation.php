@@ -250,8 +250,8 @@ class CReservation {
         $extraAndRoomPrice=$totalPriceExtra+$roomTax;
         //Carico le carte di credito associate all'utente per visualizzarle
         $userCreditCards=FPersistentManager::getInstance()->readCreditCardsByUser($idUser, FCreditCard::class);
-        //Aggiungo in sessione i dati necessari al prossimo step, ossia la stanza selezionata e il prezzo totale
-        $session->setValue('selectedRoom', $selectedRoom);
+        //Aggiungo in sessione i dati necessari al prossimo step, ossia l'd della stanza selezionata e il prezzo totale
+        $session->setValue('idRoom', $idSelectedRoom);
         $session->setValue('extraAndRoomPrice', $extraAndRoomPrice);
         //Passo i valori a View per la visualizzazione del riepilogo dati precedentemente inseriti
         $view->showSummaryAndPaymentMethods($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $userCreditCards);
@@ -260,20 +260,26 @@ class CReservation {
     /**
      * Function to show full summary and the credit card select by the user for the payment
      */
-    public function showSummaryRoom() {
+    public function showSummaryRoomAndPaymentForm() {
         $view=new VReservation();
         $session=USessions::getIstance();
         $session->startSession();
-        //Recupero i dati del riepilogo dalla sessione
         $timeFrame=$session->readValue('timeFrame');
         $people=$session->readValue('people');
         $reservationDate=$session->readValue('reservationDate');
         $comment=$session->readValue('comment');
         $selectedExtras=$session->readValue('extras');
-        $selectedRoom=$session->readValue('selectedRoom');
+        $totalPriceExtra=$session->readValue('totPrice');
+        $idSelectedRoom=$session->readValue('idRoom');
         $extraAndRoomPrice=$session->readValue('extraAndRoomPrice');
-        
-
+        //Recupero da db nuovamente la stanza selezionata
+        $selectedRoom=FPersistentManager::getInstance()->read($idSelectedRoom, FRoom::class);
+        //Recupero dalla richiesta post l'id della carta selezionata per il pagamento
+        $idSelectedCard=UHTTPMethods::post('selectedCardId');
+        //Recupero la carta da db grazie al suo id
+        $selectedCard=FPersistentManager::getInstance()->read($idSelectedCard, FCreditCard::class);
+        //Passo i parametri a view
+        $view->showSummaryRoomAndPaymentMethodes($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $selectedCard);
     }
 
 }

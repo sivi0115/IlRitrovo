@@ -35,7 +35,7 @@ class EArea implements JsonSerializable {
      *
      * @return string area's name.
      */
-    public function getareaName(): string {
+    public function getAreaName(): string {
         return $this->areaName;
     }
 
@@ -44,7 +44,7 @@ class EArea implements JsonSerializable {
      *
      * @param string $name area's name.
      */
-    public function setName(string $name): void {
+    public function setAreaName(string $name): void {
         $this->areaName = $name;
     }
 
