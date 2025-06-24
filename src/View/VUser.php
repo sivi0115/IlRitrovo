@@ -35,22 +35,22 @@ class VUser {
     /**
      * Function to show logged user home page
      */
-    public function showLoggedUserHomePage() {
+    public function showLoggedUserHomePage(bool $isLogged) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty->assign('isLogged', $isLogged);
         $smarty->display('home.tpl');
     }
 
     /**
      * Function to show non logged user home page
      */
-    public function showUserHomePage() {
+    public function showUserHomePage(bool $isLogged) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty->assign('isLogged', $isLogged);
         $smarty->display('home.tpl');
     }
 
@@ -67,7 +67,7 @@ class VUser {
     /**
      * Function to show signup page with forms
      */
-    public function showSignupForm() {
+    public function showSignUpForm() {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');

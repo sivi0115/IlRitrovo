@@ -63,9 +63,9 @@ class CUser {
     /**
      * Function to show signup page with forms
      */
-    public function showSignupForm() {
+    public function showSignUpForm() {
         $view=new VUser();
-        $view->showSignupForm();
+        $view->showSignUpForm();
     }
 
     /**
@@ -278,7 +278,7 @@ class CUser {
                 //Mostro l'header con l'informazione che l'utente è loggato
                 $view->showUserHeader($isLogged);
                 //Carico la home page correttamente per l'utente loggato
-                $view->showLoggedUserHomePage();
+                $view->showLoggedUserHomePage($isLogged);
             }
             elseif($user->isUser() && $user->getBan()===1) {
                 //Mostro all'utene un messaggio di ban
@@ -293,7 +293,7 @@ class CUser {
             //Mostro l'header con l'informazione che l'utente non è loggato
             $view->showUserHeader($isLogged);
             //Carico la home page correttamente per l'utente non loggato
-            $view->showUserHomePage();
+            $view->showUserHomePage($isLogged);
         }
     }
 
