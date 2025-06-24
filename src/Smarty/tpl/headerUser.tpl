@@ -19,21 +19,21 @@
         <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
-            <li><a href="/ilRitrovo/public/User/showHomePage">Home</a></li>
-            <li><a href="/ilRitrovo/public/User/showRoomsPage">Rooms</a></li>
-            <li><a href="/ilRitrovo/public/User/showMenuPage">Menu</a></li>
-            <li><a href="/ilRitrovo/public/Review/showReviewsPage">Reviews</a></li>
+            <li><a href="/IlRitrovo/public/User/showHomePage">Home</a></li>
+            <li><a href="/IlRitrovo/public/User/showRoomsPage">Rooms</a></li>
+            <li><a href="/IlRitrovo/public/User/showMenuPage">Menu</a></li>
+            <li><a href="/IlRitrovo/public/Review/showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
         <!-- Pulsanti utente -->
         <div class="user-area">
           {if $isLogged}
-            <a href="/ilRitrovo/public/User/showProfile" class="user-button">Profile</a>
-            <a href="/ilRitrovo/public/User/logout" class="user-button">Logout</a>
+            <a href="/IlRitrovo/public/User/showProfile" class="user-button">Profile</a>
+            <a href="/IlRitrovo/public/User/logout" class="user-button">Logout</a>
           {else}
-            <a href="/ilRitrovo/public/User/showLoginForm" class="user-button">Login</a>
-            <a href="/ilRitrovo/public/User/showSignUpForm" class="user-button">Sign up</a>
+            <a href="/IlRitrovo/public/User/showLoginForm" class="user-button">Login</a>
+            <a href="/IlRitrovo/public/User/showSignUpForm" class="user-button">Sign up</a>
           {/if}
         </div> <!-- /.user-area-->
       </div> <!-- /.header-top-->
