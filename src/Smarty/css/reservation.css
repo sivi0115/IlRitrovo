@@ -99,6 +99,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 2rem;
+  margin-bottom: 3rem; /* ✅ aggiunto margine inferiore */
 }
 
 .reservation-form-buttons .btn-save-step {
@@ -241,8 +242,4 @@
 .price-row p strong {
   color: #222;
   font-weight: 600;
-}
-
-footer {
-  margin-top: 3rem; /* o quanto spazio ti serve */
 }
