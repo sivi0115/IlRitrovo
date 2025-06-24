@@ -2,54 +2,37 @@
 
 namespace Controller;
 
-class CFrontController{
-    
-    //punto di accesso principale dell'applicazione
-    //fa il parsing della URL per capire quali metodi controller chiamare e con quali parametri
-    // le url sui button di ogni template devono esserestrutturate in questo modo /~momok/Class/method
-    public function run($richiestaUrl){
-    
-        //le URL devono essere organizzate in questo modo: /ilRitrovo/public/ControlClass/methodClass    
-        
-
+class CFrontController
+{
+    public function run($richiestaUrl)
+    {
+        // Pulizia iniziale della URL
         $richiestaUrl = trim($richiestaUrl, '/');
         $partiUrl = explode('/', $richiestaUrl);
-        array_shift($partiUrl);
-        array_shift($partiUrl);
-/*
-        array_shift($partiUrl);
-        array_shift($partiUrl);
-        array_shift($partiUrl);
-        array_shift($partiUrl);
-  */     
-        //estrazione classe di controllo
-       
-        if(!empty($partiUrl[0])){ $controller = ucfirst($partiUrl[0]);}
-        else{$controller = "User";}
-        
-        //estrazione metodo di controllo
-        if(!empty($partiUrl[1])){$metodo = $partiUrl[1];}
-        else{$metodo = "showHomePage";}
 
-        $controller = 'C' . $controller;
-        $controllerFile = __DIR__ . "/{$controller}.php";
+        // Salta le parti fisse del path (es. IlRitrovo/public/)
+        // Adatta in base al tuo ambiente, es: /IlRitrovo/public/User/showHomePage
+        // Index 0: "IlRitrovo", 1: "public", 2: "User", 3: "showHomePage"
+        $controller = ucfirst($partiUrl[2] ?? 'User');
+        $metodo = $partiUrl[3] ?? 'showHomePage';
 
-        if (file_exists($controllerFile)) {
-            require_once $controllerFile;
+        $parametri = array_slice($partiUrl, 4);
 
-            // Check if the method exists in the controller
-            if (method_exists($controller, $metodo)) {
-                $parametri = array_slice($partiUrl, 2); 
-                call_user_func_array([$controller, $metodo], $parametri);
+        // Costruzione del nome completo della classe
+        $controllerClass = 'Controller\\C' . $controller;
+
+        if (class_exists($controllerClass)) {
+            $istanza = new $controllerClass();
+
+            if (method_exists($istanza, $metodo)) {
+                call_user_func_array([$istanza, $metodo], $parametri);
             } else {
-                // show 404 page
-                echo "metodo non esiste";
-                header("PERCORSO DA DEFINIRE");
+                http_response_code(404);
+                echo "Metodo '$metodo' non esiste nella classe $controllerClass.";
             }
         } else {
-            // show 404 page
-            echo "classe non esiste";
-            header("PERCORSO DA DEFINIRE");
+            http_response_code(404);
+            echo "Classe controller '$controllerClass' non trovata.";
         }
     }
 }

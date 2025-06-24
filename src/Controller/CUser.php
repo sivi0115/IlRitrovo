@@ -67,6 +67,17 @@ class CUser {
         $view=new VUser();
         $view->showSignupForm();
     }
+
+    /**
+     * Function used to logout the user and redirect to home page
+     */
+    public function logout() {
+        $session=USessions::getIstance();
+        $session->startSession();
+        $session->stopSession();
+        setcookie("PHPSESSID", "");
+        CUser::showHomePage();
+    }
     
 
     /**
@@ -175,17 +186,7 @@ class CUser {
         
     }
 
-    /**
-     * Function used to logout the user
-     */
-    public function logout() {
-        $session=USessions::getIstance();
-        $session->startSession();
-        $session->stopSession();
-        setcookie("PHPSESSID", "");
-        CUser::showHomePage();
-
-    }
+    
 
     /**
      * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
