@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <div style="margin-bottom: 3rem;"></div>
   <footer>
     <div class="footer-content">
       <p><strong>Il Ritrovo</strong> – Where flavours meet</p>

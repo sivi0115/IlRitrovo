@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 17:22:56
+/* Smarty version 5.5.1, created on 2025-06-24 17:35:02
   from 'file:footerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ac2d0e5a646_73226648',
+  'unifunc' => 'content_685ac5a63fdd80_34103268',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '88420b4e0b347100671a2e9b23f323d298e25069' => 
     array (
       0 => 'footerUser.tpl',
-      1 => 1750778522,
+      1 => 1750779299,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685ac2d0e5a646_73226648 (\Smarty\Template $_smarty_tpl) {
+function content_685ac5a63fdd80_34103268 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -32,6 +32,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 </head>
 <body>
 
+  <div style="margin-bottom: 3rem;"></div>
   <footer>
     <div class="footer-content">
       <p><strong>Il Ritrovo</strong> – Where flavours meet</p>
