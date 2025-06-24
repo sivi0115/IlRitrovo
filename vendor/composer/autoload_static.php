@@ -27,7 +27,7 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         ),
         'N' => 
         array (
-            'None\\EventHubNewMain\\' => 21,
+            'None\\ilRitrovo\\' => 15,
         ),
         'F' => 
         array (
@@ -60,7 +60,7 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         array (
             0 => __DIR__ . '/..' . '/smarty/smarty/src',
         ),
-        'None\\EventHubNewMain\\' => 
+        'None\\ilRitrovo\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
