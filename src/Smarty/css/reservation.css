@@ -242,3 +242,7 @@
   color: #222;
   font-weight: 600;
 }
+
+footer {
+  margin-top: 3rem; /* o quanto spazio ti serve */
+}
