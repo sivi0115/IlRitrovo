@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 3</title>
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
         <style>
             .credit-card.selected {
                 border: 2px solid #28a745;
@@ -14,7 +14,8 @@
         </style>
     </head>
     <body>
-        {include file='headerUser.tpl'}
+
+        <!-- Header incluso tramite View-->
 
         <div class="panel">
 
@@ -77,7 +78,7 @@
                             </div>
                         </div>
                     {/foreach}
-                    <div class="credit-card add-card-btn" onclick="location.href='CFrontController.php?controller=CCreditCard&task=showAddForm'" title="Add new card">
+                    <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/showAddForm'" title="Add new card">
                         <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
                     </div>
                 </div>
@@ -105,10 +106,9 @@
             </div>
 
             <!-- Bottoni di navigazione -->
-            <form method="post" action="signupHandler.php">
+            <form action="/IlRitrovo/public/Reservation/dataRoomReservation" method="POST">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
                 <div class="reservation-form-buttons">
-                    <button type="button" class="btn-cancel-step" onclick="location.href='CFrontController.php?controller=CReservation&task=roomReservationStepTwo'">Back</button>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div>
             </form>
