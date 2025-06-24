@@ -53,22 +53,21 @@ class CUser {
     }
 
     /**
-     * Show Login/Register popup from the home page
+     * Function to show login page with forms
      */
-    public function showLoginRegister() {
+    public function showLoginForm() {
         $view=new VUser();
-        $isLogged=CUser::isLogged();
-        var_dump($isLogged);
-        $view->showLoginRegisterPopUp($isLogged);
+        $view->showLoginForm();
     }
 
     /**
-     * Show Profile/Logout popup from the home pag
+     * Function to show signup page with forms
      */
-    public function showProfileLogout() {
+    public function showSignupForm() {
         $view=new VUser();
-        $view->showProfileLogoutPage();
+        $view->showSignupForm();
     }
+    
 
     /**
      * Show logged user's Profile
@@ -184,7 +183,7 @@ class CUser {
         $session->startSession();
         $session->stopSession();
         setcookie("PHPSESSID", "");
-        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+        CUser::showHomePage();
 
     }
 
@@ -218,7 +217,7 @@ class CUser {
             //L'operazione ha avuto successo, reindirizzo alla schermata home e inserisco l'id dell'utente in sessione
             $session->startSession();
             $session->setValue('idUser', $newUser->getIdUser());
-            header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+            CUser::showHomePage();
         }
     }
 
@@ -260,13 +259,13 @@ class CUser {
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
     print_r($_SESSION);
-    header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+    CUser::showHomePage();
     }
 
     /**
      * Function to show home Page if user is logged or if is admin
      */
-    public function showHomePage() {
+    public static function showHomePage() {
         $view=new VUser();
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
@@ -276,8 +275,8 @@ class CUser {
             //Controllo che sia amministratore o utente normale, se è utente normale controllo anche se sia bannato
             if($user->isUser() && $user->getBan()===0) {
                 //Mostro l'header con l'informazione che l'utente è loggato
-                $view->showLoginRegisterPopUp($isLogged);
-                //Carico la home page correttamente
+                $view->showUserHeader($isLogged);
+                //Carico la home page correttamente per l'utente loggato
                 $view->showLoggedUserHomePage();
             }
             elseif($user->isUser() && $user->getBan()===1) {
@@ -290,7 +289,10 @@ class CUser {
                 $view->showLoggedAdminHomePage();
             }
         } else {
-            print ("Mostra pagina utente non loggato con limitazioni");
+            //Mostro l'header con l'informazione che l'utente non è loggato
+            $view->showUserHeader($isLogged);
+            //Carico la home page correttamente per l'utente non loggato
+            $view->showUserHomePage();
         }
     }
 

@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-24 12:23:17
+  from 'file:signUp.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_685a7c957640a0_47809381',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '035d76e8047099586b639db5a9acb32b5d8cdc08' => 
+    array (
+      0 => 'signUp.tpl',
+      1 => 1750760594,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_685a7c957640a0_47809381 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
     <head>
     <meta charset="UTF-8" />
@@ -56,7 +80,8 @@
                     id="birthDate"
                     name="birthDate"
                     required
-                    max="{$smarty.now|date_format:'%Y-%m-%d'}"
+                    max="<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')(time(),'%Y-%m-%d');?>
+"
                     autocomplete="bday"
                     />
                     <label for="phone">Phone</label>
@@ -98,7 +123,8 @@
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
 
-        <script>
+        <?php echo '<script'; ?>
+>
             // Prendo il campo input della password dal DOM tramite il suo id 'password'
             const passwordInput = document.getElementById('password');
 
@@ -161,6 +187,8 @@
                 specialReq.classList.remove('valid');
             }
             });
-        </script>
+        <?php echo '</script'; ?>
+>
     </body>
-</html>
+</html><?php }
+}

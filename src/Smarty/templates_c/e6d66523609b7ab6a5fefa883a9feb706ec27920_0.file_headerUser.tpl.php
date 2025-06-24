@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-23 20:41:26
+/* Smarty version 5.5.1, created on 2025-06-24 12:12:31
   from 'file:headerUser.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68599fd65ab5b0_42454313',
+  'unifunc' => 'content_685a7a0fcff0a3_80221150',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e6d66523609b7ab6a5fefa883a9feb706ec27920' => 
     array (
       0 => 'headerUser.tpl',
-      1 => 1750703902,
+      1 => 1750759908,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68599fd65ab5b0_42454313 (\Smarty\Template $_smarty_tpl) {
+function content_685a7a0fcff0a3_80221150 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -36,160 +36,32 @@ $_smarty_current_dir = '/Users/marco/public_html/Progetto/IlRitrovo/src/Smarty/t
       <div class="header-top">
         <!-- Logo e nome del sito -->
         <div class="logo-area">
-          <img src="../assets/images/logo/logo.png" alt="The Meeting Place Logo" class="logo" />
+          <img src="../assets/images/logo/logo.png" alt="Il Ritrovo Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
-        </div>
+        </div> <!-- /.logo-area-->
 
         <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
-            <li><a href="CFrontController.php?controller=CFrontController&task=showHome">Home</a></li>
-            <li><a href="CFrontController.php?controller=CFrontController&task=showRooms">Rooms</a></li>
-            <li><a href="CFrontController.php?controller=CFrontController&task=showMenu">Menu</a></li>
+            <li><a href="CFrontController.php?controller=CUser&task=showHomePage">Home</a></li>
+            <li><a href="CFrontController.php?controller=CFUser&task=showRoomsPage">Rooms</a></li>
+            <li><a href="CFrontController.php?controller=CUser&task=showMenuPage">Menu</a></li>
             <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
-        <!-- Pulsante utente (sfera) -->
-        <button class="user-button" aria-label="User menu"></button>
-
-        <!-- Menù a tendina dell'utente -->
-        <div class="user-dropdown hidden" id="userDropdown"></div>
-      </div>
+        <!-- Pulsanti utente -->
+        <div class="user-area">
+          <?php if ($_smarty_tpl->getValue('isLogged')) {?>
+            <a href="CFrontController.php?controller=CUser&task=showProfile" class="user-button">Profile</a>
+            <a href="signupHandler.php" class="user-button">Logout</a>
+          <?php } else { ?>
+            <a href="signupHandler.php" class="user-button">Login</a>
+            <a href="signupHandler.php" class="user-button">Sign up</a>
+          <?php }?>
+        </div> <!-- /.user-area-->
+      </div> <!-- /.header-top-->
     </header>
-
-    <!-- === MODALE LOGIN === -->
-    <div class="modal hidden" id="loginModal">
-      <div class="modal-content">
-        <h2>Login</h2>
-        <form id="loginForm" method="post" action="signupHandler.php">
-          <label for="loginEmail">Email</label>
-          <input type="email" id="loginEmail" name="email" required />
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" name="password" required />
-          <button type="submit">Login</button>
-          <p>Don't have an account? <a href="#" id="toRegister">Register</a></p>
-        </form>
-      </div>
-    </div>
-
-    <!-- === MODALE REGISTRAZIONE === -->
-    <div class="modal hidden" id="registerModal">
-      <div class="modal-content">
-        <h2>Register</h2>
-        <form id="registerForm" method="post" action="signupHandler.php">
-          <label for="regUsername">Username</label>
-          <input type="text" id="regUsername" name="username" required />
-          <label for="regEmail">Email</label>
-          <input type="email" id="regEmail" name="email" required />
-          <label for="regPassword">Password</label>
-          <input type="password" id="regPassword" name="password" required />
-          <label for="regName">Name</label>
-          <input type="text" id="regName" name="name" required />
-          <label for="regSurname">Surname</label>
-          <input type="text" id="regSurname" name="surname" required />
-          <label for="regBirth">Date of Birth</label>
-          <input type="date" id="regBirth" name="birthDate" required />
-          <label for="regPhone">Phone</label>
-          <input type="tel" id="regPhone" name="phone" required />
-          <button type="submit">Register</button>
-          <p>Already have an account? <a href="#" id="toLogin">Login</a></p>
-        </form>
-      </div>
-    </div>
-
-        <?php $_smarty_tpl->assign('isLoggedInJs', $_smarty_tpl->getValue('isLogged'), false, NULL);?>
-
-    
-    <?php echo '<script'; ?>
->
-      // Questa variabile sarà "true" o "false" in base alla sessione utente
-      const isLoggedIn = <?php echo json_encode($_smarty_tpl->getValue('isLoggedInJs'));?>
-;
-
-      // === JavaScript per il menu utente e le modali ===
-
-      // Prendiamo gli elementi dalla pagina
-      const userButton = document.querySelector('.user-button');
-      const dropdown = document.getElementById('userDropdown');
-      const loginModal = document.getElementById("loginModal");
-      const registerModal = document.getElementById("registerModal");
-
-      // Mostra/nasconde il menù cliccando sul pulsante utente
-      userButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // previene la chiusura automatica
-        dropdown.classList.toggle('hidden');
-        updateDropdownContent();
-      });
-
-      // Chiude il menù se clicco fuori
-      document.addEventListener('click', (e) => {
-        if (!dropdown.contains(e.target) && !userButton.contains(e.target)) {
-          dropdown.classList.add('hidden');
-        }
-      });
-
-      // Controlla se l’utente è loggato e aggiorna il contenuto del menù
-      function updateDropdownContent() {
-        if (isLoggedIn) {
-          dropdown.innerHTML = `
-            <a href="CFrontController.php?controller=CUtente&task=showUserProfile">Profilo</a>
-            <a href="signupHandler.php">Logout</a>
-          `;
-        } else {
-          dropdown.innerHTML = `
-            <a href="#" id="openLogin">Login</a>
-            <a href="#" id="openRegister">Register</a>
-          `;
-
-          // Eventi per aprire le modali
-          setTimeout(() => {
-            document.getElementById('openLogin').addEventListener('click', (e) => {
-              e.preventDefault();
-              dropdown.classList.add('hidden');
-              loginModal.classList.remove('hidden');
-            });
-
-            document.getElementById('openRegister').addEventListener('click', (e) => {
-              e.preventDefault();
-              dropdown.classList.add('hidden');
-              registerModal.classList.remove('hidden');
-            });
-          }, 0);
-        }
-      }
-
-      // Cambio tra Login e Registrazione
-      document.addEventListener("DOMContentLoaded", () => {
-        const toRegister = document.getElementById("toRegister");
-        const toLogin = document.getElementById("toLogin");
-
-        if (toRegister) {
-          toRegister.addEventListener("click", (e) => {
-            e.preventDefault();
-            loginModal.classList.add("hidden");
-            registerModal.classList.remove("hidden");
-          });
-        }
-
-        if (toLogin) {
-          toLogin.addEventListener("click", (e) => {
-            e.preventDefault();
-            registerModal.classList.add("hidden");
-            loginModal.classList.remove("hidden");
-          });
-        }
-
-        // Chiude le modali cliccando fuori
-        document.addEventListener("click", (e) => {
-          if (e.target.classList.contains("modal")) {
-            e.target.classList.add("hidden");
-          }
-        });
-      });
-    <?php echo '</script'; ?>
->
-    
   </body>
 </html><?php }
 }

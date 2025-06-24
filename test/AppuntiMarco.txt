@@ -6,6 +6,14 @@ UTENTI PER IL TESTING
 idUser1 -> glaceooon00@gmail.com nuovaPassword123! user
 idUser2 -> marioRossi@gmail.com  miaPassword123! admin
 
+
+Da cambiare il metodo di login e signup.
+    Due tasti, login e signup che portano a due pagine HTML contenenti le form e un tasto per eseguire l'operazione
+    
+
+
+
+
 CLASSE CUSER:
 
 ---CU REGISTRAZIONE---

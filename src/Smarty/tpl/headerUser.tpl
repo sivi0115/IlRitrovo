@@ -30,10 +30,10 @@
         <div class="user-area">
           {if $isLogged}
             <a href="CFrontController.php?controller=CUser&task=showProfile" class="user-button">Profile</a>
-            <a href="CFrontController.php?controller=CUser&task=logout" class="user-button">Logout</a>
+            <a href="signupHandler.php" class="user-button">Logout</a>
           {else}
-            <a href="CFrontController.php?controller=CUser&task=showLoginPage" class="user-button">Login</a>
-            <a href="CFrontController.php?controller=CUser&task=showSignupPage" class="user-button">Sign up</a>
+            <a href="signupHandler.php" class="user-button">Login</a>
+            <a href="signupHandler.php" class="user-button">Sign up</a>
           {/if}
         </div> <!-- /.user-area-->
       </div> <!-- /.header-top-->

@@ -33,7 +33,8 @@ $controller4 = new CReservation();
 
 
 //$controller->showHomePage();
-$controller->showLoginRegister();
+//$controller->showLoginForm();
+//$controller->showSignupForm();
 //$controller->showProfile();
 //$controller->checkLogin();
 //$controller->checkRegister();
