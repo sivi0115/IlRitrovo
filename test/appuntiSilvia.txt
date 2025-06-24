@@ -7,9 +7,6 @@ ELENCO PRIORITA' DA FARE:
   - adminReview
   - adminUsers
   - headerAdmin (sistemare link)
-  - headerUser (sistemare link)
-  - home
-  - login
   - menu
   - review
   - roomReservation1
