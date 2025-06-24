@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Header - Il Ritrovo</title>
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
   <body>
@@ -12,28 +12,28 @@
       <div class="header-top">
         <!-- Logo e nome del sito -->
         <div class="logo-area">
-          <img src="../assets/images/logo/logo.png" alt="Il Ritrovo Logo" class="logo" />
+          <img src="/IlRitrovo/src/Smarty/assets/images/logo/logo.png" alt="Il Ritrovo Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
         </div> <!-- /.logo-area-->
 
         <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
-            <li><a href="ilRitrovo/public/CUser/showHomePage">Home</a></li>
-            <li><a href="ilRitrovo/public/CUser/showRoomsPage">Rooms</a></li>
-            <li><a href="ilRitrovo/public/CUser/showMenuPage">Menu</a></li>
-            <li><a href="ilRitrovo/public/CReview/showReviewsPage">Reviews</a></li>
+            <li><a href="/IlRitrovo/public/User/showHomePage">Home</a></li>
+            <li><a href="/IlRitrovo/public/User/showRoomsPage">Rooms</a></li>
+            <li><a href="/IlRitrovo/public/User/showMenuPage">Menu</a></li>
+            <li><a href="/IlRitrovo/public/Review/showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
         <!-- Pulsanti utente -->
         <div class="user-area">
           {if $isLogged}
-            <a href="ilRitrovo/public/CUser/showProfile" class="user-button">Profile</a>
-            <a href="ilRitrovo/public/CUser/logout" class="user-button">Logout</a>
+            <a href="/IlRitrovo/public/User/showProfile" class="user-button">Profile</a>
+            <a href="/IlRitrovo/public/User/logout" class="user-button">Logout</a>
           {else}
-            <a href="ilRitrovo/public/CUser/showLoginForm" class="user-button">Login</a>
-            <a href="ilRitrovo/public/CUser/showSignUpForm" class="user-button">Sign up</a>
+            <a href="/IlRitrovo/public/User/showLoginForm" class="user-button">Login</a>
+            <a href="/IlRitrovo/public/User/showSignUpForm" class="user-button">Sign up</a>
           {/if}
         </div> <!-- /.user-area-->
       </div> <!-- /.header-top-->

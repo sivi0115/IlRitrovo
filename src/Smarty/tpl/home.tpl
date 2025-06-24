@@ -4,8 +4,8 @@
       <meta charset="utf-8">     
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Il Ritrovo – Home</title>  
-      <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-      <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/home.css" rel="stylesheet">
+      <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+      <link href="/IlRitrovo/src/Smarty/css/home.css" rel="stylesheet">
   </head>
   <body>
     
@@ -20,20 +20,20 @@
           <p><strong>Relax in a warm and inviting atmosphere, perfect for any occasion.</strong></p>
           <div class="booking-buttons">
             {if $isLogged}
-                <a href="ilRitrovo/public/CUser/showTableForm" class="btn">Book Table</a>
-                <a href="ilRitrovo/public/CUser/showRoomForm" class="btn">Book Room</a>
+                <a href="/IlRitrovo/public/User/showTableForm" class="btn">Book Table</a>
+                <a href="/IlRitrovo/public/User/showRoomForm" class="btn">Book Room</a>
             {else}
-                <a href="ilRitrovo/public/CUser/showLoginForm" class="btn">Book Table</a>
-                <a href="ilRitrovo/public/CUser/showLoginForm" class="btn">Book Room</a>
+                <a href="IlRitrovo/public/User/showLoginForm" class="btn">Book Table</a>
+                <a href="IlRitrovo/public/User/showLoginForm" class="btn">Book Room</a>
             {/if}
           </div> <!-- /.booking-buttons-->
       </div> <!-- /.booking-content-->
       <div class="rhombus-wrapper">
-          <div class="rhombus small rhombus-1"><img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/menu/chocolate_cake.jpg" alt="Chocolate cake"></div>
-          <div class="rhombus small rhombus-2"><img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/home/interior.jpg" alt="Interior"></div>
-          <div class="rhombus large rhombus-3"><img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/home/location.jpg" alt="Exterior"></div>
-          <div class="rhombus small rhombus-4"><img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/home/bar.jpg" alt="Bar"></div>
-          <div class="rhombus small rhombus-5"><img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/menu/mixed_bruschetta.jpg" alt="Mixed bruschetta"></div>
+          <div class="rhombus small rhombus-1"><img src="/IlRitrovo/src/Smarty/assets/images/menu/chocolate_cake.jpg" alt="Chocolate cake"></div>
+          <div class="rhombus small rhombus-2"><img src="/IlRitrovo/src/Smarty/assets/images/home/interior.jpg" alt="Interior"></div>
+          <div class="rhombus large rhombus-3"><img src="/IlRitrovo/src/Smarty/assets/images/home/location.jpg" alt="Exterior"></div>
+          <div class="rhombus small rhombus-4"><img src="/IlRitrovo/src/Smarty/assets/images/home/bar.jpg" alt="Bar"></div>
+          <div class="rhombus small rhombus-5"><img src="/IlRitrovo/src/Smarty/assets/images/menu/mixed_bruschetta.jpg" alt="Mixed bruschetta"></div>
       </div> <!-- /.rhombus-wrapper-->
     </section>
 
@@ -42,7 +42,7 @@
       <div class="content-wrapper">
         <!-- IMAGE ON THE LEFT -->
         <div class="image-column">
-          <img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/home/event.jpg" alt="Rustic and elegant event room" class="framed-image">
+          <img src="/IlRitrovo/src/Smarty/assets/images/home/event.jpg" alt="Rustic and elegant event room" class="framed-image">
         </div> <!-- /.image-column-->
         <!-- TEXT ON THE RIGHT -->
         <div class="content-column">
@@ -58,7 +58,7 @@
             <li><strong>🎶 Live music and personalized decorations</strong></li>
           </ul>
           <div class="booking-buttons">
-            <a href="CFrontController.php?controller=CFrontController&task=showRooms" class="btn">Discover our rooms →</a>
+            <a href="/IlRitrovo/public/User/showRoomsPage" class="btn">Discover our rooms →</a>
           </div> <!-- /.booking-buttons-->
         </div> <!-- /.content-column-->
       </div> <!-- /.content-wrapper-->
@@ -78,10 +78,10 @@
           <li><strong>✓ Curated wine pairings</strong></li>
           <li><strong>✓ Seasonal tasting menu</strong></li>
         </ul>
-        <a href="CFrontController.php?controller=CFrontController&task=showMenu" class="btn">Explore the menu →</a>
+        <a href="/IlRitrovo/public/User/showMenuPage" class="btn">Explore the menu →</a>
       </div> <!-- /.content-column-->
       <div class="image-column">
-        <img src="/~marco/Progetto/IlRitrovo/src/Smarty/assets/images/home/menu.jpg" alt="Menu preview" class="framed-image">
+        <img src="/IlRitrovo/src/Smarty/assets/images/home/menu.jpg" alt="Menu preview" class="framed-image">
       </div> <!-- /.image-column-->
     </section>
 
