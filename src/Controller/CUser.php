@@ -76,7 +76,8 @@ class CUser {
         $session->startSession();
         $session->stopSession();
         setcookie("PHPSESSID", "");
-        CUser::showHomePage();
+        header("Location: /IlRitrovo/public/User/showHomePage");
+        exit;
     }
     
 
@@ -191,6 +192,8 @@ class CUser {
     /**
      * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
      * A new user will be added in the database if registration was successful
+     * 
+     * @throws Excpetion if something goes wrong like existing username ecc
      */
     public function checkRegister() {
         $view=new VUser();
@@ -202,24 +205,25 @@ class CUser {
             UHTTPMethods::post('username'),
             UHTTPMethods::post('email'),
             UHTTPMethods::post('password'),
-            UHTTPMethods::post('image'),
+            null,
             UHTTPMethods::post('name'),
             UHTTPMethods::post('surname'),
-            new DateTime(UHTTPMethods::post('dateTime')),
+            new DateTime(UHTTPMethods::post('birthDate')),
             UHTTPMethods::post('phone'),
             Role::UTENTE,
             false
         );
-        //Inserisco l'utente nel db (il controllo sulla validità dei campi è affidato a foundation)
-        if(FPersistentManager::getInstance()->create($newUser)===null) {
-            //Ci sono stati errori nell'inserimento a db, reindirizzo alla schermata home con errore
-            $view->registerError();
-        } else {
-            //L'operazione ha avuto successo, reindirizzo alla schermata home e inserisco l'id dell'utente in sessione
-            $session->startSession();
-            $session->setValue('idUser', $newUser->getIdUser());
-            CUser::showHomePage();
+        //Inserisco l'utente nel db se tutto va buon fine altrimenti mostro errore
+        try {
+            FPersistentManager::getInstance()->create($newUser);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            exit;
         }
+        $session->startSession();
+        $session->setValue('idUser', $newUser->getIdUser());
+        header("Location: /IlRitrovo/public/User/showHomePage");
+        exit;
     }
 
     /**
@@ -249,18 +253,19 @@ class CUser {
             }
         //Verifico se l'utente è bannato
         if($checkUser->getBan()===1) {
-            //Utente bannato
-            //$view->showLoginError();
+            echo "Sei stato bannato";
+            exit;
             }
         } else {
-            echo "Operazione di login fallita";
+            echo "Password Errata, ricontrolla la password";
             exit;
         }
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
     print_r($_SESSION);
-    CUser::showHomePage();
+    header("Location: /IlRitrovo/public/User/showHomePage");
+    exit;
     }
 
     /**

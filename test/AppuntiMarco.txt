@@ -9,19 +9,15 @@ idUser2 -> marioRossi@gmail.com  miaPassword123! admin
 CLASSE CUSER:
 
 ---CU REGISTRAZIONE---
-showLoginRegister($isLogged)
-    Mostra il popup con i pulsanti login e signup -> FUNZIONANTE
-checkRegister()
-    Valida i dati inseriti e inserisce un nuovo utente nel db
-    Da impostare le redirect alla home page
+PERFETTAMENTE FUNZIONANTE ANCHE CON GESTIONE ERRORI
 
 ---CU LOGIN---
-showLoginRegister($isLogged)
-    Mostra il popup con i pulsanti login e signup se l'utente non è loggato -> FUNZIONANTE
-        Se l'utente è loggato mostra profilo e logout -> FUNZIONANTE
-checkLogin()
-    Valida se le credenziali sono giuste
-    Da impostare le redirect alla home page
+Da verificare errori
+    email non valida FUNZIONANTE 
+    password non valida FUNZIONANTE
+    se l'utente è bannato FUNZIONANTE
+    se l'utente è admin 
+Da reimpostare le redirect
 
 ---CU LOGOUT---
 showProfileLogout()

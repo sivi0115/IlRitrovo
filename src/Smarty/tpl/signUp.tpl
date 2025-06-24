@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up - Il Ritrovo</title>
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>
@@ -14,7 +14,7 @@
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
                 <h2 id="signup-title">Create your account</h2>
-                <form action="signupHandler.php" method="POST">
+                <form action="/IlRitrovo/public/User/checkRegister" method="POST">
                     <label for="username">Username</label>
                     <input
                     type="text"
