@@ -23,14 +23,7 @@ PERFETTAMENTE FUNZIONANTE
 
 
 ---CU MODIFICA ANAGRAFICA e METADATA---
-isLogged()
-showProfile() -> mostra la pagina utente con le sue informazioni e altro
-showEditProfileData() -> mostra le form per l'inserimento dei dati da modificare
-    -Da implementare
-editProfileData() -> modifica i dati e reindirizza alla schermata informazioni aggiornata
-    -Da impostare i redirect
-
--Da riorganizzare l'ordine dei metodi in un ordine logico
+Vedi ultima chat con gpt ottimo spunto
 
 
 CLASSE CCREDITCARD:

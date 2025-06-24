@@ -83,13 +83,6 @@ class VUser {
         $smarty->display("signUp.tpl");
     }
 
-
-
-
-
-
-
-
     /**
      * Function to show user's info profile
      */
@@ -122,6 +115,18 @@ class VUser {
         $smarty->assign('futureReservations', $userFutureReservations);
         $smarty->assign('review', $userReview);
         // Mostra il template
+        $smarty->display('userProfile.tpl');
+    }
+
+    /**
+     * Function to show edit forms for editing personal data
+     */
+    public function showEditProfileData() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('edit_section', 'data');
         $smarty->display('userProfile.tpl');
     }
 }

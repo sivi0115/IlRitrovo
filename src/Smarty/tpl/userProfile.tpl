@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Your Profile - Il Ritrovo</title>       
         <!-- Template Stylesheet -->
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href=/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
@@ -20,8 +20,7 @@
                 <div class="profile-container">
                     <!-- Profile Image -->
                     <div class="profile-image-section">
-                        <img src="../assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
-                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="btn edit" aria-label="Modifica immagine profilo">✎</a>
+                        <img src="/IlRitrovo/src/Smarty/assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
                     </div> <!-- /.profile-image-section-->
                     <!-- Metadata Section -->
                     <div class="profile-info-section">
@@ -36,10 +35,10 @@
                                 <div class="credential-item"><strong>Password: </strong>********</div>
                             </div> <!-- /.credentials-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="btn edit">Edit</a>
+                                <a href="/IlRitrovo/public/User/showEditProfileMetadata" class="btn edit">Edit</a>
                             </div> <!-- /.form-action-right-->
                             {if $edit_section == 'metadata'}
-                                <form method="post" action="CFrontController.php?controller=CUser&task=editProfileMetadata" class="edit-form open">
+                                <form method="post" action="/IlRitrovo/public/User/editProfileMetadata" class="edit-form open">
                                     <div class="credentials-row">
                                         <div class="credential-item">
                                             <label>Username</label>
@@ -74,10 +73,10 @@
                                 <div class="personal-item"><strong>Phone:</strong> {$phone}</div>
                             </div> <!-- /.personal-data-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="btn edit">Edit</a>
+                                <a href="/IlRitrovo/public/User/showEditProfileData" class="btn edit">Edit</a>
                             </div><!-- /.form-action-right-->
                             {if $edit_section == 'data'}
-                                <form method="post" action="CFrontController.php?controller=CUser&task=editProfileData" class="edit-form open">
+                                <form method="post" action="/IlRitrovo/public/User/editProfileData" class="edit-form open">
                                     <div class="personal-data-row">
                                         <div class="personal-item">
                                             <label>Name</label>

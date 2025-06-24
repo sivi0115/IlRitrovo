@@ -115,7 +115,8 @@ class CUser {
      * Show the form to edit the data Profile
      */
     public function showEditProfileData() {
-        //Da discutere bene il funzionamento
+        $view=new VUser();
+        $view->showEditProfileData();
     }
 
     /**

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 16:08:57
+/* Smarty version 5.5.1, created on 2025-06-24 17:39:39
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ab179f216b7_65948222',
+  'unifunc' => 'content_685ac6bb07c9f3_73787916',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1750695135,
+      1 => 1750779571,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685ab179f216b7_65948222 (\Smarty\Template $_smarty_tpl) {
+function content_685ac6bb07c9f3_73787916 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -29,8 +29,8 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Your Profile - Il Ritrovo</title>       
         <!-- Template Stylesheet -->
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href=/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
@@ -43,8 +43,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <div class="profile-container">
                     <!-- Profile Image -->
                     <div class="profile-image-section">
-                        <img src="../assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
-                        <a href="CFrontController.php?controller=CUser&task=showEditProfileImage" class="btn edit" aria-label="Modifica immagine profilo">✎</a>
+                        <img src="/IlRitrovo/src/Smarty/assets/images/logo/user.jpg" alt="Test User" class="profile-img current">
                     </div> <!-- /.profile-image-section-->
                     <!-- Metadata Section -->
                     <div class="profile-info-section">
@@ -61,10 +60,10 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                                 <div class="credential-item"><strong>Password: </strong>********</div>
                             </div> <!-- /.credentials-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileMetadata" class="btn edit">Edit</a>
+                                <a href="/IlRitrovo/public/User/showEditProfileMetadata" class="btn edit">Edit</a>
                             </div> <!-- /.form-action-right-->
                             <?php if ($_smarty_tpl->getValue('edit_section') == 'metadata') {?>
-                                <form method="post" action="CFrontController.php?controller=CUser&task=editProfileMetadata" class="edit-form open">
+                                <form method="post" action="/IlRitrovo/public/User/editProfileMetadata" class="edit-form open">
                                     <div class="credentials-row">
                                         <div class="credential-item">
                                             <label>Username</label>
@@ -105,10 +104,10 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 </div>
                             </div> <!-- /.personal-data-row-->
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CUser&task=showEditProfileData" class="btn edit">Edit</a>
+                                <a href="/IlRitrovo/public/User/showEditProfileData" class="btn edit">Edit</a>
                             </div><!-- /.form-action-right-->
                             <?php if ($_smarty_tpl->getValue('edit_section') == 'data') {?>
-                                <form method="post" action="CFrontController.php?controller=CUser&task=editProfileData" class="edit-form open">
+                                <form method="post" action="/IlRitrovo/public/User/editProfileData" class="edit-form open">
                                     <div class="personal-data-row">
                                         <div class="personal-item">
                                             <label>Name</label>
