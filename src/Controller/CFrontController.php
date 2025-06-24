@@ -1,84 +1,55 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+namespace Controller;
 
-use Smarty\Smarty;
+class CFrontController{
+    
+    //punto di accesso principale dell'applicazione
+    //fa il parsing della URL per capire quali metodi controller chiamare e con quali parametri
+    // le url sui button di ogni template devono esserestrutturate in questo modo /~momok/Class/method
+    public function run($richiestaUrl){
+    
+        //le URL devono essere organizzate in questo modo: /ilRitrovo/public/ControlClass/methodClass    
+        
 
-class CFrontController
-{
-    private Smarty $smarty;
+        $richiestaUrl = trim($richiestaUrl, '/');
+        $partiUrl = explode('/', $richiestaUrl);
+        array_shift($partiUrl);
+        array_shift($partiUrl);
+/*
+        array_shift($partiUrl);
+        array_shift($partiUrl);
+        array_shift($partiUrl);
+        array_shift($partiUrl);
+  */     
+        //estrazione classe di controllo
+       
+        if(!empty($partiUrl[0])){ $controller = ucfirst($partiUrl[0]);}
+        else{$controller = "User";}
+        
+        //estrazione metodo di controllo
+        if(!empty($partiUrl[1])){$metodo = $partiUrl[1];}
+        else{$metodo = "showHomePage";}
 
-    public function __construct()
-    {
-        $this->smarty = new Smarty();
-        $this->smarty->setTemplateDir(__DIR__ . '/../templates/');
-        $this->smarty->setCompileDir(__DIR__ . '/../templates_c/');
-    }
+        $controller = 'C' . $controller;
+        $controllerFile = __DIR__ . "/{$controller}.php";
 
-    public function dispatch(): void
-    {
-        $controllerName = $_GET['controller'] ?? null;
-        $taskName = $_GET['task'] ?? null;
+        if (file_exists($controllerFile)) {
+            require_once $controllerFile;
 
-        // Special case: se controller è "front" usa i metodi locali
-        if ($controllerName === 'front' && method_exists($this, $taskName)) {
-            $this->$taskName();
-            return;
+            // Check if the method exists in the controller
+            if (method_exists($controller, $metodo)) {
+                $parametri = array_slice($partiUrl, 2); 
+                call_user_func_array([$controller, $metodo], $parametri);
+            } else {
+                // show 404 page
+                echo "metodo non esiste";
+                header("PERCORSO DA DEFINIRE");
+            }
+        } else {
+            // show 404 page
+            echo "classe non esiste";
+            header("PERCORSO DA DEFINIRE");
         }
-
-        // Mappa dei controller
-        $controllerMap = [
-            'CUser' => Controller\CUser::class,
-            'CCreditCard' => Controller\CCreditCard::class,
-            'CExtra' => Controller\CExtra::class,
-            'CPayment' => Controller\CPayment::class,
-            'CReply' => Controller\CReply::class,
-            'CReservation' => Controller\CReservation::class,
-            'CReview' => Controller\CReview::class,
-        ];
-
-        try {
-            if (!$controllerName || !$taskName) {
-                throw new Exception("Controller o task non specificato.");
-            }
-
-            if (!isset($controllerMap[$controllerName])) {
-                throw new Exception("Controller '$controllerName' non trovato.");
-            }
-
-            $controllerClass = $controllerMap[$controllerName];
-            $controller = new $controllerClass();
-
-            if (!method_exists($controller, $taskName)) {
-                throw new Exception("Metodo '$taskName' non esiste nel controller '$controllerClass'.");
-            }
-
-            $controller->$taskName();
-        } catch (Exception $e) {
-            $this->smarty->assign('errorMessage', $e->getMessage());
-            $this->smarty->display('error.tpl');
-        }
-    }
-
-    // Metodo per mostrare la home page
-    public function showHome()
-    {
-        $this->smarty->display('home.tpl');
-    }
-
-    // Metodo per mostrare la pagina rooms
-    public function showRooms()
-    {
-        $this->smarty->display('rooms.tpl');
-    }
-
-    // Metodo per mostrare la pagina menu
-    public function showMenu()
-    {
-        $this->smarty->display('menu.tpl');
     }
 }
-
-// Esegui il front controller
-$frontController = new CFrontController();
-$frontController->dispatch();
