@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Il Ritrovo</title>
-    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" />
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>

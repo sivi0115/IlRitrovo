@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 15:27:54
+/* Smarty version 5.5.1, created on 2025-06-24 16:04:42
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685aa7da8daaf3_17753453',
+  'unifunc' => 'content_685ab07aa63395_78243025',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2a9cf9abbe3b545d30fee2e06380374ba38758cc' => 
     array (
       0 => 'login.tpl',
-      1 => 1750771645,
+      1 => 1750773871,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685aa7da8daaf3_17753453 (\Smarty\Template $_smarty_tpl) {
+function content_685ab07aa63395_78243025 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -28,12 +28,10 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Il Ritrovo</title>
-    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css"
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>
-        
-        <!-- Header incluso tramite View-->
 
         <div class="modal">
             <div class="modal-content">
