@@ -19,21 +19,21 @@
         <!-- Barra di navigazione -->
         <nav class="main-nav">
           <ul>
-            <li><a href="CFrontController.php?controller=CUser&task=showHomePage">Home</a></li>
-            <li><a href="CFrontController.php?controller=CFUser&task=showRoomsPage">Rooms</a></li>
-            <li><a href="CFrontController.php?controller=CUser&task=showMenuPage">Menu</a></li>
-            <li><a href="CFrontController.php?controller=CReview&task=showReviewsPage">Reviews</a></li>
+            <li><a href="ilRitrovo/public/CUser/showHomePage">Home</a></li>
+            <li><a href="ilRitrovo/public/CUser/showRoomsPage">Rooms</a></li>
+            <li><a href="ilRitrovo/public/CUser/showMenuPage">Menu</a></li>
+            <li><a href="ilRitrovo/public/CReview/showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
         <!-- Pulsanti utente -->
         <div class="user-area">
           {if $isLogged}
-            <a href="CFrontController.php?controller=CUser&task=showProfile" class="user-button">Profile</a>
-            <a href="signupHandler.php" class="user-button">Logout</a>
+            <a href="ilRitrovo/public/CUser/showProfile" class="user-button">Profile</a>
+            <a href="ilRitrovo/public/CUser/logout" class="user-button">Logout</a>
           {else}
-            <a href="signupHandler.php" class="user-button">Login</a>
-            <a href="signupHandler.php" class="user-button">Sign up</a>
+            <a href="ilRitrovo/public/CUser/showLoginForm" class="user-button">Login</a>
+            <a href="ilRitrovo/public/CUser/showSignUpForm" class="user-button">Sign up</a>
           {/if}
         </div> <!-- /.user-area-->
       </div> <!-- /.header-top-->

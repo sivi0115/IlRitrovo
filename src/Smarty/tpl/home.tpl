@@ -23,8 +23,8 @@
                 <a href="ilRitrovo/public/CUser/showTableForm" class="btn">Book Table</a>
                 <a href="ilRitrovo/public/CUser/showRoomForm" class="btn">Book Room</a>
             {else}
-                <a href="ilRitrovo/public/CUser/showLoginPage" class="btn">Book Table</a>
-                <a href="ilRitrovo/public/CUser/showLoginPage" class="btn">Book Room</a>
+                <a href="ilRitrovo/public/CUser/showLoginForm" class="btn">Book Table</a>
+                <a href="ilRitrovo/public/CUser/showLoginForm" class="btn">Book Room</a>
             {/if}
           </div> <!-- /.booking-buttons-->
       </div> <!-- /.booking-content-->
