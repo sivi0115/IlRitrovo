@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 15:22:52
+/* Smarty version 5.5.1, created on 2025-06-24 16:32:30
   from 'file:signUp.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685aa6ac64f334_05859487',
+  'unifunc' => 'content_685ab6feb32fa8_06661955',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '057776bff5ee81e920c242b7fa02318431e7331a' => 
     array (
       0 => 'signUp.tpl',
-      1 => 1750760594,
+      1 => 1750775401,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685aa6ac64f334_05859487 (\Smarty\Template $_smarty_tpl) {
+function content_685ab6feb32fa8_06661955 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -28,7 +28,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up - Il Ritrovo</title>
-    <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>
@@ -38,7 +38,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
                 <h2 id="signup-title">Create your account</h2>
-                <form action="signupHandler.php" method="POST">
+                <form action="/IlRitrovo/public/User/checkRegister" method="POST">
                     <label for="username">Username</label>
                     <input
                     type="text"
