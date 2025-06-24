@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">       
-        <title>Reviews - Il Ritrovo</title>
-        <link href="../css/styles.css" rel="stylesheet">
-        <link href="../css/user.css" rel="stylesheet">
+        <title>Home Admin - Il Ritrovo</title>
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Header -->
-        {* {include file='headerAdmin.tpl'} *}
+
+        <!-- Header incluso tramite View-->
 
         <!-- Sezione delle prenotazioni dei tavoli-->
         <div class="panel panel-default">

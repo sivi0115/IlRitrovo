@@ -3,10 +3,8 @@ APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 ELENCO PRIORITA' DA FARE:
 - mettere i percorsi corretti nelle pagine e sistemare le questioni di header e footer:
   - adminExtra
-  - adminHome
   - adminReview
   - adminUsers
-  - headerAdmin (sistemare link)
   - menu
   - review
   - rooms

@@ -11,22 +11,22 @@
     <header>
       <div class="header-top">
         <div class="logo-area">
-          <img src="../assets/images/logo/logo.png" alt="Logo Il Ritrovo" class="logo" />
+          <img src="/IlRitrovo/src/Smarty/assets/images/logo/logo.png" alt="Logo Il Ritrovo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
         </div> <!-- /.logo-area -->
 
         <nav class="main-nav">
           <ul>
-            <li><a href="CFrontController.php?controller=CReview&task=showAdminHomePage">Home</a></li>
-            <li><a href="CFrontController.php?controller=CReview&task=showUsersPage">Users</a></li>
-            <li><a href="CFrontController.php?controller=CReview&task=showExtrasPage">Extras</a></li>
-            <li><a href="CFrontController.php?controller=CReview&task=showAdminReviewsPage">Reviews</a></li>
+            <li><a href="/IlRitrovo/public/User/showAdminHomePage">Home</a></li>
+            <li><a href="/IlRitrovo/public/User/showUsersPage">Users</a></li>
+            <li><a href="/IlRitrovo/public/Extra/showExtrasPage">Extras</a></li>
+            <li><a href="/IlRitrovo/public/Review/showAdminReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
         {if isset($admin)}
           <div class="user-area">
-            <form action="CFrontController.php?controller=CUser&task=logout" method="POST" style="margin:0;">
+            <form action="/IlRitrovo/public/User/logout" method="POST" style="margin:0;">
               <button type="submit" class="user-button" aria-label="Logout">Logout</button>
             </form>
           </div>

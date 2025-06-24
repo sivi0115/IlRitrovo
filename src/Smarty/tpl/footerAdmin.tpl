@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Footer - Il Ritrovo</title>
-  <link rel="stylesheet" href="../css/footer.css">
+  <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/footer.css">
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet">
 </head>
 <body>
