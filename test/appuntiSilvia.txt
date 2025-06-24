@@ -1,19 +1,12 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
-APPUNTI PER MARCO:
-Ciau Marco, questa mattina ho fatto un po' di cosine e ti aggiorno:
-1. Dovrei aver fatto una versione definitiva dei vari js per login-register-logout-vedi profilo che si basa 
-   su CUser che hai scritto (o almeno dovrebbe).
-   Se la cosa non dovesse andare vedo di semplificare la cosa e di fare delle pagine dedicate e vaffanculo.
-2. Ho scritto il Front Controller che si dovrebbe occupare anche della gestione degli errori.
-   Come dovrebbe funzionare è abbastanza semplice, il punto per gli errori è che c'è una sorta di pagina unica
-   di errore con una variabile $errorMessage che teoricamente dovrebbe essere in ogni metodo con un messaggio
-   diverso in base al contesto del metodo, così non c'è bisogno di fare 100 pagine di errore e basta questa
-
 ELENCO PRIORITA' DA FARE:
-- rimuovere il tasto back
+- risistemare il front controller per far sì che non preveda più il funzionamento per i metodi nativi
+- studiare un modo per fare il mapping delle url in modo tale che non si vedano i nomi dei metodi ma delle cose
+  più user friendly senza fare il file di mapping che non avrebbe senso in questo contesto
+- rimuovere i tasti back
+- cartella public con htaccess e index che fa partire il front controller
 - vedere dove aggiungere gli |escape per la sicurezza
-- SIMULAZIONE CON STRIPE NON NECESSARIA (yei, best day evah) 
 
 PAGINE PER L'UTENTE:
  1. HOME:
@@ -48,6 +41,10 @@ SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
    ok
 2. FOOTER-USER
    ok
+3. LOGIN
+   da fare
+4. SIGN-UP
+   da fare
 
 PAGINE PER L'ADMIN:
 1. HOME
