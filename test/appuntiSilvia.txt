@@ -1,11 +1,35 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
-- risistemare il front controller per far sì che non preveda più il funzionamento per i metodi nativi
-- studiare un modo per fare il mapping delle url in modo tale che non si vedano i nomi dei metodi ma delle cose
-  più user friendly senza fare il file di mapping che non avrebbe senso in questo contesto
+- mettere i percorsi corretti nelle pagine e sistemare le questioni di header e footer:
+  - adminExtra
+  - adminHome
+  - adminReview
+  - adminUsers
+  - headerAdmin (sistemare link)
+  - headerUser (sistemare link)
+  - home
+  - login
+  - menu
+  - review
+  - roomReservation1
+  - roomReservation2
+  - roomReservation3
+  - roomReservation4
+  - rooms
+  - signUp
+  - tableReservation1
+  - tableReservation2
+  - tableReservation3
+  - userProfile
 - rimuovere i tasti back
-- cartella public con htaccess e index che fa partire il front controller
+  - roomReservation1
+  - roomReservation2
+  - roomReservation3
+  - roomReservation4
+  - tableReservation1
+  - tableReservation2
+  - tableReservation3
 - vedere dove aggiungere gli |escape per la sicurezza
 
 PAGINE PER L'UTENTE:
