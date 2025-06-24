@@ -278,21 +278,19 @@ class CUser {
             $idUser=$session->readValue('idUser');
             //Carico l'utente da db
             $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
-            //Controllo che sia amministratore o utente normale, se è utente normale controllo anche se sia bannato
+            //Controllo che sia amministratore o utente normale, se è utente normale
             if($user->isUser() && $user->getBan()===0) {
                 //Mostro l'header con l'informazione che l'utente è loggato
                 $view->showUserHeader($isLogged);
                 //Carico la home page correttamente per l'utente loggato
                 $view->showLoggedUserHomePage($isLogged);
             }
-            elseif($user->isUser() && $user->getBan()===1) {
-                //Mostro all'utene un messaggio di ban
-            }
+            //Se è un admin lo reindirizzo alla sua home page
             elseif($user->isAdmin()) {
                 //Carico l'header con l'informazione che l'admin è loggato
-                $view->showAdminHeader();
+                $view->showAdminHeader($isLogged);
                 //Carico la home page correttamente
-                $view->showLoggedAdminHomePage();
+                $view->showLoggedAdminHomePage($isLogged);
             }
         } else {
             //Mostro l'header con l'informazione che l'utente non è loggato

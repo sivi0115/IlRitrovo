@@ -9,18 +9,6 @@ use Entity\EReview;
 
 class VUser {
     /**
-     * Function to show login/register pop up
-     */
-    public function showLoginRegisterPopUp(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
-        $smarty->assign('isLogged', $isLogged);
-        $smarty->display('headerUser.tpl');
-    }
-
-    /**
      * Function to show header
      */
     public function showUserHeader(bool $isLogged) {
@@ -30,6 +18,16 @@ class VUser {
 
         $smarty->assign('isLogged', $isLogged);
         $smarty->display('headerUser.tpl');
+    }
+    /**
+     * Function to show admin's header
+     */
+    public function showAdminHeader(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('headerAdmin.tpl');
     }
 
     /**
@@ -44,7 +42,18 @@ class VUser {
     }
 
     /**
-     * Function to show non logged user home page
+     * Function to show logged admin home page
+     */
+    public function showLoggedAdminHomePage(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('adminHome.tpl');
+    }
+
+    /**
+     * Function to show non unlogged user home page
      */
     public function showUserHomePage(bool $isLogged) {
         $smarty = new Smarty();
