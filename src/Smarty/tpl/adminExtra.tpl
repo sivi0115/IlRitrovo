@@ -22,7 +22,7 @@
                         <div class="extra-item">
                             <div class="extra-info">
                             {if $extra.isEditing}
-                                <form method="POST" action="CFrontController.php?controller=CExtra&task=saveEditExtra&id={$extra->getIdExtra()}">
+                                <form method="POST" action="/IlRitrovo/public/User/saveEditExtra&id={$extra->getIdExtra()}">
                                 <label>Name:</label>
                                 <input type="text" name="name" value="{$extra->getName()}" class="editable-input" required>
 

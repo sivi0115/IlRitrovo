@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 4</title>
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Header -->
-        {include file='headerUser.tpl'}
+
+        <!-- Header incluso tramite View-->
 
         <div class="panel">
 
@@ -72,10 +72,9 @@
             </div> <!-- /.summary-row-->
 
             <!-- Bottoni di navigazione -->
-            <form method="post" action="CFrontController.php?controller=CReservation&task=finalizeReservation">
+            <form action="/IlRitrovo/public/Reservation/checkPayment" method="post">
                 <input type="hidden" name="selectedCardId" value="{$selectedCard->getIdCreditCard()}">
                 <div class="reservation-form-buttons">
-                    <button type="button" class="btn-cancel-step" onclick="location.href='CFrontController.php?controller=CReservation&task=roomReservationStepThree'">Back</button>
                     <button type="submit" class="btn-save-step">Confirm </button>
                 </div> <!-- /.reservation-form-buttons-->
             </form>

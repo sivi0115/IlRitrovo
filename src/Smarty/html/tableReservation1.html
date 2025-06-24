@@ -3,13 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Table - Step 1</title>
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
 
-        <!-- Header -->
-        {include file='headerUser.tpl'}
+    <!-- Header incluso tramite View-->
         
         <div class="panel">
 
@@ -28,7 +27,7 @@
             <h2 class="panel-heading">Book a Table with us</h2>
 
             <!-- Booking Form -->
-            <form method="post" action="signupHandler.php" class="booking-form">
+            <form method="post" action="/IlRitrovo/public/Reservation/showValidTable" class="booking-form">
                 <div class="form-group">
                     <label for="timeFrame">Time Frame</label>
                     <select name="timeFrame" id="timeFrame" required>
@@ -54,7 +53,6 @@
                 </div>
 
                 <div class="reservation-form-buttons">
-                    <a href="CFrontController.php?controller=CFrontController&task=showHome" class="btn-cancel-step">Back to Home</a>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div>
             </form>

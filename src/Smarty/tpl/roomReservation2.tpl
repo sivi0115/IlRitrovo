@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Book a Room - Step 2</title>
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reservation.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Header -->
-        {include file='headerUser.tpl'}
+    
+        <!-- Header incluso tramite View-->
 
         <div class="panel">
 
@@ -52,11 +52,11 @@
 
             <!-- Mappa del ristorante -->
             <div class="restaurant-map">
-                <img src="../assets/images/maps/Rooms_map.png" alt="Restaurant Map">
+                <img src="/IlRitrovo/src/Smarty/assets/images/maps/Rooms_map.png" alt="Restaurant Map">
             </div> <!-- /.restaurrant-map-->
 
             <!-- Selezione stanza -->
-            <form method="post" action="signupHandler.php" class="booking-form">
+            <form method="post" action="/IlRitrovo/public/Reservation/dataRoomReservation" class="booking-form">
                 <div class="form-group">
                     <label for="room">Select a Room</label>
                     <select name="idRoom" id="idRoom" required>
@@ -71,7 +71,6 @@
                 </div>
 
                 <div class="reservation-form-buttons">
-                    <a href="signupHandler.php" class="btn-cancel-step">Back</a>
                     <button type="submit" class="btn-save-step">Next</button>
                 </div> <!--/.reservation-form-buttons-->
             </form>

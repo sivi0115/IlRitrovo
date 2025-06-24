@@ -9,29 +9,14 @@ ELENCO PRIORITA' DA FARE:
   - headerAdmin (sistemare link)
   - menu
   - review
-  - roomReservation1
-  - roomReservation2
-  - roomReservation3
-  - roomReservation4
   - rooms
   - signUp
-  - tableReservation1
-  - tableReservation2
-  - tableReservation3
   - userProfile
-- rimuovere i tasti back
-  - roomReservation1
-  - roomReservation2
-  - roomReservation3
-  - roomReservation4
-  - tableReservation1
-  - tableReservation2
-  - tableReservation3
 - vedere dove aggiungere gli |escape per la sicurezza
 
 PAGINE PER L'UTENTE:
  1. HOME:
-    ok
+    testata
  2. ROOMS
     testata
  3. REVIEWS
@@ -59,13 +44,13 @@ PAGINE PER L'UTENTE REGISTRATO:
 
 SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
 1. HEADER-USER
-   ok
+   testata
 2. FOOTER-USER
-   ok
+   testata
 3. LOGIN
-   da fare
+   testata
 4. SIGN-UP
-   da fare
+   testata
 
 PAGINE PER L'ADMIN:
 1. HOME
