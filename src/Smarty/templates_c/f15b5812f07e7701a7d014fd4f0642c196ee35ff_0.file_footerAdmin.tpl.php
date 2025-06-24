@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 17:22:56
-  from 'file:footerUser.tpl' */
+/* Smarty version 5.5.1, created on 2025-06-24 17:23:35
+  from 'file:footerAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ac2d0e5a646_73226648',
+  'unifunc' => 'content_685ac2f7b6ce31_04996947',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    '88420b4e0b347100671a2e9b23f323d298e25069' => 
+    'f15b5812f07e7701a7d014fd4f0642c196ee35ff' => 
     array (
-      0 => 'footerUser.tpl',
+      0 => 'footerAdmin.tpl',
       1 => 1750778522,
       2 => 'file',
     ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685ac2d0e5a646_73226648 (\Smarty\Template $_smarty_tpl) {
+function content_685ac2f7b6ce31_04996947 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -35,8 +35,6 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
   <footer>
     <div class="footer-content">
       <p><strong>Il Ritrovo</strong> – Where flavours meet</p>
-      <p>📍 Via delle Colline 12, 50100 Firenze (FI)</p>
-      <p>📞 012 3456789 – ✉️ <a href="mailto:info@ilritrovo.it">info@ilritrovo.it</a></p>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2025 Il Ritrovo. Tutti i diritti riservati.</p>

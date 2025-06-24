@@ -16,14 +16,10 @@ Da verificare errori
     email non valida FUNZIONANTE 
     password non valida FUNZIONANTE
     se l'utente è bannato FUNZIONANTE
-    se l'utente è admin 
-Da reimpostare le redirect
+    se l'utente è admin FUNZIONANTE
 
 ---CU LOGOUT---
-showProfileLogout()
-    Mostra popup con profilo e logout -> FUNZIONANTE
-logout()
-    Da impostare il redirect alla home page
+PERFETTAMENTE FUNZIONANTE 
 
 
 ---CU MODIFICA ANAGRAFICA e METADATA---
