@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-25 11:25:27
+  from 'file:editProfileMetadata.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_685bc0870f4360_09394035',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '5c9bd3db5c2025f646a400a7901107abb81e20e9' => 
+    array (
+      0 => 'editProfileMetadata.tpl',
+      1 => 1750843525,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_685bc0870f4360_09394035 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">    
@@ -39,10 +63,12 @@
                 <h2>Edit Access Data</h2>
                 <form method="post" action="/IlRitrovo/public/User/editProfileMetadata">
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" value="{$username}" required />
+                    <input type="text" id="username" name="username" value="<?php echo $_smarty_tpl->getValue('username');?>
+" required />
 
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{$email}" required />
+                    <input type="email" id="email" name="email" value="<?php echo $_smarty_tpl->getValue('email');?>
+" required />
 
                     <label for="password">New Password</label>
                     <input type="password" id="password" name="password" required />
@@ -68,7 +94,8 @@
         <!-- Footer-->
 
 
-        <script>
+        <?php echo '<script'; ?>
+>
             // Prendo il campo input della password dal DOM tramite il suo id 'password'
             const passwordInput = document.getElementById('password');
 
@@ -131,6 +158,8 @@
                 specialReq.classList.remove('valid');
             }
             });
-        </script>
+        <?php echo '</script'; ?>
+>
     </body>
-</html>
+</html><?php }
+}

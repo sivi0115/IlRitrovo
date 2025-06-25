@@ -128,4 +128,15 @@ class VUser {
 
         $smarty->display('editProfileData.tpl');
     }
+
+    /**
+     * Function to show edit forms for editing metadata like email username and password
+     */
+    public function showEditProfileMetadata() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('editProfileMetadata.tpl');
+    }
 }

@@ -85,10 +85,11 @@ class CUser {
      * Show logged user's Profile
      */
     public function showProfile() {
-        $session=USessions::getIstance();
-        $session->startSession();
-        $idUser=$session->readValue('idUser');
         $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         //Carico l'utente da db per prelevare i suoi dati da visualizzare nel suo profilo
         $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
         //Inserisco i dati da visualizzare nelle variabili che poi saranno passate a view
@@ -108,6 +109,7 @@ class CUser {
         //Carico le recensioni di questo utente
         $userReview=FPersistentManager::getInstance()->readReviewByUserId($idUser, FReview::class);
         //Passo i parametri a view
+        $view->showUserHeader($isLogged);
         $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userPastReservations, $userFutureReservations, $userReview);
     }
 
@@ -123,7 +125,7 @@ class CUser {
      * Used to edit user's personal data
      */
     public function editProfileData() {
-        //$view=new VUser();
+        $view=new VUser();
         $session=USessions::getIstance();
         $session->startSession();
         //Prendo l'id utente dalla sessione
@@ -154,7 +156,8 @@ class CUser {
      * Show the form to edit personal metadata
      */
     public function showEditProfileMetadata() {
-        //Da definire
+        $view=new VUser();
+        $view->showEditProfileMetadata();
     }
 
     /**
@@ -178,14 +181,13 @@ class CUser {
             //Verifico se ci sono errori
             if($updated) {
                 //Nessun errore, reindirizzo alla pagina home con dati modificati
-                echo "Operazione avvenuta con successo";
+                header("Location: /IlRitrovo/public/User/showProfile");
             } 
         } catch (Exception $e) {
             //Se ci sono stati errori reindirizzo ad una schermata di errore
             //$view->showError();
             echo "Errore" . $e->getMessage();
         }
-        
     }
 
     
