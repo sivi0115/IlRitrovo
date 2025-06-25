@@ -1,4 +1,29 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-25 13:37:11
+  from 'file:roomReservation1.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_685bdf6743a226_53565193',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'f5e7a17b5af1dfbdfb1ff40c7155d6cc80d5dece' => 
+    array (
+      0 => 'roomReservation1.tpl',
+      1 => 1750851396,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+    'file:footerUser.tpl' => 1,
+  ),
+))) {
+function content_685bdf6743a226_53565193 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -34,50 +59,66 @@
                     <label for="timeframe">Time Frame</label>
                     <select name="timeFrame" id="timeFrame" required>
                         <option value="">-- Select --</option>
-                        <option value="lunch" {if $timeFrame == 'lunch'}selected{/if}>Lunch</option>
-                        <option value="dinner" {if $timeFrame == 'dinner'}selected{/if}>Dinner</option>
+                        <option value="lunch" <?php if ($_smarty_tpl->getValue('timeFrame') == 'lunch') {?>selected<?php }?>>Lunch</option>
+                        <option value="dinner" <?php if ($_smarty_tpl->getValue('timeFrame') == 'dinner') {?>selected<?php }?>>Dinner</option>
                     </select>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="people">Guests</label>
-                    <input type="number" name="people" id="people" min="1" max="100" value="{$people|default:''}" required>
+                    <input type="number" name="people" id="people" min="1" max="100" value="<?php echo (($tmp = $_smarty_tpl->getValue('people') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+" required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="reservationDate">Date</label>
-                    <input type="date" name="reservationDate" id="reservationDate" value="{$reservationDate|default:''}" required>
+                    <input type="date" name="reservationDate" id="reservationDate" value="<?php echo (($tmp = $_smarty_tpl->getValue('reservationDate') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+" required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="comment">Comment</label>
-                    <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances...">{$comment|default:''}</textarea>
+                    <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances..."><?php echo (($tmp = $_smarty_tpl->getValue('comment') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</textarea>
                 </div> <!-- /.form-group-->
 
-                {if isset($extras) && $extras|@count > 0}
+                <?php if ((true && ($_smarty_tpl->hasVariable('extras') && null !== ($_smarty_tpl->getValue('extras') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('extras')) > 0) {?>
                     <div class="form-group">
                         <label for="extras">Add Extras</label>
                         <div class="extras-list">
-                            {foreach from=$extras item=extra}
+                            <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('extras'), 'extra');
+$foreach0DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('extra')->value) {
+$foreach0DoElse = false;
+?>
                                 <div class="extra-item">
                                     <input type="checkbox" 
-                                        id="extra_{$extra->getIdExtra()}" 
+                                        id="extra_<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
+" 
                                         name="extras[]" 
-                                        value="{$extra->getIdExtra()}" 
-                                        data-price="{$extra->getPriceExtra()}" 
-                                        {if isset($selectedExtras) && in_array($extra->getIdExtra(), $selectedExtras)}checked{/if}>
-                                    <label for="extra_{$extra->getIdExtra()}">
-                                        {$extra->getNameExtra()} (+€{$extra->getPriceExtra()|number_format:2:',':' '})
+                                        value="<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
+" 
+                                        data-price="<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>
+" 
+                                        <?php if ((true && ($_smarty_tpl->hasVariable('selectedExtras') && null !== ($_smarty_tpl->getValue('selectedExtras') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('in_array')($_smarty_tpl->getValue('extra')->getIdExtra(),$_smarty_tpl->getValue('selectedExtras'))) {?>checked<?php }?>>
+                                    <label for="extra_<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
+">
+                                        <?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
+ (+€<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('extra')->getPriceExtra(),2,',',' ');?>
+)
                                     </label>
                                 </div> <!-- /.extra-item-->
-                            {/foreach}
+                            <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         </div> <!-- /.extra-list-->
                     </div> <!-- /.form-group-->
 
                     <div class="total-extras-box" id="totalExtrasBox">
                         <strong>Totale Extra:</strong> €<span id="extrasTotal">0.00</span>
                     </div> <!-- /.total-extra-box-->
-                {/if}
+                <?php }?>
 
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
@@ -87,11 +128,13 @@
         </div>  <!--/.panel-->
 
         <!-- Footer-->
-        {include file='footerUser.tpl'}
+        <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+?>
 
         <!-- Pezzo JavaScript scritto per permettere alla pagina di aggiornare dinamicamente il totale in base alla selezione degli extra fatta sul
          momento dall'utente, non era possibile eseguire questo comportamento con solo html/tpl senza dover ricaricare la pagina ogni volta, poco user-friendly-->
-        <script>
+        <?php echo '<script'; ?>
+>
         // Quando tutto il contenuto della pagina è stato caricato...
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -126,7 +169,9 @@
             // Calcola subito il totale al primo caricamento della pagina
             updateTotal();
         });
-        </script>
+        <?php echo '</script'; ?>
+>
 
     </body>
-</html>
+</html><?php }
+}

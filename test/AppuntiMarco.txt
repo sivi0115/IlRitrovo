@@ -59,18 +59,12 @@ deleteReview() -> permette di eliminare la review + redirect
 CLASSE CRESERVATION:
 
 --CU PRENOTAZIONE DI UN TAVOLO--
-showTableForm() -> Mostra la pagina con le form per i dati della prenotazione di un tavolo
-showValidTable() -> A seguito dei dati inseriti controlla e mostra tutti i tavoli disponibili per la data desiderata
-dataTableReservation() -> Prende i dati e mostra il repilogo dei dati della prenotazione + bottone conferma
-checkTableReservation() -> Valida i dati e crea la prenotazione
-Da implementare i metodi che permettono di tornare agli step precedenti mantenendo i dati 
-Da cambiare tutti i avaliable in available
-Da cambiare le action nei tpl
+PERFETTAMENTE FUNZIONANTE
 
 --CU PRENOTAZIONE DI UNA SALA--
-da implementare checkRoomReservation()
-NON implementabili se non si sblocca il totalprice
-Da cambiare Room in Hall
+PERFETTAMENTE FUNZIONANTE
+aggiungere solamente il collegamento per inserire una nuova carta di credito
+spostare solamente i bottoni next a destra
 
 
 --CU RIMOZIONE DI UNA RECENSIONE ADIMN-- RIPRENDERE DA QUI

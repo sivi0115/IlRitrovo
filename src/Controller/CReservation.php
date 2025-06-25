@@ -18,6 +18,10 @@ use Foundation\FCreditCard;
 use Foundation\FDatabase;
 use Foundation\FExtra;
 use Foundation\FRoom;
+use Entity\EPayment;
+use Entity\StatoPagamento;
+use Foundation\FPayment;
+
 
 class CReservation {
     /**
@@ -30,19 +34,15 @@ class CReservation {
      * Function to show Reservation Table forms
      */
     public function showTableForm() {
-    $view = new VReservation();
+    $viewU= new VUser();
+    $viewR=new VReservation();
     $session = USessions::getIstance();
-    // Se utente loggato, salva idUser in sessione (se non già presente)
-    if (CUser::isLogged()) {
-        if (!$session->isValueSet('idUser')) {
-            $userId = $session->readValue('idUser'); // Prova a leggere l'idUser
-            // Se per qualche motivo non c'è, recuperalo dalla fonte giusta (es. DB, token, ecc)
-            // Altrimenti potresti settarlo qui se già disponibile (dipende dalla logica)
-            // Ma probabilmente qui basta solo confermare che è già in sessione
-        }
+    if($isLogged=CUser::isLogged()) {
+        $idUser=$session->readValue('idUser');
     }
-    // Mostro la form
-    $view->showTableForm();
+    // Carico l'header e la pagina con lo step 1 della prenotazione di un tavolo
+    $viewU->showUserHeader($isLogged);
+    $viewR->showTableForm();
     }
 
     /**
@@ -51,10 +51,12 @@ class CReservation {
      * @throws Excpetion if detected errors
      */
     public function showValidTable() {
-        $view=new VReservation(); 
+        $viewU=new VUser();
+        $viewR=new VReservation(); 
         $session=USessions::getIstance();
-        $session->startSession();
-        $idUser=$session->readValue('idUser');
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         $reservation=new EReservation(
             null,
             $idUser,
@@ -85,7 +87,8 @@ class CReservation {
         $session->setValue('avaliableTables', $avaliableTables);
         $session->setValue('reservation', $reservation);
         //Passo i parametri a view
-        $view->showSummaryAndAvaliableTables($timeFrame, $people, $reservationDate, $comment, $avaliableTables);
+        $viewU->showUserHeader($isLogged);
+        $viewR->showSummaryAndAvaliableTables($timeFrame, $people, $reservationDate, $comment, $avaliableTables);
 
     }
 
@@ -93,11 +96,12 @@ class CReservation {
      * Function to show summary and avaliable tables, and allow user to select the wished table
      */
     public function dataTableReservation() {
-
-        //Mostrare lo spet3 
-        $view=new VReservation(); 
+        $viewU=new VUser();
+        $viewR=new VReservation(); 
         $session=USessions::getIstance();
-        $session->startSession();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         $timeFrame =$session->readValue('timeFrame');
         $people=$session->readValue('people');
         $date=$session->readValue('date');
@@ -106,7 +110,8 @@ class CReservation {
         //Aggiungo il tavolo selezionato in sessione
         $session->setValue('selectedTable', $selectedTable);
         //Passo le informazioni a View
-        $view->showFullSummary($timeFrame, $people, $date, $comment, $selectedTable);
+        $viewU->showUserHeader($isLogged);
+        $viewR->showFullSummary($timeFrame, $people, $date, $comment, $selectedTable);
     }
 
     /**
@@ -132,34 +137,24 @@ class CReservation {
         $session->deleteValue('comment');
         $session->deleteValue('avaliableTables');
         //Reindirizzo alla home page
-        header('Location: /~marco/Progetto/IlRitrovo/test/testController/test_success_signup.html');
+        header("Location: /IlRitrovo/public/User/showHomePage");
     }
-
-
-
-
-
-
-
 
     /**
      * Function to show Reservation Room form
      */
     public function showRoomForm() {
         $allExtras=FPersistentManager::getInstance()->readAll(FExtra::class);
-        $view = new VReservation();
+        $viewU=new VUser();
+        $viewR=new VReservation();
         $session = USessions::getIstance();
         // Se utente loggato, salva idUser in sessione (se non già presente)
-        if (CUser::isLogged()) {
-            if (!$session->isValueSet('idUser')) {
-                $userId = $session->readValue('idUser'); // Prova a leggere l'idUser
-                // Se per qualche motivo non c'è, recuperalo dalla fonte giusta (es. DB, token, ecc)
-                // Altrimenti potresti settarlo qui se già disponibile (dipende dalla logica)
-                // Ma probabilmente qui basta solo confermare che è già in sessione
-            }
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
         }
-    // Mostro la form
-    $view->showRoomForm($allExtras);
+
+        $viewU->showUserHeader($isLogged);
+        $viewR->showRoomForm($allExtras);
     }
 
     /**
@@ -168,10 +163,12 @@ class CReservation {
      * @throws Excpetion if something goes wrong
      */
     public function showValidRooms() {
-        $view=new VReservation();
+        $viewU=new VUser();
+        $viewR=new VReservation();
         $session=USessions::getIstance();
-        $session->startSession();
-        $idUser=$session->readValue('idUser');
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         //Carico gli extra selezionati dall'utente in $selectedExtras[]
         $selectedExtras=[];
         if(UHTTPMethods::post('extras')) {
@@ -224,18 +221,21 @@ class CReservation {
         $session->setValue('availableRooms', $availableRooms);
         $session->setValue('reservation', $reservation);
         //Passo i parametri a View 
-        $view->showSummaryAndAvailableRooms($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $totalPriceExtra, $availableRooms);
+        $viewU->showUserHeader($isLogged);
+        $viewR->showSummaryAndAvailableRooms($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $totalPriceExtra, $availableRooms);
     }
 
     /**
      * Function to show summary with total price (extra+room) and payment methods
      */
     public function dataRoomReservation() {
-        $view=new VReservation();
+        $viewU=new VUser();
+        $viewR=new VReservation();
         $session=USessions::getIstance();
-        $session->startSession();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         //Recupero i dati dalla sessione
-        $idUser=$session->readValue('idUser');
         $timeFrame=$session->readValue('timeFrame');
         $people=$session->readValue('people');
         $reservationDate=$session->readValue('reservationDate');
@@ -245,7 +245,7 @@ class CReservation {
         //Prendo l'id della stanza selezionata dalla richiesta post
         $idSelectedRoom=UHTTPMethods::post('idRoom');
         //Ottengo il prezzo della stanza che sommo al prezzo degli extra (salvato in sessione)
-        $selectedRoom=FPersistentManager::getInstance()->read($idSelectedRoom, FRoom::class);
+        $selectedRoom=FPersistentManager::getInstance()->read((int)$idSelectedRoom, FRoom::class);
         $roomTax=$selectedRoom->getTax();
         $extraAndRoomPrice=$totalPriceExtra+$roomTax;
         //Carico le carte di credito associate all'utente per visualizzarle
@@ -254,16 +254,20 @@ class CReservation {
         $session->setValue('idRoom', $idSelectedRoom);
         $session->setValue('extraAndRoomPrice', $extraAndRoomPrice);
         //Passo i valori a View per la visualizzazione del riepilogo dati precedentemente inseriti
-        $view->showSummaryAndPaymentMethods($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $userCreditCards);
+        $viewU->showUserHeader($isLogged);
+        $viewR->showSummaryAndPaymentMethods($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $userCreditCards);
     }
 
     /**
      * Function to show full summary and the credit card select by the user for the payment
      */
     public function showSummaryRoomAndPaymentForm() {
-        $view=new VReservation();
+        $viewU=new VUser();
+        $viewR=new VReservation();
         $session=USessions::getIstance();
-        $session->startSession();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         $timeFrame=$session->readValue('timeFrame');
         $people=$session->readValue('people');
         $reservationDate=$session->readValue('reservationDate');
@@ -278,8 +282,46 @@ class CReservation {
         $idSelectedCard=UHTTPMethods::post('selectedCardId');
         //Recupero la carta da db grazie al suo id
         $selectedCard=FPersistentManager::getInstance()->read($idSelectedCard, FCreditCard::class);
+        //Salvo i dati in sessione per il pagamento nello step successivo
+        $session->setValue('idSelectedCard', $idSelectedCard);
         //Passo i parametri a view
-        $view->showSummaryRoomAndPaymentMethodes($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $selectedCard);
+        $viewU->showUserHeader($isLogged);
+        $viewR->showSummaryRoomAndPaymentMethodes($timeFrame, $people, $reservationDate, $comment, $selectedExtras, $selectedRoom, $extraAndRoomPrice, $selectedCard);
+    }
+
+    /**
+     * Function to create a new Payment in association with the selected credit card in previews step
+     */
+    public function checkPayment() {
+        $viewU=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
+        $reservation=$session->readValue('reservation');
+        $idRoom=$session->readValue('idRoom');
+        $idSelectedCard=$session->readValue('idSelectedCard');
+        $extraAndRoomPrice=$session->readValue('extraAndRoomPrice');
+        $reservation->setIdUser($idUser);
+        $reservation->setIdRoom($idRoom);
+        $reservation->setCreationTime(new DateTime());
+        $reservation->setState('approved');
+        $reservation->setTotPrice($extraAndRoomPrice);
+        //Registro la prenotazione su db, verranno salvati anche gli extra associati in extrainreservation
+        $newIdReservation=FPersistentManager::getInstance()->create($reservation);
+        //Adesso istanzio il pagamento per tenerne traccia
+        $newPayment=new EPayment(
+            null,
+            $idSelectedCard,
+            $newIdReservation,
+            $extraAndRoomPrice,
+            new DateTime(),
+            StatoPagamento::COMPLETATO
+        );
+        //Metto il pagamento su db
+        FPersistentManager::getInstance()->create($newPayment);
+        //Reindirizzo alla schermata home
+        header("Location: /IlRitrovo/public/User/showHomePage");
     }
 
 }

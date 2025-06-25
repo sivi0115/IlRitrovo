@@ -60,6 +60,13 @@ use Exception;
     }
 
     /**
+     * Function to create extra in reservation
+     */
+    public function createExtrasInReservation(object $obj) {
+        return $this->performOperation('createExtrasInReservation', $this->getClassName($obj), $obj);
+    }
+
+    /**
      * Read an object from the database.
      *
      * @param int $id The ID of the object to load.
@@ -69,6 +76,13 @@ use Exception;
      */
     public function read(int $id, string $fClass): ?object {
         return $this->performOperation('read', $fClass, $id);
+    }
+
+    /**
+     * 
+     */
+    public function readExtrasInReservation(object $obj, string $fClass) {
+        return $this->performOperation('readExtrasInReservation', $fClass, $obj);
     }
 
     /**

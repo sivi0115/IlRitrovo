@@ -106,7 +106,7 @@
             </div>
 
             <!-- Bottoni di navigazione -->
-            <form action="/IlRitrovo/public/Reservation/dataRoomReservation" method="POST">
+            <form action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm" method="POST">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
