@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 16:04:42
+/* Smarty version 5.5.1, created on 2025-06-25 11:00:05
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ab07aa63395_78243025',
+  'unifunc' => 'content_685bba955735d5_58254912',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2a9cf9abbe3b545d30fee2e06380374ba38758cc' => 
     array (
       0 => 'login.tpl',
-      1 => 1750773871,
+      1 => 1750841504,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685ab07aa63395_78243025 (\Smarty\Template $_smarty_tpl) {
+function content_685bba955735d5_58254912 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -45,7 +45,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
                     <button type="submit">Login</button>
                 </form>
-                <p>Don't have an account? <a href="CFrontController.php?controller=CUser&task=showSignupPage">Sign up here</a></p>
+                <p>Don't have an account? <a href="/IlRitrovo/public/User/showSignUpForm">Sign up here</a></p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
         

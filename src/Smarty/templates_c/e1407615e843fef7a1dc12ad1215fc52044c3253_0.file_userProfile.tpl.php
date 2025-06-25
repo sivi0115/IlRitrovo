@@ -1,26 +1,27 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 17:39:39
+/* Smarty version 5.5.1, created on 2025-06-25 11:00:15
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ac6bb07c9f3_73787916',
+  'unifunc' => 'content_685bba9fd112c8_23011066',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1750779571,
+      1 => 1750841504,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
+    'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685ac6bb07c9f3_73787916 (\Smarty\Template $_smarty_tpl) {
+function content_685bba9fd112c8_23011066 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -29,13 +30,14 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Your Profile - Il Ritrovo</title>       
         <!-- Template Stylesheet -->
-        <link href=/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
-        <!-- Header -->
-        
+
+        <!-- Header incluso tramite View-->
+
         <!-- Profile -->
         <div class="panel panel-default">
             <div class="panel-heading">User Profile</div>
@@ -58,90 +60,34 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                                 <div class="credential-item"><strong>Email: </strong><?php echo $_smarty_tpl->getValue('email');?>
 </div>
                                 <div class="credential-item"><strong>Password: </strong>********</div>
-                            </div> <!-- /.credentials-row-->
+                            </div> <!-- /.credentials-row -->
                             <div class="form-action-right">
                                 <a href="/IlRitrovo/public/User/showEditProfileMetadata" class="btn edit">Edit</a>
-                            </div> <!-- /.form-action-right-->
-                            <?php if ($_smarty_tpl->getValue('edit_section') == 'metadata') {?>
-                                <form method="post" action="/IlRitrovo/public/User/editProfileMetadata" class="edit-form open">
-                                    <div class="credentials-row">
-                                        <div class="credential-item">
-                                            <label>Username</label>
-                                            <input type="text" name="username" value="<?php echo $_smarty_tpl->getValue('username');?>
-" required>
-                                        </div> <!-- /.credential-item-->
-                                        <div class="credential-item">
-                                            <label>Email</label>
-                                            <input type="email" name="email" value="<?php echo $_smarty_tpl->getValue('email');?>
-" required>
-                                        </div> <!-- /.credential-item-->
-                                    </div> <!-- /.credentials-row-->
-                                    <div class="credentials-row">
-                                        <div class="credential-item">
-                                            <label>Password</label>
-                                            <input type="password" name="password" required>
-                                        </div> <!-- /.credential-item-->
-                                    </div> <!-- /.credentials-row-->
-                                    <div class="form-action-right">
-                                        <button type="submit" class="btn edit">Save access data</button>
-                                    </div> <!-- /.form-action-right-->
-                                </form>
-                            <?php }?>
-                        </div> <!-- /.user-info-group-->
+                            </div> <!-- /.form-action-right -->
+                        </div> <!-- /.user-info-group -->
                         <hr class="separator">
-                        <!-- Gruppo 2: Dati personali -->
+                        <!-- Group 2: Personal Data -->
                         <div class="user-info-group">
                             <div class="personal-data-row">
                                 <div class="personal-item"><strong>Name:</strong> <?php echo $_smarty_tpl->getValue('name');?>
 </div>
                                 <div class="personal-item"><strong>Surname:</strong> <?php echo $_smarty_tpl->getValue('surname');?>
 </div>
-                            </div> <!-- /.personal-data-row-->
+                            </div> <!-- /.personal-data-row -->
                             <div class="personal-data-row">
                                 <div class="personal-item"><strong>Birth Date:</strong> <?php echo $_smarty_tpl->getValue('birthdate');?>
 </div>
                                 <div class="personal-item"><strong>Phone:</strong> <?php echo $_smarty_tpl->getValue('phone');?>
 </div>
-                            </div> <!-- /.personal-data-row-->
+                            </div> <!-- /.personal-data-row -->
                             <div class="form-action-right">
                                 <a href="/IlRitrovo/public/User/showEditProfileData" class="btn edit">Edit</a>
-                            </div><!-- /.form-action-right-->
-                            <?php if ($_smarty_tpl->getValue('edit_section') == 'data') {?>
-                                <form method="post" action="/IlRitrovo/public/User/editProfileData" class="edit-form open">
-                                    <div class="personal-data-row">
-                                        <div class="personal-item">
-                                            <label>Name</label>
-                                            <input type="text" name="name" value="<?php echo $_smarty_tpl->getValue('name');?>
-" required>
-                                        </div> <!-- /.personal-data-item-->
-                                        <div class="personal-item">
-                                            <label>Surname</label>
-                                            <input type="text" name="surname" value="<?php echo $_smarty_tpl->getValue('surname');?>
-" required>
-                                        </div> <!-- /.personal-data-item-->
-                                    </div> <!-- /.personal-data-row-->
-                                    <div class="personal-data-row">
-                                        <div class="personal-item">
-                                            <label>Birth Date</label>
-                                            <input type="date" name="birthdate" value="<?php echo $_smarty_tpl->getValue('birthdate');?>
-" required>
-                                        </div> <!-- /.personal-data-item-->
-                                        <div class="personal-item">
-                                            <label>Phone</label>
-                                            <input type="tel" name="phone" value="<?php echo $_smarty_tpl->getValue('phone');?>
-" required>
-                                        </div> <!-- /.personal-data-item-->
-                                    </div> <!-- /.personal-data-row-->
-                                    <div class="form-action-right">
-                                        <button type="submit" class="btn edit">Save Data</button>
-                                    </div> <!-- /.form-action-right-->
-                                </form>
-                            <?php }?>
-                        </div> <!-- /.user-info-group-->
+                            </div> <!-- /.form-action-right -->
+                        </div> <!-- /.user-info-group -->
                     </div> <!-- /.profile-info-section-->
-                </div> <!-- /.profile-container-->
-            </div> <!-- /.panel-body-->
-        </div> <!-- /.panel panel-default-->
+                </div> <!-- /.profile-container -->
+            </div> <!-- /.panel-body -->
+        </div> <!-- /.panel panel-default -->
 
         <!-- Cards -->
         <div class="panel">
@@ -168,8 +114,8 @@ $foreach0DoElse = false;
 </li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard=<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
-" 
+                                <a href="/IlRitrovo/public/CreditCard/delete/<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
+"
                                 class="btn delete"> Delete </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
@@ -177,13 +123,12 @@ $foreach0DoElse = false;
                 <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                <div class="credit-card add-card-btn" onclick="location.href='?action=addCard'" title="Aggiungi nuova carta">
+                <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/addCard'" title="Aggiungi nuova carta">
                     <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
                 </div> <!-- /credit-card add-card-btn-->
             </div> <!-- /.card-row-->
             <?php if ($_smarty_tpl->getValue('showForm')) {?>
-                <form method="post" action="<?php echo $_smarty_tpl->getValue('formAction');?>
-" class="card-form">
+                <form method="post" action="/IlRitrovo/public/CreditCard/checkAddCreditCard" class="card-form">
                     <label for="cardType">Type</label>
                     <select name="cardType" id="cardType" required>
                         <option value="">Select type</option>
@@ -280,12 +225,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <span>My Past Reservations</span>
             <?php if ($_smarty_tpl->getValue('userReview') === null) {?>
-                <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
+                <a href="/IlRitrovo/public/Review/showAddReview" class="btn edit">Review</a>
             <?php }?>
         </div> <!-- /.panel-heading-->
         <?php if ($_smarty_tpl->getValue('review') === null) {?>
             <div class="review-form">
-                <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+                <form action="/IlRitrovo/public/Review/checkAddReview" method="post">
                     <label for="stars">Rating:</label>
                     <div class="rating-stars">
                         <?php
@@ -294,7 +239,7 @@ if ($_smarty_tpl->tpl_vars['i']->total > 0) {
 for ($_smarty_tpl->tpl_vars['i']->value = 5, $_smarty_tpl->tpl_vars['i']->iteration = 1;$_smarty_tpl->tpl_vars['i']->iteration <= $_smarty_tpl->tpl_vars['i']->total;$_smarty_tpl->tpl_vars['i']->value += $_smarty_tpl->tpl_vars['i']->step, $_smarty_tpl->tpl_vars['i']->iteration++) {
 $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 1;$_smarty_tpl->tpl_vars['i']->last = $_smarty_tpl->tpl_vars['i']->iteration === $_smarty_tpl->tpl_vars['i']->total;?>
                             <input type="radio" name="stars" id="star<?php echo $_smarty_tpl->getValue('i');?>
-" value="<?php echo $_smarty_tpl->getValue('stars');?>
+" value="<?php echo $_smarty_tpl->getValue('i');?>
 " required>
                             <label for="star<?php echo $_smarty_tpl->getValue('i');?>
 ">★</label>
@@ -303,7 +248,8 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 
 ?>
                     </div> <!-- /.rating-stars-->
                     <label for="body">Your Review:</label>
-                    <textarea name="body" value="$body" rows="4" required></textarea>
+                    <textarea name="body" rows="4" required><?php echo (($tmp = $_smarty_tpl->getValue('body') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+</textarea>
                     <div class="form-action-right">
                         <button type="submit" class="btn save">Submit</button>
                     </div> <!-- /.form-action-right-->
@@ -316,7 +262,7 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 
                 <p><strong>Review:</strong> <?php echo $_smarty_tpl->getValue('review')->getBody();?>
 </p>
                 <div class="form-action-right">
-                    <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview=<?php echo $_smarty_tpl->getValue('review')->getIdReview();?>
+                    <a href="/IlRitrovo/public/Review/deleteReview/<?php echo $_smarty_tpl->getValue('review')->getIdReview();?>
 " class="btn delete">Delete</a>
                 </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
@@ -378,6 +324,8 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         </div> <!-- /.panel-->
 
         <!-- Footer-->
-            </body>
+        <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+?>
+    </body>
 </html><?php }
 }

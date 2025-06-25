@@ -126,7 +126,6 @@ class VUser {
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
-        $smarty->assign('edit_section', 'data');
-        $smarty->display('userProfile.tpl');
+        $smarty->display('editProfileData.tpl');
     }
 }

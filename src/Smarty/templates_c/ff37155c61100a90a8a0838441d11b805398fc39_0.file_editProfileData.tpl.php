@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-25 11:19:10
+  from 'file:editProfileData.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_685bbf0ee79225_57546886',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    'ff37155c61100a90a8a0838441d11b805398fc39' => 
+    array (
+      0 => 'editProfileData.tpl',
+      1 => 1750843051,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_685bbf0ee79225_57546886 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">    
@@ -39,16 +63,20 @@
                 <h2>Edit Personal Data</h2>
                 <form method="post" action="/IlRitrovo/public/User/editProfileData">
                     <label for="name">Name</label>
-                    <input type="text" id="name" name="name" value="{$name}" required />
+                    <input type="text" id="name" name="name" value="<?php echo $_smarty_tpl->getValue('name');?>
+" required />
 
                     <label for="surname">Surname</label>
-                    <input type="text" id="surname" name="surname" value="{$surname}" required />
+                    <input type="text" id="surname" name="surname" value="<?php echo $_smarty_tpl->getValue('surname');?>
+" required />
 
                     <label for="birthDate">Birth Date</label>
-                    <input type="date" id="birthDate" name="birthDate" value="{$birthDate}" required />
+                    <input type="date" id="birthDate" name="birthDate" value="<?php echo $_smarty_tpl->getValue('birthDate');?>
+" required />
 
                     <label for="phone">Phone</label>
-                    <input type="tel" id="phone" name="phone" value="{$phone}" required />
+                    <input type="tel" id="phone" name="phone" value="<?php echo $_smarty_tpl->getValue('phone');?>
+" required />
 
                     <button type="submit">Save Personal Data</button>
                 </form>
@@ -59,4 +87,5 @@
         <!-- Footer-->
 
     </body>
-</html>
+</html><?php }
+}

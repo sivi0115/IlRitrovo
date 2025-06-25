@@ -141,7 +141,7 @@ class CUser {
             //Verifico se ci sono errori
             if($updated) {
                 //Nessun errore, reindirizzo alla home page
-                header("Home Page");
+                header("Location: /IlRitrovo/public/User/showProfile");
             }
         } catch (Exception $e) {
             //Se ci sono stati errori reindirizzo ad una schermata di errore
