@@ -20,7 +20,7 @@
             <li><a href="/IlRitrovo/public/User/showAdminHomePage">Home</a></li>
             <li><a href="/IlRitrovo/public/User/showUsersPage">Users</a></li>
             <li><a href="/IlRitrovo/public/Extra/showExtrasPage">Extras</a></li>
-            <li><a href="/IlRitrovo/public/Review/showAdminReviewsPage">Reviews</a></li>
+            <li><a href="/IlRitrovo/public/Review/showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 

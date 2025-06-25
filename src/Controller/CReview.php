@@ -21,14 +21,6 @@ class CReview {
      */
     public function __construct() {
     }
-
-    /**
-     * Function used to show Review's form (Dalla schermata di informazioni personali)
-     */
-    public function showAddReview() {
-        
-    }
-
     /**
      * Function to add a Review (past reservation needed)
      */
@@ -50,7 +42,7 @@ class CReview {
         //Salvo la recensione creata e reindirizzo alla schermata informazioni. Tutte le validazioni sono affidate a foundation
         try {
             FPersistentManager::getInstance()->create($newReview);
-            echo "Operazione effettuata con successo";
+            header("Location: /IlRitrovo/public/User/showProfile");
         } catch (Exception $e) {
             echo "Operazione non effettuata" . $e->getMessage();
             //$view->showAddReviewError;
@@ -66,7 +58,7 @@ class CReview {
     public function deleteReview($idReview) {
         $deleted=FPersistentManager::getInstance()->delete($idReview, FReview::class);
         if($deleted) {
-            header("Location: http://localhost/~marco/Progetto/IlRitrovo/src/CFrontController.php?controller=CReview&task=showReviewsPage");
+            header("Location: /IlRitrovo/public/User/showProfile");
         exit;
         } else {
             echo "Errore nell'esecuzione della cancellazione";
@@ -77,11 +69,12 @@ class CReview {
      * Function to show the review's page
      */
     public function showReviewsPage() {
-        $view=new VReview();
+        $viewU=new VUser();
+        $viewR=new VReview();
         $session=USessions::getIstance();
-        $session->startSession();
-        //Carico l'id dell'utente dalla sessione
-        $idUser=$session->readValue('idUser');
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
         //Carico l'oggetto EUser dal suo id
         $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
         //Carico tutte le recensioni esistenti
@@ -98,12 +91,14 @@ class CReview {
                 $review->setUsername('Unknown User');
             }
         }
-        //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin
+        //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin con relativo header
         if($user->isAdmin()) {
-            $view->showReviewsAdminPage($allReviews);
+            $viewU->showAdminHeader($isLogged);
+            $viewR->showReviewsAdminPage($allReviews);
         } else {
-            //Altrimenti visualizzerà la pagina recensioni dell'utente normale
-            $view->showReviewsUserPage($allReviews);
+            //Altrimenti visualizzerà la pagina recensioni dell'utente normale con realtivo header
+            $viewU->showUserHeader($isLogged);
+            $viewR->showReviewsUserPage($allReviews);
         }
     }
 }

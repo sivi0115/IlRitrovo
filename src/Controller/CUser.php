@@ -208,7 +208,6 @@ class CUser {
             UHTTPMethods::post('username'),
             UHTTPMethods::post('email'),
             UHTTPMethods::post('password'),
-            null,
             UHTTPMethods::post('name'),
             UHTTPMethods::post('surname'),
             new DateTime(UHTTPMethods::post('birthDate')),
