@@ -131,8 +131,7 @@ class FUser {
             'name' => $user->getName(),
             'surname' => $user->getSurname(),
             'birthDate' => $user->getBirthDate(),
-            'phone' => $user->getPhone(),
-            'image' => $user->getImage()
+            'phone' => $user->getPhone()
         ];
         //Controllo se i campi inseriti non sono vuoti
         if(empty($data['name'])) {
@@ -450,7 +449,6 @@ class FUser {
             $data['username'],
             $data['email'],
             $data['password'],
-            $data['image'],
             $data['name'],
             $data['surname'],
             new DateTime($data['birthDate']),
@@ -473,7 +471,6 @@ class FUser {
             'username' => $user->getUsername(),
             'email' => $user->getEmail(),
             'password' => $user->getPassword(),
-            'image' => $user->getImage(),
             'ban' => $user->getBan() ? 1 : 0,
             'name' => $user->getName(),
             'surname' => $user->getSurname(),

@@ -17,7 +17,7 @@
                 {if isset($error)}
                     <div class="form-error">{$error}</div>
                 {/if}
-                <form action="/IlRitrovo/public/User/processSignup" method="POST">
+                <form action="/IlRitrovo/public/User/checkRegister" method="POST">
                     <label for="username">Username</label>
                     <input
                     type="text"

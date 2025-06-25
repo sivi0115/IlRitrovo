@@ -22,8 +22,8 @@
 /* RIQUADRO SINGOLO EXTRA */
 .extra-item {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
   background-color: #fef7ec;
   border: 1px solid #e0d5c0;
   padding: 1rem 1.2rem;
@@ -33,20 +33,29 @@
   color: #4a3b2c;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
   width: 100%;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-/* SEZIONE INFO */
+/* SEZIONE INFO - occupa 2 colonne: nome + prezzo */
 .extra-info {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 2rem;
   flex: 1;
+  gap: 1rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.extra-info > div {
+  flex: 1;
+  overflow: hidden;
 }
 
 .extra-info strong {
   font-weight: 600;
   color: #4a3b2c;
+  display: inline-block;
   min-width: 60px;
 }
 
@@ -63,14 +72,17 @@
   border-radius: 6px;
   background-color: #fff;
   color: #4a3b2c;
-  width: 150px;
+  width: 100%;
+  max-width: 120px;
 }
 
 /* AZIONI (pulsanti) */
 .extra-actions {
+  flex-shrink: 0;
   display: flex;
-  flex-direction: row;
   gap: 0.5rem;
+  width: auto;
+  justify-content: flex-end;
 }
 
 /* PULSANTI */
@@ -87,6 +99,40 @@
   align-items: center;
   justify-content: center;
   color: white;
+  width: 60px;
+  height: 20px;
+}
+
+.delete-btn {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px; /* padding più ampio */
+  border-radius: 6px;
+  background-color: #a02f2f;
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.extra-actions form {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 60px;
+  height: 20px;
 }
 
 /* PULSANTI COLORATI */
@@ -119,9 +165,9 @@
   border: 1px solid #e0d5c0;
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.04);
   font-family: 'Open Sans', sans-serif;
-  box-sizing: border-box; /* ✅ per evitare larghezze sbilanciate */
   width: 100%;
   max-width: 700px;
+  box-sizing: border-box;
 }
 
 #add-extra-form label {

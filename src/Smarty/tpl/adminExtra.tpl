@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">       
         <title>Extras - Il Ritrovo</title>
-        <link href="../css/styles.css" rel="stylesheet">
-        <link href="../css/extra.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/extra.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Header -->
-        {include file='headerAdmin.tpl'}
+
+        <!-- Header incluso tramite View-->
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -21,29 +21,17 @@
                         {foreach from=$extras item=extra}
                         <div class="extra-item">
                             <div class="extra-info">
-                            {if $extra.isEditing}
-                                <form method="POST" action="/IlRitrovo/public/User/saveEditExtra&id={$extra->getIdExtra()}">
-                                <label>Name:</label>
-                                <input type="text" name="name" value="{$extra->getName()}" class="editable-input" required>
-
-                                <label>Price:</label>
-                                <input type="number" name="price" value="{$extra->getPrice()}" class="editable-input" step="0.01" required> €
-                                
-                                <button type="submit" class="edit-btn-circle"><i class="fas fa-save"></i> Save</button>
-                                </form>
-                            {else}
                                 <strong>Name:</strong> <span>{$extra->getName()}</span>
                                 <strong>Price:</strong> <span>{$extra->getPrice()} €</span>
 
                                 <div class="extra-actions">
-                                <form method="GET" action="CFrontController.php?controller=CExtra&task=editExtra&id={$extra->getIdExtra()}">
-                                    <button class="edit-btn-circle"><i class="fas fa-pencil-alt"></i> Edit</button>
-                                </form>
-                                <form method="POST" action="CFrontController.php?controller=CExtra&task=deleteExtra&id={$extra->getIdExtra()}">
-                                    <button class="delete-btn"><i class="fa fa-trash"></i> Delete</button>
-                                </form>
+                                    <a href="/IlRitrovo/public/Extra/editExtra/{$extra->getIdExtra()}" class="edit-btn-circle">
+                                        <i class="fas fa-pencil-alt"></i> Edit
+                                    </a>
+                                    <form method="POST" action="/IlRitrovo/public/Extra/deleteExtra/{$extra->getIdExtra()}">
+                                        <button class="delete-btn"><i class="fa fa-trash"></i> Delete</button>
+                                    </form>
                                 </div>
-                            {/if}
                             </div>
                         </div>
                         {/foreach}
@@ -53,7 +41,7 @@
                 </div> <!--/.extra-list-->
                 <!-- Form per aggiungere un nuovo extra -->
                 <div class="extra-form-container" {if $show_extra_form}style="display: block;"{else}style="display: none;">
-                    <form action="CFrontController.php?controller=CExtra&task=addExtra" method="POST" id="add-extra-form">
+                    <form action="/IlRitrovo/public/Extra/addExtra" method="POST" id="add-extra-form">
                         <label for="name">Extra Name:</label>
                         <input type="text" id="name" name="name" required><br><br>
                         <label for="price">Price:</label>
@@ -62,7 +50,7 @@
                     </form>
                 </div>
                 <!-- Pulsante per aggiungere un nuovo extra -->
-                <form action="CFrontController.php?controller=CExtra&task=showAddExtra" method="POST">
+                <form action="/IlRitrovo/public/Extra/showAddExtra" method="POST">
                     <input type="hidden" name="action" value="show_form">
                     <button type="submit" class="btn btn-primary add-extra-btn">+ Add New Extra</button>
                 </form>

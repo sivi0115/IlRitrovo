@@ -47,11 +47,6 @@ class EUser implements JsonSerializable {
     public bool $passwordChanged = false;
 
     /** 
-     * @var string|null URL of the users's image. Nullable. 
-     */
-    public ?string $image;
-
-    /** 
      * @var bool Indicates if the user is banned. 
      */
     private bool $ban;
@@ -100,7 +95,6 @@ class EUser implements JsonSerializable {
      * @param string $username Username
      * @param string $email User's email
      * @param string $password User's password
-     * @param string|null $image URL of the user's image (optional)
      * @param bool $ban Indicates if the user is banned (default: false).
      * @param string $name First name of the user
      * @param string $surname Last name of the user
@@ -114,7 +108,6 @@ class EUser implements JsonSerializable {
         string $username,
         string $email,
         string $password,
-        ?string $image,
         string $name,
         string $surname,
         DateTime $birthDate,
@@ -127,7 +120,6 @@ class EUser implements JsonSerializable {
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
-        $this->image = $image;
         $this->ban = $ban;
         $this->reservations = [];
         $this->creditCards = [];
@@ -245,24 +237,6 @@ class EUser implements JsonSerializable {
      */
     public function isPasswordChanged(): bool {
         return $this->passwordChanged;
-    }
-
-    /**
-     * Gets the image URL of the user.
-     *
-     * @return string|null The URL of the user's image.
-     */
-    public function getImage(): ?string {
-        return $this->image;
-    }
-
-    /**
-     * Sets the image URL of the user.
-     *
-     * @param string|null $image The image URL to set.
-     */
-    public function setImage(?string $image): void {
-        $this->image = $image;
     }
 
     /**
@@ -476,7 +450,6 @@ class EUser implements JsonSerializable {
             'username' => $this->getUsername(),
             'email' => $this->getEmail(), // Include email if necessary
             // Note: We avoid serializing the password for security reasons.
-            'image' => $this->getImage(),
             'ban' => $this->ban,
             'reservations' => $this->reservations,
             'creditCards' => $this->creditCards,

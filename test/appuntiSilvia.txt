@@ -1,7 +1,7 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 COSE PER MARCO:
-aggiungere a CUser, processSignup questa logica:
+aggiungere a VUser, checkRegister questa logica:
    if ($userFoundByUsername) {
       $smarty->assign('error', 'Username già in uso. Scegli un altro.');
       $smarty->display('signup.tpl');
@@ -15,12 +15,9 @@ aggiungere a CUser, processSignup questa logica:
    }
 a cosa dovrebbe servire? serve a ricaricare la pagina di registrazione con un messaggio di errore se sceglie
 una mail o un username già in uso.
-NOTA: non ho trovato questa function in CUser
 
 ELENCO PRIORITA' DA FARE:
-- mettere i percorsi corretti nelle pagine e sistemare le questioni di header e footer:
-  - adminExtra
-- vedere se togliere tutte le parti relative alle immagini per l'utente
+- cookies
 - vedere dove aggiungere gli |escape per la sicurezza
 
 PAGINE PER L'UTENTE:
@@ -76,3 +73,95 @@ SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
    ok
 2. FOOTER ADMIN:
    ok
+
+      //FUNCTION CONTROLLER SHOW MENU
+       public static function showMenuPage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+            //Carico l'utente da db
+            $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+            //Controllo che sia amministratore o utente normale, se è utente normale
+            if($user->isUser() && $user->getBan()===0) {
+                //Mostro l'header con l'informazione che l'utente è loggato
+                $view->showUserHeader($isLogged);
+                //Carico la menu page correttamente per l'utente loggato
+                $view->showLoggedMenuPage($isLogged);
+            }
+        } else {
+            //Mostro l'header con l'informazione che l'utente non è loggato
+            $view->showUserHeader($isLogged);
+            //Carico la menu page correttamente per l'utente non loggato
+            $view->showMenuPage($isLogged);
+        }
+    }
+
+    //2 FUNCTION VIEW SHOW MENU
+    /**
+     * Function to show non unlogged user menu page
+     */
+    public function showMenuPage(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('menu.tpl');
+    }
+
+    /**
+     * Function to show logged user menu page
+     */
+    public function showLoggedMenuPage(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('menu.tpl');
+    }
+
+      //FUNCTION CONTROLLER SHOW ROOMS
+       public static function showRoomsPage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+            //Carico l'utente da db
+            $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+            //Controllo che sia amministratore o utente normale, se è utente normale
+            if($user->isUser() && $user->getBan()===0) {
+                //Mostro l'header con l'informazione che l'utente è loggato
+                $view->showUserHeader($isLogged);
+                //Carico la rooms page correttamente per l'utente loggato
+                $view->showLoggedRoomsPage($isLogged);
+            }
+        } else {
+            //Mostro l'header con l'informazione che l'utente non è loggato
+            $view->showUserHeader($isLogged);
+            //Carico la rooms page correttamente per l'utente non loggato
+            $view->showRoomsPage($isLogged);
+        }
+    }
+
+    //2 FUNCTION VIEW SHOW ROOMS
+    /**
+     * Function to show non unlogged user rooms page
+     */
+    public function showRoomsPage(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('rooms.tpl');
+    }
+
+    /**
+     * Function to show logged user rooms page
+     */
+    public function showLoggedRoomsPage(bool $isLogged) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty->assign('isLogged', $isLogged);
+        $smarty->display('rooms.tpl');
+    }
