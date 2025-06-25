@@ -12,6 +12,7 @@ use Foundation\FReview;
 use Foundation\FUser;
 use Utility\UHTTPMethods;
 use Utility\USessions;
+use View\VReservation;
 use View\VUser;
 use View\VReview;
 
@@ -56,12 +57,26 @@ class CReview {
      * @return bool true if success, false otherwise
      */
     public function deleteReview($idReview) {
+        $viewU=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
+        //Carico l'utente da db grazie al suo id User
+        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
+        //Elimino la recensione
         $deleted=FPersistentManager::getInstance()->delete($idReview, FReview::class);
-        if($deleted) {
+        //Se è un utente lo reindirizzo alla schermata informazioni
+        if($deleted && $user->isUser()) {
             header("Location: /IlRitrovo/public/User/showProfile");
         exit;
-        } else {
-            echo "Errore nell'esecuzione della cancellazione";
+        }
+        //Se è un admin lo reindirizzo alla schermata recensioni
+        elseif($deleted && $user->isAdmin()) {
+            header("Location: /IlRitrovo/public/Review/showReviewsPage");
+        }
+        elseif(!$deleted) {
+            echo "Errore durante l'operazione";
         }
     }
 
