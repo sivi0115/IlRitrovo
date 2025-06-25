@@ -3,18 +3,17 @@
     <head>
         <meta charset="utf-8">       
         <title>Reviews - Il Ritrovo</title>
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-        <link href="/~marco/Progetto/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
     </head>
     <body>
         <div class="page-container">
 
-            <!-- Header -->
-            {include file='headerAdmin.tpl'}
+            <!-- Header incluso tramite View-->
 
             <!-- Immagine di intestazione -->
             <section class="review-image">
-            <img src="../assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
+            <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
             </section>
 
             <section>
@@ -27,14 +26,14 @@
                             <p class="review-body">{$review->getBody()}</p>
                         </div> <!-- /.review-meta-->
                         <!-- Pulsante elimina recensione -->
-                        <form action="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" method="post">
+                        <form action="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" method="post">
                             <button type="submit" class="btn delete">Delete Review</button>
                         </form>
 
                         {if $review->getIdReply() === null}
                             {if isset($showReplyForm) && $showReplyForm == $review->getIdReview()}
                                 <section class="review-box admin-reply-form">
-                                    <form action="CFrontController.php?controller=CReply&task=addReply&idReview={$review->getIdReview()}" method="post">
+                                    <form action="/IlRitrovo/public/Reply/addReply/{$review->getIdReview()}" method="post">
                                         <label for="reply-{$review->getIdReview()}">Write reply:</label>
                                         <textarea id="reply-{$review->getIdReview()}" name="replyBody" rows="3" required></textarea>
                                         <div class="form-action-right">
@@ -43,13 +42,13 @@
                                     </form>
                                 </section>
                             {else}
-                                <a href="CFrontController.php?controller=CReply&task=showReplyForm&idReview={$review->getIdReview()}" class="btn save">Reply</a>
+                                <a href="/IlRitrovo/public/Reply/showReplyForm/{$review->getIdReview()}" class="btn save">Reply</a>
                             {/if}
                         {else}
                             <div class="admin-reply">
                                 <p><strong>Reply from the restaurant:</strong></p>
                                 <p>{$review->getReply()->getBody()}</p>
-                                <form action="CFrontController.php?controller=CReview&task=deleteReply&idReply={$review->getIdReply()}" method="post">
+                                <form action="/IlRitrovo/public/Review/deleteReply/{$review->getIdReply()}" method="post">
                                     <button type="submit" class="btn delete">Delete Reply</button>
                                 </form>
                             </div> <!-- /.admin-reply-->

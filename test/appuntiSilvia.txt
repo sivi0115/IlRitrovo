@@ -1,15 +1,26 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
+COSE PER MARCO:
+aggiungere a CUser, processSignup questa logica:
+   if ($userFoundByUsername) {
+      $smarty->assign('error', 'Username già in uso. Scegli un altro.');
+      $smarty->display('signup.tpl');
+      return;
+   }
+
+   if ($userFoundByEmail) {
+      $smarty->assign('error', 'Email già registrata. Effettua il login o usa un’altra email.');
+      $smarty->display('signup.tpl');
+      return;
+   }
+a cosa dovrebbe servire? serve a ricaricare la pagina di registrazione con un messaggio di errore se sceglie
+una mail o un username già in uso.
+NOTA: non ho trovato questa function in CUser
+
 ELENCO PRIORITA' DA FARE:
 - mettere i percorsi corretti nelle pagine e sistemare le questioni di header e footer:
   - adminExtra
-  - adminReview
-  - adminUsers
-  - menu
-  - review
-  - rooms
-  - signUp
-  - userProfile
+- vedere se togliere tutte le parti relative alle immagini per l'utente
 - vedere dove aggiungere gli |escape per la sicurezza
 
 PAGINE PER L'UTENTE:

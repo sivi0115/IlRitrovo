@@ -4,18 +4,17 @@
     <meta charset="utf-8">   
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews - Il Ritrovo</title>
-    <link href="../css/styles.css" rel="stylesheet">
-    <link href="../css/reviews.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
   </head>
   <body>
     <div class="page-container">
       
-      <!-- Header -->
-      {include file='headerUser.tpl'}
+      <!-- Header incluso tramite View-->
 
       <!-- Immagine di intestazione -->
       <section class="review-image">
-        <img src="../assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
+        <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
       </section>
 
       <!-- Sezione recensione personale -->
@@ -23,7 +22,7 @@
         <section class="review-box">
           {if $userReview === null}
             <h2>Leave your review</h2>
-            <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+            <form action="/IlRitrovo/public/Review/checkAddReview" method="post">
               <label for="stars">Rating:</label>
                 <div class="rating-stars">
                   {for $i=5 to 1 step -1}
@@ -43,7 +42,7 @@
               <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
               <p><strong>Review:</strong> {$review->getBody()}</p>
               <div class="form-action-right">
-                <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
+                <a href="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" class="btn delete">Delete</a>
               </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
           {/if}

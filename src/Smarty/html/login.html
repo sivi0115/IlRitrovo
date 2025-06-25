@@ -21,7 +21,7 @@
 
                     <button type="submit">Login</button>
                 </form>
-                <p>Don't have an account? <a href="CFrontController.php?controller=CUser&task=showSignupPage">Sign up here</a></p>
+                <p>Don't have an account? <a href="/IlRitrovo/public/User/showSignUpForm">Sign up here</a></p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
         

@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Rooms - Il Ritrovo</title>
-    <link rel="stylesheet" href="../css/styles.css"> <!-- CSS generale -->
-    <link rel="stylesheet" href="../css/home.css">   <!-- CSS specifico per le sezioni -->
+    <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css">
+    <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/home.css">
     </head>
     <body>
-        <!-- Header -->
-        {include file='headerUser.tpl'}
+
+        <!-- Header incluso tramite View-->
 
         <!-- ROOMS HERO SECTION -->
         <section class="rooms-section">
@@ -23,7 +23,7 @@
             <!-- Room 1 -->
             <div class="content-wrapper">
                 <div class="image-column">
-                    <img src="../assets/images/rooms/room1.jpeg" alt="Cozy and intimate room" class="framed-image">
+                    <img src="/IlRitrovo/src/Smarty/assets/images/rooms/room1.jpeg" alt="Cozy and intimate room" class="framed-image">
                 </div> <!-- /.image-column-->
                 <div class="content-column">
                     <button class="tag-btn">ROOM 1</button>
@@ -45,7 +45,7 @@
             <!-- Room 2 -->
             <div class="content-wrapper" style="flex-direction: row-reverse;">
                 <div class="image-column">
-                    <img src="../assets/images/rooms/room2.jpeg" alt="Spacious room for events" class="framed-image">
+                    <img src="/IlRitrovo/src/Smarty/assets/images/rooms/room2.jpeg" alt="Spacious room for events" class="framed-image">
                 </div> <!-- /.image column-->
                 <div class="content-column">
                     <button class="tag-btn">ROOM 2</button>
@@ -68,7 +68,7 @@
             <!-- Room 3 -->
             <div class="content-wrapper">
                 <div class="image-column">
-                    <img src="../assets/images/rooms/room3.jpeg" alt="Private tasting room" class="framed-image">
+                    <img src="/IlRitrovo/src/Smarty/assets/images/rooms/room3.jpeg" alt="Private tasting room" class="framed-image">
                 </div> <!-- /.image-column-->
                 <div class="content-column">
                     <button class="tag-btn">ROOM 3</button>
@@ -88,7 +88,7 @@
             </div>
         </section>
 
-    <!-- Footer-->
-    {include file='footerUser.tpl'}
+        <!-- Footer-->
+        {include file='footerUser.tpl'}
     </body>
 </html>

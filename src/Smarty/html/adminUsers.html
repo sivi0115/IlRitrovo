@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8">       
         <title>Users - Il Ritrovo</title>
-        <link href="../css/styles.css" rel="stylesheet">
-        <link href="../css/admin.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/admin.css" rel="stylesheet">
     </head>
     <body>
-        <!-- Header -->
-        {include file='headerAdmin.tpl'}
+        
+        <!-- Header incluso tramite View-->
 
         <!--Utenti bloccati-->
         <div class="panel panel-default">
@@ -19,7 +19,7 @@
                     {if $blocked_user|@count > 0}
                         {foreach from=$blocked_user item=user}
                             <div class="profile-card" id="banned-profile-{$user.idUser}">
-                                <img src="{$user.image_url|default:'../asset/images/logo/user.jpg'}" alt="User Image">
+                                <img src="/IlRitrovo/src/Smarty/asset/images/logo/user.jpg" alt="User Image">
                                 <h3 class="username">{$user->getUsername()}</h3>
                                 <p class="name"><strong>Name: </strong>{$user->getName()}</p>
                                 <p class="surname"><strong>Surname: </strong> {$user->getSurname()}</p>
@@ -27,7 +27,7 @@
                                 <p class="birthDate"><strong>Birth Date: </strong> {$user->getBirthDate()}</p>
                                 <p class="phone"><strong>Phone: </strong> {$user->getPhone()}</p>
                                 <div class="action-buttons">
-                                        <form action="CFrontController.php?controller=CUser&task=unbanUser&id={$user->getIdUser()}" method="post">
+                                        <form action="/IlRitrovo/public/User/unbanUser/{$user->getIdUser()}" method="post">
                                             <input type="hidden" name="userId" value="{$user->getIdUser()}">
                                             <button type="submit" name="action" title="Unban this user" value="unban" class="unban-user">Unban</button>
                                         </form>
@@ -50,7 +50,7 @@
                     {if $user|@count > 0}
                         {foreach from=$user item=user}
                             <div class="profile-card" id="profile-{$user.idUser}">
-                                <img src="{$user.image_url|default:'../asset/images/logo/user.jpg'}" alt="User Image">
+                                <img src="/IlRitrovo/src/Smarty/asset/images/logo/user.jpg" alt="User Image">
                                 <h3 class="username">{$user->getUsername()}</h3>
                                 <p class="name"><strong>Name: </strong>{$user->getName()}</p>
                                 <p class="surname"><strong>Surname: </strong> {$user->getSurname()}</p>
@@ -58,7 +58,7 @@
                                 <p class="birthDate"><strong>Birth Date: </strong> {$user->getBirthDate()}</p>
                                 <p class="phone"><strong>Phone: </strong> {$user->getPhone()}</p>
                                 <div class="action-buttons">
-                                    <form action="CFrontController.php?controller=CUser&task=banUser&id={$user->getIdUser()}" method="post">
+                                    <form action="/IlRitrovo/public/User/banUser/{$user->getIdUser()}" method="post">
                                         <input type="hidden" name="userId" value="{$user->getIdUser()}">
                                         <button type="submit" name="action" title="Ban this user" value="ban" class="ban-user">Ban</button>
                                     </form>

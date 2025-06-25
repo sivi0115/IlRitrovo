@@ -133,3 +133,13 @@
 .password-requirements li.valid {
   color: #3a8b54; /* verde */
 }
+
+.form-error {
+  background-color: #ffe0e0;
+  color: #8b3a3a;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  text-align: center;
+}

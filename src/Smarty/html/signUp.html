@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up - Il Ritrovo</title>
-    <link href="../css/loginSignup.css" rel="stylesheet" />
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>
@@ -14,7 +14,10 @@
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
                 <h2 id="signup-title">Create your account</h2>
-                <form action="CFrontController.php?controller=CUser&task=processSignup" method="POST">
+                {if isset($error)}
+                    <div class="form-error">{$error}</div>
+                {/if}
+                <form action="/IlRitrovo/public/User/processSignup" method="POST">
                     <label for="username">Username</label>
                     <input
                     type="text"
@@ -95,7 +98,7 @@
                     <button type="submit">Sign Up</button>
                 </form>
                 <p>
-                    Already have an account? <a href="CFrontController.php?controller=CUser&task=showLoginPage">Login here</a>.
+                    Already have an account? <a href="/IlRitrovo/public/User/showLoginForm">Login here</a>.
                 </p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->

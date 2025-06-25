@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Your Profile - Il Ritrovo</title>       
         <!-- Template Stylesheet -->
-        <link href=/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
-        <!-- Header -->
-        {* {include file='headerUser.tpl'} *}
+
+        <!-- Header incluso tramite View-->
 
         <!-- Profile -->
         <div class="panel panel-default">
@@ -33,80 +33,30 @@
                             <div class="credentials-row">
                                 <div class="credential-item"><strong>Email: </strong>{$email}</div>
                                 <div class="credential-item"><strong>Password: </strong>********</div>
-                            </div> <!-- /.credentials-row-->
+                            </div> <!-- /.credentials-row -->
                             <div class="form-action-right">
                                 <a href="/IlRitrovo/public/User/showEditProfileMetadata" class="btn edit">Edit</a>
-                            </div> <!-- /.form-action-right-->
-                            {if $edit_section == 'metadata'}
-                                <form method="post" action="/IlRitrovo/public/User/editProfileMetadata" class="edit-form open">
-                                    <div class="credentials-row">
-                                        <div class="credential-item">
-                                            <label>Username</label>
-                                            <input type="text" name="username" value="{$username}" required>
-                                        </div> <!-- /.credential-item-->
-                                        <div class="credential-item">
-                                            <label>Email</label>
-                                            <input type="email" name="email" value="{$email}" required>
-                                        </div> <!-- /.credential-item-->
-                                    </div> <!-- /.credentials-row-->
-                                    <div class="credentials-row">
-                                        <div class="credential-item">
-                                            <label>Password</label>
-                                            <input type="password" name="password" required>
-                                        </div> <!-- /.credential-item-->
-                                    </div> <!-- /.credentials-row-->
-                                    <div class="form-action-right">
-                                        <button type="submit" class="btn edit">Save access data</button>
-                                    </div> <!-- /.form-action-right-->
-                                </form>
-                            {/if}
-                        </div> <!-- /.user-info-group-->
+                            </div> <!-- /.form-action-right -->
+                        </div> <!-- /.user-info-group -->
                         <hr class="separator">
-                        <!-- Gruppo 2: Dati personali -->
+                        <!-- Group 2: Personal Data -->
                         <div class="user-info-group">
                             <div class="personal-data-row">
                                 <div class="personal-item"><strong>Name:</strong> {$name}</div>
                                 <div class="personal-item"><strong>Surname:</strong> {$surname}</div>
-                            </div> <!-- /.personal-data-row-->
+                            </div> <!-- /.personal-data-row -->
                             <div class="personal-data-row">
                                 <div class="personal-item"><strong>Birth Date:</strong> {$birthdate}</div>
                                 <div class="personal-item"><strong>Phone:</strong> {$phone}</div>
-                            </div> <!-- /.personal-data-row-->
+                            </div> <!-- /.personal-data-row -->
                             <div class="form-action-right">
                                 <a href="/IlRitrovo/public/User/showEditProfileData" class="btn edit">Edit</a>
-                            </div><!-- /.form-action-right-->
-                            {if $edit_section == 'data'}
-                                <form method="post" action="/IlRitrovo/public/User/editProfileData" class="edit-form open">
-                                    <div class="personal-data-row">
-                                        <div class="personal-item">
-                                            <label>Name</label>
-                                            <input type="text" name="name" value="{$name}" required>
-                                        </div> <!-- /.personal-data-item-->
-                                        <div class="personal-item">
-                                            <label>Surname</label>
-                                            <input type="text" name="surname" value="{$surname}" required>
-                                        </div> <!-- /.personal-data-item-->
-                                    </div> <!-- /.personal-data-row-->
-                                    <div class="personal-data-row">
-                                        <div class="personal-item">
-                                            <label>Birth Date</label>
-                                            <input type="date" name="birthdate" value="{$birthdate}" required>
-                                        </div> <!-- /.personal-data-item-->
-                                        <div class="personal-item">
-                                            <label>Phone</label>
-                                            <input type="tel" name="phone" value="{$phone}" required>
-                                        </div> <!-- /.personal-data-item-->
-                                    </div> <!-- /.personal-data-row-->
-                                    <div class="form-action-right">
-                                        <button type="submit" class="btn edit">Save Data</button>
-                                    </div> <!-- /.form-action-right-->
-                                </form>
-                            {/if}
-                        </div> <!-- /.user-info-group-->
+                            </div> <!-- /.form-action-right -->
+                        </div> <!-- /.user-info-group -->
                     </div> <!-- /.profile-info-section-->
-                </div> <!-- /.profile-container-->
-            </div> <!-- /.panel-body-->
-        </div> <!-- /.panel panel-default-->
+                </div> <!-- /.profile-container -->
+            </div> <!-- /.panel-body -->
+        </div> <!-- /.panel panel-default -->
 
         <!-- Cards -->
         <div class="panel">
@@ -123,18 +73,18 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="CFrontController.php?controller=CCreditCard&task=deleteCreditCard&idCreditCard={$card->getIdCreditCard()}" 
+                                <a href="/IlRitrovo/public/CreditCard/delete/{$card->getIdCreditCard()}"
                                 class="btn delete"> Delete </a>
                             </div> <!-- /.form-action-right-->
                         </div> <!-- /.card-body-->
                     </div> <!-- /.credit-card-->
                 {/foreach}
-                <div class="credit-card add-card-btn" onclick="location.href='?action=addCard'" title="Aggiungi nuova carta">
+                <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/addCard'" title="Aggiungi nuova carta">
                     <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
                 </div> <!-- /credit-card add-card-btn-->
             </div> <!-- /.card-row-->
             {if $showForm}
-                <form method="post" action="{$formAction}" class="card-form">
+                <form method="post" action="/IlRitrovo/public/CreditCard/checkAddCreditCard" class="card-form">
                     <label for="cardType">Type</label>
                     <select name="cardType" id="cardType" required>
                         <option value="">Select type</option>
@@ -197,21 +147,21 @@
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <span>My Past Reservations</span>
             {if $userReview === null}
-                <a href="CFrontController.php?controller=CReview&task=showAddReview" class="btn edit">Review</a>
+                <a href="/IlRitrovo/public/Review/showAddReview" class="btn edit">Review</a>
             {/if}
         </div> <!-- /.panel-heading-->
         {if $review === null}
             <div class="review-form">
-                <form action="CFrontController.php?controller=CReview&task=checkAddReview" method="post">
+                <form action="/IlRitrovo/public/Review/checkAddReview" method="post">
                     <label for="stars">Rating:</label>
                     <div class="rating-stars">
                         {for $i=5 to 1 step -1}
-                            <input type="radio" name="stars" id="star{$i}" value="{$stars}" required>
+                            <input type="radio" name="stars" id="star{$i}" value="{$i}" required>
                             <label for="star{$i}">★</label>
                         {/for}
                     </div> <!-- /.rating-stars-->
                     <label for="body">Your Review:</label>
-                    <textarea name="body" value="$body" rows="4" required></textarea>
+                    <textarea name="body" rows="4" required>{$body|default:''}</textarea>
                     <div class="form-action-right">
                         <button type="submit" class="btn save">Submit</button>
                     </div> <!-- /.form-action-right-->
@@ -222,7 +172,7 @@
                 <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
                 <p><strong>Review:</strong> {$review->getBody()}</p>
                 <div class="form-action-right">
-                    <a href="CFrontController.php?controller=CReview&task=deleteReview&idReview={$review->getIdReview()}" class="btn delete">Delete</a>
+                    <a href="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" class="btn delete">Delete</a>
                 </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
         {/if}
@@ -261,6 +211,6 @@
         </div> <!-- /.panel-->
 
         <!-- Footer-->
-        {* {include file='footerUser.tpl'} *}
+        {include file='footerUser.tpl'}
     </body>
 </html>
