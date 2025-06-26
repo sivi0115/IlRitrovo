@@ -244,7 +244,7 @@ class FCreditCard {
             throw new Exception(self::ERROR_INVALID_CVV);
         }
         // Check card type is allowed
-        $allowedTypes = ['Visa', 'MasterCard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
+        $allowedTypes = ['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
         if (!in_array($cardData['type'], $allowedTypes, true)) {
             throw new Exception(self::ERROR_INVALID_TYPE);
         }

@@ -74,14 +74,14 @@
                                     <li><strong>Holder:</strong> {$card->getHolder()}</li>
                                     <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                                 </ul>
-                                <button type="button" class="btn save" onclick="selectCard(this)">Select Card</button>
+                                <button type="button" class="btn save" onclick="selectCard('{$card->getIdCreditCard()}', this)">Select Card</button>
                             </div> <!-- /.card-body-->
                         </div> <!-- /.credit-card-->
                     {/foreach}
 
                     <!-- Pulsante per aggiungere nuova carta -->
                     <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
-                        <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                        <a href="/IlRitrovo/public/CreditCard/showAddCreditCardStep3" class="card-header"
                         style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43; display:block;">+</a>
                     </div> <!-- /.credit-card add-card-btn -->
                 </div> <!-- /.card-row-->

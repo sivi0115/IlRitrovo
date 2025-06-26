@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 13:51:54
+/* Smarty version 5.5.1, created on 2025-06-27 00:57:11
   from 'file:roomReservation3.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685be2da457561_14532839',
+  'unifunc' => 'content_685dd0471482f7_86656489',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70e4a2d806b2f0ab581df4ae8febf4780c349513' => 
     array (
       0 => 'roomReservation3.tpl',
-      1 => 1750852270,
+      1 => 1750978622,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685be2da457561_14532839 (\Smarty\Template $_smarty_tpl) {
+function content_685dd0471482f7_86656489 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -53,7 +53,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <div class="step-circle active">3</div>
                 <div class="step-line"></div>
                 <div class="step-circle">4</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
@@ -64,13 +64,13 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 </p>
                     <p><strong>Guests:</strong> <?php echo $_smarty_tpl->getValue('people');?>
 </p>
-                </div>
+                </div> <!-- /.summary-row-->
                 <div class="summary-row">
                     <p><strong>Date:</strong> <?php echo $_smarty_tpl->getValue('reservationDate');?>
 </p>
                     <p><strong>Comment:</strong> <?php echo (($tmp = $_smarty_tpl->getValue('comment') ?? null)===null||$tmp==='' ? '—' ?? null : $tmp);?>
 </p>
-                </div>
+                </div> <!-- /.summary-row-->
                 <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('extras')) > 0) {?>
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
@@ -88,18 +88,18 @@ $foreach0DoElse = false;
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </ul>
-                </div>
+                </div> <!-- /.summary-row extras-row-->
                 <?php }?>
                 <div class="summary-row room-row">
                     <p><strong>Room Selected:</strong> <?php echo $_smarty_tpl->getValue('selectedRoom')->getAreaName();?>
  – €<?php echo $_smarty_tpl->getValue('selectedRoom')->getTax();?>
 </p>
-                </div>
+                </div> <!-- /.summary-row room-row-->
                 <div class="summary-row price-row">
                     <p><strong>Total Price to Pay:</strong> €<?php echo $_smarty_tpl->getValue('totalPrice');?>
 </p>
-                </div>
-            </div>
+                </div> <!-- /.summary-row price-row-->
+            </div> <!-- /.reservation-summary-->
 
             <!-- Payment Methods -->
             <div class="panel">
@@ -125,52 +125,21 @@ $foreach1DoElse = false;
                                     <li><strong>Expiration:</strong> <?php echo $_smarty_tpl->getValue('card')->getExpiration();?>
 </li>
                                 </ul>
-                                <button type="button" class="btn save" onclick="selectCard(<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
-, this)">Select Card</button>
-                            </div>
-                        </div>
+                                <button type="button" class="btn save" onclick="selectCard('<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
+', this)">Select Card</button>
+                            </div> <!-- /.card-body-->
+                        </div> <!-- /.credit-card-->
                     <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                    <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/showAddForm'" title="Add new card">
-                        <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                    </div>
-                </div>
 
-                <?php if ($_smarty_tpl->getValue('showForm')) {?>
-                    <form method="post" action="<?php echo $_smarty_tpl->getValue('formAction');?>
-" class="card-form">
-                        <label for="cardType">Type</label>
-                        <select name="cardType" id="cardType" required>
-                            <option value="">Select type</option>
-                            <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('allowedTypes'), 'type');
-$foreach2DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('type')->value) {
-$foreach2DoElse = false;
-?>
-                                <option value="<?php echo $_smarty_tpl->getValue('type');?>
-" <?php if ($_smarty_tpl->getValue('cardData')['type'] == $_smarty_tpl->getValue('type')) {?>selected<?php }?>><?php echo $_smarty_tpl->getValue('type');?>
-</option>
-                            <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                        </select>
-                        <label for="cardNumber">Number</label>
-                        <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['number'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                        <label for="cardHolder">Holder</label>
-                        <input type="text" name="cardHolder" id="cardHolder" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['holder'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                        <label for="expiryDate">Expiration (MM/AA)</label>
-                        <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['expiration'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                        <div class="form-action-right">
-                            <button type="submit" name="save" class="btn save">Save</button>
-                        </div>
-                    </form>
-                <?php }?>
-            </div>
+                    <!-- Pulsante per aggiungere nuova carta -->
+                    <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
+                        <a href="/IlRitrovo/public/CreditCard/showAddCreditCardStep3" class="card-header"
+                        style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43; display:block;">+</a>
+                    </div> <!-- /.credit-card add-card-btn -->
+                </div> <!-- /.card-row-->
+            </div> <!-- /.panel-->
 
             <!-- Bottoni di navigazione -->
             <form action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm" method="POST">
@@ -178,10 +147,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 ">
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
-                </div>
+                </div> <!-- /.reservation-form-buttons-->
             </form>
 
-        </div>
+        </div> <!-- /.panel-->
 
         <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>

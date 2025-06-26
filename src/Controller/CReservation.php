@@ -243,7 +243,14 @@ class CReservation {
         $selectedExtras=$session->readValue('extras');
         $totalPriceExtra=$session->readValue('totPrice');
         //Prendo l'id della stanza selezionata dalla richiesta post
-        $idSelectedRoom=UHTTPMethods::post('idRoom');
+        $idSelectedRoom = isset($_POST['idRoom']) ? UHTTPMethods::post('idRoom') : null;
+        if (!$idSelectedRoom) {
+            // fallback alla sessione
+            $idSelectedRoom = $session->readValue('idRoom');
+        } else {
+            // aggiorna la sessione solo se arriva un nuovo id dalla POST
+            $session->setValue('idRoom', $idSelectedRoom);
+        }
         //Ottengo il prezzo della stanza che sommo al prezzo degli extra (salvato in sessione)
         $selectedRoom=FPersistentManager::getInstance()->read((int)$idSelectedRoom, FRoom::class);
         $roomTax=$selectedRoom->getTax();
@@ -251,7 +258,6 @@ class CReservation {
         //Carico le carte di credito associate all'utente per visualizzarle
         $userCreditCards=FPersistentManager::getInstance()->readCreditCardsByUser($idUser, FCreditCard::class);
         //Aggiungo in sessione i dati necessari al prossimo step, ossia l'd della stanza selezionata e il prezzo totale
-        $session->setValue('idRoom', $idSelectedRoom);
         $session->setValue('extraAndRoomPrice', $extraAndRoomPrice);
         //Passo i valori a View per la visualizzazione del riepilogo dati precedentemente inseriti
         $viewU->showUserHeader($isLogged);
