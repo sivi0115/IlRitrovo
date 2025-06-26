@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 22:48:02
+/* Smarty version 5.5.1, created on 2025-06-27 00:08:22
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685db20223ab05_03434777',
+  'unifunc' => 'content_685dc4d6290755_37684926',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1750970860,
+      1 => 1750975572,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685db20223ab05_03434777 (\Smarty\Template $_smarty_tpl) {
+function content_685dc4d6290755_37684926 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -114,7 +114,7 @@ $foreach0DoElse = false;
 </li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="/IlRitrovo/public/CreditCard/delete/<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
+                                <a href="/IlRitrovo/public/CreditCard/deleteCreditCard/<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
 " class="btn delete"> Delete </a>
                             </div>
                         </div>

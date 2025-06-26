@@ -73,7 +73,7 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="/IlRitrovo/public/CreditCard/delete/{$card->getIdCreditCard()}" class="btn delete"> Delete </a>
+                                <a href="/IlRitrovo/public/CreditCard/deleteCreditCard/{$card->getIdCreditCard()}" class="btn delete"> Delete </a>
                             </div>
                         </div>
                     </div>

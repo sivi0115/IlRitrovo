@@ -74,7 +74,9 @@ class CCreditCard {
      * @param $idCreditCard, recived by the HTTP POST request sended by user when press "delete"
      */
     public function deleteCreditcard($idCreditCard) {
-        
+        if(FPersistentManager::getInstance()->delete($idCreditCard, FCreditCard::class)) {
+            header("Location: /IlRitrovo/public/User/showProfile");
+        }
     }
 
 
