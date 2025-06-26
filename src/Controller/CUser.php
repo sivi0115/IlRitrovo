@@ -374,4 +374,20 @@ class CUser {
 
     }
 
+    /**
+     * Function to unban a User
+     */
+    public function unbanUser() {
+        //Mi pappo l'id dell'utente da sbannare
+        $idUserToUnban=UHTTPMethods::post('userId');
+        //Carico da db l'oggetto entity
+        $userToUnban=FPersistentManager::getInstance()->read($idUserToUnban, FUser::class);
+        //Sbanno l'utente
+        $userToUnban->setBan(false);
+        //Aggiorno lo stato dell'oggetto su db
+        $unbannedUser=FPersistentManager::getInstance()->update($userToUnban);
+        if($unbannedUser) {
+            header("Location: /IlRitrovo/public/User/showUsersPage");
+        }
+    }
 }
