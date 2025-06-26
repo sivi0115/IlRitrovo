@@ -17,12 +17,12 @@
             <div class="panel-body">
                 <!-- Lista degli extra esistenti -->
                 <div class="extra-list">
-                    {if $extras|@count > 0}
-                        {foreach from=$extras item=extra}
+                    {if $allExtras|@count > 0}
+                        {foreach from=$allExtras item=extra}
                         <div class="extra-item">
                             <div class="extra-info">
-                                <strong>Name:</strong> <span>{$extra->getName()}</span>
-                                <strong>Price:</strong> <span>{$extra->getPrice()} €</span>
+                                <strong>Name:</strong> <span>{$extra->getNameExtra()}</span>
+                                <strong>Price:</strong> <span>{$extra->getPriceExtra()} €</span>
 
                                 <div class="extra-actions">
                                     <a href="/IlRitrovo/public/Extra/editExtra/{$extra->getIdExtra()}" class="edit-btn-circle">
@@ -40,7 +40,7 @@
                     {/if}
                 </div> <!--/.extra-list-->
                 <!-- Form per aggiungere un nuovo extra -->
-                <div class="extra-form-container" {if $show_extra_form}style="display: block;"{else}style="display: none;">
+                <div class="extra-form-container" {if $show_extra_form}style="display: block;"{else}style="display: none;"{/if}>
                     <form action="/IlRitrovo/public/Extra/addExtra" method="POST" id="add-extra-form">
                         <label for="name">Extra Name:</label>
                         <input type="text" id="name" name="name" required><br><br>
