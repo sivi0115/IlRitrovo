@@ -114,6 +114,18 @@ class FUser {
         return $result ? $this->arrayToEntity($result) : null;
     }
 
+    /**Updates an existing user in the database.
+     *
+     * @param EUser $user The user object to update.
+     * @param int $id The ID of the user to update.
+     * @return bool True if the update was successful, False otherwise.
+     */
+    public function update(EUser $user): bool {
+        $db = FDatabase::getInstance();
+        $data = $this->entityToArray($user);
+        return $db->update(static::TABLE_NAME, $data, ['idUser' => $user->getIdUser()]);
+    }
+
     /**
      * Updates Profile data an existing user in the database.
      *

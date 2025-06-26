@@ -339,13 +339,39 @@ class CUser {
         }
         // Carico tutti gli utenti
         $allUsersRaw = FPersistentManager::getInstance()->readAll(FUser::class);
-        // Rimuovo l'admin dalla lista (presumendo ce ne sia solo uno)
-        $allUsers = array_filter($allUsersRaw, function($user) {
-            return !$user->isAdmin();
-        });
-        $allUsers = array_values($allUsers);
+        // Separazione utenti bannati e non bannati (escludendo l'admin)
+        $allUsers = [];
+        $blocked_user = [];
+        foreach ($allUsersRaw as $user) {
+            if ($user->isAdmin()) {
+                continue; // salto l'admin
+            }
+            if ($user->getBan() === 1) {
+                $blocked_user[] = $user;
+            } else {
+                $allUsers[] = $user;
+            }
+        }
         $view->showAdminHeader($isLogged);
-        $view->showUsersPage($allUsers);
+        $view->showUsersPage($blocked_user, $allUsers);
+    }
+
+    /**
+     * Function to ban a User
+     */
+    public function banUser() {
+        //Mi pappo l'id dell'utente da bannare
+        $idUserToBan=UHTTPMethods::post('userId');
+        //Carico da db l'oggetto entity
+        $userToBan=FPersistentManager::getInstance()->read($idUserToBan, FUser::class);
+        //Banno l'utente
+        $userToBan->setBan(true);
+        //Aggiorno lo stato dell'oggetto su db
+        $bannedUser=FPersistentManager::getInstance()->update($userToBan);
+        if($bannedUser) {
+            header("Location: /IlRitrovo/public/User/showUsersPage");
+        }
+
     }
 
 }

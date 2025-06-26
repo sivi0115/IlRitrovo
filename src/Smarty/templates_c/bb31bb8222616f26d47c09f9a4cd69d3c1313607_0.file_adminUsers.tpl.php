@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 16:02:46
+/* Smarty version 5.5.1, created on 2025-06-26 16:48:08
   from 'file:adminUsers.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d530620cf90_80114527',
+  'unifunc' => 'content_685d5da8510c43_85948512',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bb31bb8222616f26d47c09f9a4cd69d3c1313607' => 
     array (
       0 => 'adminUsers.tpl',
-      1 => 1750946301,
+      1 => 1750949282,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerAdmin.tpl' => 1,
   ),
 ))) {
-function content_685d530620cf90_80114527 (\Smarty\Template $_smarty_tpl) {
+function content_685d5da8510c43_85948512 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,7 @@ $foreach0DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('user')->value) {
 $foreach0DoElse = false;
 ?>
-                            <div class="profile-card" id="banned-profile-<?php echo $_smarty_tpl->getValue('user')['idUser'];?>
+                            <div class="profile-card" id="banned-profile-<?php echo $_smarty_tpl->getValue('user')->getIdUser();?>
 ">
                                 <h3 class="username"><?php echo $_smarty_tpl->getValue('user')->getUsername();?>
 </h3>
