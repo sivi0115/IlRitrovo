@@ -60,4 +60,33 @@ class CExtra {
             exit;
         }
     }
+
+    /**
+     * Function to show form for edit an existing extra
+     */
+    public function showEditExtra($idExtra) {
+        $view=new VExtra();
+        $extra=FPersistentManager::getInstance()->read($idExtra, FExtra::class);
+        $view->showEditExtraPage($extra);
+    }
+
+    /**
+     * Function to edit an extra
+     */
+    public function saveEditExtra($idExtra) {
+        $view=new VExtra();
+        //Mi pappo i dati provenienti dalla richiesta HTTP
+        $newNameExtra=UHTTPMethods::post('name');
+        $newPriceExtra=UHTTPMethods::post('price');
+        //Recupero l'oggetto da db
+        $oldExtra=FPersistentManager::getInstance()->read($idExtra, FExtra::class);
+        $oldExtra->setNameExtra($newNameExtra);
+        $oldExtra->setPriceExtra($newPriceExtra);
+        //Aggionrno l'oggetto su db
+        $editedExtra=FPersistentManager::getInstance()->update($oldExtra);
+        if($editedExtra===true) {
+            header("Location: /IlRitrovo/public/Extra/showExtrasPage");
+            exit;
+        }
+    }
 }

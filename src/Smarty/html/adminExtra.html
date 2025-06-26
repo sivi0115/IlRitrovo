@@ -25,7 +25,7 @@
                                 <strong>Price:</strong> <span>{$extra->getPriceExtra()} €</span>
 
                                 <div class="extra-actions">
-                                    <a href="/IlRitrovo/public/Extra/editExtra/{$extra->getIdExtra()}" class="edit-btn-circle">
+                                    <a href="/IlRitrovo/public/Extra/showEditExtra/{$extra->getIdExtra()}" class="edit-btn-circle">
                                         <i class="fas fa-pencil-alt"></i> Edit
                                     </a>
                                     <form method="POST" action="/IlRitrovo/public/Extra/deleteExtra/{$extra->getIdExtra()}">

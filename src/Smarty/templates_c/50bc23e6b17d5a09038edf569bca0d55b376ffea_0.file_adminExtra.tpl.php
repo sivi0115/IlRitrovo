@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 17:46:24
+/* Smarty version 5.5.1, created on 2025-06-26 18:21:18
   from 'file:adminExtra.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d6b500f15e7_28034882',
+  'unifunc' => 'content_685d737e035421_31253007',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '50bc23e6b17d5a09038edf569bca0d55b376ffea' => 
     array (
       0 => 'adminExtra.tpl',
-      1 => 1750952780,
+      1 => 1750954853,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerAdmin.tpl' => 1,
   ),
 ))) {
-function content_685d6b500f15e7_28034882 (\Smarty\Template $_smarty_tpl) {
+function content_685d737e035421_31253007 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -57,7 +57,7 @@ $foreach0DoElse = false;
  €</span>
 
                                 <div class="extra-actions">
-                                    <a href="/IlRitrovo/public/Extra/editExtra/<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
+                                    <a href="/IlRitrovo/public/Extra/showEditExtra/<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
 " class="edit-btn-circle">
                                         <i class="fas fa-pencil-alt"></i> Edit
                                     </a>

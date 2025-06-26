@@ -20,5 +20,17 @@ class VExtra {
         $smarty->assign('show_extra_form', true);
         $smarty->display('adminExtra.tpl');
     }
+
+    /**
+     * Function to show Extra's edit page
+     */
+    public function showEditExtraPage(EExtra $extra) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('extra', $extra);
+        $smarty->display('editExtraData.tpl');
+    }
 }
 
