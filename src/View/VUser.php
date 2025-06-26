@@ -150,4 +150,15 @@ class VUser {
 
         $smarty->display('menu.tpl');
     }
+
+    /**
+     * Function to show Rooms page
+     */
+    public function showRoomsPage() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('rooms.tpl');
+    }
 }

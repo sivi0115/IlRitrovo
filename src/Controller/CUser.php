@@ -315,4 +315,17 @@ class CUser {
         $view->showMenuPage();
     }
 
+    /**
+     * Function to show Rooms page
+     */
+    public function showRoomsPage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
+        $view->showUserHeader($isLogged);
+        $view->showRoomsPage();
+    }
+
 }
