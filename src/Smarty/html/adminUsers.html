@@ -19,7 +19,6 @@
                     {if $blocked_user|@count > 0}
                         {foreach from=$blocked_user item=user}
                             <div class="profile-card" id="banned-profile-{$user.idUser}">
-                                <img src="/IlRitrovo/src/Smarty/asset/images/logo/user.jpg" alt="User Image">
                                 <h3 class="username">{$user->getUsername()}</h3>
                                 <p class="name"><strong>Name: </strong>{$user->getName()}</p>
                                 <p class="surname"><strong>Surname: </strong> {$user->getSurname()}</p>
@@ -47,10 +46,9 @@
             <div class="panel-body">
                 <!-- Container principale per i profili -->
                 <div id="profileContainer" class="profile-container">
-                    {if $user|@count > 0}
-                        {foreach from=$user item=user}
-                            <div class="profile-card" id="profile-{$user.idUser}">
-                                <img src="/IlRitrovo/src/Smarty/asset/images/logo/user.jpg" alt="User Image">
+                    {if $allUsers|@count > 0}
+                        {foreach from=$allUsers item=user}
+                            <div class="profile-card" id="profile-{$user->getIdUser()}">
                                 <h3 class="username">{$user->getUsername()}</h3>
                                 <p class="name"><strong>Name: </strong>{$user->getName()}</p>
                                 <p class="surname"><strong>Surname: </strong> {$user->getSurname()}</p>

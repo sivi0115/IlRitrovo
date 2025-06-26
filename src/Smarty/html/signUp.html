@@ -26,7 +26,7 @@
                     required
                     minlength="3"
                     maxlength="20"
-                    pattern="^[a-zA-Z0-9_]{3,20}$"
+                    pattern="^[a-zA-Z0-9_]{ldelim}3,20{rdelim}$"
                     title="Username must be 3-20 characters, letters, numbers and underscore only"
                     autocomplete="username"
                     />
@@ -68,7 +68,7 @@
                     type="tel"
                     id="phone"
                     name="phone"
-                    pattern="^\+?\d{8,15}$"
+                    pattern="^\+?\d{ldelim}8,15{rdelim}$"
                     placeholder="+391234567890"
                     required
                     title="Phone number must contain 8 to 15 digits, may start with +"

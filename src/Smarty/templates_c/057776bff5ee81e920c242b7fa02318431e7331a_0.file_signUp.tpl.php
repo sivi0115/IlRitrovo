@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 16:32:30
+/* Smarty version 5.5.1, created on 2025-06-26 16:11:35
   from 'file:signUp.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ab6feb32fa8_06661955',
+  'unifunc' => 'content_685d5517114c90_83669154',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '057776bff5ee81e920c242b7fa02318431e7331a' => 
     array (
       0 => 'signUp.tpl',
-      1 => 1750775401,
+      1 => 1750947091,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685ab6feb32fa8_06661955 (\Smarty\Template $_smarty_tpl) {
+function content_685d5517114c90_83669154 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -28,7 +28,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up - Il Ritrovo</title>
-    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/loginSignup.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
     </head>
     <body>
@@ -38,6 +38,10 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
                 <h2 id="signup-title">Create your account</h2>
+                <?php if ((true && ($_smarty_tpl->hasVariable('error') && null !== ($_smarty_tpl->getValue('error') ?? null)))) {?>
+                    <div class="form-error"><?php echo $_smarty_tpl->getValue('error');?>
+</div>
+                <?php }?>
                 <form action="/IlRitrovo/public/User/checkRegister" method="POST">
                     <label for="username">Username</label>
                     <input
@@ -47,6 +51,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     required
                     minlength="3"
                     maxlength="20"
+                    pattern="^[a-zA-Z0-9_]{3,20}$"
                     title="Username must be 3-20 characters, letters, numbers and underscore only"
                     autocomplete="username"
                     />
@@ -80,7 +85,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     id="birthDate"
                     name="birthDate"
                     required
-                    max="<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')(time(),'%Y-%m-%d');?>
+                    max="<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')(time(),"%Y-%m-%d");?>
 "
                     autocomplete="bday"
                     />
@@ -89,6 +94,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     type="tel"
                     id="phone"
                     name="phone"
+                    pattern="^\+?\d{8,15}$"
                     placeholder="+391234567890"
                     required
                     title="Phone number must contain 8 to 15 digits, may start with +"
@@ -118,7 +124,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     <button type="submit">Sign Up</button>
                 </form>
                 <p>
-                    Already have an account? <a href="CFrontController.php?controller=CUser&task=showLoginPage">Login here</a>.
+                    Already have an account? <a href="/IlRitrovo/public/User/showLoginForm">Login here</a>.
                 </p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->

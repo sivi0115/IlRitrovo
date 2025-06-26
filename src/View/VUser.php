@@ -161,4 +161,16 @@ class VUser {
 
         $smarty->display('rooms.tpl');
     }
+
+    /**
+     * Function to show User's Page
+     */
+    public function showUsersPage(array $allUsers) {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->assign('allUsers', $allUsers);
+        $smarty->display('adminUsers.tpl');
+    }
 }

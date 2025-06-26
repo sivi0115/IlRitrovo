@@ -328,4 +328,24 @@ class CUser {
         $view->showRoomsPage();
     }
 
+    /**
+     * 
+     */
+    public function showUsersPage() {
+        $view = new VUser();
+        $session = USessions::getIstance();
+        if ($isLogged = CUser::isLogged()) {
+            $idUser = $session->readValue('idUser');
+        }
+        // Carico tutti gli utenti
+        $allUsersRaw = FPersistentManager::getInstance()->readAll(FUser::class);
+        // Rimuovo l'admin dalla lista (presumendo ce ne sia solo uno)
+        $allUsers = array_filter($allUsersRaw, function($user) {
+            return !$user->isAdmin();
+        });
+        $allUsers = array_values($allUsers);
+        $view->showAdminHeader($isLogged);
+        $view->showUsersPage($allUsers);
+    }
+
 }

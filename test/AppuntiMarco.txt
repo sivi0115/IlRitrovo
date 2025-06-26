@@ -5,6 +5,7 @@ Da modificare l'attributo Entity in User: image->profileImage
 UTENTI PER IL TESTING
 idUser1 -> glaceooon00@gmail.com nuovaPassword123! user
 idUser2 -> marioRossi@gmail.com  miaPassword123! admin
+lorenzoBianchi@gmail.com passwordAcaso123!
 
 CLASSE CUSER:
 
