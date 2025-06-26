@@ -28,7 +28,7 @@
                 <div class="step-circle active">3</div>
                 <div class="step-line"></div>
                 <div class="step-circle">4</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
@@ -37,11 +37,11 @@
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
                     <p><strong>Guests:</strong> {$people}</p>
-                </div>
+                </div> <!-- /.summary-row-->
                 <div class="summary-row">
                     <p><strong>Date:</strong> {$reservationDate}</p>
                     <p><strong>Comment:</strong> {$comment|default:'—'}</p>
-                </div>
+                </div> <!-- /.summary-row-->
                 {if $extras|@count > 0}
                 <div class="summary-row extras-row">
                     <p class="summary-title"><strong>Extras Selected:</strong></p>
@@ -50,15 +50,15 @@
                             <li>{$extra->getNameExtra()} – €{$extra->getPriceExtra()}</li>
                         {/foreach}
                     </ul>
-                </div>
+                </div> <!-- /.summary-row extras-row-->
                 {/if}
                 <div class="summary-row room-row">
                     <p><strong>Room Selected:</strong> {$selectedRoom->getAreaName()} – €{$selectedRoom->getTax()}</p>
-                </div>
+                </div> <!-- /.summary-row room-row-->
                 <div class="summary-row price-row">
                     <p><strong>Total Price to Pay:</strong> €{$totalPrice}</p>
-                </div>
-            </div>
+                </div> <!-- /.summary-row price-row-->
+            </div> <!-- /.reservation-summary-->
 
             <!-- Payment Methods -->
             <div class="panel">
@@ -74,46 +74,28 @@
                                     <li><strong>Holder:</strong> {$card->getHolder()}</li>
                                     <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                                 </ul>
-                                <button type="button" class="btn save" onclick="selectCard({$card->getIdCreditCard()}, this)">Select Card</button>
-                            </div>
-                        </div>
+                                <button type="button" class="btn save" onclick="selectCard(this)">Select Card</button>
+                            </div> <!-- /.card-body-->
+                        </div> <!-- /.credit-card-->
                     {/foreach}
-                    <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/showAddForm'" title="Add new card">
-                        <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                    </div>
-                </div>
 
-                {if $showForm}
-                    <form method="post" action="{$formAction}" class="card-form">
-                        <label for="cardType">Type</label>
-                        <select name="cardType" id="cardType" required>
-                            <option value="">Select type</option>
-                            {foreach from=$allowedTypes item=type}
-                                <option value="{$type}" {if $cardData.type == $type}selected{/if}>{$type}</option>
-                            {/foreach}
-                        </select>
-                        <label for="cardNumber">Number</label>
-                        <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="{$cardData.number|default:''}">
-                        <label for="cardHolder">Holder</label>
-                        <input type="text" name="cardHolder" id="cardHolder" required value="{$cardData.holder|default:''}">
-                        <label for="expiryDate">Expiration (MM/AA)</label>
-                        <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
-                        <div class="form-action-right">
-                            <button type="submit" name="save" class="btn save">Save</button>
-                        </div>
-                    </form>
-                {/if}
-            </div>
+                    <!-- Pulsante per aggiungere nuova carta -->
+                    <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
+                        <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                        style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43; display:block;">+</a>
+                    </div> <!-- /.credit-card add-card-btn -->
+                </div> <!-- /.card-row-->
+            </div> <!-- /.panel-->
 
             <!-- Bottoni di navigazione -->
             <form action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm" method="POST">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
-                </div>
+                </div> <!-- /.reservation-form-buttons-->
             </form>
 
-        </div>
+        </div> <!-- /.panel-->
 
         {include file='footerUser.tpl'}
 

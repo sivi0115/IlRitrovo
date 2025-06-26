@@ -73,36 +73,18 @@
                                 <li><strong>Expiration:</strong> {$card->getExpiration()}</li>
                             </ul>
                             <div class="form-action-right">
-                                <a href="/IlRitrovo/public/CreditCard/delete/{$card->getIdCreditCard()}"
-                                class="btn delete"> Delete </a>
-                            </div> <!-- /.form-action-right-->
-                        </div> <!-- /.card-body-->
-                    </div> <!-- /.credit-card-->
+                                <a href="/IlRitrovo/public/CreditCard/delete/{$card->getIdCreditCard()}" class="btn delete"> Delete </a>
+                            </div>
+                        </div>
+                    </div>
                 {/foreach}
-                <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/addCard'" title="Aggiungi nuova carta">
-                    <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                </div> <!-- /credit-card add-card-btn-->
+
+                <!-- Add card button linking to separate page -->
+                <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
+                    <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                    style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+ </a>
+                </div> <!-- /.credit-card add-card-btn-->
             </div> <!-- /.card-row-->
-            {if $showForm}
-                <form method="post" action="/IlRitrovo/public/CreditCard/checkAddCreditCard" class="card-form">
-                    <label for="cardType">Type</label>
-                    <select name="cardType" id="cardType" required>
-                        <option value="">Select type</option>
-                        {foreach from=$allowedTypes item=type}
-                            <option value="{$type}" {if $cardData.type == $type}selected{/if}>{$type}</option>
-                        {/foreach}
-                    </select>
-                    <label for="cardNumber">Number</label>
-                    <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="{$cardData.number|default:''}">
-                    <label for="cardHolder">Holder</label>
-                    <input type="text" name="cardHolder" id="cardHolder" required value="{$cardData.holder|default:''}">
-                    <label for="expiryDate">Expiration (MM/AA)</label>
-                    <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
-                    <div class="form-action-right">
-                        <button type="submit" name="save" class="btn save">Save</button>
-                    </div> <!-- /.form-action-right-->
-                </form>
-            {/if}
         </div> <!-- /.panel-->
 
         <!-- FUTURE Reservations-->
@@ -146,9 +128,6 @@
         <div class="panel">
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <span>My Past Reservations</span>
-            {if $userReview === null}
-                <a href="/IlRitrovo/public/Review/showAddReview" class="btn edit">Review</a>
-            {/if}
         </div> <!-- /.panel-heading-->
         {if $review === null}
             <div class="review-form">

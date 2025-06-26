@@ -97,9 +97,9 @@
 /* Buttons specifici per prenotazione */
 .reservation-form-buttons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* ⬅️ Allinea il pulsante singolo a destra */
   margin-top: 2rem;
-  margin-bottom: 3rem; /* ✅ aggiunto margine inferiore */
+  margin-bottom: 3rem;
 }
 
 .reservation-form-buttons .btn-save-step {
@@ -151,7 +151,7 @@
   font-size: 0.95rem;
   color: #4a3b2c;
   width: 1000px;      /* larghezza fissa più stretta */
-  max-width: 100%;   /* per essere responsive su schermi piccoli */
+  max-width: 900px;   /* per essere responsive su schermi piccoli */
   margin: 0 auto 2rem auto;
 
 }
@@ -162,6 +162,20 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 0.5rem;
+}
+
+.summary-row.extras-row {
+  display: block;
+}
+
+.summary-row.extras-row .summary-title {
+  margin-bottom: 0.25rem;
+}
+
+.summary-row.extras-row .extras-list {
+  margin: 0;
+  padding-left: 1.2rem; /* per allineare i pallini */
+  list-style-type: disc;
 }
 
 .summary-row p {
@@ -185,16 +199,11 @@
 }
 
 .extras-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    margin-bottom: 1em;
-}
-
-.extra-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+  padding-left: 1.2rem;
+  margin: 0;
+  list-style-type: disc;
+  font-size: 0.95rem;
+  color: #4a3b2c;
 }
 
 .total-extras-box {

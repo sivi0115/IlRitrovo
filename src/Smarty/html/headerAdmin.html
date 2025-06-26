@@ -20,17 +20,15 @@
             <li><a href="/IlRitrovo/public/User/showAdminHomePage">Home</a></li>
             <li><a href="/IlRitrovo/public/User/showUsersPage">Users</a></li>
             <li><a href="/IlRitrovo/public/Extra/showExtrasPage">Extras</a></li>
-            <li><a href="/IlRitrovo/public/Review/showAdminReviewsPage">Reviews</a></li>
+            <li><a href="/IlRitrovo/public/Review/showReviewsPage">Reviews</a></li>
           </ul>
         </nav>
 
-        {if isset($admin)}
           <div class="user-area">
             <form action="/IlRitrovo/public/User/logout" method="POST" style="margin:0;">
               <button type="submit" class="user-button" aria-label="Logout">Logout</button>
             </form>
           </div>
-        {/if}
       </div> <!-- /.header-top -->
     </header>
   </body>

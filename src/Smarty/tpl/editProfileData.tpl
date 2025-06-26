@@ -55,8 +55,5 @@
                 <p><a href="/IlRitrovo/public/User/showProfile">Back to Profile</a></p>
             </div>
         </div>
-
-        <!-- Footer-->
-
     </body>
 </html>

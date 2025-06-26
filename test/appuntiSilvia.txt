@@ -17,6 +17,7 @@ a cosa dovrebbe servire? serve a ricaricare la pagina di registrazione con un me
 una mail o un username già in uso.
 
 ELENCO PRIORITA' DA FARE:
+- come gestire gli errori e le pagine di errore
 - cookies
 - vedere dove aggiungere gli |escape per la sicurezza
 

@@ -65,9 +65,6 @@
             </div>
         </div>
 
-        <!-- Footer-->
-
-
         <script>
             // Prendo il campo input della password dal DOM tramite il suo id 'password'
             const passwordInput = document.getElementById('password');
