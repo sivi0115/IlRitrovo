@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 17:45:37
+/* Smarty version 5.5.1, created on 2025-06-26 15:28:38
   from 'file:headerAdmin.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685c19a1943eb6_17942949',
+  'unifunc' => 'content_685d4b06173794_56852313',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7b7fe78377c7fe33863ed268e5abb7c10e515345' => 
     array (
       0 => 'headerAdmin.tpl',
-      1 => 1750866333,
+      1 => 1750944498,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685c19a1943eb6_17942949 (\Smarty\Template $_smarty_tpl) {
+function content_685d4b06173794_56852313 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -41,7 +41,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
         <nav class="main-nav">
           <ul>
-            <li><a href="/IlRitrovo/public/User/showAdminHomePage">Home</a></li>
+            <li><a href="/IlRitrovo/public/User/showHomePage">Home</a></li>
             <li><a href="/IlRitrovo/public/User/showUsersPage">Users</a></li>
             <li><a href="/IlRitrovo/public/Extra/showExtrasPage">Extras</a></li>
             <li><a href="/IlRitrovo/public/Review/showReviewsPage">Reviews</a></li>
