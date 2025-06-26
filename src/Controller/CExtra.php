@@ -46,6 +46,18 @@ class CExtra {
         $addedExtra=FPersistentManager::getInstance()->create($newExtra);
         if($addedExtra!=null) {
             header("Location: /IlRitrovo/public/Extra/showExtrasPage");
+            exit;
+        }
+    }
+
+    /**
+     * Function to delete an extra
+     */
+    public function deleteExtra($idExtra) {
+        $deletedExtra=FPersistentManager::getInstance()->delete($idExtra, FExtra::class);
+        if($deletedExtra===true) {
+            header("Location: /IlRitrovo/public/Extra/showExtrasPage");
+            exit;
         }
     }
 }
