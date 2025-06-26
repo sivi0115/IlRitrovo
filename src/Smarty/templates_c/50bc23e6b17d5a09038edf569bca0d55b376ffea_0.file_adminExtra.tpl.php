@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 17:26:36
+/* Smarty version 5.5.1, created on 2025-06-26 17:46:24
   from 'file:adminExtra.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d66ace65ca5_48122158',
+  'unifunc' => 'content_685d6b500f15e7_28034882',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '50bc23e6b17d5a09038edf569bca0d55b376ffea' => 
     array (
       0 => 'adminExtra.tpl',
-      1 => 1750951573,
+      1 => 1750952780,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerAdmin.tpl' => 1,
   ),
 ))) {
-function content_685d66ace65ca5_48122158 (\Smarty\Template $_smarty_tpl) {
+function content_685d6b500f15e7_28034882 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -85,11 +85,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                         <button type="submit">Add Extra</button>                  
                     </form>
                 </div>
-                <!-- Pulsante per aggiungere un nuovo extra -->
-                <form action="/IlRitrovo/public/Extra/showAddExtra" method="POST">
-                    <input type="hidden" name="action" value="show_form">
-                    <button type="submit" class="btn btn-primary add-extra-btn">+ Add New Extra</button>
-                </form>
             </div> <!--/.panel-body-->
         </div> <!--/.panel-default-->
 

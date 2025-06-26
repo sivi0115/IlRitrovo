@@ -49,11 +49,6 @@
                         <button type="submit">Add Extra</button>                  
                     </form>
                 </div>
-                <!-- Pulsante per aggiungere un nuovo extra -->
-                <form action="/IlRitrovo/public/Extra/showAddExtra" method="POST">
-                    <input type="hidden" name="action" value="show_form">
-                    <button type="submit" class="btn btn-primary add-extra-btn">+ Add New Extra</button>
-                </form>
             </div> <!--/.panel-body-->
         </div> <!--/.panel-default-->
 

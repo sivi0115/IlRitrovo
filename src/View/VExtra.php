@@ -17,6 +17,7 @@ class VExtra {
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
         $smarty->assign('allExtras', $allExtras);
+        $smarty->assign('show_extra_form', true);
         $smarty->display('adminExtra.tpl');
     }
 }
