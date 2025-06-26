@@ -81,7 +81,7 @@
 
                 <!-- Add card button linking to separate page -->
                 <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
-                    <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                    <a href="/IlRitrovo/public/CreditCard/showAddCreditCardUserProfile" class="card-header"
                     style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+ </a>
                 </div> <!-- /.credit-card add-card-btn-->
             </div> <!-- /.card-row-->

@@ -71,7 +71,7 @@
                     <select name="cardType" id="cardType" required>
                         <option value="">Select type</option>
                         {foreach from=$allowedTypes item=type}
-                            <option value="{$type}" {if $cardData.type == $type}selected{/if}>{$type}</option>
+                            <option value="{$type}" {if isset($cardData.type) and $cardData.type == $type}selected{/if}>{$type}</option>
                         {/foreach}
                     </select>
 
@@ -81,8 +81,11 @@
                     <label for="cardHolder">Holder</label>
                     <input type="text" name="cardHolder" id="cardHolder" required value="{$cardData.holder|default:''}">
 
-                    <label for="expiryDate">Expiration (MM/AA)</label>
-                    <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="{$cardData.expiration|default:''}">
+                    <label for="expiryDate">Expiration Date</label>
+                    <input type="date" name="expiryDate" id="expiryDate" required value="{$cardData.expiration|default:''}">
+
+                    <label for="cardCVV">CVV</label>
+                    <input type="text" name="cardCVV" id="cardCVV" maxlength="4" pattern="^\d{ldelim}3,4{rdelim}$" placeholder="3 or 4 digits" required value="{$cardData.cvv|default:''}">
 
                     <div class="form-action-right">
                         <button type="submit" name="save">Save</button>

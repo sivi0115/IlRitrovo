@@ -1,4 +1,28 @@
-<!DOCTYPE html>
+<?php
+/* Smarty version 5.5.1, created on 2025-06-26 23:54:52
+  from 'file:addCreditCardUserProfile.tpl' */
+
+/* @var \Smarty\Template $_smarty_tpl */
+if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
+  'version' => '5.5.1',
+  'unifunc' => 'content_685dc1acbb8162_21992000',
+  'has_nocache_code' => false,
+  'file_dependency' => 
+  array (
+    '135d293fd607b87b012e70cabf7d284f03310b30' => 
+    array (
+      0 => 'addCreditCardUserProfile.tpl',
+      1 => 1750974882,
+      2 => 'file',
+    ),
+  ),
+  'includes' => 
+  array (
+  ),
+))) {
+function content_685dc1acbb8162_21992000 (\Smarty\Template $_smarty_tpl) {
+$_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
+?><!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">    
@@ -70,22 +94,35 @@
                     <label for="cardType">Type</label>
                     <select name="cardType" id="cardType" required>
                         <option value="">Select type</option>
-                        {foreach from=$allowedTypes item=type}
-                            <option value="{$type}" {if isset($cardData.type) and $cardData.type == $type}selected{/if}>{$type}</option>
-                        {/foreach}
+                        <?php
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('allowedTypes'), 'type');
+$foreach0DoElse = true;
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('type')->value) {
+$foreach0DoElse = false;
+?>
+                            <option value="<?php echo $_smarty_tpl->getValue('type');?>
+" <?php if ((true && (true && null !== ($_smarty_tpl->getValue('cardData')['type'] ?? null))) && $_smarty_tpl->getValue('cardData')['type'] == $_smarty_tpl->getValue('type')) {?>selected<?php }?>><?php echo $_smarty_tpl->getValue('type');?>
+</option>
+                        <?php
+}
+$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     </select>
 
                     <label for="cardNumber">Number</label>
-                    <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="{$cardData.number|default:''}">
+                    <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['number'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
 
                     <label for="cardHolder">Holder</label>
-                    <input type="text" name="cardHolder" id="cardHolder" required value="{$cardData.holder|default:''}">
+                    <input type="text" name="cardHolder" id="cardHolder" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['holder'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
 
                     <label for="expiryDate">Expiration Date</label>
-                    <input type="date" name="expiryDate" id="expiryDate" required value="{$cardData.expiration|default:''}">
+                    <input type="date" name="expiryDate" id="expiryDate" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['expiration'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
 
                     <label for="cardCVV">CVV</label>
-                    <input type="text" name="cardCVV" id="cardCVV" maxlength="4" pattern="^\d{ldelim}3,4{rdelim}$" placeholder="3 or 4 digits" required value="{$cardData.cvv|default:''}">
+                    <input type="text" name="cardCVV" id="cardCVV" maxlength="4" pattern="^\d{3,4}$" placeholder="3 or 4 digits" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['cvv'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+">
 
                     <div class="form-action-right">
                         <button type="submit" name="save">Save</button>
@@ -95,4 +132,5 @@
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
     </body>
-</html>
+</html><?php }
+}

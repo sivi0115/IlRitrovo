@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 15:23:32
+/* Smarty version 5.5.1, created on 2025-06-26 22:48:02
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d49d41b7f50_27938260',
+  'unifunc' => 'content_685db20223ab05_03434777',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1750941554,
+      1 => 1750970860,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685d49d41b7f50_27938260 (\Smarty\Template $_smarty_tpl) {
+function content_685db20223ab05_03434777 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -125,7 +125,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
 
                 <!-- Add card button linking to separate page -->
                 <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
-                    <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                    <a href="/IlRitrovo/public/CreditCard/showAddCreditCardUserProfile" class="card-header"
                     style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+ </a>
                 </div> <!-- /.credit-card add-card-btn-->
             </div> <!-- /.card-row-->
