@@ -139,4 +139,15 @@ class VUser {
 
         $smarty->display('editProfileMetadata.tpl');
     }
+
+    /**
+     * Function to show menu page
+     */
+    public function showMenuPage() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('menu.tpl');
+    }
 }

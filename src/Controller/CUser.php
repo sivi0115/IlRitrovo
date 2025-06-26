@@ -302,4 +302,17 @@ class CUser {
         }
     }
 
+    /**
+     * Function to show Menù page
+     */
+    public function showMenuPage() {
+        $view=new VUser();
+        $session=USessions::getIstance();
+        if($isLogged=CUser::isLogged()) {
+            $idUser=$session->readValue('idUser');
+        }
+        $view->showUserHeader($isLogged);
+        $view->showMenuPage();
+    }
+
 }
