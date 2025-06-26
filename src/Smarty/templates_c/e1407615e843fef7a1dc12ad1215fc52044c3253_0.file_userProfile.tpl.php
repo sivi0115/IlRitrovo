@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 11:00:15
+/* Smarty version 5.5.1, created on 2025-06-26 15:23:32
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685bba9fd112c8_23011066',
+  'unifunc' => 'content_685d49d41b7f50_27938260',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1750841504,
+      1 => 1750941554,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685bba9fd112c8_23011066 (\Smarty\Template $_smarty_tpl) {
+function content_685d49d41b7f50_27938260 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -115,50 +115,20 @@ $foreach0DoElse = false;
                             </ul>
                             <div class="form-action-right">
                                 <a href="/IlRitrovo/public/CreditCard/delete/<?php echo $_smarty_tpl->getValue('card')->getIdCreditCard();?>
-"
-                                class="btn delete"> Delete </a>
-                            </div> <!-- /.form-action-right-->
-                        </div> <!-- /.card-body-->
-                    </div> <!-- /.credit-card-->
+" class="btn delete"> Delete </a>
+                            </div>
+                        </div>
+                    </div>
                 <?php
 }
 $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                <div class="credit-card add-card-btn" onclick="location.href='/IlRitrovo/public/CreditCard/addCard'" title="Aggiungi nuova carta">
-                    <div class="card-header" style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+</div>
-                </div> <!-- /credit-card add-card-btn-->
+
+                <!-- Add card button linking to separate page -->
+                <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
+                    <a href="/IlRitrovo/public/CreditCard/showAddCardUserProfile" class="card-header"
+                    style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43;">+ </a>
+                </div> <!-- /.credit-card add-card-btn-->
             </div> <!-- /.card-row-->
-            <?php if ($_smarty_tpl->getValue('showForm')) {?>
-                <form method="post" action="/IlRitrovo/public/CreditCard/checkAddCreditCard" class="card-form">
-                    <label for="cardType">Type</label>
-                    <select name="cardType" id="cardType" required>
-                        <option value="">Select type</option>
-                        <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('allowedTypes'), 'type');
-$foreach1DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('type')->value) {
-$foreach1DoElse = false;
-?>
-                            <option value="<?php echo $_smarty_tpl->getValue('type');?>
-" <?php if ($_smarty_tpl->getValue('cardData')['type'] == $_smarty_tpl->getValue('type')) {?>selected<?php }?>><?php echo $_smarty_tpl->getValue('type');?>
-</option>
-                        <?php
-}
-$_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
-                    </select>
-                    <label for="cardNumber">Number</label>
-                    <input type="text" name="cardNumber" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['number'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                    <label for="cardHolder">Holder</label>
-                    <input type="text" name="cardHolder" id="cardHolder" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['holder'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                    <label for="expiryDate">Expiration (MM/AA)</label>
-                    <input type="text" name="expiryDate" id="expiryDate" maxlength="5" placeholder="MM/AA" required value="<?php echo (($tmp = $_smarty_tpl->getValue('cardData')['expiration'] ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-">
-                    <div class="form-action-right">
-                        <button type="submit" name="save" class="btn save">Save</button>
-                    </div> <!-- /.form-action-right-->
-                </form>
-            <?php }?>
         </div> <!-- /.panel-->
 
         <!-- FUTURE Reservations-->
@@ -166,9 +136,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             <div class="panel-heading">My Future Reservations</div>
             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('futureReservations'), 'reservation');
-$foreach2DoElse = true;
+$foreach1DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
-$foreach2DoElse = false;
+$foreach1DoElse = false;
 ?>
                 <div class="reservation-card">
                     <ul>
@@ -196,9 +166,9 @@ $foreach2DoElse = false;
                                 <ul class="extras-list">
                                     <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservation')->getExtras(), 'extra');
-$foreach3DoElse = true;
+$foreach2DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('extra')->value) {
-$foreach3DoElse = false;
+$foreach2DoElse = false;
 ?>
                                         <li><?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
  - €<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>
@@ -224,9 +194,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <div class="panel">
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <span>My Past Reservations</span>
-            <?php if ($_smarty_tpl->getValue('userReview') === null) {?>
-                <a href="/IlRitrovo/public/Review/showAddReview" class="btn edit">Review</a>
-            <?php }?>
         </div> <!-- /.panel-heading-->
         <?php if ($_smarty_tpl->getValue('review') === null) {?>
             <div class="review-form">
@@ -269,9 +236,9 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 
         <?php }?>
             <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('pastReservations'), 'reservation');
-$foreach4DoElse = true;
+$foreach3DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
-$foreach4DoElse = false;
+$foreach3DoElse = false;
 ?>
                 <div class="reservation-card">
                     <ul>
@@ -299,9 +266,9 @@ $foreach4DoElse = false;
                                 <ul class="extras-list">
                                     <?php
 $_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('reservation')->getExtras(), 'extra');
-$foreach5DoElse = true;
+$foreach4DoElse = true;
 foreach ($_from ?? [] as $_smarty_tpl->getVariable('extra')->value) {
-$foreach5DoElse = false;
+$foreach4DoElse = false;
 ?>
                                         <li><?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
  - €<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>

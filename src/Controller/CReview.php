@@ -80,40 +80,52 @@ class CReview {
         }
     }
 
+    
+
     /**
-     * Function to show the review's page
+     * Function to show Reviews Page
      */
     public function showReviewsPage() {
-        $viewU=new VUser();
-        $viewR=new VReview();
-        $session=USessions::getIstance();
-        if($isLogged=CUser::isLogged()) {
-            $idUser=$session->readValue('idUser');
+    $viewU = new VUser();
+    $viewR = new VReview();
+    $session = USessions::getIstance();
+    $isLogged = CUser::isLogged();
+
+    if ($isLogged) {
+        $idUser = $session->readValue('idUser');
+        // Carico l'oggetto EUser dal suo id
+        $user = FPersistentManager::getInstance()->read($idUser, FUser::class);
+    }   else {
+            $user = null; // Per evitare warning più sotto
         }
-        //Carico l'oggetto EUser dal suo id
-        $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
-        //Carico tutte le recensioni esistenti
-        $allReviews=FPersistentManager::getInstance()->readAll(FReview::class);
-        //Per ogni recensione carico l'utente relativo per ottenere l'username
-        foreach($allReviews as $review) {
-            $idReviewUser=$review->getIdUser();
-            $reviewUser=FPersistentManager::getInstance()->read($idReviewUser, FUser::class);
-            //Associo l'username ad ogni recensione
-            if($reviewUser!==null) {
-                $review->setUsername($reviewUser->getUsername());
-            } else {
-                //Se per qualche motivo l'utente non esiste
+
+    // Carico tutte le recensioni esistenti
+    $allReviews = FPersistentManager::getInstance()->readAll(FReview::class);
+
+    // Per ogni recensione carico l'utente relativo per ottenere l'username
+    foreach ($allReviews as $review) {
+        $idReviewUser = $review->getIdUser();
+        $reviewUser = FPersistentManager::getInstance()->read($idReviewUser, FUser::class);
+        // Associo l'username ad ogni recensione
+        if ($reviewUser !== null) {
+            $review->setUsername($reviewUser->getUsername());
+        }   else{
                 $review->setUsername('Unknown User');
-            }
         }
-        //Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin con relativo header
-        if($user->isAdmin()) {
-            $viewU->showAdminHeader($isLogged);
-            $viewR->showReviewsAdminPage($allReviews);
-        } else {
-            //Altrimenti visualizzerà la pagina recensioni dell'utente normale con realtivo header
-            $viewU->showUserHeader($isLogged);
-            $viewR->showReviewsUserPage($allReviews);
+    }
+
+    // Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin con relativo header
+    if ($user !== null && $user->isAdmin()) {
+        $viewU->showAdminHeader($isLogged);
+        $viewR->showReviewsAdminPage($allReviews);
+    }elseif ($user !== null) {
+        // Utente loggato non admin
+        $viewU->showUserHeader($isLogged);
+        $viewR->showReviewsUserPage($allReviews);
+    }else {
+        // Utente non loggato
+        $viewU->showUserHeader($isLogged);
+        $viewR->showReviewsUserPage($allReviews);
         }
     }
 }
