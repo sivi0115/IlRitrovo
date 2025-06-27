@@ -18,6 +18,9 @@ use Foundation\FCreditCard;
 use Foundation\FPayment;
 use Foundation\FReservation;
 use Foundation\FReview;
+use Foundation\FRoom as FoundationFRoom;
+use Foundation\FTable;
+use Foundation\FRoom;
 
 /**
  * Classe UserController
@@ -291,8 +294,37 @@ class CUser {
             elseif($user->isAdmin()) {
                 //Carico l'header con l'informazione che l'admin è loggato
                 $view->showAdminHeader($isLogged);
+                //Carico tutte le prenotazioni
+                $allReservations=FPersistentManager::getInstance()->readAll(FReservation::class);
+                $comingTableReservations = [];
+                $comingRoomReservations = [];
+                foreach ($allReservations as $reservation) {
+                    //Carico l'utente per ottenere username
+                    $user=FPersistentManager::getInstance()->read($reservation->getIdUser(), FUser::class);
+                    if($user) {
+                        $reservation->setUsername($user->getUsername());
+                    }
+                    // Controllo se è prenotazione tavolo o stanza
+                    if ($reservation->getIdTable() !== null) {
+                        //Carico il tavolo per ottenere areaName
+                        $table=FPersistentManager::getInstance()->read($reservation->getIdTable(), FTable::class);
+                        if($table) {
+                            $reservation->setAreaName($table->getAreaName());
+                        }
+                        $comingTableReservations[] = $reservation;
+                    } elseif ($reservation->getIdRoom() !== null) {
+                        //Carico la stanza per ottenere areaName
+                        $room=FPersistentManager::getInstance()->read($reservation->getIdRoom(), FRoom::class);
+                        if($room) {
+                            $reservation->setAreaName($room->getAreaName());
+                        }
+                        $comingRoomReservations[] = $reservation;
+                    }
+                }
+                //echo json_encode($comingTableReservations, JSON_PRETTY_PRINT);
+                //echo json_encode($comingRoomReservations, JSON_PRETTY_PRINT);
                 //Carico la home page correttamente
-                $view->showLoggedAdminHomePage($isLogged);
+                $view->showLoggedAdminHomePage($isLogged, $comingTableReservations, $comingRoomReservations);
             }
         } else {
             //Mostro l'header con l'informazione che l'utente non è loggato

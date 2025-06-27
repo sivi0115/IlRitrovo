@@ -17,7 +17,7 @@
                 <!-- Container principale per le reservations -->
                 <div id="reservationContainer" class="reservation-container">
                     {if $comingTableReservations|@count > 0}
-                        {foreach from=$comingTableReservations item=comingReservation}
+                        {foreach from=$comingTableReservations item=reservation}
                             <!-- Scheda singola della prenotazione -->
                             <div class="reservation-card" id="reservation-{$reservation->getIdReservation()}">
                                 <div class="reservation-header">
@@ -53,7 +53,7 @@
                 <!-- Container principale per le reservations -->
                 <div id="reservationContainer" class="reservation-container">
                     {if $comingRoomReservations|@count > 0}
-                        {foreach from=$comingRoomReservations item=comingReservation}
+                        {foreach from=$comingRoomReservations item=reservation}
                             <!-- Scheda singola della prenotazione -->
                             <div class="reservation-card" id="reservation-{$reservation->getIdReservation()}">
                                 <div class="reservation-header">

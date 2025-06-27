@@ -84,6 +84,16 @@ class EReservation implements JsonSerializable {
     private ?array $extras = [];
 
     /**
+     * @var string areaName
+     */
+    private $areaName;
+
+    /**
+     * @var string $username
+     */
+    private $username;
+
+    /**
      * Constructor for the EReservation class with validation checks.
      *
      * @param ?int $idReservation The ID of the reservation.
@@ -355,6 +365,34 @@ class EReservation implements JsonSerializable {
      */
     public function setExtras(array $extras): void {
         $this->extras = $extras;
+    }
+
+    /**
+     * Used to get Area name
+     */
+    public function getAreaName(): string {
+        return $this->areaName;
+    }
+
+    /**
+     * Used to set Area name View Friendly
+     */
+    public function setAreaName(string $areaName): void {
+        $this->areaName=$areaName;
+    }
+
+    /**
+     * Used to get Username of a reservation
+     */
+    public function getUsername(): string {
+        return $this->username;
+    }
+
+    /**
+     * Used to set Username View Friendly
+     */
+    public function setUsername(string $username): void {
+        $this->username=$username;
     }
 
     /**

@@ -44,11 +44,13 @@ class VUser {
     /**
      * Function to show logged admin home page
      */
-    public function showLoggedAdminHomePage(bool $isLogged) {
+    public function showLoggedAdminHomePage(bool $isLogged, array $comingTableReservations, array $comingRoomReservations) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
         $smarty->assign('isLogged', $isLogged);
+        $smarty->assign('comingTableReservations', $comingTableReservations);
+        $smarty->assign('comingRoomReservations', $comingRoomReservations);
         $smarty->display('adminHome.tpl');
     }
 

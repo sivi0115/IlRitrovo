@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 17:23:35
+/* Smarty version 5.5.1, created on 2025-06-27 02:04:48
   from 'file:adminHome.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ac2f7b688a6_39617337',
+  'unifunc' => 'content_685de020836a89_37982184',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e0ccdb4be32967a2ff5b087380b47b1b35b664cc' => 
     array (
       0 => 'adminHome.tpl',
-      1 => 1750778522,
+      1 => 1750981551,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerAdmin.tpl' => 1,
   ),
 ))) {
-function content_685ac2f7b688a6_39617337 (\Smarty\Template $_smarty_tpl) {
+function content_685de020836a89_37982184 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -43,9 +43,9 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <div id="reservationContainer" class="reservation-container">
                     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('comingTableReservations')) > 0) {?>
                         <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('comingTableReservations'), 'comingReservation');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('comingTableReservations'), 'reservation');
 $foreach0DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('comingReservation')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
 $foreach0DoElse = false;
 ?>
                             <!-- Scheda singola della prenotazione -->
@@ -94,9 +94,9 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div id="reservationContainer" class="reservation-container">
                     <?php if ($_smarty_tpl->getSmarty()->getModifierCallback('count')($_smarty_tpl->getValue('comingRoomReservations')) > 0) {?>
                         <?php
-$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('comingRoomReservations'), 'comingReservation');
+$_from = $_smarty_tpl->getSmarty()->getRuntime('Foreach')->init($_smarty_tpl, $_smarty_tpl->getValue('comingRoomReservations'), 'reservation');
 $foreach1DoElse = true;
-foreach ($_from ?? [] as $_smarty_tpl->getVariable('comingReservation')->value) {
+foreach ($_from ?? [] as $_smarty_tpl->getVariable('reservation')->value) {
 $foreach1DoElse = false;
 ?>
                             <!-- Scheda singola della prenotazione -->
