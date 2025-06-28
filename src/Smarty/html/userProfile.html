@@ -154,6 +154,13 @@
                     <a href="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" class="btn delete">Delete</a>
                 </div> <!-- /.form-action-right-->
             </div> <!-- /.existing-review-->
+
+            {if $review->getReply() !== null}
+                <div class="admin-reply">
+                    <p><strong>Reply from the restaurant:</strong></p>
+                    <p>{$review->getReply()->getBody()}</p>
+                </div> <!-- /.admin-reply-->
+            {/if}
         {/if}
             {foreach from=$pastReservations item=reservation}
                 <div class="reservation-card">
