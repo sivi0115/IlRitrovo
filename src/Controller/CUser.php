@@ -16,6 +16,7 @@ use Foundation\FPersistentManager;
 use Exception;
 use Foundation\FCreditCard;
 use Foundation\FPayment;
+use Foundation\FReply;
 use Foundation\FReservation;
 use Foundation\FReview;
 use Foundation\FRoom as FoundationFRoom;
@@ -111,6 +112,11 @@ class CUser {
         $userFutureReservations=FPersistentManager::getInstance()->readFutureReservationsByUserId($idUser, FReservation::class);
         //Carico le recensioni di questo utente
         $userReview=FPersistentManager::getInstance()->readReviewByUserId($idUser, FReview::class);
+        //Carico la reply se presente
+        if($userReview!==null && $userReview->getIdReply()!==null) {
+            $reply=FPersistentManager::getInstance()->read($userReview->getIdReply(), FReply::class);
+            $userReview->setReply($reply);
+        }
         //Passo i parametri a view
         $view->showUserHeader($isLogged);
         $view->showProfile($username, $email, $name, $surname, $birthDate, $phone, $edit_section, $userCreditCards, $userPastReservations, $userFutureReservations, $userReview);
