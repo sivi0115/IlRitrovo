@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-28 20:21:11
+/* Smarty version 5.5.1, created on 2025-06-28 20:25:11
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68603297cea789_93984983',
+  'unifunc' => 'content_68603387bc9d33_86999873',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2a9cf9abbe3b545d30fee2e06380374ba38758cc' => 
     array (
       0 => 'login.tpl',
-      1 => 1751134866,
+      1 => 1751134948,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68603297cea789_93984983 (\Smarty\Template $_smarty_tpl) {
+function content_68603387bc9d33_86999873 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -55,7 +55,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         </div> <!-- /.modal-->
 
         <?php echo '<script'; ?>
->
+> //Per mostrare e nascondere la password
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleBtn = document.querySelector('.toggle-password');
