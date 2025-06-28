@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Mag 29, 2025 alle 17:06
+-- Creato il: Giu 28, 2025 alle 12:32
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `ilritrovo`
+-- Database: `ilRitrovo`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,9 @@ CREATE TABLE `creditcard` (
 --
 
 INSERT INTO `creditcard` (`idCreditCard`, `holder`, `number`, `cvv`, `expiration`, `type`, `idUser`) VALUES
-(1, 'holderTesting', '111222333444555777', 123, '2025-12-13', 'Visa', 1);
+(8, 'Marco Cipriani', '5167930012347891', 511, '2026-02-10', 'Visa', 1),
+(15, 'Mr Kittyo ', '0192837465019283', 911, '2026-10-10', 'Visa', 1),
+(18, 'Roberto Cipriani', '1234567890123456', 911, '2026-10-10', 'Mastercard', 34);
 
 --
 -- Trigger `creditcard`
@@ -73,8 +75,20 @@ CREATE TABLE `extra` (
 --
 
 INSERT INTO `extra` (`idExtra`, `name`, `price`) VALUES
-(1, 'Palloncini', 10),
-(2, 'Fiori', 20);
+(1, 'Small flower bouquet', 20),
+(2, 'Large flower bouquet', 50),
+(3, 'Floral decoration for the room', 100),
+(4, 'Balloon centerpiece', 15),
+(5, 'Balloon decoration for the room', 40),
+(6, 'Live music', 150),
+(7, 'Private bartender', 70),
+(8, 'Children’s entertainment', 70),
+(9, 'Cake (up to 20 people)', 30),
+(10, 'Cake (up to 50 people)', 60),
+(11, 'Cake (up to 100 people)', 120),
+(12, 'Projector rental', 10),
+(13, 'Place cards', 25),
+(15, 'Fiori Bianchi', 300);
 
 -- --------------------------------------------------------
 
@@ -92,7 +106,8 @@ CREATE TABLE `extrainreservation` (
 --
 
 INSERT INTO `extrainreservation` (`idExtra`, `idReservation`) VALUES
-(2, 1);
+(1, 39),
+(1, 41);
 
 -- --------------------------------------------------------
 
@@ -126,7 +141,7 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`idPayment`, `total`, `creationTime`, `state`, `idCreditCard`, `idReservation`) VALUES
-(1, 120, '2025-12-14', 'completed', 1, 1);
+(4, 120, '2025-06-27', 'completed', 18, 41);
 
 -- --------------------------------------------------------
 
@@ -140,6 +155,13 @@ CREATE TABLE `reply` (
   `body` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dump dei dati per la tabella `reply`
+--
+
+INSERT INTO `reply` (`idReply`, `dateReply`, `body`) VALUES
+(7, '2025-06-28', 'grazie mieow');
+
 -- --------------------------------------------------------
 
 --
@@ -149,7 +171,7 @@ CREATE TABLE `reply` (
 CREATE TABLE `reservation` (
   `idReservation` int(11) NOT NULL,
   `timeFrame` enum('lunch','dinner') NOT NULL,
-  `reservationDate` datetime NOT NULL,
+  `reservationDate` date NOT NULL,
   `comment` varchar(256) NOT NULL,
   `people` int(3) NOT NULL,
   `totPrice` int(4) NOT NULL,
@@ -165,7 +187,10 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`idReservation`, `timeFrame`, `reservationDate`, `comment`, `people`, `totPrice`, `state`, `creationTime`, `idUser`, `idRoom`, `idTable`) VALUES
-(1, 'dinner', '2025-12-26 00:00:00', 'Secondo Update', 10, 120, 'confirmed', '2025-12-13', 1, 1, NULL);
+(36, 'dinner', '2025-07-23', 'Allergia a funghi', 4, 0, 'confirmed', '2025-06-25', 1, NULL, 14),
+(37, 'lunch', '2026-01-30', 'allergie varie a funghi', 10, 0, 'confirmed', '2025-06-26', 33, NULL, 13),
+(40, 'dinner', '2025-08-15', 'Si fa presente che una portata non deve contenere Glutine\r\n(Celiachia)', 5, 0, 'confirmed', '2025-06-27', 34, NULL, 1),
+(41, 'lunch', '2025-08-14', 'Commenti', 100, 120, 'approved', '2025-06-27', 34, 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -187,7 +212,7 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`idUser`, `idReview`, `stars`, `creationTime`, `body`, `idReply`) VALUES
-(1, 1, 3, '2025-12-27', 'Corpo della recensione: \n MIAO w i gatetos', 2);
+(1, 27, 4, '2025-06-28', 'ciao w i gattioes', 7);
 
 --
 -- Trigger `review`
@@ -219,7 +244,9 @@ CREATE TABLE `room` (
 --
 
 INSERT INTO `room` (`idRoom`, `areaName`, `maxGuests`, `tax`) VALUES
-(1, 'StanzaRossa', 20, 100);
+(1, 'The Rustic Retreat', 20, 20),
+(2, 'The Grand Hall', 100, 100),
+(3, 'The Wine Cellar', 50, 50);
 
 -- --------------------------------------------------------
 
@@ -238,7 +265,20 @@ CREATE TABLE `tables` (
 --
 
 INSERT INTO `tables` (`idTable`, `areaName`, `maxGuests`) VALUES
-(1, 'Tavolo1', 4);
+(1, 'Table 1', 6),
+(2, 'Table 2', 3),
+(3, 'Table 3', 4),
+(4, 'Table 4', 4),
+(5, 'Table 5', 4),
+(6, 'Table 6', 10),
+(7, 'Table 7', 4),
+(8, 'Table 8', 4),
+(9, 'Table 9', 4),
+(10, 'Table 10', 4),
+(11, 'Table 11', 4),
+(12, 'Table 12', 5),
+(13, 'Table 13', 10),
+(14, 'Table 14', 4);
 
 -- --------------------------------------------------------
 
@@ -266,8 +306,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`idUser`, `idReview`, `username`, `name`, `surname`, `birthDate`, `phone`, `image`, `role`, `email`, `password`, `ban`) VALUES
-(1, 1, 'usernameTest', 'userNome', 'userCognome', '2000-01-01', '1234567890', 'https://example.com/image.jpg', 'user', 'testuser@gmail.com', '$2y$12$XNHfzCIIaI.shqBA9cb/rOIZx/ZkA0YrAsDCcdIQ67zRA93DNRFG6', 0),
-(2, NULL, 'usernameAdminDiProva', 'marco', 'cipriani', '2000-02-20', '+393408993462', 'immagine.jpeg', 'admin', 'admin.prova@gmail,com', '$2y$12$BJrHeZY2JzpRi9M/cOvTSO/iFk.90EK3SbqduSspFKXKJGY/62.h6', 0);
+(1, 1, 'glaceon00', 'Giovanni', 'Rossi', '2001-01-03', '3407698123', 'https://example.com/image.jpg', 'user', 'glaceooon00@gmail.com', '$2y$10$/.WVhJ7zhz8kkH4j6beh4.VPymJVe/XRTPIhogu9MB1d81VnTrSi2', 0),
+(2, NULL, 'admin1', 'Mario', 'Rossi', '2025-06-22', '3409876432', NULL, 'admin', 'marioRossi@gmail.com', '$2y$10$zJYtfuBxaE3b8BodCr4VfulCKwPix09bakPsg15FnFBKKoVNI4eR2', 0),
+(33, NULL, 'flareon00', 'Lorenzo', 'Bianchi', '2001-02-01', '3408976543', NULL, 'user', 'lorenzoBianchi@gmail.com', '$2y$10$FAOO6GPdTUn2CUJo6FUzDerBDgQfkM6FG4jhI5fK8/21TwkhT8r3y', 0),
+(34, NULL, 'roby50', 'Roberto', 'Cipriani', '1958-08-04', '3409876123', NULL, 'user', 'robertoCipriani@gmail.com', '$2y$10$XnnumRmW2uVqL5tTvU.UauDCPeDL7NW06.0ILZX0UF2QS9PvFsrEq', 0);
 
 --
 -- Indici per le tabelle scaricate
@@ -287,13 +329,6 @@ ALTER TABLE `creditcard`
 --
 ALTER TABLE `extra`
   ADD PRIMARY KEY (`idExtra`);
-
---
--- Indici per le tabelle `extrainreservation`
---
-ALTER TABLE `extrainreservation`
-  ADD UNIQUE KEY `idExtra` (`idExtra`),
-  ADD UNIQUE KEY `idReservation` (`idReservation`);
 
 --
 -- Indici per le tabelle `image_user`
@@ -360,13 +395,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT per la tabella `creditcard`
 --
 ALTER TABLE `creditcard`
-  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT per la tabella `extra`
 --
 ALTER TABLE `extra`
-  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT per la tabella `image_user`
@@ -378,25 +413,25 @@ ALTER TABLE `image_user`
 -- AUTO_INCREMENT per la tabella `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `idPayment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idPayment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `reply`
 --
 ALTER TABLE `reply`
-  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT per la tabella `review`
 --
 ALTER TABLE `review`
-  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT per la tabella `room`
@@ -408,13 +443,13 @@ ALTER TABLE `room`
 -- AUTO_INCREMENT per la tabella `tables`
 --
 ALTER TABLE `tables`
-  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idTable` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Limiti per le tabelle scaricate
