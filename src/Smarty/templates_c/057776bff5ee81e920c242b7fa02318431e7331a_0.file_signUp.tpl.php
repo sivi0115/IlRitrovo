@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 16:11:35
+/* Smarty version 5.5.1, created on 2025-06-28 20:22:54
   from 'file:signUp.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d5517114c90_83669154',
+  'unifunc' => 'content_686032fed92320_42760386',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '057776bff5ee81e920c242b7fa02318431e7331a' => 
     array (
       0 => 'signUp.tpl',
-      1 => 1750947091,
+      1 => 1751134935,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685d5517114c90_83669154 (\Smarty\Template $_smarty_tpl) {
+function content_686032fed92320_42760386 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -101,15 +101,18 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     autocomplete="tel"
                     />
                     <label for="password">Password</label>
+                    <div class="password-wrapper">
                     <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    minlength="8"
-                    aria-describedby="passwordHelp"
-                    autocomplete="new-password"
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        minlength="8"
+                        aria-describedby="passwordHelp"
+                        autocomplete="new-password"
                     />
+                    <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                    </div>
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
                         <ul>
@@ -193,6 +196,23 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 specialReq.classList.remove('valid');
             }
             });
+        <?php echo '</script'; ?>
+>
+
+        <?php echo '<script'; ?>
+> //Per mostrare e nascondere la password
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';  // cambio icona quando la password è visibile
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '🐵';  // icona occhiolino quando nascosta
+            }
+        }
         <?php echo '</script'; ?>
 >
     </body>

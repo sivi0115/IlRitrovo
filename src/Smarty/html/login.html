@@ -17,13 +17,28 @@
                     <input type="email" id="email" name="email" required />
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required />
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" required />
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            🐵
+                        </button>
+                    </div>
 
                     <button type="submit">Login</button>
                 </form>
                 <p>Don't have an account? <a href="/IlRitrovo/public/User/showSignUpForm">Sign up here</a></p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
+
+        <script> //Per mostrare e nascondere la password
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-password');
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            toggleBtn.textContent = isPassword ? '🙈' : '🐵';
+        }
+        </script>
         
     </body>
 </html>

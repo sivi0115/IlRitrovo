@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 11:00:05
+/* Smarty version 5.5.1, created on 2025-06-28 20:21:11
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685bba955735d5_58254912',
+  'unifunc' => 'content_68603297cea789_93984983',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2a9cf9abbe3b545d30fee2e06380374ba38758cc' => 
     array (
       0 => 'login.tpl',
-      1 => 1750841504,
+      1 => 1751134866,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685bba955735d5_58254912 (\Smarty\Template $_smarty_tpl) {
+function content_68603297cea789_93984983 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -41,13 +41,30 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     <input type="email" id="email" name="email" required />
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required />
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" required />
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            🐵
+                        </button>
+                    </div>
 
                     <button type="submit">Login</button>
                 </form>
                 <p>Don't have an account? <a href="/IlRitrovo/public/User/showSignUpForm">Sign up here</a></p>
             </div> <!-- /.modal-content-->
         </div> <!-- /.modal-->
+
+        <?php echo '<script'; ?>
+>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-password');
+            const isPassword = passwordInput.type === 'password';
+            passwordInput.type = isPassword ? 'text' : 'password';
+            toggleBtn.textContent = isPassword ? '🙈' : '🐵';
+        }
+        <?php echo '</script'; ?>
+>
         
     </body>
 </html><?php }

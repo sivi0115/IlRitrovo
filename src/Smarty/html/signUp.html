@@ -75,15 +75,18 @@
                     autocomplete="tel"
                     />
                     <label for="password">Password</label>
+                    <div class="password-wrapper">
                     <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    required
-                    minlength="8"
-                    aria-describedby="passwordHelp"
-                    autocomplete="new-password"
+                        type="password"
+                        id="password"
+                        name="password"
+                        required
+                        minlength="8"
+                        aria-describedby="passwordHelp"
+                        autocomplete="new-password"
                     />
+                    <button type="button" class="toggle-password" onclick="togglePassword()">👁️</button>
+                    </div>
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
                         <ul>
@@ -166,6 +169,21 @@
                 specialReq.classList.remove('valid');
             }
             });
+        </script>
+
+        <script> //Per mostrare e nascondere la password
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';  // cambio icona quando la password è visibile
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '🐵';  // icona occhiolino quando nascosta
+            }
+        }
         </script>
     </body>
 </html>
