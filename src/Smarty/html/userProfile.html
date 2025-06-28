@@ -7,6 +7,7 @@
         <!-- Template Stylesheet -->
         <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
@@ -127,7 +128,7 @@
         <!-- PAST Reservations-->
         <div class="panel">
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>My Past Reservations</span>
+            <span>My Past Reservations and My Review</span>
         </div> <!-- /.panel-heading-->
         {if $review === null}
             <div class="review-form">

@@ -17,66 +17,89 @@ a cosa dovrebbe servire? serve a ricaricare la pagina di registrazione con un me
 una mail o un username già in uso.
 
 ELENCO PRIORITA' DA FARE:
-- come gestire gli errori e le pagine di errore
+- aggiungere i popup di conferma operazione nelle seguenti occasioni:
+  - dopo il login
+  - dopo il signup
+  - dopo il logout
+  - dopo tableReservation3
+  - dopo roomReservation4
+  - dopo scrittura review in
+    - userProfile
+    - review
+  - dopo cancellazione review in
+    - userProfile
+    - review
+  - dopo cancellazione carta
+  - dopo aggiunta carta in
+    - addCardStep3
+    - addCardUserProfile
+  - dopo editData
+  - dopo editMetadata
+- spostare il js in un'apposita cartella
+  -room1
+  -room2
+  -signup
+  -editMetadata
+- come gestire gli errori e le pagine di errore (so come si fa)
+- aggiungere il pulsante deleteReview
 - cookies
 - vedere dove aggiungere gli |escape per la sicurezza
 
-PAGINE PER L'UTENTE:
- 1. HOME:
-    testata
- 2. ROOMS
-    testata
- 3. REVIEWS
-    ok
- 4. MENU
-    testata
 
-PAGINE PER L'UTENTE REGISTRATO:
- 5. USER-PROFILE
-    ok
- 6. RESERVATION-TABLE-1
-    testata
- 7. RESERVATION-TABLE-2
-    testata
- 8. RESERVATION-TABLE-3
-    testata
- 9. RESERVATION-ROOM-1
-    testata
-10. RESERVATION-ROOM-2
-    testata
-11. RESERVATION-ROOM-3
-    ok
-12. RESERVATION-ROOM-4
-    ok
+CODICE DATABASE:
+- USER
+  - cancellare la riga image
+  - cancellare la tabella image_user
 
-SEZIONI UTILI DI FUNZIONAMENTO PER L'USER:
-1. HEADER-USER
-   testata
-2. FOOTER-USER
-   testata
-3. LOGIN
-   testata
-4. SIGN-UP
-   testata
 
-PAGINE PER L'ADMIN:
-1. HOME
-   ok
-2. USERS
-   ok
-3. EXTRAS
-   ok
-4. REVIEWS
-   ok
 
-SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
-1. HEADER-ADMIN:
-   ok
-2. FOOTER ADMIN:
-   ok
 
-      //FUNCTION CONTROLLER SHOW MENU
-       public static function showMenuPage() {
+  /**
+ * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
+ * If login is successful, sets a session flag to show a popup on the next page.
+ */
+public function checkLogin() {
+    $view = new VUser();
+    $session = USessions::getIstance();
+
+    try {
+        $checkUser = FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        exit;
+    }
+
+    $checkEmail = $checkUser->getEmail();
+    $checkPassword = $checkUser->getPassword();
+
+    if ($checkEmail === UHTTPMethods::post('email') && password_verify(UHTTPMethods::post('password'), $checkPassword)) {
+        // Utente trovato, password corretta
+        if ($checkUser->getBan() === 1) {
+            echo "Sei stato bannato";
+            exit;
+        }
+
+        $session->startSession();
+        $session->setValue('idUser', $checkUser->getIdUser());
+
+        // Flag per mostrare popup login riuscito
+        $_SESSION['loginSuccess'] = true;
+
+        // Redirect alla home page
+        header("Location: /IlRitrovo/public/User/showHomePage");
+        exit;
+
+    } else {
+        echo "Password Errata, ricontrolla la password";
+        exit;
+    }
+}
+
+
+    /**
+     * Function to show home Page if user is logged or if is admin
+     */
+    public static function showHomePage() {
         $view=new VUser();
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
@@ -87,82 +110,58 @@ SEZIONI UTILI DI FUNZIONAMENTO PER L'ADMIN:
             if($user->isUser() && $user->getBan()===0) {
                 //Mostro l'header con l'informazione che l'utente è loggato
                 $view->showUserHeader($isLogged);
-                //Carico la menu page correttamente per l'utente loggato
-                $view->showLoggedMenuPage($isLogged);
+                //Carico la home page correttamente per l'utente loggato
+                $view->showLoggedUserHomePage($isLogged, true);
+            }
+            //Se è un admin lo reindirizzo alla sua home page
+            elseif($user->isAdmin()) {
+                //Carico l'header con l'informazione che l'admin è loggato
+                $view->showAdminHeader($isLogged);
+                //Carico tutte le prenotazioni
+                $allReservations=FPersistentManager::getInstance()->readAll(FReservation::class);
+                $comingTableReservations = [];
+                $comingRoomReservations = [];
+                foreach ($allReservations as $reservation) {
+                    //Carico l'utente per ottenere username
+                    $user=FPersistentManager::getInstance()->read($reservation->getIdUser(), FUser::class);
+                    if($user) {
+                        $reservation->setUsername($user->getUsername());
+                    }
+                    // Controllo se è prenotazione tavolo o stanza
+                    if ($reservation->getIdTable() !== null) {
+                        //Carico il tavolo per ottenere areaName
+                        $table=FPersistentManager::getInstance()->read($reservation->getIdTable(), FTable::class);
+                        if($table) {
+                            $reservation->setAreaName($table->getAreaName());
+                        }
+                        $comingTableReservations[] = $reservation;
+                    } elseif ($reservation->getIdRoom() !== null) {
+                        //Carico la stanza per ottenere areaName
+                        $room=FPersistentManager::getInstance()->read($reservation->getIdRoom(), FRoom::class);
+                        if($room) {
+                            $reservation->setAreaName($room->getAreaName());
+                        }
+                        $comingRoomReservations[] = $reservation;
+                    }
+                }
+                //echo json_encode($comingTableReservations, JSON_PRETTY_PRINT);
+                //echo json_encode($comingRoomReservations, JSON_PRETTY_PRINT);
+                //Carico la home page correttamente
+                $view->showLoggedAdminHomePage($isLogged, $comingTableReservations, $comingRoomReservations);
             }
         } else {
             //Mostro l'header con l'informazione che l'utente non è loggato
             $view->showUserHeader($isLogged);
-            //Carico la menu page correttamente per l'utente non loggato
-            $view->showMenuPage($isLogged);
+            //Carico la home page correttamente per l'utente non loggato
+            $view->showUserHomePage($isLogged);
         }
     }
 
-    //2 FUNCTION VIEW SHOW MENU
-    /**
-     * Function to show non unlogged user menu page
-     */
-    public function showMenuPage(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-        $smarty->assign('isLogged', $isLogged);
-        $smarty->display('menu.tpl');
-    }
-
-    /**
-     * Function to show logged user menu page
-     */
-    public function showLoggedMenuPage(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-        $smarty->assign('isLogged', $isLogged);
-        $smarty->display('menu.tpl');
-    }
-
-      //FUNCTION CONTROLLER SHOW ROOMS
-       public static function showRoomsPage() {
-        $view=new VUser();
-        $session=USessions::getIstance();
-        if($isLogged=CUser::isLogged()) {
-            $idUser=$session->readValue('idUser');
-            //Carico l'utente da db
-            $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
-            //Controllo che sia amministratore o utente normale, se è utente normale
-            if($user->isUser() && $user->getBan()===0) {
-                //Mostro l'header con l'informazione che l'utente è loggato
-                $view->showUserHeader($isLogged);
-                //Carico la rooms page correttamente per l'utente loggato
-                $view->showLoggedRoomsPage($isLogged);
-            }
-        } else {
-            //Mostro l'header con l'informazione che l'utente non è loggato
-            $view->showUserHeader($isLogged);
-            //Carico la rooms page correttamente per l'utente non loggato
-            $view->showRoomsPage($isLogged);
-        }
-    }
-
-    //2 FUNCTION VIEW SHOW ROOMS
-    /**
-     * Function to show non unlogged user rooms page
-     */
-    public function showRoomsPage(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-        $smarty->assign('isLogged', $isLogged);
-        $smarty->display('rooms.tpl');
-    }
-
-    /**
-     * Function to show logged user rooms page
-     */
-    public function showLoggedRoomsPage(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-        $smarty->assign('isLogged', $isLogged);
-        $smarty->display('rooms.tpl');
-    }
+    public function showLoggedUserHomePage(bool $isLogged, bool $loginSuccess = false) {
+    $smarty = new Smarty();
+    $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+    $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+    $smarty->assign('isLogged', $isLogged);
+    $smarty->assign('loginSuccess', $loginSuccess);
+    $smarty->display('home.tpl');
+}

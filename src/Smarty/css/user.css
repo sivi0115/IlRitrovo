@@ -235,8 +235,10 @@ body {
 ------------------------------------------------- */
 .reservation-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr); /* due colonne fisse */
+  gap: 2rem;
+  align-items: start; /* forza l'allineamento in alto */
+  margin-top: 2rem;
 }
 
 .reservation-card {
@@ -276,8 +278,8 @@ body {
 }
 
 .reservation-row span {
-  flex: 1 1 auto;
-  min-width: 140px;
+  flex: 1 1 45%;
+  word-break: break-word;
 }
 
 .extras-list {

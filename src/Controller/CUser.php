@@ -205,7 +205,7 @@ class CUser {
      * Function to validate user's data sent by the form and to redirect the user to the home page or to the error page.
      * A new user will be added in the database if registration was successful
      * 
-     * @throws Excpetion if something goes wrong like existing username ecc
+     * @throws Exception if something goes wrong like existing username ecc
      */
     public function checkRegister() {
         $view=new VUser();

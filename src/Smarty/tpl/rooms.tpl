@@ -6,6 +6,21 @@
     <title>Our Rooms - Il Ritrovo</title>
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css">
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/home.css">
+    <style>
+.rooms-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rooms-page .rooms-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+</style>
     </head>
     <body>
 
@@ -19,7 +34,7 @@
         </section>
 
         <!-- ROOMS LIST -->
-        <section class="event-section rooms-section" id="rooms">
+        <section class="event-section rooms-section rooms-page" id="rooms">
             <!-- Room 1 -->
             <div class="content-wrapper">
                 <div class="image-column">
