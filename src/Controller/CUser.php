@@ -260,7 +260,6 @@ class CUser {
             //Reindirizzo alla home page dell'admin e aggiungo in sessione l'utente
             $session->startSession();
             $session->setValue('idUser', $checkUser->getIdUser());
-            //$view->showAdminHomePage();
             }
         //Verifico se l'utente è bannato
         if($checkUser->getBan()===1) {
@@ -293,7 +292,7 @@ class CUser {
             if (count($_COOKIE) === 0) {
             // Nessun cookie presente → cookie disabilitati
             echo "<h1>Cookie disabilitati</h1>";
-            echo "<p>Per usare questa applicazione devi attivare i cookie nel tuo browser e ricaricare la pagina.</p>";
+            echo "<p>Per usare questa applicazione devi attivare i cookie nel tuo browser e ricaricare la pagina. Se al primo reload ancora non funziona si provi con un secondo tentatvo, funzionerà sicuramente</p>";
             exit();
             }
         }
