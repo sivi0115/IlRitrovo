@@ -287,7 +287,7 @@ class CReservation {
         //Recupero dalla richiesta post l'id della carta selezionata per il pagamento
         $idSelectedCard=UHTTPMethods::post('selectedCardId');
         //Recupero la carta da db grazie al suo id
-        $selectedCard=FPersistentManager::getInstance()->read($idSelectedCard, FCreditCard::class);
+        $selectedCard=FPersistentManager::getInstance()->read((int)$idSelectedCard, FCreditCard::class);
         //Salvo i dati in sessione per il pagamento nello step successivo
         $session->setValue('idSelectedCard', $idSelectedCard);
         //Passo i parametri a view

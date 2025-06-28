@@ -109,7 +109,7 @@ class FExtra {
             'name' => $extra->getNameExtra(),
             'price' => $extra->getPriceExtra(),
         ];
-        self::validateExtraData($data);
+        self::validateExtraData($data, $extra->getIdExtra());
         if (!$db->update(self::TABLE_NAME, $data, ['idExtra' => $extra->getIdExtra()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }
@@ -161,14 +161,14 @@ class FExtra {
      * @param array $data The data array containing 'name' and 'price'.
      * @throws Exception If required fields are missing or invalid.
      */
-    public static function validateExtraData(array $data): void {
+    public static function validateExtraData(array $data, ?int $currentId=null): void {
         // Validate 'name'
         if (empty($data['name']) || !is_string($data['name'])) {
             throw new Exception(self::ERR_NAME_FIELD);
         }
-        //Checks for duplicates
+        //Checks for duplicates (exlude current ID if editing)
         $existing = self::readByName($data['name']);
-        if ($existing !== null) {
+        if ($existing !== null && $existing->getIdExtra()!==$currentId) {
             throw new Exception(self::ERR_DUPLICATE_EXTRA);
         }
         // Validate 'priceExtra'
