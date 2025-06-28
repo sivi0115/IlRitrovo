@@ -61,10 +61,10 @@
               <span class="review-timestamp">{$review->getCreationTime()}</span>
             </div> <!-- /.review-meta-->
             <p class="review-body">{$review->getBody()}</p>
-            {if $review->getIdReply() !== null}
+            {if $review->getReply() !== null}
               <div class="admin-reply">
                 <p><strong>Reply from the restaurant:</strong></p>
-                <p>{$review->getIdReply()->getBody()}</p>
+                <p>{$review->getReply()->getBody()}</p>
               </div> <!-- /.admin-reply-->
             {/if}
           </div> <!-- /.review-card-->

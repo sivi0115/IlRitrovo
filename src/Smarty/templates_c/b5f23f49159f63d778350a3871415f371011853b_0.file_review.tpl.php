@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 17:23:34
+/* Smarty version 5.5.1, created on 2025-06-28 12:08:11
   from 'file:review.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685c147681afa5_41224924',
+  'unifunc' => 'content_685fbf0bf2f6d0_09776934',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b5f23f49159f63d778350a3871415f371011853b' => 
     array (
       0 => 'review.tpl',
-      1 => 1750841504,
+      1 => 1751105274,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685c147681afa5_41224924 (\Smarty\Template $_smarty_tpl) {
+function content_685fbf0bf2f6d0_09776934 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -108,10 +108,10 @@ $foreach0DoElse = false;
             </div> <!-- /.review-meta-->
             <p class="review-body"><?php echo $_smarty_tpl->getValue('review')->getBody();?>
 </p>
-            <?php if ($_smarty_tpl->getValue('review')->getIdReply() !== null) {?>
+            <?php if ($_smarty_tpl->getValue('review')->getReply() !== null) {?>
               <div class="admin-reply">
                 <p><strong>Reply from the restaurant:</strong></p>
-                <p><?php echo $_smarty_tpl->getValue('review')->getIdReply()->getBody();?>
+                <p><?php echo $_smarty_tpl->getValue('review')->getReply()->getBody();?>
 </p>
               </div> <!-- /.admin-reply-->
             <?php }?>
