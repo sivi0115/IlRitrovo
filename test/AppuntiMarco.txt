@@ -1,6 +1,7 @@
 STILE DI SCRITTURA E FORMATTAZIONE:
 Ci atteniamo allo standard PRS-12
 Da modificare l'attributo Entity in User: image->profileImage
+da implementare un occhiolino per le password quando la si inserisce
 
 UTENTI PER IL TESTING
 idUser1 -> glaceooon00@gmail.com nuovaPassword123! user

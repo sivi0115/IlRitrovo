@@ -26,12 +26,15 @@ class VReview {
     /**
      * Function to show admin's reviews page
      */
-    public function showReviewsAdminPage(array $allReviews) {
+    public function showReviewsAdminPage(array $allReviews, ?int $showReplyForm=null) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
 
         $smarty->assign('allReviews', $allReviews);
+        if($showReplyForm!==null) {
+            $smarty->assign('showReplyForm', $showReplyForm);
+        }
         $smarty->display('adminReview.tpl');
     }
 }

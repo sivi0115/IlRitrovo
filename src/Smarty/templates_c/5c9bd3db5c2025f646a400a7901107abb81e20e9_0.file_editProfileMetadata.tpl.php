@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 11:25:27
+/* Smarty version 5.5.1, created on 2025-06-27 13:46:35
   from 'file:editProfileMetadata.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685bc0870f4360_09394035',
+  'unifunc' => 'content_685e849b962150_63750024',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5c9bd3db5c2025f646a400a7901107abb81e20e9' => 
     array (
       0 => 'editProfileMetadata.tpl',
-      1 => 1750843525,
+      1 => 1750941554,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_685bc0870f4360_09394035 (\Smarty\Template $_smarty_tpl) {
+function content_685e849b962150_63750024 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -90,9 +90,6 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <p><a href="/IlRitrovo/public/User/showProfile">Back to Profile</a></p>
             </div>
         </div>
-
-        <!-- Footer-->
-
 
         <?php echo '<script'; ?>
 >

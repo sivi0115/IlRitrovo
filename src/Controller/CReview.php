@@ -7,6 +7,7 @@ use Entity\EReply;
 use Entity\EReview;
 use Exception;
 use Foundation\FPersistentManager;
+use Foundation\FReply;
 use Foundation\FReservation;
 use Foundation\FReview;
 use Foundation\FUser;
@@ -85,7 +86,7 @@ class CReview {
     /**
      * Function to show Reviews Page
      */
-    public function showReviewsPage() {
+    public static function showReviewsPage(?int $showReplyForm=null) {
     $viewU = new VUser();
     $viewR = new VReview();
     $session = USessions::getIstance();
@@ -112,12 +113,19 @@ class CReview {
         }   else{
                 $review->setUsername('Unknown User');
         }
+        //Carico anche la risposta associata se presente
+        $idReply=$review->getIdReply();
+        if($idReply!==null) {
+            $reply=FPersistentManager::getInstance()->read($idReply, FReply::class);
+            $review->setReply($reply);
+        }
     }
 
     // Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin con relativo header
     if ($user !== null && $user->isAdmin()) {
+        //var_dump($allReviews);
         $viewU->showAdminHeader($isLogged);
-        $viewR->showReviewsAdminPage($allReviews);
+        $viewR->showReviewsAdminPage($allReviews, $showReplyForm);
     }elseif ($user !== null) {
         // Utente loggato non admin
         $viewU->showUserHeader($isLogged);

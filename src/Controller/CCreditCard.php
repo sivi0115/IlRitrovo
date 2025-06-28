@@ -32,7 +32,7 @@ class CCreditCard {
     /**
      * Function to show form for adding a new Credit Card
      */
-    public function showAddCreditCard() {
+    public function showAddCreditCardUserProfile() {
         $view=new VCreditCard();
         $view->showAddCreditCardUserProfile();
     }

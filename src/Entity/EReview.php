@@ -43,6 +43,11 @@ class EReview implements JsonSerializable {
     private ?int $idReply;
 
     /**
+     * 
+     */
+    private ?EReply $reply=null;
+
+    /**
      * Constructor for the EReview class with validation checks.
      * 
      * @param int|null $idUser The ID of the user who made the review.
@@ -184,6 +189,14 @@ class EReview implements JsonSerializable {
         $this->username=$username;
     }
 
+    public function getReply(): EReply {
+        return $this->reply;
+    }
+
+    public function setReply(?EReply $reply): void {
+        $this->reply=$reply;
+    }
+    
     /**
      * Implementation of the jsonSerialize method.
      *
