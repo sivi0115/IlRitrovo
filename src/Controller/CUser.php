@@ -284,6 +284,19 @@ class CUser {
      */
     public static function showHomePage() {
         $view=new VUser();
+        // Verifica se i cookie sono abilitati
+        if (!isset($_COOKIE['test_cookie_check'])) {
+            // Provo a settare un cookie di test
+            setcookie('test_cookie_check', '1', time() + 3600, "/");
+
+            // Controllo se siamo già stati qui una volta (con sessione già iniziata)
+            if (count($_COOKIE) === 0) {
+            // Nessun cookie presente → cookie disabilitati
+            echo "<h1>Cookie disabilitati</h1>";
+            echo "<p>Per usare questa applicazione devi attivare i cookie nel tuo browser e ricaricare la pagina.</p>";
+            exit();
+            }
+        }
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');

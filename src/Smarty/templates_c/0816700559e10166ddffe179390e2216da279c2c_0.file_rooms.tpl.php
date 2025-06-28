@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 15:01:46
+/* Smarty version 5.5.1, created on 2025-06-29 00:15:06
   from 'file:rooms.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d44ba986e91_97033323',
+  'unifunc' => 'content_6860696a95bb83_96726353',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0816700559e10166ddffe179390e2216da279c2c' => 
     array (
       0 => 'rooms.tpl',
-      1 => 1750841504,
+      1 => 1751120990,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685d44ba986e91_97033323 (\Smarty\Template $_smarty_tpl) {
+function content_6860696a95bb83_96726353 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -31,6 +31,21 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <title>Our Rooms - Il Ritrovo</title>
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css">
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/home.css">
+    <style>
+.rooms-page {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rooms-page .rooms-section {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+</style>
     </head>
     <body>
 
@@ -44,7 +59,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         </section>
 
         <!-- ROOMS LIST -->
-        <section class="event-section rooms-section" id="rooms">
+        <section class="event-section rooms-section rooms-page" id="rooms">
             <!-- Room 1 -->
             <div class="content-wrapper">
                 <div class="image-column">
