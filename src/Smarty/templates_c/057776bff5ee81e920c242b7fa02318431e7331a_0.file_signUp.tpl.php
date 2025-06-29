@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-28 20:26:16
+/* Smarty version 5.5.1, created on 2025-06-29 14:05:09
   from 'file:signUp.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_686033c8682821_80282047',
+  'unifunc' => 'content_68612bf56d46c5_01616114',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '057776bff5ee81e920c242b7fa02318431e7331a' => 
     array (
       0 => 'signUp.tpl',
-      1 => 1751135172,
+      1 => 1751198707,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_686033c8682821_80282047 (\Smarty\Template $_smarty_tpl) {
+function content_68612bf56d46c5_01616114 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -111,7 +111,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                         aria-describedby="passwordHelp"
                         autocomplete="new-password"
                     />
-                    <button type="button" class="toggle-password" onclick="togglePassword()">🐵</button>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
                     </div>
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
@@ -207,10 +207,10 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleBtn.textContent = '🙈';  // cambio icona quando la password è visibile
+                toggleBtn.textContent = '🐵';  // cambio icona quando la password è visibile
             } else {
                 passwordInput.type = 'password';
-                toggleBtn.textContent = '🐵';  // icona occhiolino quando nascosta
+                toggleBtn.textContent = '🙈';  // icona occhiolino quando nascosta
             }
         }
         <?php echo '</script'; ?>

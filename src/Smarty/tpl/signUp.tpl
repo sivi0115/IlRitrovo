@@ -85,7 +85,7 @@
                         aria-describedby="passwordHelp"
                         autocomplete="new-password"
                     />
-                    <button type="button" class="toggle-password" onclick="togglePassword()">🐵</button>
+                    <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
                     </div>
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
@@ -178,10 +178,10 @@
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleBtn.textContent = '🙈';  // cambio icona quando la password è visibile
+                toggleBtn.textContent = '🐵';  // cambio icona quando la password è visibile
             } else {
                 passwordInput.type = 'password';
-                toggleBtn.textContent = '🐵';  // icona occhiolino quando nascosta
+                toggleBtn.textContent = '🙈';  // icona occhiolino quando nascosta
             }
         }
         </script>

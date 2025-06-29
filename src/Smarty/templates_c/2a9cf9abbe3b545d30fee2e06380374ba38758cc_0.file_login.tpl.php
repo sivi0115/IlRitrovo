@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-28 20:25:11
+/* Smarty version 5.5.1, created on 2025-06-29 14:04:25
   from 'file:login.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68603387bc9d33_86999873',
+  'unifunc' => 'content_68612bc955c2c8_82305201',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2a9cf9abbe3b545d30fee2e06380374ba38758cc' => 
     array (
       0 => 'login.tpl',
-      1 => 1751134948,
+      1 => 1751198661,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68603387bc9d33_86999873 (\Smarty\Template $_smarty_tpl) {
+function content_68612bc955c2c8_82305201 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -44,7 +44,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password" required />
                         <button type="button" class="toggle-password" onclick="togglePassword()">
-                            🐵
+                            🙈
                         </button>
                     </div>
 
@@ -61,7 +61,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
             const toggleBtn = document.querySelector('.toggle-password');
             const isPassword = passwordInput.type === 'password';
             passwordInput.type = isPassword ? 'text' : 'password';
-            toggleBtn.textContent = isPassword ? '🙈' : '🐵';
+            toggleBtn.textContent = isPassword ? '🐵' : '🙈';
         }
         <?php echo '</script'; ?>
 >

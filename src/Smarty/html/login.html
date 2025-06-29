@@ -20,7 +20,7 @@
                     <div class="password-wrapper">
                         <input type="password" id="password" name="password" required />
                         <button type="button" class="toggle-password" onclick="togglePassword()">
-                            🐵
+                            🙈
                         </button>
                     </div>
 
@@ -36,7 +36,7 @@
             const toggleBtn = document.querySelector('.toggle-password');
             const isPassword = passwordInput.type === 'password';
             passwordInput.type = isPassword ? 'text' : 'password';
-            toggleBtn.textContent = isPassword ? '🙈' : '🐵';
+            toggleBtn.textContent = isPassword ? '🐵' : '🙈';
         }
         </script>
         
