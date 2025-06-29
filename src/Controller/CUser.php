@@ -279,21 +279,20 @@ class CUser {
     }
 
     /**
-     * Function to show home Page if user is logged or if is admin
+     * Function to show home Page if user is logged or if is admin, and also check if cookies are on
      */
     public static function showHomePage() {
         $view=new VUser();
         // Verifica se i cookie sono abilitati
-        if (!isset($_COOKIE['test_cookie_check'])) {
-            // Provo a settare un cookie di test
+        if (!UCookies::isSet('test_cookie_check')) {
+            //Imposto un cookie di test per verificare se il browser li accetta
             setcookie('test_cookie_check', '1', time() + 3600, "/");
-
-            // Controllo se siamo già stati qui una volta (con sessione già iniziata)
-            if (count($_COOKIE) === 0) {
-            // Nessun cookie presente → cookie disabilitati
-            echo "<h1>Cookie disabilitati</h1>";
-            echo "<p>Per usare questa applicazione devi attivare i cookie nel tuo browser e ricaricare la pagina. Se al primo reload ancora non funziona si provi con un secondo tentatvo, funzionerà sicuramente</p>";
-            exit();
+            //Se dopo aver settato non ho ancora ricevuto alcun cookie -> sono disabilitati
+            if (UCookies::isEmpty()) {
+                $isLogged=false;
+                $view->showUserHeader($isLogged);
+                $view->showDisabledCookies();
+                exit();
             }
         }
         $session=USessions::getIstance();

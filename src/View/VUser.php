@@ -143,6 +143,17 @@ class VUser {
     }
 
     /**
+     * Function to show disabled cookies warning
+     */
+    public function showDisabledCookies() {
+        $smarty = new Smarty();
+        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
+        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+
+        $smarty->display('disabledCookies.tpl');
+    }
+
+    /**
      * Function to show menu page
      */
     public function showMenuPage() {
