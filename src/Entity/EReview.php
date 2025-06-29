@@ -189,7 +189,7 @@ class EReview implements JsonSerializable {
         $this->username=$username;
     }
 
-    public function getReply(): EReply {
+    public function getReply(): ?EReply {
         return $this->reply;
     }
 
