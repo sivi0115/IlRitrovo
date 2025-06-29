@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-29 13:54:16
+/* Smarty version 5.5.1, created on 2025-06-29 14:26:15
   from 'file:home.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_686129686c6bf9_81379052',
+  'unifunc' => 'content_686130e7e3b090_87173972',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '687b7ac834915884bdb8bdb463c7b9b565a92ece' => 
     array (
       0 => 'home.tpl',
-      1 => 1751198053,
+      1 => 1751198493,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_686129686c6bf9_81379052 (\Smarty\Template $_smarty_tpl) {
+function content_686130e7e3b090_87173972 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">

@@ -60,7 +60,10 @@ class CUser {
      * Function to show login page with forms
      */
     public function showLoginForm() {
-        $view=new VUser();
+        $view = new VUser();
+        // Imposto un cookie di test valido per due ore
+        setcookie('cookie_test', '1', time() + 7200, '/');
+        // Cookie presente: mostra la form login normalmente
         $view->showLoginForm();
     }
 
@@ -69,6 +72,9 @@ class CUser {
      */
     public function showSignUpForm() {
         $view=new VUser();
+        //Imposto un cookie di test valido per due ore
+        setcookie('cookie_test', '1', time() + 7200, '/');
+        // Cookie presente: mostra la form login normalmente
         $view->showSignUpForm();
     }
 
@@ -210,6 +216,15 @@ class CUser {
     public function checkRegister() {
         $view=new VUser();
         $session=USessions::getIstance();
+        // Verifico se il cookie di test è presente
+        if (!UCookies::isSet('cookie_test')) {
+            // Cookie disabilitati o non accettati
+            $view->showUserHeader(false);
+            $view->showDisabledCookies();
+            exit;
+        }
+        // Cancella il cookie di test perché non serve più
+        setcookie('cookie_test', '', time() - 3600, '/');
         //Creo un nuovo EUser con i dati provenienti dalla form HTML
         $newUser=new EUser(
             null,
@@ -244,6 +259,15 @@ class CUser {
     public function checkLogin() {
     $view=new VUser();
     $session=USessions::getIstance();
+    // Verifico se il cookie di test è presente
+    if (!UCookies::isSet('cookie_test')) {
+        // Cookie disabilitati o non accettati
+        $view->showUserHeader(false);
+        $view->showDisabledCookies();
+        exit;
+    }
+    // Cancella il cookie di test perché non serve più
+    setcookie('cookie_test', '', time() - 3600, '/');
     //Verifico se esiste un utente su db con stessa email e password inseriti nelle form HTML
     try {
         $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
@@ -273,28 +297,16 @@ class CUser {
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
-    print_r($_SESSION);
     header("Location: /IlRitrovo/public/User/showHomePage");
     exit;
     }
+
 
     /**
      * Function to show home Page if user is logged or if is admin, and also check if cookies are on
      */
     public static function showHomePage() {
         $view=new VUser();
-        // Verifica se i cookie sono abilitati
-        if (!UCookies::isSet('test_cookie_check')) {
-            //Imposto un cookie di test per verificare se il browser li accetta
-            setcookie('test_cookie_check', '1', time() + 3600, "/");
-            //Se dopo aver settato non ho ancora ricevuto alcun cookie -> sono disabilitati
-            if (UCookies::isEmpty()) {
-                $isLogged=false;
-                $view->showUserHeader($isLogged);
-                $view->showDisabledCookies();
-                exit();
-            }
-        }
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');

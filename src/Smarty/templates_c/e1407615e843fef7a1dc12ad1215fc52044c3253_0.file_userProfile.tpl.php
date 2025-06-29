@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-28 12:25:57
+/* Smarty version 5.5.1, created on 2025-06-29 19:05:15
   from 'file:userProfile.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685fc335f41378_34913277',
+  'unifunc' => 'content_6861724b566e40_00898152',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e1407615e843fef7a1dc12ad1215fc52044c3253' => 
     array (
       0 => 'userProfile.tpl',
-      1 => 1751105794,
+      1 => 1751120990,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685fc335f41378_34913277 (\Smarty\Template $_smarty_tpl) {
+function content_6861724b566e40_00898152 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -32,6 +32,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <!-- Template Stylesheet -->
         <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
     </head>
 
     <body style="background-color: #f8f1e8;">
@@ -193,7 +194,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <!-- PAST Reservations-->
         <div class="panel">
         <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>My Past Reservations</span>
+            <span>My Past Reservations and My Review</span>
         </div> <!-- /.panel-heading-->
         <?php if ($_smarty_tpl->getValue('review') === null) {?>
             <div class="review-form">
