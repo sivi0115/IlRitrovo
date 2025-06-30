@@ -44,10 +44,10 @@ class FUser {
      */
     public function create(EUser $user): int {
         $db = FDatabase::getInstance();
-        //hashing the password in the creation phase
-        $user->setPassword($this->hashPassword($user->getPassword()));
         $data = $this->entityToArray($user);
         self::validateUserData($data);
+        $user->setPassword($this->hashPassword($user->getPassword()));
+        $data = $this->entityToArray($user);
         try {
             //User insertion
             $result = $db->insert(self::TABLE_NAME, $data);
