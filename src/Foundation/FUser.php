@@ -164,6 +164,9 @@ class FUser {
         if(empty($data['phone'])) {
             throw new Exception("Phone field can't be empty");
         }
+        if (!ctype_digit($data['phone'])) {
+            throw new Exception("Phone field must contain only numbers");
+        }
         if (!$db->update(self::TABLE_NAME, $data, ['idUser' => $user->getIdUser()])) {
             throw new Exception(self::ERR_UPDATE_FAILED);
         }

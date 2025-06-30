@@ -22,6 +22,7 @@ use Foundation\FReview;
 use Foundation\FRoom as FoundationFRoom;
 use Foundation\FTable;
 use Foundation\FRoom;
+use View\VError;
 
 /**
  * Classe UserController
@@ -162,8 +163,7 @@ class CUser {
             }
         } catch (Exception $e) {
             //Se ci sono stati errori reindirizzo ad una schermata di errore
-            $view->showError();
-            echo "Errore" . $e->getMessage();
+            VError::showError($e->getMessage());
         }
     }
 
@@ -197,11 +197,11 @@ class CUser {
             if($updated) {
                 //Nessun errore, reindirizzo alla pagina home con dati modificati
                 header("Location: /IlRitrovo/public/User/showProfile");
+                exit;
             } 
         } catch (Exception $e) {
-            //Se ci sono stati errori reindirizzo ad una schermata di errore
-            //$view->showError();
-            echo "Errore" . $e->getMessage();
+            VError::showError($e->getMessage() . "\n" . "Please try with another Username or Email");
+            exit;
         }
     }
 
@@ -243,7 +243,7 @@ class CUser {
         try {
             FPersistentManager::getInstance()->create($newUser);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            VError::showError($e->getMessage());
             exit;
         }
         $session->startSession();
@@ -268,17 +268,16 @@ class CUser {
     }
     // Cancella il cookie di test perché non serve più
     setcookie('cookie_test', '', time() - 3600, '/');
-    //Verifico se esiste un utente su db con stessa email e password inseriti nelle form HTML
+    //Verifico se esiste un utente su db con stessa email inserita nelle form HTML
     try {
         $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
     } catch (Exception $e) {
-        echo $e->getMessage();
+        VError::showError($e->getMessage());
         exit;
     }
-    //Controllo effettivo
-    $checkEmail=$checkUser->getEmail();
+    //Controllo effettivo della password
     $checkPassword=$checkUser->getPassword();
-    if($checkEmail===UHTTPMethods::post('email') && password_verify(UHTTPMethods::post('password'), $checkPassword)) {
+    if(password_verify(UHTTPMethods::post('password'), $checkPassword)) {
         //Controllo superato, verifico se l'utente sia un admin o un utente normale
         if($checkUser->isAdmin()) {
             //Reindirizzo alla home page dell'admin e aggiungo in sessione l'utente
@@ -287,11 +286,11 @@ class CUser {
             }
         //Verifico se l'utente è bannato
         if($checkUser->getBan()===1) {
-            echo "Sei stato bannato";
+            VError::showError('Sei bannato, non puoi accedere a questa applicazione');
             exit;
             }
         } else {
-            echo "Password Errata, ricontrolla la password";
+            VError::showError('Invalid Password, please retry');
             exit;
         }
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
@@ -350,9 +349,6 @@ class CUser {
                         $comingRoomReservations[] = $reservation;
                     }
                 }
-                //echo json_encode($comingTableReservations, JSON_PRETTY_PRINT);
-                //echo json_encode($comingRoomReservations, JSON_PRETTY_PRINT);
-                //Carico la home page correttamente
                 $view->showLoggedAdminHomePage($isLogged, $comingTableReservations, $comingRoomReservations);
             }
         } else {
