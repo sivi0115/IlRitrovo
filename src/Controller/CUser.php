@@ -223,8 +223,6 @@ class CUser {
             $view->showDisabledCookies();
             exit;
         }
-        // Cancella il cookie di test perché non serve più
-        setcookie('cookie_test', '', time() - 3600, '/');
         //Creo un nuovo EUser con i dati provenienti dalla form HTML
         $newUser=new EUser(
             null,
@@ -248,6 +246,8 @@ class CUser {
         }
         $session->startSession();
         $session->setValue('idUser', $newUser->getIdUser());
+        // Cancella il cookie di test perché non serve più
+        setcookie('cookie_test', '', time() - 7200, '/');
         header("Location: /IlRitrovo/public/User/showHomePage");
         exit;
     }
@@ -266,8 +266,6 @@ class CUser {
         $view->showDisabledCookies();
         exit;
     }
-    // Cancella il cookie di test perché non serve più
-    setcookie('cookie_test', '', time() - 3600, '/');
     //Verifico se esiste un utente su db con stessa email inserita nelle form HTML
     try {
         $checkUser=FPersistentManager::getInstance()->readUserByEmail(UHTTPMethods::post('email'), FUser::class);
@@ -296,6 +294,8 @@ class CUser {
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
+    // Cancella il cookie di test perché non serve più
+    setcookie('cookie_test', '', time() - 7200, '/');
     header("Location: /IlRitrovo/public/User/showHomePage");
     exit;
     }
