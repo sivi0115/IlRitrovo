@@ -21,6 +21,8 @@ use Foundation\FRoom;
 use Entity\EPayment;
 use Entity\StatoPagamento;
 use Foundation\FPayment;
+use Foundation\FUser;
+use Foundation\FTable;
 
 
 class CReservation {
@@ -328,6 +330,35 @@ class CReservation {
         FPersistentManager::getInstance()->create($newPayment);
         //Reindirizzo alla schermata home
         header("Location: /IlRitrovo/public/User/showHomePage");
+    }
+
+    /**
+     * Function to load all Room and Table Reservation for admin home page
+     */
+    public static function getStructuredReservationsForAdmin(): array {
+        $allReservations = FPersistentManager::getInstance()->readAll(FReservation::class);
+        $comingTableReservations = [];
+        $comingRoomReservations = [];
+        foreach ($allReservations as $reservation) {
+            $user = FPersistentManager::getInstance()->read($reservation->getIdUser(), FUser::class);
+            if ($user) {
+                $reservation->setUsername($user->getUsername());
+            }
+            if ($reservation->getIdTable() !== null) {
+                $table = FPersistentManager::getInstance()->read($reservation->getIdTable(), FTable::class);
+                if ($table) {
+                    $reservation->setAreaName($table->getAreaName());
+                }
+                $comingTableReservations[] = $reservation;
+            } elseif ($reservation->getIdRoom() !== null) {
+                $room = FPersistentManager::getInstance()->read($reservation->getIdRoom(), FRoom::class);
+                if ($room) {
+                    $reservation->setAreaName($room->getAreaName());
+                }
+                $comingRoomReservations[] = $reservation;
+            }
+        }
+    return [$comingTableReservations, $comingRoomReservations];
     }
 
 }
