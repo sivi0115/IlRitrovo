@@ -359,6 +359,16 @@ class CReservation {
         ];
         //Invio un email di conferma
         UEmail::sendConfirmation($email, $data, $reservation->getIdTable());
+        $session->deleteValue('reservation');
+        $session->deleteValue('timeFrame');
+        $session->deleteValue('people');
+        $session->deleteValue('comment');
+        $session->deleteValue('date');
+        $session->deleteValue('extras');
+        $session->deleteValue('totPrice');
+        $session->deleteValue('availableRooms');
+        $session->deleteValue('extraAndRoomPrice');
+        $session->deleteValue('idSelectedCard');
         $session->setValue('triggerPopup', true);
         //Reindirizzo alla schermata home
         header("Location: /IlRitrovo/public/User/showHomePage");
