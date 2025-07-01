@@ -10,6 +10,7 @@ use Foundation\FPersistentManager;
 use Foundation\FReservation;
 use Utility\UHTTPMethods;
 use Utility\USessions;
+use Utility\UEmail;
 use View\VReservation;
 use View\VUser;
 use Controller\CUser;
@@ -131,6 +132,19 @@ class CReservation {
         $reservation->setState('confirmed');
         //Aggiungo su db la nuova prenotazione
         FPersistentManager::getInstance()->create($reservation);
+        //Ottengo l'email dell'utente
+        $user=FPersistentManager::getInstance()->read($session->readValue('idUser'), FUser::class);
+        $email=$user->getEmail();
+        //Preparo i dati per l'invio della mail
+        $data=[
+            'Date'=>$reservation->getReservationDate(),
+            'TimeFrame'=>$reservation->getReservationTimeFrame(),
+            'People'=>$reservation->getPeople(),
+            'SelectedTable'=>$selectedTable,
+            'Comment'=>$reservation->getComment()
+        ];
+        //Invio un email di conferma
+        UEmail::sendConfirmation($email, $data, $reservation->getIdTable());
         //Pulisci la sessione
         $session->deleteValue('reservation');
         $session->deleteValue('timeFrame');
@@ -241,7 +255,7 @@ class CReservation {
         //Recupero i dati dalla sessione
         $timeFrame=$session->readValue('timeFrame');
         $people=$session->readValue('people');
-        $reservationDate=$session->readValue('reservationDate');
+        $reservationDate=$session->readValue('date');
         $comment=$session->readValue('comment');
         $selectedExtras=$session->readValue('extras');
         $totalPriceExtra=$session->readValue('totPrice');
@@ -309,6 +323,8 @@ class CReservation {
         }
         $reservation=$session->readValue('reservation');
         $idRoom=$session->readValue('idRoom');
+        $emailSelectedRoom=FPersistentManager::getInstance()->read($idRoom, FRoom::class);
+        $SelectedRoomEmail=$emailSelectedRoom->getAreaName();
         $idSelectedCard=$session->readValue('idSelectedCard');
         $extraAndRoomPrice=$session->readValue('extraAndRoomPrice');
         $reservation->setIdUser($idUser);
@@ -329,6 +345,20 @@ class CReservation {
         );
         //Metto il pagamento su db
         FPersistentManager::getInstance()->create($newPayment);
+        $user=FPersistentManager::getInstance()->read($session->readValue('idUser'), FUser::class);
+        //Ottengo l'email dell'utente
+        $user=FPersistentManager::getInstance()->read($session->readValue('idUser'), FUser::class);
+        $email=$user->getEmail();
+        //Preparo i dati per l'invio della mail
+        $data=[
+            'Date'=>$reservation->getReservationDate(),
+            'TimeFrame'=>$reservation->getReservationTimeFrame(),
+            'People'=>$reservation->getPeople(),
+            'SelectedRoom'=>$SelectedRoomEmail,
+            'Comment'=>$reservation->getComment()
+        ];
+        //Invio un email di conferma
+        UEmail::sendConfirmation($email, $data, $reservation->getIdTable());
         $session->setValue('triggerPopup', true);
         //Reindirizzo alla schermata home
         header("Location: /IlRitrovo/public/User/showHomePage");

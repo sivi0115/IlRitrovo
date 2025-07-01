@@ -25,6 +25,10 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Smarty\\' => 7,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'N' => 
         array (
             'None\\ilRitrovo\\' => 15,
@@ -59,6 +63,10 @@ class ComposerStaticInit4d693d299ebe1d0211ddf6e692795d78
         'Smarty\\' => 
         array (
             0 => __DIR__ . '/..' . '/smarty/smarty/src',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'None\\ilRitrovo\\' => 
         array (
