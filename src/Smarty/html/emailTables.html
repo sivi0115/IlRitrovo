@@ -37,7 +37,7 @@
 </head>
 <body>
   <main>
-    <h2>Great News! Your Table is Booked 🎉</h2>
+    <h2>Great News! Your Table is Booked</h2>
     <p>Thank you for booking with <strong>Il Ritrovo</strong>!</p>
     <ul>
       <li><strong>Date:</strong> {$data.Date|escape}</li>
@@ -48,7 +48,7 @@
         <li><strong>Commento:</strong> {$data.Comment|escape}</li>
       {/if}
     </ul>
-    <p>We look forward to welcoming you soon!</p>
+    <p>We look forward to welcoming you soon!🎉</p>
   </main>
 </body>
 </html>
