@@ -33,11 +33,13 @@ class VUser {
     /**
      * Function to show logged user home page
      */
-    public function showLoggedUserHomePage(bool $isLogged) {
+    public function showLoggedUserHomePage(bool $isLogged, bool $triggerPopup=false) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
         $smarty->assign('isLogged', $isLogged);
+        $smarty->assign('triggerPopup', $triggerPopup);
+        //var_dump($triggerPopup);
         $smarty->display('home.tpl');
     }
 
@@ -57,11 +59,11 @@ class VUser {
     /**
      * Function to show non unlogged user home page
      */
-    public function showUserHomePage(bool $isLogged) {
+    public function showUserHomePage(bool $triggerPopup=false) {
         $smarty = new Smarty();
         $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
         $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-        $smarty->assign('isLogged', $isLogged);
+        $smarty->assign('triggerPopup', $triggerPopup);
         $smarty->display('home.tpl');
     }
 

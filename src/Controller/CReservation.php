@@ -138,6 +138,7 @@ class CReservation {
         $session->deleteValue('date');
         $session->deleteValue('comment');
         $session->deleteValue('avaliableTables');
+        $session->setValue('triggerPopup', true);
         //Reindirizzo alla home page
         header("Location: /IlRitrovo/public/User/showHomePage");
     }
@@ -328,6 +329,7 @@ class CReservation {
         );
         //Metto il pagamento su db
         FPersistentManager::getInstance()->create($newPayment);
+        $session->setValue('triggerPopup', true);
         //Reindirizzo alla schermata home
         header("Location: /IlRitrovo/public/User/showHomePage");
     }

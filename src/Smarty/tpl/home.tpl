@@ -6,8 +6,42 @@
       <title>Il Ritrovo – Home</title>  
       <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
       <link href="/IlRitrovo/src/Smarty/css/home.css" rel="stylesheet">
+      <script src="/IlRitrovo/src/Smarty/js/popup.js"></script>
   </head>
   <body>
+
+{if $triggerPopup}
+  <div id="custom-popup" style="display:none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #8b3a3a;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.5s ease;">
+    Operazione avvenuta con successo!
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const popup = document.getElementById('custom-popup');
+      if (popup) {
+        popup.style.display = 'block';
+        requestAnimationFrame(() => popup.style.opacity = '1');
+        setTimeout(() => {
+          popup.style.opacity = '0';
+          setTimeout(() => popup.style.display = 'none', 500);
+        }, 2000);
+      }
+    });
+  </script>
+{/if}
     
     <!-- Header incluso tramite View-->
 
@@ -57,9 +91,29 @@
             <li><strong>🍷 Custom menus and wine selection</strong></li>
             <li><strong>🎶 Live music and personalized decorations</strong></li>
           </ul>
-          <div class="booking-buttons">
-            <a href="/IlRitrovo/public/User/showRoomsPage" class="btn">Discover our rooms →</a>
-          </div> <!-- /.booking-buttons-->
+<div class="booking-buttons">
+  <a href="/IlRitrovo/public/User/showRoomsPage" class="btn" data-popup>Discover our rooms →</a>
+</div>
+
+<!-- Popup HTML nascosto -->
+<div id="custom-popup" style="
+    display:none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #8b3a3a;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+">
+  Operation completed successfully!
+</div>
         </div> <!-- /.content-column-->
       </div> <!-- /.content-wrapper-->
     </section>

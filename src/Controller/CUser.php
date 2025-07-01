@@ -246,6 +246,8 @@ class CUser {
         }
         $session->startSession();
         $session->setValue('idUser', $newUser->getIdUser());
+        //Imposto il trigger del popup di successo
+        $session->setValue('triggerPopup', true);
         // Cancella il cookie di test perché non serve più
         setcookie('cookie_test', '', time() - 7200, '/');
         header("Location: /IlRitrovo/public/User/showHomePage");
@@ -265,6 +267,9 @@ class CUser {
         $view->showUserHeader(false);
         $view->showDisabledCookies();
         exit;
+    }
+    if($session->isSessionNone()) {
+        $session->startSession();
     }
     //Verifico se esiste un utente su db con stessa email inserita nelle form HTML
     try {
@@ -294,6 +299,8 @@ class CUser {
     //Tutti i controlli passati, reindirizzo alla home page da loggato e inserisco in sessione
     $session->startSession();
     $session->setValue('idUser', $checkUser->getIdUser());
+    //Setto il trigger per il popup
+    $session->setValue('triggerPopup', true);
     // Cancella il cookie di test perché non serve più
     setcookie('cookie_test', '', time() - 7200, '/');
     header("Location: /IlRitrovo/public/User/showHomePage");
@@ -307,6 +314,15 @@ class CUser {
     public static function showHomePage() {
         $view=new VUser();
         $session=USessions::getIstance();
+        //Carico il popup
+        if($session->isSessionNone()) {
+            $session->startSession();
+        }
+        $trigger=false;
+        if($session->isValueSet('triggerPopup') && $session->readValue('triggerPopup')===true) {
+            $trigger=true;
+            $session->deleteValue('triggerPopup');
+        }
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');
             //Carico l'utente da db
@@ -316,7 +332,7 @@ class CUser {
                 //Mostro l'header con l'informazione che l'utente è loggato
                 $view->showUserHeader($isLogged);
                 //Carico la home page correttamente per l'utente loggato
-                $view->showLoggedUserHomePage($isLogged);
+                $view->showLoggedUserHomePage($isLogged, $trigger);
             }
             //Se è un admin lo reindirizzo alla sua home page
             elseif($user->isAdmin()) {
