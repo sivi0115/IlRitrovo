@@ -24,7 +24,7 @@ use Entity\StatoPagamento;
 use Foundation\FPayment;
 use Foundation\FUser;
 use Foundation\FTable;
-
+use View\VError;
 
 class CReservation {
     /**
@@ -305,6 +305,10 @@ class CReservation {
         $idSelectedCard=UHTTPMethods::post('selectedCardId');
         //Recupero la carta da db grazie al suo id
         $selectedCard=FPersistentManager::getInstance()->read((int)$idSelectedCard, FCreditCard::class);
+        if (!$selectedCard) {
+            VError::showError('Credit Card is necessary to complete the reservation');
+            exit;
+        }
         //Salvo i dati in sessione per il pagamento nello step successivo
         $session->setValue('idSelectedCard', $idSelectedCard);
         //Passo i parametri a view

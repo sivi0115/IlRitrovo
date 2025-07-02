@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-27 00:57:11
+/* Smarty version 5.5.1, created on 2025-07-02 16:08:58
   from 'file:roomReservation3.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685dd0471482f7_86656489',
+  'unifunc' => 'content_68653d7ad78f65_98648430',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70e4a2d806b2f0ab581df4ae8febf4780c349513' => 
     array (
       0 => 'roomReservation3.tpl',
-      1 => 1750978622,
+      1 => 1751465329,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685dd0471482f7_86656489 (\Smarty\Template $_smarty_tpl) {
+function content_68653d7ad78f65_98648430 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -168,6 +168,18 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     cardDiv.classList.add('selected');
                 }
             }
+        <?php echo '</script'; ?>
+>
+
+        <?php echo '<script'; ?>
+>
+            document.querySelector('form[action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm"]').addEventListener('submit', function(event) {
+                const selectedCardId = document.getElementById('selectedCardId').value;
+                if (!selectedCardId) {
+                event.preventDefault(); // blocca l'invio del form
+                alert('Please select a credit card before proceeding.');
+                }
+            });
         <?php echo '</script'; ?>
 >
     </body>

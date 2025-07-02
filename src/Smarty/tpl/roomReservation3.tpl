@@ -112,5 +112,15 @@
                 }
             }
         </script>
+
+        <script>
+            document.querySelector('form[action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm"]').addEventListener('submit', function(event) {
+                const selectedCardId = document.getElementById('selectedCardId').value;
+                if (!selectedCardId) {
+                event.preventDefault(); // blocca l'invio del form
+                alert('Please select a credit card before proceeding.');
+                }
+            });
+        </script>
     </body>
 </html>
