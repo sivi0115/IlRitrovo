@@ -48,6 +48,7 @@
         <li><strong>Commento:</strong> {$data.Comment|escape}</li>
       {/if}
     </ul>
+    <p>If you need to cancel your reservation, please contact us by phone or reply to this email at your earliest convenience.</p>
     <p>We look forward to welcoming you soon!🎉</p>
   </main>
 </body>
