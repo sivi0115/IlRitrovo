@@ -17,6 +17,7 @@ use Exception;
 use Foundation\FCreditCard;
 use Foundation\FPayment;
 use View\VCreditCard;
+use View\VError;
 
 /**
  * Classe Controller CCreditCard
@@ -69,10 +70,13 @@ class CCreditCard {
             $type,
             $idUser
         );
-        //Aggiungo la carta su db
-        if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
-            header("Location: /IlRitrovo/public/User/showProfile");
-        }  
+        try {
+            if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
+                header("Location: /IlRitrovo/public/User/showProfile");
+            }
+        } catch (Exception $e) {
+            VError::showError($e->getMessage());
+        }
     }
 
     /**
@@ -100,9 +104,13 @@ class CCreditCard {
             $idUser
         );
         //Aggiungo la carta su db
-        if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
-            header("Location: /IlRitrovo/public/Reservation/dataRoomReservation");
-        }  
+        try {
+            if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
+                header("Location: /IlRitrovo/public/Reservation/dataRoomReservation");
+            }  
+        } catch (Exception $e) {
+            VError::showError($e->getMessage());
+        }
     }
 
     /**
