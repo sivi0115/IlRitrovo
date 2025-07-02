@@ -2,36 +2,29 @@
 
 namespace Controller;
 
-use Utility\UCookies;
-use Utility\UHTTPMethods;
-use Utility\UServer;
-use Utility\USessions;
 use DateTime;
-use Entity\ECreditCard;
-use Entity\EUser;
-use Entity\Role;
-use Foundation\FUser;
-use View\VUser;
-use Foundation\FPersistentManager;
 use Exception;
+use Entity\ECreditCard;
 use Foundation\FCreditCard;
-use Foundation\FPayment;
+use Foundation\FPersistentManager;
 use View\VCreditCard;
 use View\VError;
+use Utility\UHTTPMethods;
+use Utility\USessions;
 
 /**
- * Classe Controller CCreditCard
- * Gestisce tutte le operazioni legate a una carta di credito
+ * Class Controller CCreditCard
+ * Manages all the Credit Cards' main use cases
  */
 class CCreditCard {
     /**
-     * Costruttore
+     * Construct
      */
     public function __construct() {
     }
 
     /**
-     * Function to show form for adding a new Credit Card
+     * Function to show form to add new Credit Cards from "Profile" page
      */
     public function showAddCreditCardUserProfile() {
         $view=new VCreditCard();
@@ -39,7 +32,7 @@ class CCreditCard {
     }
 
     /**
-     * Function to show form for adding a new Credit Card from reservation (step3)
+     * Function to show form to add new Credit Cards from reservation (step3)
      */
     public function showAddCreditCardStep3() {
         $view=new VCreditCard();
@@ -47,20 +40,18 @@ class CCreditCard {
     }
 
     /**
-     * Function to add a credit card
+     * Function to add new Credit Cards in db from "Profile" page
      */
     public function checkAddCreditCard() {
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');
         }
-        //Prendo i valori dalla richiesta POST HTTP
         $type=UHTTPMethods::post('cardType');
         $number=UHTTPMethods::post('cardNumber');
         $cvv = UHTTPMethods::post('cardCVV');
         $holder=UHTTPMethods::post('cardHolder');
         $expiration=new DateTime(UHTTPMethods::post('expiryDate'));
-        //Istanzio un nuovo oggetto ECreditCard e lo aggiungo a db
         $newCreditCard=new ECreditCard(
             null,
             $holder,
@@ -73,6 +64,7 @@ class CCreditCard {
         try {
             if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
                 header("Location: /IlRitrovo/public/User/showProfile");
+                exit;
             }
         } catch (Exception $e) {
             VError::showError($e->getMessage());
@@ -80,20 +72,18 @@ class CCreditCard {
     }
 
     /**
-     * Function to add a credit card from step 3
+     * Function to add new Credit Cards in db from reservation (step3)
      */
     public function checkAddCreditCardStep3() {
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');
         }
-        //Prendo i valori dalla richiesta POST HTTP
         $type=UHTTPMethods::post('cardType');
         $number=UHTTPMethods::post('cardNumber');
         $cvv = UHTTPMethods::post('cardCVV');
         $holder=UHTTPMethods::post('cardHolder');
         $expiration=new DateTime(UHTTPMethods::post('expiryDate'));
-        //Istanzio un nuovo oggetto ECreditCard e lo aggiungo a db
         $newCreditCard=new ECreditCard(
             null,
             $holder,
@@ -103,10 +93,10 @@ class CCreditCard {
             $type,
             $idUser
         );
-        //Aggiungo la carta su db
         try {
             if($addedCreditCard=FPersistentManager::getInstance()->create($newCreditCard)!== null) {
                 header("Location: /IlRitrovo/public/Reservation/dataRoomReservation");
+                exit;
             }  
         } catch (Exception $e) {
             VError::showError($e->getMessage());
@@ -114,13 +104,14 @@ class CCreditCard {
     }
 
     /**
-     * Function for delete an existing credit card
+     * Function to delete existing Credit Cards
      * 
-     * @param $idCreditCard, recived by the HTTP POST request sended by user when press "delete"
+     * @param $idCreditCard, the ID of the Credit Card to delete
      */
     public function deleteCreditcard($idCreditCard) {
         if(FPersistentManager::getInstance()->delete($idCreditCard, FCreditCard::class)) {
             header("Location: /IlRitrovo/public/User/showProfile");
+            exit;
         }
     }
 
