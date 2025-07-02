@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 13:51:57
+/* Smarty version 5.5.1, created on 2025-07-02 13:40:26
   from 'file:roomReservation4.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685be2dd3a76d1_88435182',
+  'unifunc' => 'content_68651aaa454cd6_32993893',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ae7230676d918fb0dc3b44de94e1e9deab41f61f' => 
     array (
       0 => 'roomReservation4.tpl',
-      1 => 1750778044,
+      1 => 1751456410,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685be2dd3a76d1_88435182 (\Smarty\Template $_smarty_tpl) {
+function content_68651aaa454cd6_32993893 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -50,6 +50,11 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
             </div>
 
             <hr class="step-separator">
+
+            <!-- Messaggio di conferma email -->
+            <div class="confirmation-notice" style="margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(139, 58, 58, 0.1); border-left: 4px solid #8b3a3a; color: #8b3a3a; font-weight: 600; backdrop-filter: blur(4px); border-radius: 4px;">
+                You will receive a confirmation email shortly with the details of your booking.
+            </div>
 
             <!-- Riepilogo scelte -->
             <div class="reservation-summary">
