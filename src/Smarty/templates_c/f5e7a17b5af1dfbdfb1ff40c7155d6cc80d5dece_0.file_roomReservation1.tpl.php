@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 14:59:26
+/* Smarty version 5.5.1, created on 2025-07-02 15:25:46
   from 'file:roomReservation1.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68652d2e732bd2_53561208',
+  'unifunc' => 'content_6865335a121067_45773141',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5e7a17b5af1dfbdfb1ff40c7155d6cc80d5dece' => 
     array (
       0 => 'roomReservation1.tpl',
-      1 => 1751461030,
+      1 => 1751462728,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68652d2e732bd2_53561208 (\Smarty\Template $_smarty_tpl) {
+function content_6865335a121067_45773141 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -72,8 +72,12 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
                 <div class="form-group">
                     <label for="reservationDate">Date</label>
-                    <input type="date" name="reservationDate" id="reservationDate" value="<?php echo (($tmp = $_smarty_tpl->getValue('reservationDate') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
-" required>
+                    <input type="date" name="reservationDate" id="reservationDate"
+                            value="<?php echo (($tmp = $_smarty_tpl->getValue('reservationDate') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
+"
+                            min="<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')(time(),"%Y-%m-%d");?>
+"
+                            required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">

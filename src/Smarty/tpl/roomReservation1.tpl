@@ -46,7 +46,10 @@
 
                 <div class="form-group">
                     <label for="reservationDate">Date</label>
-                    <input type="date" name="reservationDate" id="reservationDate" value="{$reservationDate|default:''}" required>
+                    <input type="date" name="reservationDate" id="reservationDate"
+                            value="{$reservationDate|default:''}"
+                            min="{$smarty.now|date_format:"%Y-%m-%d"}"
+                            required>
                 </div> <!-- /.form-group-->
 
                 <div class="form-group">
