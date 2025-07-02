@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 13:37:11
+/* Smarty version 5.5.1, created on 2025-07-02 14:59:26
   from 'file:roomReservation1.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685bdf6743a226_53565193',
+  'unifunc' => 'content_68652d2e732bd2_53561208',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5e7a17b5af1dfbdfb1ff40c7155d6cc80d5dece' => 
     array (
       0 => 'roomReservation1.tpl',
-      1 => 1750851396,
+      1 => 1751461030,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685bdf6743a226_53565193 (\Smarty\Template $_smarty_tpl) {
+function content_68652d2e732bd2_53561208 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -101,8 +101,10 @@ $foreach0DoElse = false;
 " 
                                         data-price="<?php echo $_smarty_tpl->getValue('extra')->getPriceExtra();?>
 " 
+                                        class="hidden-checkbox"
                                         <?php if ((true && ($_smarty_tpl->hasVariable('selectedExtras') && null !== ($_smarty_tpl->getValue('selectedExtras') ?? null))) && $_smarty_tpl->getSmarty()->getModifierCallback('in_array')($_smarty_tpl->getValue('extra')->getIdExtra(),$_smarty_tpl->getValue('selectedExtras'))) {?>checked<?php }?>>
-                                    <label for="extra_<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
+
+                                    <label class="custom-extra-label" for="extra_<?php echo $_smarty_tpl->getValue('extra')->getIdExtra();?>
 ">
                                         <?php echo $_smarty_tpl->getValue('extra')->getNameExtra();?>
  (+€<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('number_format')($_smarty_tpl->getValue('extra')->getPriceExtra(),2,',',' ');?>

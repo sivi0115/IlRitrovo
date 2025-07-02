@@ -65,8 +65,10 @@
                                         name="extras[]" 
                                         value="{$extra->getIdExtra()}" 
                                         data-price="{$extra->getPriceExtra()}" 
+                                        class="hidden-checkbox"
                                         {if isset($selectedExtras) && in_array($extra->getIdExtra(), $selectedExtras)}checked{/if}>
-                                    <label for="extra_{$extra->getIdExtra()}">
+
+                                    <label class="custom-extra-label" for="extra_{$extra->getIdExtra()}">
                                         {$extra->getNameExtra()} (+€{$extra->getPriceExtra()|number_format:2:',':' '})
                                     </label>
                                 </div> <!-- /.extra-item-->
