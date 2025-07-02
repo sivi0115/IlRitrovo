@@ -12,6 +12,11 @@
       
       <!-- Header incluso tramite View-->
 
+      <!-- Messaggio per le recensioni-->
+      <div class="review-reminder" style="background-color: #fff; border: 1px solid #8b3a3a; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 6px; font-family: 'Open Sans', sans-serif; color: #4a3b2c; white-space: nowrap;">
+        Remember, you can <span style="color: #8b3a3a; font-weight: 600;">leave a review</span> in your "<span style="color: #8b3a3a; font-weight: 600;">Profile</span>" after your visit. Thank you!
+      </div>
+
       <!-- Immagine di intestazione -->
       <section class="review-image">
         <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />

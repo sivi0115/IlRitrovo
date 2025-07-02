@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-28 12:08:11
+/* Smarty version 5.5.1, created on 2025-07-02 16:32:16
   from 'file:review.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685fbf0bf2f6d0_09776934',
+  'unifunc' => 'content_686542f0357226_73540534',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b5f23f49159f63d778350a3871415f371011853b' => 
     array (
       0 => 'review.tpl',
-      1 => 1751105274,
+      1 => 1751466733,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685fbf0bf2f6d0_09776934 (\Smarty\Template $_smarty_tpl) {
+function content_686542f0357226_73540534 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -36,6 +36,11 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <div class="page-container">
       
       <!-- Header incluso tramite View-->
+
+      <!-- Messaggio per le recensioni-->
+      <div class="review-reminder" style="background-color: #fff; border: 1px solid #8b3a3a; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 6px; font-family: 'Open Sans', sans-serif; color: #4a3b2c; white-space: nowrap;">
+        Remember, you can <span style="color: #8b3a3a; font-weight: 600;">leave a review</span> in your "<span style="color: #8b3a3a; font-weight: 600;">Profile</span>" after your visit. Thank you!
+      </div>
 
       <!-- Immagine di intestazione -->
       <section class="review-image">
