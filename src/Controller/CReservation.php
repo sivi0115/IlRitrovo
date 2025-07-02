@@ -403,4 +403,24 @@ class CReservation {
     return [$comingTableReservations, $comingRoomReservations];
     }
 
+    /**
+     * Function to return all past reservations
+     */
+    public static function getPastReservations(): array {
+        $session = USessions::getIstance();
+        $idUser = $session->readValue('idUser');
+        $allUserReservations = FPersistentManager::getInstance()->readReservationsByUserId($idUser, FReservation::class);
+        $pastUserReservations = [];
+        $now = new DateTime();
+        foreach ($allUserReservations as $reservation) {
+            $reservationDateStr = $reservation->getReservationDate();
+            // Converto la stringa in DateTime
+            $reservationDate = DateTime::createFromFormat('Y-m-d H:i:s', $reservationDateStr);
+            if ($reservationDate !== false && $reservationDate < $now) {
+                $pastUserReservations[] = $reservation;
+            }
+        }
+    return $pastUserReservations;
+    }
+
 }

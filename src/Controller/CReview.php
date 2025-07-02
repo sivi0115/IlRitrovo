@@ -13,6 +13,7 @@ use Foundation\FReview;
 use Foundation\FUser;
 use Utility\UHTTPMethods;
 use Utility\USessions;
+use View\VError;
 use View\VReservation;
 use View\VUser;
 use View\VReview;
@@ -28,6 +29,7 @@ class CReview {
      */
     public function checkAddReview() {
         $view=new VUser();
+        $viewE=new VError();
         $session=USessions::getIstance();
         $session->startSession();
         //Carico dalla sessione l'id dell'utente
@@ -41,13 +43,19 @@ class CReview {
             new DateTime(),
             null
         );
+        //Controllo se l'utente ha recensioni passate attive
+        $pastUserReservation=CReservation::getPastReservations();
         //Salvo la recensione creata e reindirizzo alla schermata informazioni. Tutte le validazioni sono affidate a foundation
         try {
-            FPersistentManager::getInstance()->create($newReview);
-            header("Location: /IlRitrovo/public/User/showProfile");
+            if(!empty($pastUserReservation)){
+                FPersistentManager::getInstance()->create($newReview);
+                header("Location: /IlRitrovo/public/User/showProfile");
+                exit;
+            } else {
+                VError::showError('Non puoi scrivere una recensione se non hai una prenotazione passata');
+            }
         } catch (Exception $e) {
-            echo "Operazione non effettuata" . $e->getMessage();
-            //$view->showAddReviewError;
+            VError::showError($e->getMessage());
         }
     }
 
