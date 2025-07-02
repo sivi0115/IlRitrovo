@@ -24,7 +24,7 @@ class FUser {
     protected const ERR_INSERTION_FAILED = 'Error during the insertion of the user.';
     protected const ERR_RETRIVE_USER='Failed to retrive the inserted user.';
     protected const ERR_USER_NOT_FOUND = 'The user does not exist.';
-    protected const  ERR_UPDATE_FAILED = 'Error during the update operation.';
+    protected const  ERR_UPDATE_FAILED = 'Username or email already existing. Please try once with a different email and same username, and once with a different username and same email';
     protected const ERR_INVALID_BIRTHDATE = 'Birth Date is invalid.';
     protected const ERR_BIRTHDATE_IN_FUTURE = 'Birth Date can\'t be in the future.';
     protected const ERR_PHONE_INVALID = 'Phone number must contain only digits and be between 8 and 15 characters.';

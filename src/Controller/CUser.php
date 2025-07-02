@@ -200,7 +200,7 @@ class CUser {
                 exit;
             } 
         } catch (Exception $e) {
-            VError::showError($e->getMessage() . "\n" . "Please try with another Username or Email");
+            VError::showError($e->getMessage());
             exit;
         }
     }
