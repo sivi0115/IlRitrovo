@@ -9,7 +9,6 @@ use JsonSerializable;
  * Represents a review entity with properties.
  */
 class EReview implements JsonSerializable {
-    private ?string $username = null;
     /** 
      * IDENTIFIERS
      * @var int|null $idUser The ID of the user who made the review 
@@ -43,7 +42,12 @@ class EReview implements JsonSerializable {
     private ?int $idReply;
 
     /**
-     * 
+     * @var null|string $username, the username associated with a review, View friendly
+     */
+    private ?string $username = null;
+
+    /**
+     * @var EReply $reply, the reply associated with a review, View friendly
      */
     private ?EReply $reply=null;
 
@@ -181,18 +185,38 @@ class EReview implements JsonSerializable {
         $this->creationTime = $creationTime;
     }
 
+    /**
+     * Gets the Username associated with a review, View friendly
+     * 
+     * @return null|string
+     */
     public function getUsername(): ?string {
         return $this->username;
     }
 
+    /**
+     * Sets the Username associated with a review, View friendly
+     * 
+     * @param string $username
+     */
     public function setUsername(string $username): void {
         $this->username=$username;
     }
 
+    /**
+     * Gets the reply associated with a review
+     * 
+     * @return null|EReply
+     */
     public function getReply(): ?EReply {
         return $this->reply;
     }
 
+    /**
+     * Sets the reply associated with a review
+     * 
+     * @param null|EReply
+     */
     public function setReply(?EReply $reply): void {
         $this->reply=$reply;
     }
