@@ -4,18 +4,19 @@ namespace Controller;
 
 use Entity\EExtra;
 use Foundation\FExtra;
-use View\VExtra;
 use Foundation\FPersistentManager;
+use View\VExtra;
 use View\VUser;
-use Utility\UCookies;
 use Utility\UHTTPMethods;
-use Utility\UServer;
 use Utility\USessions;
 
-
+/**
+ * Class Controller CExtra
+ * Manages all the Extra's CRUD operation use cases
+ */
 class CExtra {
     /**
-     * Function to show extra's page
+     * Function to show the "Extras" page to the admin
      */
     public function showExtrasPage() {
         $viewU=new VUser();
@@ -24,7 +25,6 @@ class CExtra {
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');
         }
-        //Carico tutti gli extra da db
         $allExtras=FPersistentManager::getInstance()->readAll(FExtra::class);
         $viewU->showAdminHeader($isLogged);
         $viewE->showExtrasPage($allExtras);
@@ -34,10 +34,8 @@ class CExtra {
      * Function to create a new Extra
      */
     public function addExtra() {
-        //Mi pappo i dati provenienti dalla richiesta post contenuti nelle form
         $nameExtra=UHTTPMethods::post('name');
         $priceExtra=UHTTPMethods::post('price');
-        //Adesso creo un nuovo oggetto entity e lo metto nel db
         $newExtra=new EExtra(
             null,
             $nameExtra,
@@ -51,7 +49,9 @@ class CExtra {
     }
 
     /**
-     * Function to delete an extra
+     * Function to delete an existing Extra
+     * 
+     * @param int $idExtra, ID of the extra to delete
      */
     public function deleteExtra($idExtra) {
         $deletedExtra=FPersistentManager::getInstance()->delete($idExtra, FExtra::class);
@@ -62,7 +62,9 @@ class CExtra {
     }
 
     /**
-     * Function to show form for edit an existing extra
+     * Function to show form for edit an existing Extra
+     * 
+     * @param int $idExtra, ID of the Extra to edit
      */
     public function showEditExtra($idExtra) {
         $view=new VExtra();
@@ -72,17 +74,16 @@ class CExtra {
 
     /**
      * Function to edit an extra
+     * 
+     * @param int $idExtra, ID of the Extra to edit
      */
     public function saveEditExtra($idExtra) {
         $view=new VExtra();
-        //Mi pappo i dati provenienti dalla richiesta HTTP
         $newNameExtra=UHTTPMethods::post('name');
         $newPriceExtra=UHTTPMethods::post('price');
-        //Recupero l'oggetto da db
         $oldExtra=FPersistentManager::getInstance()->read($idExtra, FExtra::class);
         $oldExtra->setNameExtra($newNameExtra);
         $oldExtra->setPriceExtra($newPriceExtra);
-        //Aggionrno l'oggetto su db
         $editedExtra=FPersistentManager::getInstance()->update($oldExtra);
         if($editedExtra===true) {
             header("Location: /IlRitrovo/public/Extra/showExtrasPage");
