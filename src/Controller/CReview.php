@@ -3,21 +3,23 @@
 namespace Controller;
 
 use DateTime;
-use Entity\EReply;
-use Entity\EReview;
 use Exception;
+use Entity\EReview;
 use Foundation\FPersistentManager;
 use Foundation\FReply;
-use Foundation\FReservation;
 use Foundation\FReview;
 use Foundation\FUser;
+use View\VError;
+use View\VReview;
+use View\VUser;
 use Utility\UHTTPMethods;
 use Utility\USessions;
-use View\VError;
-use View\VReservation;
-use View\VUser;
-use View\VReview;
 
+
+/**
+ * Class Controller CReview
+ * Manages all the Review's main use cases
+ */
 class CReview {
     /**
      * Constructor
@@ -25,16 +27,12 @@ class CReview {
     public function __construct() {
     }
     /**
-     * Function to add a Review (past reservation needed)
+     * Function to create a Review (need past Reservation)
      */
     public function checkAddReview() {
-        $view=new VUser();
-        $viewE=new VError();
         $session=USessions::getIstance();
         $session->startSession();
-        //Carico dalla sessione l'id dell'utente
         $idUser=$session->readValue('idUser');
-        //Creo un'oggetto Review con i dati provenienti dalla form HTML
         $newReview=new EReview(
             $idUser,
             null,
@@ -43,9 +41,7 @@ class CReview {
             new DateTime(),
             null
         );
-        //Controllo se l'utente ha recensioni passate attive
         $pastUserReservation=CReservation::getPastReservations();
-        //Salvo la recensione creata e reindirizzo alla schermata informazioni. Tutte le validazioni sono affidate a foundation
         try {
             if(!empty($pastUserReservation)){
                 FPersistentManager::getInstance()->create($newReview);
@@ -66,82 +62,65 @@ class CReview {
      * @return bool true if success, false otherwise
      */
     public function deleteReview($idReview) {
-        $viewU=new VUser();
         $session=USessions::getIstance();
         if($isLogged=CUser::isLogged()) {
             $idUser=$session->readValue('idUser');
         }
-        //Carico l'utente da db grazie al suo id User
         $user=FPersistentManager::getInstance()->read($idUser, FUser::class);
-        //Elimino la recensione
         $deleted=FPersistentManager::getInstance()->delete($idReview, FReview::class);
-        //Se è un utente lo reindirizzo alla schermata informazioni
         if($deleted && $user->isUser()) {
             header("Location: /IlRitrovo/public/User/showProfile");
-        exit;
+            exit;
         }
-        //Se è un admin lo reindirizzo alla schermata recensioni
         elseif($deleted && $user->isAdmin()) {
             header("Location: /IlRitrovo/public/Review/showReviewsPage");
+            exit;
         }
         elseif(!$deleted) {
-            echo "Errore durante l'operazione";
+            VError::showError('Error during the operation, please retry');
         }
     }
-
-    
 
     /**
-     * Function to show Reviews Page
+     * Function to show users' "Reviews" page, if they are admin or user, accordingly
+     * 
+     * @param int|null $showReplyForm, to show Reply form if user is admin
      */
     public static function showReviewsPage(?int $showReplyForm=null) {
-    $viewU = new VUser();
-    $viewR = new VReview();
-    $session = USessions::getIstance();
-    $isLogged = CUser::isLogged();
-
-    if ($isLogged) {
-        $idUser = $session->readValue('idUser');
-        // Carico l'oggetto EUser dal suo id
-        $user = FPersistentManager::getInstance()->read($idUser, FUser::class);
-    }   else {
-            $user = null; // Per evitare warning più sotto
+        $viewU = new VUser();
+        $viewR = new VReview();
+        $session = USessions::getIstance();
+        $isLogged = CUser::isLogged();
+        if ($isLogged) {
+            $idUser = $session->readValue('idUser');
+            $user = FPersistentManager::getInstance()->read($idUser, FUser::class);
+        }else {
+            $user = null;
         }
-
-    // Carico tutte le recensioni esistenti
-    $allReviews = FPersistentManager::getInstance()->readAll(FReview::class);
-
-    // Per ogni recensione carico l'utente relativo per ottenere l'username
-    foreach ($allReviews as $review) {
-        $idReviewUser = $review->getIdUser();
-        $reviewUser = FPersistentManager::getInstance()->read($idReviewUser, FUser::class);
-        // Associo l'username ad ogni recensione
-        if ($reviewUser !== null) {
-            $review->setUsername($reviewUser->getUsername());
-        }   else{
+        $allReviews = FPersistentManager::getInstance()->readAll(FReview::class);
+        foreach ($allReviews as $review) {
+            $idReviewUser = $review->getIdUser();
+            $reviewUser = FPersistentManager::getInstance()->read($idReviewUser, FUser::class);
+            if ($reviewUser !== null) {
+                $review->setUsername($reviewUser->getUsername());
+            }else {
                 $review->setUsername('Unknown User');
+            }
+            $idReply=$review->getIdReply();
+            if($idReply!==null) {
+                $reply=FPersistentManager::getInstance()->read($idReply, FReply::class);
+                $review->setReply($reply);
+            }
         }
-        //Carico anche la risposta associata se presente
-        $idReply=$review->getIdReply();
-        if($idReply!==null) {
-            $reply=FPersistentManager::getInstance()->read($idReply, FReply::class);
-            $review->setReply($reply);
-        }
-    }
-
-    // Se l'utente è un admin, visualizzerà la pagina recensioni dell'admin con relativo header
-    if ($user !== null && $user->isAdmin()) {
-        //var_dump($allReviews);
-        $viewU->showAdminHeader($isLogged);
-        $viewR->showReviewsAdminPage($allReviews, $showReplyForm);
-    }elseif ($user !== null) {
-        // Utente loggato non admin
-        $viewU->showUserHeader($isLogged);
-        $viewR->showReviewsUserPage($allReviews);
-    }else {
-        // Utente non loggato
-        $viewU->showUserHeader($isLogged);
-        $viewR->showReviewsUserPage($allReviews);
-        }
+        if ($user !== null && $user->isAdmin()) {
+            $viewU->showAdminHeader($isLogged);
+            $viewR->showReviewsAdminPage($allReviews, $showReplyForm);
+        }elseif ($user !== null) {
+            $viewU->showUserHeader($isLogged);
+            $viewR->showReviewsUserPage($allReviews);
+        }else {
+            $viewU->showUserHeader($isLogged);
+            $viewR->showReviewsUserPage($allReviews);
+            }
     }
 }
