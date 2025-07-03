@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 00:10:52
+/* Smarty version 5.5.1, created on 2025-07-03 15:55:51
   from 'file:emailTables.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68645cec938884_41317548',
+  'unifunc' => 'content_68668be7cf7283_76154687',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'bb95314129f3ef961d2d6f119849f008a5280bbf' => 
     array (
       0 => 'emailTables.tpl',
-      1 => 1751407761,
+      1 => 1751456830,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68645cec938884_41317548 (\Smarty\Template $_smarty_tpl) {
+function content_68668be7cf7283_76154687 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="it">
@@ -61,8 +61,8 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 </head>
 <body>
   <main>
-    <h2>Conferma Prenotazione Tavolo</h2>
-    <p>Grazie per aver prenotato presso <strong>Il Ritrovo</strong>!</p>
+    <h2>Great News! Your Table is Booked</h2>
+    <p>Thank you for booking with <strong>Il Ritrovo</strong>!</p>
     <ul>
       <li><strong>Date:</strong> <?php echo htmlspecialchars((string)$_smarty_tpl->getValue('data')['Date'], ENT_QUOTES, 'UTF-8', true);?>
 </li>
@@ -77,7 +77,8 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 </li>
       <?php }?>
     </ul>
-    <p>A presto!</p>
+    <p>If you need to cancel your reservation, please contact us by phone or reply to this email at your earliest convenience.</p>
+    <p>We look forward to welcoming you soon!🎉</p>
   </main>
 </body>
 </html><?php }

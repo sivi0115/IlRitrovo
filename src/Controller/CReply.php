@@ -3,21 +3,27 @@ namespace Controller;
 
 use DateTime;
 use Entity\EReply;
-use Entity\EReview;
-use Exception;
 use Foundation\FPersistentManager;
-use Foundation\FReservation;
 use Foundation\FReview;
-use Foundation\FReply;
+use View\VReview;
 use Utility\UHTTPMethods;
 use Utility\USessions;
-use View\VReply;
-use View\VReview;
 
+/**
+ * Class Controller CReply
+ * Manages all Reply's main use cases
+ */
 class CReply {
+    /**
+     * Constructor
+     */
+    public function __construct() {
+    }
 
     /**
      * Function to show Reply form
+     * 
+     * @param $idReview, ID of the Review to answer
      */
     public function showReplyForm($idReview) {
         CReview::showReviewsPage($idReview);
@@ -25,6 +31,8 @@ class CReply {
 
     /**
      * Function to validate and create a new reply
+     * 
+     * @param $idReview, ID of the Review to answer
      */
     public function addReply($idReview) {
         $view=new VReview();
@@ -33,24 +41,19 @@ class CReply {
             $idUser=$session->readValue('idUser');
         }
         $body=UHTTPMethods::post('replyBody');
-        //Creo un nuovo oggetto Entity con questo body
         $newReply=new EReply(
             null,
             new DateTime(),
             $body
         );
-        //Aggiungo la risposta associata a questa recensione su db
         $idReply=FPersistentManager::getInstance()->create($newReply);
-        //Se la risposta è stata salvata correttamente
         if($idReply!==null) {
-            //Recupero la recensione associata da db
             $review=FPersistentManager::getInstance()->read($idReview, FReview::class);
-            //Associo l'id della risposta alla recensione
             $review->setIdReply($idReply);
-            //Salvol l'update nel DB
             FPersistentManager::getInstance()->update($review);
-        }
             header("Location: /IlRitrovo/public/Review/showReviewsPage");
+            exit;
         }
     }
+}
     
