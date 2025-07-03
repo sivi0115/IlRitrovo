@@ -2,15 +2,17 @@
 
 namespace View;
 
-namespace View;
 use Smarty\Smarty;
-use DateTime;
-use Entity\ECreditCard;
-use Entity\EReview;
 
+/**
+ * Class View VReply
+ * Load all Reply's tpl via Smarty
+ */
 class VReply {
     /**
      * Function to show reply form
+     * 
+     * @param int $idReview, ID of the Review to reply
      */
     public function showReplyForm(int $idReview) {
         $smarty = new Smarty();

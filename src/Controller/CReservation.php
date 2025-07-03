@@ -78,15 +78,15 @@ class CReservation {
         $timeFrame=$reservation->getReservationTimeFrame();
         $people=$reservation->getPeople();
         $comment=$reservation->getComment();
-        $avaliableTables=FPersistentManager::getInstance()->getAvaliableTables($reservationDate, $timeFrame, $people, FReservation::class);
+        $availableTables=FPersistentManager::getInstance()->getAvaliableTables($reservationDate, $timeFrame, $people, FReservation::class);
         $session->setValue('timeFrame', $timeFrame);
         $session->setValue('people', $people);
         $session->setValue('date', $reservationDate);
         $session->setValue('comment', $comment);
-        $session->setValue('avaliableTables', $avaliableTables);
+        $session->setValue('availableTables', $availableTables);
         $session->setValue('reservation', $reservation);
         $viewU->showUserHeader($isLogged);
-        $viewR->showSummaryAndAvaliableTables($timeFrame, $people, $reservationDate, $comment, $avaliableTables);
+        $viewR->showSummaryAndAvailableTables($timeFrame, $people, $reservationDate, $comment, $availableTables);
     }
 
     /**

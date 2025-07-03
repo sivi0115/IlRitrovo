@@ -3,12 +3,11 @@
 namespace View;
 
 use Smarty\Smarty;
-use DateTime;
-use Entity\ECreditCard;
-use Entity\EUser;
 
-
-
+/**
+ * Class View VCreditCard
+ * Load all CreditCards' tpl via Smarty
+ */
 class VCreditCard {
     /**
      * Function to show new Credit Card form from user profile

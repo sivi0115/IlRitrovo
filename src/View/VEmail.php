@@ -1,15 +1,18 @@
 <?php
 
-
 namespace View;
-use Smarty\Smarty;
-use DateTime;
-use Entity\ECreditCard;
-use Entity\EReview;
 
+use Smarty\Smarty;
+
+/**
+ * Class View VEmail
+ * Load all Email's tpl via Smarty
+ */
 class VEmail {
     /**
      * Function to show email tables tpl
+     * 
+     * @param array $data, informations to send
      */
     public function showTablesEmail(array $data) {
         $smarty = new Smarty();
@@ -21,6 +24,8 @@ class VEmail {
 
     /**
      * Function to show email rooms tpl
+     * 
+     * @param array $data, informations to send
      */
     public function showRoomsEmail(array $data) {
         $smarty = new Smarty();

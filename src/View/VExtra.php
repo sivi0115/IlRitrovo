@@ -1,15 +1,19 @@
 <?php
 
 namespace View;
-use Smarty\Smarty;
-use DateTime;
-use Entity\ECreditCard;
-use Entity\EReview;
-use Entity\EExtra;
 
+use Entity\EExtra;
+use Smarty\Smarty;
+
+/**
+ * Class View VExtra
+ * Load all Extra's tpl via Smarty
+ */
 class VExtra {
     /**
      * Function to show extra's page
+     * 
+     * @param array $allExtras, array that contain all the extras
      */
     public function showExtrasPage(array $allExtras) {
         $smarty = new Smarty();
@@ -23,6 +27,8 @@ class VExtra {
 
     /**
      * Function to show Extra's edit page
+     * 
+     * @param EExtra $extra, the Extra to edit
      */
     public function showEditExtraPage(EExtra $extra) {
         $smarty = new Smarty();
