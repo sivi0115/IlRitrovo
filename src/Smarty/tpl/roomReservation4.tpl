@@ -60,9 +60,11 @@
             </div> <!-- /.reservation-summary-->
 
             <!-- Selected Payment Method -->
-            <div class="summary-row">
-                <p><strong>Selected Payment Method:</strong></p>
-                <div class="credit-card compact">
+            <div class="summary-row" style="display: inline-block; margin-left: 30px;">
+                <div class="summary-title">
+                    <p><strong>Selected Payment Method:</strong></p>
+                </div>
+                <div class="credit-card" style="margin-left: 0; margin-right: auto;">
                     <div class="card-header {$selectedCard->getType()|lower|regex_replace:'/[^a-z]/':''}">
                         {$selectedCard->getType()}
                     </div> <!-- /.card-header-->

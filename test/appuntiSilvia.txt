@@ -2,9 +2,7 @@ APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
 - sistemare i css
-  - sistemare il riquadro della password nel login
   - incolonnare meglio il price
-- fare il lock del db
 - scrivere le query per il database
 - vedere dove aggiungere gli |escape per la sicurezza
 
@@ -13,3 +11,61 @@ CODICE DATABASE:
 - USER
   - cancellare la riga image
   - cancellare la tabella image_user
+QUERY:
+
+INSERT INTO user (idUser, idReview, username, name, surname, birthDate, phone, role, email, password, ban) VALUES
+(1, NULL, 'username', 'Marco', 'Cipriani', '2000-02-17', '1234567890', 'user', 'marcoCiprianii@gmail.com', 'Password123!', 0),
+(2, NULL, 'sivi0115', 'Silvia', 'Di G', '2001-01-15', '1234567890', 'admin', 'sidigiu01@gmail.com', 'Password123!', 0),
+(3, 1, 'superMario', 'Mario', 'Rossi', '1980-02-16', '0987654321', 'user', 'marioRossi@gmail.com', 'Password123!', 0),
+(4, 2, 'Luigi95', 'Luigi', 'Verdi', '1995-03-17', '0987654321', 'user', 'luigiVerdi@gmail.com', 'Password123!', 0),
+(5, 3, 'Moon', 'Luna', 'Neri', '1998-04-18', '1234567890', 'user', 'lunaNeri@gmail.com', 'Password123!', 0),
+(6, 4, 'Magician', 'Stephen', 'Strange', '1970-05-20', '1234567890', 'user', 'stephenStrange@gmail.com', 'Password123!', 1);
+
+INSERT INTO review (idUser, idReview, stars, creationTime, body, idReply) VALUES
+(3, 1, 5, '2025-03-17', 'A wonderful experience in a wonderful place', 1),
+(4, 2, 4, '2025-04-15', 'Such a nice place. The food in incredible and the staff is amazing', 2),
+(5, 3, 4, '2025-05-01', 'First time here, i had a very nice dinner', 3),
+(6, 4, 2, '2025-05-25', 'This place is awful', 4);
+
+INSERT INTO reply (idReply, dateReply, body) VALUES
+(1, '2025-03-18', 'Thank you! Hope we see  you back soon!'),
+(2, '2025-04-17', 'Thank you! Hope we see  you back soon!'),
+(3, '2025-05-05', 'Thank you! Hope we see  you back soon!'),
+(4, '2025-05-26', 'This is disrespectful');
+
+INSERT INTO creditcard (idCreditCard, holder, number, cvv, expiration, type, idUser) VALUES
+(1, 'Marco Cipriani', '1234567890121212', 123, '2027-12-31', 'Visa', 1),
+(2, 'Marco Cipriani', '1234567890232323', 345, '2026-12-31', 'Mastercard', 1),
+(3, 'Mario Rossi', '1234567890343434', 567, '2027-12-31', 'Visa', 3),
+(4, 'Mario Rossi', '1234567890454545', 789, '2028-12-31', 'American Express', 3),
+(5, 'Luigi Verdi', '1234567890565656', 98, '2029-12-31', 'Visa', 4),
+(6, 'Luna Neri', '1234567890676767', 765, '2026-12-31', 'Mastercard', 5),
+(7, 'Stephen Strange', '1234567890787878', 432, '2027-12-31', 'American Express', 6);
+
+INSERT INTO reservation (idReservation, timeFrame, reservationDate, comment, people, totPrice, state, creationTime, idUser, idRoom, idTable) VALUES
+(1, 'dinner', '2025-02-20', 'a celiac is dining with us', 5, 0, 'confirmed', '2025-02-15', 1, NULL, 1),
+(2, 'dinner', '2025-03-15', '', 4, 0, 'confirmed', '2025-03-12', 3, NULL, 3),
+(3, 'dinner', '2025-04-12', 'a lactose intollerant is dining with us', 45, 130, 'confirmed', '2025-04-10', 4, 3, NULL),
+(4, 'lunch', '2025-04-25', 'we need an high chair', 9, 0, 'confirmed', '2025-04-20', 1, NULL, 13),
+(5, 'lunch', '2025-04-30', '', 3, 0, 'confirmed', '2025-04-29', 5, NULL, 2),
+(6, 'lunch', '2025-05-10', '', 4, 0, 'confirmed', '2025-05-05', 1, NULL, 5),
+(7, 'dinner', '2025-05-24', 'a lactose intollerant is dining with us', 15, 105, 'confirmed', '2025-05-20', 6, 1, NULL),
+(8, 'dinner', '2025-05-30', 'a celiac is dining with us', 4, 0, 'confirmed', '2025-05-28', 3, NULL, 14),
+(9, 'dinner', '2025-07-23', 'a lactose intollerant is dining with us', 50, 180, 'confirmed', '2025-07-01', 4, 3, NULL),
+(10, 'lunch', '2025-07-23', '', 4, 0, 'confirmed', '2025-07-02', 5, NULL, 5),
+(11, 'lunch', '2025-07-23', 'a celiac is dining with us', 4, 0, 'confirmed', '2025-07-03', 1, NULL, 11),
+(12, 'dinner', '2025-07-23', 'we need an high chair', 4, 0, 'confirmed', '2025-07-04', 3, NULL, 9);
+
+INSERT INTO extrainreservation (idExtra, idReservation) VALUES
+(1, 3),
+(10, 3),
+(2, 7),
+(12, 7),
+(13, 7),
+(7, 9),
+(10, 9);
+
+INSERT INTO payment (idPayment, total, creationTime, state, idCreditCard, idReservation) VALUES
+(1, 130, '2025-04-10', 'completed', 5, 3),
+(2, 105, '2025-05-20', 'completed', 7, 7),
+(3, 180, '2025-07-01', 'completed', 5, 9);

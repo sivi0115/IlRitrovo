@@ -54,37 +54,54 @@ class FReservation {
      */
     public function create(EReservation $reservation): int {
         $db = FDatabase::getInstance();
-         // Calculate the total price first
+        // Calculate the total price
         $totPrice = $this->calculateTotalReservationPrice($reservation);
         $reservation->setTotPrice($totPrice);
         $data = $this->entityToArray($reservation);
         self::validateReservationData($data);
         try {
-            //Reservation insertion
+            // Begin transaction
+            $db->beginTransaction();
+            // Lock of the table reservation
+            if ($reservation->getIdRoom() !== null) {
+                // Lock rows related to the room to prevent concurrent double bookings
+                $sql = "SELECT idReservation FROM " . self::TABLE_NAME . " WHERE idRoom = ? FOR UPDATE";
+                $stmt = $db->prepare($sql);
+                $stmt->execute([$reservation->getIdRoom()]);
+            } else {
+                // If idRoom is null, lock of all the table
+                $sql = "SELECT idReservation FROM " . self::TABLE_NAME . " FOR UPDATE";
+                $stmt = $db->prepare($sql);
+                $stmt->execute();
+            }
+            // Insert reservation
             $result = $db->insert(self::TABLE_NAME, $data);
             if ($result === null) {
                 throw new Exception(self::ERR_INSERTION_FAILED);
             }
-            //Retrive the last inserted ID
-            $createdId=$db->getLastInsertedId();
-            if ($createdId==null) {
+            // Retrive ID
+            $createdId = $db->getLastInsertedId();
+            if ($createdId === null) {
                 throw new Exception(self::ERR_MISSING_ID);
             }
-            // If IdRoom is not null, we search the possible Extra associated
+            // If this is a Room Reservation, we check for extras
             if ($reservation->getIdRoom() !== null) {
-                $reservation->setIdReservation((int)$createdId);  // imposta l'ID prima di usare entityToExtrasArray
+                $reservation->setIdReservation((int)$createdId);
                 $this->createExtrasInReservation($reservation);
             }
-            //Retrive the inserted reservation by number to get the assigned idReservation
+            // Retrive the last inserted reservation
             $storedReservation = $db->load(self::TABLE_NAME, 'idReservation', $createdId);
             if ($storedReservation === null) {
                 throw new Exception(self::ERR_RETRIVE_RES);
             }
-            //Assign the retrieved ID to the object
+            // Set ID
             $reservation->setIdReservation((int)$createdId);
-            //Return the id associated with this reservation
+            // Commit transaction
+            $db->commit();
             return (int)$createdId;
         } catch (Exception $e) {
+            // Rollback if an error occurs
+            $db->rollback();
             throw $e;
         }
     }

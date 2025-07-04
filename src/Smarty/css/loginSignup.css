@@ -46,7 +46,7 @@
 }
 
 /* -------------------------------------------------
-   FORM CONTENT
+   FORM AND CONTENT
 ------------------------------------------------- */
 .modal-content form {
   display: flex;
@@ -63,7 +63,7 @@
 
 .modal-content input {
   padding: 0.6rem 0.8rem;
-  border: 1px solid #e0d5c0; /* beige bordo */
+  border: 1px solid #e0d5c0;
   border-radius: 6px;
   font-size: 1rem;
   font-family: 'Open Sans', sans-serif;
@@ -74,17 +74,56 @@
 
 .modal-content input:focus {
   outline: none;
-  border-color: #8b3a3a; /* rosso-bruno */
+  border-color: #8b3a3a;
   box-shadow: 0 0 5px rgba(139, 58, 58, 0.5);
 }
 
 /* -------------------------------------------------
-   SUBMIT BUTTON
+   PASSWORD AND TOGGLE
+------------------------------------------------- */
+.password-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+  height: 42px;
+  border: 1px solid #e0d5c0;
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  padding: 0 0.8rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.password-wrapper .toggle-password {
+  width: 42px;
+  height: 42px;
+  background-color: #8b3a3a;
+  color: white;
+  border: 1px solid #8b3a3a;
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  box-sizing: border-box;
+  margin-top: -1px;
+}
+
+/* -------------------------------------------------
+   BUTTONS
 ------------------------------------------------- */
 .modal-content button {
   margin-top: 0.8rem;
   padding: 0.8rem 1rem;
-  background-color: #8b3a3a; /* rosso-bruno */
+  background-color: #8b3a3a;
   color: white;
   font-weight: 700;
   border: none;
@@ -140,7 +179,7 @@
 }
 
 /* -------------------------------------------------
-   ERROR FORM
+   FORM ERROR
 ------------------------------------------------- */
 .form-error {
   background-color: #ffe0e0;
