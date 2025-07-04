@@ -1,10 +1,6 @@
 APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
-- aggiungere i popup di conferma operazione nelle seguenti occasioni:
-  - dopo il login SI
-  - dopo il signup SI
-  - dopo il logout DA FARE
 - sistemare i css
   - in userProfile mettere la sezione della review in un unico riquadro che comprende anche la reply
   - in reservationtable3, sistemare il commento per la mail
