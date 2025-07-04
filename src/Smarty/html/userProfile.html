@@ -125,77 +125,85 @@
             {/foreach}
         </div> <!-- /.panel-->
 
-        <!-- PAST Reservations-->
-        <div class="panel">
-        <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>My Past Reservations and My Review</span>
-        </div> <!-- /.panel-heading-->
-        {if $review === null}
-            <div class="review-form">
-                <form action="/IlRitrovo/public/Review/checkAddReview" method="post">
-                    <label for="stars">Rating:</label>
-                    <div class="rating-stars">
-                        {for $i=5 to 1 step -1}
-                            <input type="radio" name="stars" id="star{$i}" value="{$i}" required>
-                            <label for="star{$i}">★</label>
-                        {/for}
-                    </div> <!-- /.rating-stars-->
-                    <label for="body">Your Review:</label>
-                    <textarea name="body" rows="4" required>{$body|default:''}</textarea>
-                    <div class="form-action-right">
-                        <button type="submit" class="btn save">Submit</button>
-                    </div> <!-- /.form-action-right-->
-                </form>
-            </div> <!-- /.review-form-->
-        {else}
-            <div class="existing-review">
-                <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
-                <p><strong>Review:</strong> {$review->getBody()}</p>
-                <div class="form-action-right">
-                    <a href="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" class="btn delete">Delete</a>
-                </div> <!-- /.form-action-right-->
-            </div> <!-- /.existing-review-->
-
-            {if $review->getReply() !== null}
-                <div class="admin-reply">
-                    <p><strong>Reply from the restaurant:</strong></p>
-                    <p>{$review->getReply()->getBody()}</p>
-                </div> <!-- /.admin-reply-->
-            {/if}
+        {if $pastReservations|@count > 0}
+            <!-- PAST Reservations-->
+            <div class="panel">
+                <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>My Past Reservations</span>
+                </div> <!-- /.panel-heading-->
+                <div class="panel" style="background-color: #f8f1e8;">
+                    <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>My Review</span>
+                    </div> <!-- /.panel-heading-->
+                    {if $review === null}
+                        <div class="review-form">
+                            <form action="/IlRitrovo/public/Review/checkAddReview" method="post">
+                                <label for="stars">Rating:</label>
+                                <div class="rating-stars">
+                                    {for $i=5 to 1 step -1}
+                                        <input type="radio" name="stars" id="star{$i}" value="{$i}" required>
+                                        <label for="star{$i}">★</label>
+                                    {/for}
+                                </div> <!-- /.rating-stars-->
+                                <label for="body">Your Review:</label>
+                                <textarea name="body" rows="4" required>{$body|default:''}</textarea>
+                                <div class="form-action-right">
+                                    <button type="submit" class="btn save">Submit</button>
+                                </div> <!-- /.form-action-right-->
+                            </form>
+                        </div> <!-- /.review-form-->
+                    {else}
+                        <div class="review-form">
+                            <div class="existing-review">
+                                <p><strong>Rating:</strong> {$review->getStars()} / 5</p>
+                                <p><strong>Review:</strong> {$review->getBody()}</p>
+                                <div class="form-action-right">
+                                    <a href="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" class="btn delete">Delete</a>
+                                </div> <!-- /.form-action-right-->
+                            </div> <!-- /.esisting-review-->
+                            {if $review->getReply() !== null}
+                                <div class="admin-reply" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #c7b299;">
+                                    <p><strong>Reply from the restaurant:</strong></p>
+                                    <p>{$review->getReply()->getBody()}</p>
+                                </div> <!-- /.admin-reply-->
+                            {/if}
+                        </div> <!-- /.review-form-->
+                    {/if}
+                </div> <!-- /.panel-->
+                {foreach from=$pastReservations item=reservation}
+                    <div class="reservation-card">
+                        <ul>
+                            <li><strong>Type:</strong>
+                                {if $reservation->getIdRoom() !== null}
+                                    Room
+                                {elseif $reservation->getIdTable() !== null}
+                                    Table
+                                {else}
+                                    Unknown
+                                {/if}
+                            </li>
+                            <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
+                            <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
+                            <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
+                            <li><strong>Status:</strong> {$reservation->getState()}</li>
+                            <li><strong>Notes:</strong> {$reservation->getComment()}</li>
+                            <li><strong>Extras:</strong>
+                                {if $reservation->getExtras()|@count > 0}
+                                    <ul class="extras-list">
+                                        {foreach from=$reservation->getExtras() item=extra}
+                                            <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
+                                        {/foreach}
+                                    </ul>
+                                {else}
+                                    No
+                                {/if}
+                            </li>
+                            <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
+                        </ul>
+                    </div> <!-- /.reservation-card-->
+                {/foreach}
+            </div> <!-- /.panel-->
         {/if}
-            {foreach from=$pastReservations item=reservation}
-                <div class="reservation-card">
-                    <ul>
-                        <li><strong>Type:</strong>
-                            {if $reservation->getIdRoom() !== null}
-                                Room
-                            {elseif $reservation->getIdTable() !== null}
-                                Table
-                            {else}
-                                Unknown
-                            {/if}
-                        </li>
-                        <li><strong>Guests:</strong> {$reservation->getPeople()}</li>
-                        <li><strong>Reservation Date:</strong> {$reservation->getReservationDate()}</li>
-                        <li><strong>Time Frame:</strong> {$reservation->getReservationTimeFrame()}</li>
-                        <li><strong>Status:</strong> {$reservation->getState()}</li>
-                        <li><strong>Notes:</strong> {$reservation->getComment()}</li>
-                        <li><strong>Extras:</strong>
-                            {if $reservation->getExtras()|@count > 0}
-                                <ul class="extras-list">
-                                    {foreach from=$reservation->getExtras() item=extra}
-                                        <li>{$extra->getNameExtra()} - €{$extra->getPriceExtra()}</li>
-                                    {/foreach}
-                                </ul>
-                            {else}
-                                No
-                            {/if}
-                        </li>
-                        <li><strong>Total Amount:</strong> €{$reservation->getTotPrice()}</li>
-                    </ul>
-                </div> <!-- /.reservation-card-->
-            {/foreach}
-        </div> <!-- /.panel-->
 
         <!-- Footer-->
         {include file='footerUser.tpl'}

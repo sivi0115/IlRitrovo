@@ -171,12 +171,12 @@ body {
   text-transform: uppercase;
 }
 
-.card-header.mastercard { background-color: #ff9f43; }
-.card-header.visa { background-color: #4a90e2; }
-.card-header.americanexpress { background-color: #2a9d8f; }
-.card-header.maestro { background-color: #f94144; }
-.card-header.vpay { background-color: #577590; }
-.card-header.pagobancomat { background-color: #f9844a; }
+.card-header.mastercard { background-color: #FF5F00; }
+.card-header.visa { background-color: #1a1f71; }
+.card-header.americanexpress { background-color: #002663; }
+.card-header.maestro { background-color: #EB001B; }
+.card-header.vpay { background-color: #1A1F71; }
+.card-header.pagobancomat { background-color: #0072bb; }
 
 .card-body ul {
   list-style: none;

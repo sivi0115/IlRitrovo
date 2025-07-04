@@ -2,11 +2,9 @@ APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 
 ELENCO PRIORITA' DA FARE:
 - sistemare i css
-  - in userProfile mettere la sezione della review in un unico riquadro che comprende anche la reply
-  - in reservationtable3, sistemare il commento per la mail
-  - aggiustare i colori delle carte
   - sistemare il riquadro della password nel login
   - incolonnare meglio il price
+- fare il lock del db
 - scrivere le query per il database
 - vedere dove aggiungere gli |escape per la sicurezza
 
