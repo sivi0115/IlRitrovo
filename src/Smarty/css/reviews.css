@@ -1,4 +1,6 @@
-/* ========== BASE ========== */
+/* ---------------------------
+   BASE STYLES
+   --------------------------- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,7 +15,9 @@ body {
   background-color: #fff;
 }
 
-/* ========== STRUTTURA ========== */
+/* ---------------------------
+   LAYOUT STRUCTURE
+   --------------------------- */
 .page-container {
   max-width: 960px;
   margin: 0 auto;
@@ -31,7 +35,9 @@ section h2 {
   text-align: center;
 }
 
-/* ========== IMMAGINE HEADER ========== */
+/* ---------------------------
+   HEADER IMAGE
+   --------------------------- */
 .review-image {
   display: flex;
   justify-content: center;
@@ -49,7 +55,9 @@ section h2 {
   display: block;
 }
 
-/* ========== BOX RECENSIONE UTENTE & FORM ========== */
+/* ---------------------------
+   USER REVIEW AND BOX FORM
+   --------------------------- */
 .review-box {
   background-color: #fef7ec;
   border: 1px solid #e0d5c0;
@@ -79,7 +87,9 @@ section h2 {
   background-color: #fffdf9;
 }
 
-/* ========== STELLE VALUTAZIONE ========== */
+/* ---------------------------
+   RATING STARS
+   --------------------------- */
 .rating-stars {
   display: flex;
   flex-direction: row-reverse;
@@ -105,7 +115,9 @@ section h2 {
   color: #ff9f43;
 }
 
-/* ========== RECENSIONE ESISTENTE UTENTE ========== */
+/* ---------------------------
+   EXISTING USER AND REVIEW
+   --------------------------- */
 .existing-review {
   background-color: #fff8e1;
   border-left: 4px solid #ff9f43;
@@ -113,7 +125,9 @@ section h2 {
   border-radius: 8px;
 }
 
-/* ========== SINGOLA REVIEW PUBBLICA ========== */
+/* ---------------------------
+   SINGLE PUBLIC REVIEW CARD
+   --------------------------- */
 .review-card {
   background-color: #fffdf8;
   border-radius: 8px;
@@ -142,7 +156,9 @@ section h2 {
   color: #4a3b2c;
 }
 
-/* ========== RISPOSTA ADMIN ========== */
+/* ---------------------------
+   ADMIN REPLY
+   --------------------------- */
 .admin-reply {
   background-color: #f4efe8;
   border-left: 3px solid #c7b299;
@@ -159,7 +175,9 @@ section h2 {
   margin-bottom: 0.4rem;
 }
 
-/* ========== AZIONI & BOTTONI ========== */
+/* ---------------------------
+   ACTION BUTTONS
+   --------------------------- */
 .form-action-right {
   text-align: right;
   margin-top: 1rem;
@@ -194,7 +212,9 @@ section h2 {
   background-color: #cc4c4c;
 }
 
-/* ========== RESPONSIVE ========== */
+/* ---------------------------
+   RESPONSIVE
+   --------------------------- */
 @media (max-width: 600px) {
   .review-card {
     padding: 1rem;

@@ -1,9 +1,13 @@
-/* ======= ROOT VARIABLES ======= */
+/* ---------------------------
+   ROOT VARIABLES
+--------------------------- */
 :root {
   --offset: 282.8px;
 }
 
-/* ======= BUTTONS (usati sia in booking che rooms-section) ======= */
+/* ---------------------------
+   BUTTONS (Booking & Rooms)
+---------------------------- */
 .btn,
 .booking .booking-buttons .btn {
   background-color: #d4a055;
@@ -24,18 +28,20 @@
   background-color: #8b3a3a;
 }
 
-/* ======= BOOKING SECTION ======= */
+/* ---------------------------
+   BOOKING SECTION
+--------------------------- */
 .booking {
   position: relative;
   padding: 2rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* sposta contenuti in alto */
+  align-items: flex-start;
   flex-wrap: wrap;
   max-height: 600px;
   overflow: hidden;
-  color: #4a3b2c; /* testo ben visibile */
-  background-color: #fffaf5; /* fallback */
+  color: #4a3b2c;
+  background-color: #fffaf5;
 }
 
 .booking::before {
@@ -75,7 +81,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 2.5rem;
   color: #000;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.5rem;
 }
 
 .booking .booking-content span.highlight {
@@ -87,7 +93,7 @@
 .booking .booking-content p {
   font-size: 1.1rem;
   color: #6a5d4d;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.5rem;
 }
 
 .booking .booking-buttons {
@@ -95,7 +101,9 @@
   margin-bottom: 0;
 }
 
-/* ======= RHOMBUS IMAGES ======= */
+/* ---------------------------
+   RHOMBUS IMAGES
+--------------------------- */
 .rhombus-wrapper {
   margin: 2rem 0 2rem auto;
   left: 40px;
@@ -127,13 +135,13 @@
   height: 160%;
   object-fit: cover;
   transform: rotate(-45deg) translate(0, -10%);
-  transition: transform 0.3s ease;
   position: relative;
   left: -10%;
   top: -30%;
+  transition: transform 0.3s ease;
 }
 
-/* Posizionamenti specifici */
+/* --- Rhombus positioning --- */
 .rhombus-3 {
   top: 50%;
   left: 50%;
@@ -167,7 +175,9 @@
   left: calc(50% + var(--offset) * 0.55);
 }
 
-/* ======= ROOMS SECTION ======= */
+/* ---------------------------
+   ROOMS SECTION
+---------------------------- */
 .rooms-section {
   display: flex;
   flex-wrap: wrap;
@@ -232,9 +242,10 @@
   object-fit: cover;
 }
 
-/* RESPONSIVE */
+/* --------------------------
+   RESPONSIVE STYLES
+--------------------------- */
 @media (max-width: 768px) {
-
   .booking {
     flex-direction: column;
     text-align: center;
@@ -271,7 +282,6 @@
     top: -30%;
   }
 
-  /* ROOMS SECTION responsive */
   .rooms-section {
     flex-direction: column;
     padding: 1rem;

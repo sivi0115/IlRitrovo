@@ -1,10 +1,15 @@
-/* === HEADER === */
+/* ---------------------------------------------
+   HEADER BASE STYLES
+--------------------------------------------- */
 header {
   background-color: #f4eadd;
   border-bottom: 1px solid #e0d5c0;
   height: 70px;
 }
 
+/* ---------------------------------------------
+   HEADER LAYOUT & STRUCTURE
+--------------------------------------------- */
 .header-top {
   display: flex;
   justify-content: space-between;
@@ -15,6 +20,9 @@ header {
   flex-wrap: wrap;
 }
 
+/* ---------------------------------------------
+   LOGO & SITE NAME
+--------------------------------------------- */
 .logo-area {
   display: flex;
   align-items: center;
@@ -35,6 +43,9 @@ header {
   color: #4a3b2c;
 }
 
+/* ---------------------------------------------
+   MAIN NAVIGATION
+--------------------------------------------- */
 .main-nav {
   flex: 1;
   display: flex;
@@ -62,7 +73,9 @@ header {
   color: #8b3a3a;
 }
 
-/* === USER BUTTONS === */
+/* ---------------------------------------------
+   USER ACTION BUTTONS
+--------------------------------------------- */
 .user-area {
   display: flex;
   gap: 0.5rem;
@@ -88,7 +101,9 @@ header {
   background-color: #a44a4a;
 }
 
-/* === MEDIA QUERIES === */
+/* ---------------------------------------------
+   RESPONSIVE - TABLET VIEW (≤ 900px)
+--------------------------------------------- */
 @media (max-width: 900px) {
   .logo {
     height: 60px;
@@ -99,6 +114,9 @@ header {
   }
 }
 
+/* ---------------------------------------------
+   RESPONSIVE - MOBILE VIEW (≤ 600px)
+--------------------------------------------- */
 @media (max-width: 600px) {
   .header-top {
     flex-direction: column;

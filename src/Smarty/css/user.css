@@ -28,10 +28,10 @@ body {
 .panel-heading {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
   color: #8b3a3a;
   border-bottom: 2px dashed #c7b299;
   padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,12 +45,12 @@ body {
   font-size: 0.95rem;
   padding: 0.4rem 1rem;
   border-radius: 6px;
-  cursor: pointer;
   border: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
   display: inline-block;
-  text-decoration: none;
   color: #fff;
+  text-decoration: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn.edit,
@@ -83,6 +83,7 @@ body {
   flex: 0 0 180px;
   text-align: center;
 }
+
 .profile-img {
   width: 180px;
   height: 180px;
@@ -156,7 +157,7 @@ body {
   background: #fff;
   border: 1px solid #e0d5c0;
   border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
   padding: 1.5rem;
   font-size: 1rem;
   flex: 0 0 280px;
@@ -169,6 +170,7 @@ body {
   padding: 0.75rem 1rem;
   text-transform: uppercase;
 }
+
 .card-header.mastercard { background-color: #ff9f43; }
 .card-header.visa { background-color: #4a90e2; }
 .card-header.americanexpress { background-color: #2a9d8f; }
@@ -196,8 +198,9 @@ body {
   color: #ff9f43;
   font-family: 'Playfair Display', serif;
   text-align: center;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
+
 .add-card-btn .card-header {
   font-size: 2.5rem;
   user-select: none;
@@ -218,9 +221,11 @@ body {
   max-width: 280px;
   margin-bottom: 1rem;
 }
+
 .card-form label {
   font-weight: 600;
 }
+
 .card-form input,
 .card-form select {
   width: 100%;
@@ -235,9 +240,9 @@ body {
 ------------------------------------------------- */
 .reservation-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* due colonne fisse */
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  align-items: start; /* forza l'allineamento in alto */
+  align-items: start;
   margin-top: 2rem;
 }
 
@@ -245,7 +250,7 @@ body {
   background: #fff;
   border: 1px solid #e0d5c0;
   border-radius: 10px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
   padding: 1.5rem;
   font-size: 1rem;
   display: flex;
@@ -332,17 +337,21 @@ body {
   gap: 0.3rem;
   font-size: 1.5rem;
 }
+
 .rating-stars input[type="radio"] {
   display: none;
 }
+
 .rating-stars label {
   cursor: pointer;
   color: #ccc;
   transition: color 0.2s;
 }
+
 .rating-stars input[type="radio"]:checked ~ label {
   color: #ffb400;
 }
+
 .rating-stars label:hover,
 .rating-stars label:hover ~ label {
   color: #ffda79;

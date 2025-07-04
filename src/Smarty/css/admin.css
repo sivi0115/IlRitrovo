@@ -1,5 +1,5 @@
 /* ---------------------------------------------
-   GENERALE
+   GENERAL
 --------------------------------------------- */
 body {
   font-family: 'Open Sans', sans-serif;
@@ -29,7 +29,7 @@ body {
 }
 
 /* ---------------------------------------------
-   CONTAINER PROFILI
+   CONTAINER PROFILES
 --------------------------------------------- */
 .profile-container,
 .banned-profile-container {
@@ -39,7 +39,7 @@ body {
 }
 
 /* ---------------------------------------------
-   CARD UTENTE
+   CARD USER
 --------------------------------------------- */
 .profile-card {
   background: #fff;
@@ -67,14 +67,14 @@ body {
   margin-bottom: 0.8rem;
 }
 
-/* Informazioni utente */
+/* User informations */
 .profile-card p {
   margin: 0.3rem 0;
   color: #4a3b2c;
 }
 
 /* ---------------------------------------------
-   BOTTONI AZIONE
+   ACTION BUTTONS
 --------------------------------------------- */
 .action-buttons {
   margin-top: 1rem;
