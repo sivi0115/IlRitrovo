@@ -9,9 +9,9 @@
     <body>
         <div class="page-container">
 
-            <!-- Header incluso tramite View-->
+            <!-- Header rendered through the View -->
 
-            <!-- Immagine di intestazione -->
+            <!-- Header image -->
             <section class="review-image">
             <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
             </section>
@@ -25,7 +25,7 @@
                             <span class="review-timestamp">{$review->getCreationTime()}</span>
                             <p class="review-body">{$review->getBody()}</p>
                         </div> <!-- /.review-meta-->
-                        <!-- Pulsante elimina recensione -->
+                        <!-- Button Delete Review -->
                         <form action="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" method="post">
                             <button type="submit" class="btn delete">Delete Review</button>
                         </form>

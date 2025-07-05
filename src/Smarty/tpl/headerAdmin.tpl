@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Header - Il Ritrovo (Admin)</title>
     <link href="/IlRitrovo/src/Smarty/css/header.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display&display=swap" rel="stylesheet" />
   </head>
@@ -28,7 +27,7 @@
             <form action="/IlRitrovo/public/User/logout" method="POST" style="margin:0;">
               <button type="submit" class="user-button" aria-label="Logout">Logout</button>
             </form>
-          </div>
+          </div> <!-- /.user-area-->
       </div> <!-- /.header-top -->
     </header>
   </body>

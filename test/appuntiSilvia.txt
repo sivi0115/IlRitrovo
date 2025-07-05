@@ -3,7 +3,6 @@ APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
 ELENCO PRIORITA' DA FARE:
 - sistemare i css
   - incolonnare meglio il price
-- scrivere le query per il database
 - vedere dove aggiungere gli |escape per la sicurezza
 
 

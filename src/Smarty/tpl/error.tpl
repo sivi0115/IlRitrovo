@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8" />
         <title>Error</title>
-        <link href="../css/styles.css" rel="stylesheet">
+        <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
     </head>
     <body>
-        <div class="error-container">
+        <section>
             <h1>An error has occoured: </h1>
             <p>{$errorMessage|escape}</p>
             <p><a href="javascript:history.back()">Back</a></p>
-        </div>
+        </section>
     </body>
 </html>

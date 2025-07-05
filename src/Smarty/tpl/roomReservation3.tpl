@@ -15,7 +15,7 @@
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -32,7 +32,7 @@
 
             <hr class="step-separator">
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
@@ -79,7 +79,7 @@
                         </div> <!-- /.credit-card-->
                     {/foreach}
 
-                    <!-- Pulsante per aggiungere nuova carta -->
+                    <!-- Button Add New Card -->
                     <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
                         <a href="/IlRitrovo/public/CreditCard/showAddCreditCardStep3" class="card-header"
                         style="text-align:center; font-size:2.5rem; cursor:pointer; user-select:none; color:#ff9f43; display:block;">+</a>
@@ -87,40 +87,59 @@
                 </div> <!-- /.card-row-->
             </div> <!-- /.panel-->
 
-            <!-- Bottoni di navigazione -->
+            <!-- Navigation Button -->
             <form action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm" method="POST">
                 <input type="hidden" name="selectedCardId" id="selectedCardId" value="{$selectedCardId}">
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
                 </div> <!-- /.reservation-form-buttons-->
             </form>
-
         </div> <!-- /.panel-->
 
+        <!-- Footer -->
         {include file='footerUser.tpl'}
 
         <!-- JavaScript per selezione carta -->
         <script>
-            function selectCard(cardId, button) {
-                document.getElementById('selectedCardId').value = cardId;
-                document.querySelectorAll('.credit-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
-                const cardDiv = button.closest('.credit-card');
-                if (cardDiv) {
-                    cardDiv.classList.add('selected');
-                }
-            }
-        </script>
-
-        <script>
-            document.querySelector('form[action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm"]').addEventListener('submit', function(event) {
-                const selectedCardId = document.getElementById('selectedCardId').value;
-                if (!selectedCardId) {
-                event.preventDefault(); // blocca l'invio del form
-                alert('Please select a credit card before proceeding.');
-                }
+        // Funzione per selezionare una carta di credito quando si clicca sul relativo bottone
+        function selectCard(cardId, button) {
+            
+            // Imposta il valore nascosto dell'input con id 'selectedCardId' con l'id della carta selezionata
+            document.getElementById('selectedCardId').value = cardId;
+            
+            // Rimuove la classe 'selected' da tutte le carte di credito per deselezionarle visivamente
+            document.querySelectorAll('.credit-card').forEach(card => {
+            card.classList.remove('selected');
             });
+            
+            // Trova l'elemento più vicino (genitore) al bottone che ha la classe 'credit-card'
+            const cardDiv = button.closest('.credit-card');
+            
+            // Se l'elemento esiste (sicuro che il bottone è dentro una carta)
+            if (cardDiv) {
+            // Aggiunge la classe 'selected' per evidenziare visivamente la carta selezionata
+            cardDiv.classList.add('selected');
+            }
+        }
+        </script>
+        <!-- Javascript che si assicura che l'utente abbia selezionato una carta -->
+        <script>
+        // Al momento dell'invio del form per la conferma della prenotazione (specificato dall'action)
+        document.querySelector('form[action="/IlRitrovo/public/Reservation/showSummaryRoomAndPaymentForm"]').addEventListener('submit', function(event) {
+            
+            // Recupera il valore dell'input nascosto che contiene l'id della carta selezionata
+            const selectedCardId = document.getElementById('selectedCardId').value;
+            
+            // Se non è stata selezionata nessuna carta (campo vuoto)
+            if (!selectedCardId) {
+            
+            // Blocca l'invio del form per evitare che proceda senza carta selezionata
+            event.preventDefault();
+            
+            // Mostra un messaggio d'alert per avvisare l'utente che deve scegliere una carta
+            alert('Please select a credit card before proceeding.');
+            }
+        });
         </script>
     </body>
 </html>

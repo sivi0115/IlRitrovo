@@ -30,22 +30,19 @@
     <body class="edit-background">
         <div class="modal">
 
-            <!-- Header incluso tramite View-->
+            <!-- Header rendered through the View -->
 
             <div class="modal-content">
                 <h2>Edit Extra</h2>
-
                 <form method="POST" action="/IlRitrovo/public/Extra/saveEditExtra/{$extra->getIdExtra()}">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" value="{$extra->getNameExtra()}" required>
-
                     <label for="price">Price:</label>
                     <input type="number" id="price" name="price" value="{$extra->getPriceExtra()}" step="0.01" required>
-
                     <button type="submit">Save Changes</button>
                     <a href="/IlRitrovo/public/Extra/showExtrasPage" style="text-align: center; display: block; margin-top: 1rem;">Back to Extras</a>
                 </form>
-            </div>
-        </div>
+            </div> <!--  /.modal-content-->
+        </div> <!-- /.modal-->
     </body>
 </html>

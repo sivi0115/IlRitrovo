@@ -13,7 +13,7 @@
         <div class="logo-area">
           <img src="/IlRitrovo/src/Smarty/assets/images/logo/logo.png" alt="Il Ritrovo Logo" class="logo" />
           <span class="site-name">Il Ritrovo</span>
-        </div>
+        </div> <!-- /.logo-area-->
 
         <!-- Barra di navigazione -->
         <nav class="main-nav">
@@ -34,41 +34,55 @@
             <a href="/IlRitrovo/public/User/showLoginForm" class="user-button">Login</a>
             <a href="/IlRitrovo/public/User/showSignUpForm" class="user-button">Sign up</a>
           {/if}
-        </div>
-      </div>
+        </div> <!-- /.user-area-->
+      </div> <!-- /.header-top-->
 
       <!-- Popup logout -->
       <div id="logout-popup" style="display:none; position:fixed; top:20px; right:20px; background-color:#8b3a3a; color:white; padding:15px 25px; border-radius:8px; box-shadow:0 4px 8px rgba(0,0,0,0.2); font-family:Arial,sans-serif; font-size:16px; z-index:9999; opacity:0; transition:opacity 0.5s ease;">
-      </div>
+      </div> <!-- /.logout-popup-->
 
       <script>
-      (function() {
-        document.addEventListener('DOMContentLoaded', () => {
-          const logoutBtn = document.getElementById('logout-button');
-          const popup = document.getElementById('logout-popup');
+        (function() {
+          // Attende che tutto il DOM sia stato caricato prima di eseguire il codice
+          document.addEventListener('DOMContentLoaded', () => {
 
-          if (!logoutBtn || !popup) return;
+            // Recupera il pulsante di logout e il popup di conferma
+            const logoutBtn = document.getElementById('logout-button');
+            const popup = document.getElementById('logout-popup');
 
-          logoutBtn.addEventListener('click', function(e) {
-            e.preventDefault();
+            // Se uno dei due elementi non è presente nella pagina, esce dalla funzione
+            if (!logoutBtn || !popup) return;
 
-            popup.textContent = 'Logout effettuato con successo!';
-            popup.style.display = 'block';
+            // Aggiunge un listener per il click sul pulsante di logout
+            logoutBtn.addEventListener('click', function(e) {
+              // Impedisce il comportamento di default del link (cioè il redirect immediato)
+              e.preventDefault();
 
-            requestAnimationFrame(() => {
-              popup.style.opacity = '1';
-            });
+              // Imposta il testo del popup e lo rende visibile
+              popup.textContent = 'Operation completed successfully!';
+              popup.style.display = 'block';
 
-            setTimeout(() => {
-              popup.style.opacity = '0';
+              // Utilizza requestAnimationFrame per assicurarsi che il browser abbia aggiornato lo stile
+              // prima di cambiare l'opacità, per attivare la transizione CSS
+              requestAnimationFrame(() => {
+                popup.style.opacity = '1'; // Appare con effetto fade-in
+              });
+
+              // Dopo 2 secondi (2000 ms), avvia il fade-out
               setTimeout(() => {
-                popup.style.display = 'none';
-                window.location.href = logoutBtn.href;
-              }, 500);
-            }, 2000);
+                popup.style.opacity = '0'; // Inizia a scomparire
+
+                // Dopo altri 0.5 secondi (tempo per completare la transizione), nasconde il popup
+                setTimeout(() => {
+                  popup.style.display = 'none';
+
+                  // Reindirizza alla pagina di logout vera e propria
+                  window.location.href = logoutBtn.href;
+                }, 500); // Attende la fine della transizione
+              }, 2000); // Attende 2 secondi prima di iniziare il fade-out
+            });
           });
-        });
-      })();
+        })();
       </script>
     </header>
   </body>

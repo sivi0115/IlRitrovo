@@ -8,7 +8,7 @@
     </head>
     <body>
     
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -21,11 +21,11 @@
                 <div class="step-circle">3</div>
                 <div class="step-line"></div>
                 <div class="step-circle">4</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
@@ -50,12 +50,12 @@
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
-            <!-- Mappa del ristorante -->
+            <!-- Restaurant Map -->
             <div class="restaurant-map">
                 <img src="/IlRitrovo/src/Smarty/assets/images/maps/Rooms_map.png" alt="Restaurant Map">
             </div> <!-- /.restaurrant-map-->
 
-            <!-- Selezione stanza -->
+            <!-- Room Selection -->
             <form method="post" action="/IlRitrovo/public/Reservation/dataRoomReservation" class="booking-form">
                 <div class="form-group">
                     <label for="room">Select a Room</label>
@@ -68,7 +68,7 @@
 
                 <div class="total-extras-box" id="totalExtrasBox">
                     <strong>Total Price:</strong> €<span id="totalPrice">{$totPriceExtra}</span>
-                </div>
+                </div> <!--  /.total-extra-box-->
 
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
@@ -105,6 +105,5 @@
         //E anche ogni volta che si cambia selezione
         selectRoom.addEventListener("change", updateTotalPrice);
         </script>
-
     </body>
 </html>

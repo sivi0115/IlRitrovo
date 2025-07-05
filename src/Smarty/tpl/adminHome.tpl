@@ -8,17 +8,17 @@
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
-        <!-- Sezione delle prenotazioni dei tavoli-->
+        <!-- Section Upcoming Table Reservation -->
         <div class="panel panel-default">
             <div class="panel-heading">Upcoming Tables Reservations</div>
             <div class="panel-body">
-                <!-- Container principale per le reservations -->
+                <!-- Reservation Base Container -->
                 <div id="reservationContainer" class="reservation-container">
                     {if $comingTableReservations|@count > 0}
                         {foreach from=$comingTableReservations item=reservation}
-                            <!-- Scheda singola della prenotazione -->
+                            <!-- Single Reservation Card -->
                             <div class="reservation-card" id="reservation-{$reservation->getIdReservation()}">
                                 <div class="reservation-header">
                                     Reservation {$reservation->getIdReservation()}
@@ -46,15 +46,15 @@
             </div> <!--/.panel-body-->
         </div> <!-- /.panel panel-default-->
 
-        <!-- Sezione delle prenotazioni delle stanze-->
+        <!-- Section Upcoming Room Reservation -->
         <div class="panel panel-default">
             <div class="panel-heading">Upcoming Rooms Reservations</div>
             <div class="panel-body">
-                <!-- Container principale per le reservations -->
+                <!-- Reservation Base Container -->
                 <div id="reservationContainer" class="reservation-container">
                     {if $comingRoomReservations|@count > 0}
                         {foreach from=$comingRoomReservations item=reservation}
-                            <!-- Scheda singola della prenotazione -->
+                            <!-- Single Reservation Card -->
                             <div class="reservation-card" id="reservation-{$reservation->getIdReservation()}">
                                 <div class="reservation-header">
                                     Reservation {$reservation->getIdReservation()}

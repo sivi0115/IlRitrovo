@@ -10,14 +10,19 @@
   <body>
     <div class="page-container">
       
-      <!-- Header incluso tramite View-->
+      <!-- Header rendered through the View -->
 
-      <!-- Immagine di intestazione -->
+      <!-- Review message -->
+      <div class="review-reminder" style="background-color: #fff; border: 1px solid #8b3a3a; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 6px; font-family: 'Open Sans', sans-serif; color: #4a3b2c; white-space: nowrap;">
+        Remember, you can <span style="color: #8b3a3a; font-weight: 600;">leave a review</span> in your "<span style="color: #8b3a3a; font-weight: 600;">Profile</span>" after your visit. Thank you!
+      </div>
+
+      <!-- Header image -->
       <section class="review-image">
         <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
       </section>
 
-      <!-- Sezione recensione personale -->
+      <!-- Personal Review Section -->
       {if isset($loggedUser)}
         <section class="review-box">
           {if $userReview === null}
@@ -49,7 +54,7 @@
         </section>
       {/if}
 
-      <!-- Sezione tutte le recensioni -->
+      <!-- All Reviews Section -->
       <section>
         <h2>What our customers say</h2>
         {foreach from=$allReviews item=review}

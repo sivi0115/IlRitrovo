@@ -7,33 +7,33 @@
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css">
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/home.css">
     <style>
-.rooms-page {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
+        .rooms-page {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        }
 
-.rooms-page .rooms-section {
-  width: 100%;
-  max-width: 1200px;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-</style>
+        .rooms-page .rooms-section {
+        width: 100%;
+        max-width: 1200px;
+        padding: 2rem;
+        box-sizing: border-box;
+        }
+        </style>
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
-        <!-- ROOMS HERO SECTION -->
+        <!-- Rooms hero section -->
         <section class="rooms-section">
             <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <h1> Discover the Perfect Space for Every Occasion </h1>
             </div>
         </section>
 
-        <!-- ROOMS LIST -->
+        <!-- Rooms List -->
         <section class="event-section rooms-section rooms-page" id="rooms">
             <!-- Room 1 -->
             <div class="content-wrapper">
@@ -99,8 +99,8 @@
                         <li><strong>🍽️ Comfortable for a maximum of 50 guests</strong></li>
                         <li><strong>📖 50€ booking fee</strong></li>
                     </ul>
-                </div>
-            </div>
+                </div> <!-- /.content-column-->
+            </div> <!-- /.content-wrapper-->
         </section>
 
         <!-- Footer-->

@@ -9,7 +9,7 @@
     </head>
     <body>
 
-        <!-- Header incluso tramite View -->
+        <!-- Header rendered through the View -->
 
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
@@ -76,7 +76,7 @@
                     />
                     <label for="password">Password</label>
                     <div class="password-wrapper">
-                    <input
+                        <input
                         type="password"
                         id="password"
                         name="password"
@@ -84,9 +84,9 @@
                         minlength="8"
                         aria-describedby="passwordHelp"
                         autocomplete="new-password"
-                    />
-                    <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
-                    </div>
+                        />
+                        <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
+                    </div> <!-- /.password-wrapper-->
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
                         <ul>

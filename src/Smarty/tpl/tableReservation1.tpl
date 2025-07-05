@@ -8,7 +8,7 @@
     </head>
     <body>
 
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
         
         <div class="panel">
 
@@ -35,29 +35,29 @@
                         <option value="lunch" {if $timeFrame == 'lunch'}selected{/if}>Lunch</option>
                         <option value="dinner" {if $timeFrame == 'dinner'}selected{/if}>Dinner</option>
                     </select>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="people">Guests</label>
                     <input type="number" name="people" id="people" min="1" max="20" value="{$people|default:''}" required>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="reservationDate">Date</label>
                     <input type="date" name="reservationDate" id="reservationDate"
                             value="{$reservationDate|default:''}"
                             min="{$smarty.now|date_format:"%Y-%m-%d"}"
-                            required>
-                </div>
+                    required>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="comment">Comment</label>
                     <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances...">{$comment|default:''}</textarea>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
-                </div>
+                </div> <!-- /.reservtion-form-buttons-->
             </form>
 
         </div>  <!--/.panel-->

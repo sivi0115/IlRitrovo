@@ -9,7 +9,7 @@
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -26,12 +26,12 @@
 
             <hr class="step-separator">
 
-            <!-- Messaggio di conferma email -->
+            <!-- Email confirmation message -->
             <div class="confirmation-notice" style="margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(139, 58, 58, 0.1); border-left: 4px solid #8b3a3a; color: #8b3a3a; font-weight: 600; backdrop-filter: blur(4px); border-radius: 4px;">
                 You will receive a confirmation email shortly with the details of your booking.
             </div>
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection Summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
@@ -78,17 +78,16 @@
                 </div> <!-- /.credit-card-compact-->
             </div> <!-- /.summary-row-->
 
-            <!-- Bottoni di navigazione -->
+            <!-- Navigation Buttons -->
             <form action="/IlRitrovo/public/Reservation/checkPayment" method="post">
                 <input type="hidden" name="selectedCardId" value="{$selectedCard->getIdCreditCard()}">
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Confirm </button>
                 </div> <!-- /.reservation-form-buttons-->
             </form>
-
         </div> <!--  /.panel-->
 
-    <!-- Footer -->
-    {include file='footerUser.tpl'}
+        <!-- Footer -->
+        {include file='footerUser.tpl'}
     </body>
 </html>

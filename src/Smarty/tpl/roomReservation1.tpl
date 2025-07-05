@@ -8,7 +8,7 @@
     </head>
     <body>
 
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
         
         <div class="panel">
 
@@ -132,6 +132,5 @@
             updateTotal();
         });
         </script>
-
     </body>
 </html>

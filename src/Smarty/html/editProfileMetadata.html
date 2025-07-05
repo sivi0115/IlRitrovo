@@ -32,7 +32,7 @@
 
     <body class="edit-background">
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="modal">
             <div class="modal-content">
@@ -40,30 +40,26 @@
                 <form method="post" action="/IlRitrovo/public/User/editProfileMetadata">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" value="{$username}" required />
-
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" value="{$email}" required />
-
                     <label for="password">New Password</label>
                     <input type="password" id="password" name="password" required />
-
-                    <!-- Requisiti della password -->
+                    <!-- Password Requirements -->
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
-                    <p>Password must include:</p>
-                    <ul>
-                        <li id="length" class="invalid">At least 8 characters</li>
-                        <li id="uppercase" class="invalid">At least one uppercase letter</li>
-                        <li id="lowercase" class="invalid">At least one lowercase letter</li>
-                        <li id="number" class="invalid">At least one number</li>
-                        <li id="special" class="invalid">At least one special character</li>
-                    </ul>
-                    </div>
-
+                        <p>Password must include:</p>
+                        <ul>
+                            <li id="length" class="invalid">At least 8 characters</li>
+                            <li id="uppercase" class="invalid">At least one uppercase letter</li>
+                            <li id="lowercase" class="invalid">At least one lowercase letter</li>
+                            <li id="number" class="invalid">At least one number</li>
+                            <li id="special" class="invalid">At least one special character</li>
+                        </ul>
+                    </div> <!-- /.password-requirements-->
                     <button type="submit">Save Access Data</button>
                 </form>
                 <p><a href="/IlRitrovo/public/User/showProfile">Back to Profile</a></p>
-            </div>
-        </div>
+            </div> <!-- /.modal-content-->
+        </div> <!-- /.modal-->
 
         <script>
             // Prendo il campo input della password dal DOM tramite il suo id 'password'

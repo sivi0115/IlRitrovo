@@ -4,7 +4,6 @@
         <meta charset="utf-8">    
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Your Profile - Il Ritrovo</title>       
-        <!-- Template Stylesheet -->
         <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/user.css" rel="stylesheet">
         <link href="/IlRitrovo/src/Smarty/css/reviews.css" rel="stylesheet">
@@ -12,7 +11,7 @@
 
     <body style="background-color: #f8f1e8;">
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <!-- Profile -->
         <div class="panel panel-default">
@@ -79,7 +78,6 @@
                         </div>
                     </div>
                 {/foreach}
-
                 <!-- Add card button linking to separate page -->
                 <div class="credit-card add-card-btn" title="Aggiungi nuova carta">
                     <a href="/IlRitrovo/public/CreditCard/showAddCreditCardUserProfile" class="card-header"

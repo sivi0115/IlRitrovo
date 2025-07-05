@@ -61,7 +61,7 @@
 
     <body class="edit-background">
 
-        <!-- Header incluso tramite View -->
+        <!-- Header rendered through the View -->
 
         <div class="modal">
             <div class="modal-content">

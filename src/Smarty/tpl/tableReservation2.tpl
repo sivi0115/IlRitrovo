@@ -8,7 +8,7 @@
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -19,11 +19,11 @@
                 <div class="step-circle active">2</div>
                 <div class="step-line"></div>
                 <div class="step-circle">3</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> {$timeFrame}</p>
@@ -35,12 +35,12 @@
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
-            <!-- Mappa del ristorante -->
+            <!-- Restaurant map -->
             <div class="restaurant-map">
                 <img src="/IlRitrovo/src/Smarty/assets/images/maps/Tables_map.png" alt="Restaurant Map">
             </div> <!-- /.restaurrant-map-->
 
-            <!-- Selezione tavolo -->
+            <!-- Table Selection -->
             <form method="post" action="/IlRitrovo/public/Reservation/dataTableReservation" class="booking-form">
                 <div class="form-group">
                     <label for="table">Select a Table</label>
@@ -59,6 +59,5 @@
 
         <!-- Footer -->
         {include file='footerUser.tpl'}
-
     </body>
 </html>

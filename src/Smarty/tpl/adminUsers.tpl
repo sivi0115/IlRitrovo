@@ -8,13 +8,13 @@
     </head>
     <body>
         
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
-        <!--Utenti bloccati-->
+        <!-- Banned Users -->
         <div class="panel panel-default">
             <div class="panel-heading">Blocked Users</div>
             <div class="panel-body">
-                <!-- Container principale per i profili bannati -->
+                <!-- Banned Users Base Container -->
                 <div id="bannedProfileContainer" class="banned-profile-container">
                     {if $blocked_user|@count > 0}
                         {foreach from=$blocked_user item=user}
@@ -40,11 +40,11 @@
             </div> <!--/.panel-body-->
         </div> <!--/.panel-default-->
 
-        <!--Utenti -->
+        <!-- Users -->
         <div class="panel panel-default">
             <div class="panel-heading">Users</div>
             <div class="panel-body">
-                <!-- Container principale per i profili -->
+                <!-- Users Base Container -->
                 <div id="profileContainer" class="profile-container">
                     {if $allUsers|@count > 0}
                         {foreach from=$allUsers item=user}
