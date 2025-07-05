@@ -1,6 +1,6 @@
-APPUNTI SULLE PAGINE E LAVORI DA FARCI SOPRA:
-
-ELENCO PRIORITA' DA FARE:
+COSA RIMASTE DA FARE PER PRIORITà:
+- fare la versione definitiva del database con le query presenti sotto
+- pubblicare il progetto
 - sistemare i css
   - incolonnare meglio il price
 - vedere dove aggiungere gli |escape per la sicurezza
