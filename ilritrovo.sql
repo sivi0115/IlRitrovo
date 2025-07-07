@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Giu 28, 2025 alle 12:32
+-- Creato il: Lug 08, 2025 alle 00:34
 -- Versione del server: 10.4.28-MariaDB
 -- Versione PHP: 8.2.4
 
@@ -42,9 +42,13 @@ CREATE TABLE `creditcard` (
 --
 
 INSERT INTO `creditcard` (`idCreditCard`, `holder`, `number`, `cvv`, `expiration`, `type`, `idUser`) VALUES
-(8, 'Marco Cipriani', '5167930012347891', 511, '2026-02-10', 'Visa', 1),
-(15, 'Mr Kittyo ', '0192837465019283', 911, '2026-10-10', 'Visa', 1),
-(18, 'Roberto Cipriani', '1234567890123456', 911, '2026-10-10', 'Mastercard', 34);
+(1, 'Marco Cipriani', '1234567890121212', 123, '2027-12-31', 'Visa', 1),
+(2, 'Marco Cipriani', '1234567890232323', 345, '2026-12-31', 'Mastercard', 1),
+(3, 'Mario Rossi', '1234567890343434', 567, '2027-12-31', 'Visa', 3),
+(4, 'Mario Rossi', '1234567890454545', 789, '2028-12-31', 'American Express', 3),
+(5, 'Luigi Verdi', '1234567890565656', 98, '2029-12-31', 'Visa', 4),
+(6, 'Luna Neri', '1234567890676767', 765, '2026-12-31', 'Mastercard', 5),
+(7, 'Stephen Strange', '1234567890787878', 432, '2027-12-31', 'American Express', 6);
 
 --
 -- Trigger `creditcard`
@@ -87,8 +91,7 @@ INSERT INTO `extra` (`idExtra`, `name`, `price`) VALUES
 (10, 'Cake (up to 50 people)', 60),
 (11, 'Cake (up to 100 people)', 120),
 (12, 'Projector rental', 10),
-(13, 'Place cards', 25),
-(15, 'Fiori Bianchi', 300);
+(13, 'Place cards', 25);
 
 -- --------------------------------------------------------
 
@@ -106,20 +109,13 @@ CREATE TABLE `extrainreservation` (
 --
 
 INSERT INTO `extrainreservation` (`idExtra`, `idReservation`) VALUES
-(1, 39),
-(1, 41);
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `image_user`
---
-
-CREATE TABLE `image_user` (
-  `idImage` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL,
-  `imageURL` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(1, 3),
+(10, 3),
+(2, 7),
+(12, 7),
+(13, 7),
+(7, 9),
+(10, 9);
 
 -- --------------------------------------------------------
 
@@ -141,7 +137,9 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`idPayment`, `total`, `creationTime`, `state`, `idCreditCard`, `idReservation`) VALUES
-(4, 120, '2025-06-27', 'completed', 18, 41);
+(1, 130, '2025-04-10', 'completed', 5, 3),
+(2, 105, '2025-05-20', 'completed', 7, 7),
+(3, 180, '2025-07-01', 'completed', 5, 9);
 
 -- --------------------------------------------------------
 
@@ -160,7 +158,10 @@ CREATE TABLE `reply` (
 --
 
 INSERT INTO `reply` (`idReply`, `dateReply`, `body`) VALUES
-(7, '2025-06-28', 'grazie mieow');
+(1, '2025-03-18', 'Thank you! Hope we see  you back soon!'),
+(2, '2025-04-17', 'Thank you! Hope we see  you back soon!'),
+(3, '2025-05-05', 'Thank you! Hope we see  you back soon!'),
+(4, '2025-05-26', 'This is disrespectful');
 
 -- --------------------------------------------------------
 
@@ -187,10 +188,18 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`idReservation`, `timeFrame`, `reservationDate`, `comment`, `people`, `totPrice`, `state`, `creationTime`, `idUser`, `idRoom`, `idTable`) VALUES
-(36, 'dinner', '2025-07-23', 'Allergia a funghi', 4, 0, 'confirmed', '2025-06-25', 1, NULL, 14),
-(37, 'lunch', '2026-01-30', 'allergie varie a funghi', 10, 0, 'confirmed', '2025-06-26', 33, NULL, 13),
-(40, 'dinner', '2025-08-15', 'Si fa presente che una portata non deve contenere Glutine\r\n(Celiachia)', 5, 0, 'confirmed', '2025-06-27', 34, NULL, 1),
-(41, 'lunch', '2025-08-14', 'Commenti', 100, 120, 'approved', '2025-06-27', 34, 2, NULL);
+(1, 'dinner', '2025-02-20', 'a celiac is dining with us', 5, 0, 'confirmed', '2025-02-15', 1, NULL, 1),
+(2, 'dinner', '2025-03-15', '', 4, 0, 'confirmed', '2025-03-12', 3, NULL, 3),
+(3, 'dinner', '2025-04-12', 'a lactose intollerant is dining with us', 45, 130, 'confirmed', '2025-04-10', 4, 3, NULL),
+(4, 'lunch', '2025-04-25', 'we need an high chair', 9, 0, 'confirmed', '2025-04-20', 1, NULL, 13),
+(5, 'lunch', '2025-04-30', '', 3, 0, 'confirmed', '2025-04-29', 5, NULL, 2),
+(6, 'lunch', '2025-05-10', '', 4, 0, 'confirmed', '2025-05-05', 1, NULL, 5),
+(7, 'dinner', '2025-05-24', 'a lactose intollerant is dining with us', 15, 105, 'confirmed', '2025-05-20', 6, 1, NULL),
+(8, 'dinner', '2025-05-30', 'a celiac is dining with us', 4, 0, 'confirmed', '2025-05-28', 3, NULL, 14),
+(9, 'dinner', '2025-07-23', 'a lactose intollerant is dining with us', 50, 180, 'confirmed', '2025-07-01', 4, 3, NULL),
+(10, 'lunch', '2025-07-23', '', 4, 0, 'confirmed', '2025-07-02', 5, NULL, 5),
+(11, 'lunch', '2025-07-23', 'a celiac is dining with us', 4, 0, 'confirmed', '2025-07-03', 1, NULL, 11),
+(12, 'dinner', '2025-07-23', 'we need an high chair', 4, 0, 'confirmed', '2025-07-04', 3, NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -212,7 +221,10 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`idUser`, `idReview`, `stars`, `creationTime`, `body`, `idReply`) VALUES
-(1, 27, 4, '2025-06-28', 'ciao w i gattioes', 7);
+(3, 1, 5, '2025-03-17', 'A wonderful experience in a wonderful place', 1),
+(4, 2, 4, '2025-04-15', 'Such a nice place. The food in incredible and the staff is amazing', 2),
+(5, 3, 4, '2025-05-01', 'First time here, i had a very nice dinner', 3),
+(6, 4, 2, '2025-05-25', 'This place is awful', 4);
 
 --
 -- Trigger `review`
@@ -294,7 +306,6 @@ CREATE TABLE `user` (
   `surname` varchar(32) NOT NULL,
   `birthDate` date NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
   `role` enum('user','admin') NOT NULL DEFAULT 'user',
   `email` varchar(64) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -305,11 +316,13 @@ CREATE TABLE `user` (
 -- Dump dei dati per la tabella `user`
 --
 
-INSERT INTO `user` (`idUser`, `idReview`, `username`, `name`, `surname`, `birthDate`, `phone`, `image`, `role`, `email`, `password`, `ban`) VALUES
-(1, 1, 'glaceon00', 'Giovanni', 'Rossi', '2001-01-03', '3407698123', 'https://example.com/image.jpg', 'user', 'glaceooon00@gmail.com', '$2y$10$/.WVhJ7zhz8kkH4j6beh4.VPymJVe/XRTPIhogu9MB1d81VnTrSi2', 0),
-(2, NULL, 'admin1', 'Mario', 'Rossi', '2025-06-22', '3409876432', NULL, 'admin', 'marioRossi@gmail.com', '$2y$10$zJYtfuBxaE3b8BodCr4VfulCKwPix09bakPsg15FnFBKKoVNI4eR2', 0),
-(33, NULL, 'flareon00', 'Lorenzo', 'Bianchi', '2001-02-01', '3408976543', NULL, 'user', 'lorenzoBianchi@gmail.com', '$2y$10$FAOO6GPdTUn2CUJo6FUzDerBDgQfkM6FG4jhI5fK8/21TwkhT8r3y', 0),
-(34, NULL, 'roby50', 'Roberto', 'Cipriani', '1958-08-04', '3409876123', NULL, 'user', 'robertoCipriani@gmail.com', '$2y$10$XnnumRmW2uVqL5tTvU.UauDCPeDL7NW06.0ILZX0UF2QS9PvFsrEq', 0);
+INSERT INTO `user` (`idUser`, `idReview`, `username`, `name`, `surname`, `birthDate`, `phone`, `role`, `email`, `password`, `ban`) VALUES
+(1, NULL, 'eepySnorlax00', 'Marco', 'Cipriani', '2000-02-20', '1234567890', 'user', 'marcociprianituna2000@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 0),
+(2, NULL, 'sivi0115', 'Silvia', 'Di G', '2001-01-15', '1234567890', 'admin', 'sidigiu01@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 0),
+(3, 1, 'superMario', 'Mario', 'Rossi', '1980-02-16', '0987654321', 'user', 'marioRossi@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 0),
+(4, 2, 'Luigi95', 'Luigi', 'Verdi', '1995-03-17', '0987654321', 'user', 'luigiVerdi@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 0),
+(5, 3, 'Moon', 'Luna', 'Neri', '1998-04-18', '1234567890', 'user', 'lunaNeri@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 0),
+(6, 4, 'Magician', 'Stephen', 'Strange', '1970-05-20', '1234567890', 'user', 'stephenStrange@gmail.com', '$2y$10$acxtqCubAsOfBSzZTRqTV.HMp/gYO9k28BwadTAcIwyRv.TzuqB7W', 1);
 
 --
 -- Indici per le tabelle scaricate
@@ -329,13 +342,6 @@ ALTER TABLE `creditcard`
 --
 ALTER TABLE `extra`
   ADD PRIMARY KEY (`idExtra`);
-
---
--- Indici per le tabelle `image_user`
---
-ALTER TABLE `image_user`
-  ADD PRIMARY KEY (`idImage`),
-  ADD KEY `idUser` (`idUser`);
 
 --
 -- Indici per le tabelle `payment`
@@ -395,19 +401,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT per la tabella `creditcard`
 --
 ALTER TABLE `creditcard`
-  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `idCreditCard` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT per la tabella `extra`
 --
 ALTER TABLE `extra`
-  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT per la tabella `image_user`
---
-ALTER TABLE `image_user`
-  MODIFY `idImage` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idExtra` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT per la tabella `payment`
@@ -419,19 +419,19 @@ ALTER TABLE `payment`
 -- AUTO_INCREMENT per la tabella `reply`
 --
 ALTER TABLE `reply`
-  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idReply` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `idReservation` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT per la tabella `review`
 --
 ALTER TABLE `review`
-  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `idReview` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT per la tabella `room`
@@ -449,7 +449,7 @@ ALTER TABLE `tables`
 -- AUTO_INCREMENT per la tabella `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Limiti per le tabelle scaricate
@@ -460,12 +460,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `creditcard`
   ADD CONSTRAINT `creditcard_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Limiti per la tabella `image_user`
---
-ALTER TABLE `image_user`
-  ADD CONSTRAINT `image_user_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Limiti per la tabella `payment`

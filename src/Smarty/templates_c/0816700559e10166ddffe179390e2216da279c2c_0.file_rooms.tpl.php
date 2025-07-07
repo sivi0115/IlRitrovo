@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-29 00:15:06
+/* Smarty version 5.5.1, created on 2025-07-08 00:30:38
   from 'file:rooms.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_6860696a95bb83_96726353',
+  'unifunc' => 'content_686c4a8e684936_22301184',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '0816700559e10166ddffe179390e2216da279c2c' => 
     array (
       0 => 'rooms.tpl',
-      1 => 1751120990,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_6860696a95bb83_96726353 (\Smarty\Template $_smarty_tpl) {
+function content_686c4a8e684936_22301184 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -32,33 +32,33 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css">
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/home.css">
     <style>
-.rooms-page {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
+        .rooms-page {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        }
 
-.rooms-page .rooms-section {
-  width: 100%;
-  max-width: 1200px;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-</style>
+        .rooms-page .rooms-section {
+        width: 100%;
+        max-width: 1200px;
+        padding: 2rem;
+        box-sizing: border-box;
+        }
+        </style>
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
-        <!-- ROOMS HERO SECTION -->
+        <!-- Rooms hero section -->
         <section class="rooms-section">
             <div style="margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <h1> Discover the Perfect Space for Every Occasion </h1>
             </div>
         </section>
 
-        <!-- ROOMS LIST -->
+        <!-- Rooms List -->
         <section class="event-section rooms-section rooms-page" id="rooms">
             <!-- Room 1 -->
             <div class="content-wrapper">
@@ -124,8 +124,8 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                         <li><strong>🍽️ Comfortable for a maximum of 50 guests</strong></li>
                         <li><strong>📖 50€ booking fee</strong></li>
                     </ul>
-                </div>
-            </div>
+                </div> <!-- /.content-column-->
+            </div> <!-- /.content-wrapper-->
         </section>
 
         <!-- Footer-->

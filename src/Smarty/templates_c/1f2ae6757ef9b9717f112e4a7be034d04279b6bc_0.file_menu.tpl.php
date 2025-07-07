@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-26 14:55:26
+/* Smarty version 5.5.1, created on 2025-07-08 00:30:38
   from 'file:menu.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685d433ed55bd8_42489409',
+  'unifunc' => 'content_686c4a8edb3773_83526971',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '1f2ae6757ef9b9717f112e4a7be034d04279b6bc' => 
     array (
       0 => 'menu.tpl',
-      1 => 1750778522,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685d433ed55bd8_42489409 (\Smarty\Template $_smarty_tpl) {
+function content_686c4a8edb3773_83526971 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -32,7 +32,6 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     <link rel="stylesheet" href="/IlRitrovo/src/Smarty/css/styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
-      /* Stile per le immagini dei piatti */
       .menu-image {
         width: 80px;
         height: 60px;
@@ -59,7 +58,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
   <body>
 
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
 
     <main>
       <section>
@@ -67,23 +66,23 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <ul>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/platter.jpg" alt="Ritrovo Platter" class="menu-image" />
-            <strong>Ritrovo Platter</strong> Cured meats, cheeses, and jams <span class="price">€10</span>
+            <strong>Ritrovo Platter</strong> Cured meats, cheeses, and jams <span class="price"> €10</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/mixed_bruschetta.jpg" alt="Mixed Bruschetta" class="menu-image" />
-            <strong>Mixed Bruschetta</strong> Made with local products <span class="price">€6</span>
+            <strong>Mixed Bruschetta</strong> Made with local products <span class="price"> €6</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/grandmas_meatballs.jpg" alt="Grandma’s Meatballs" class="menu-image" />
-            <strong>Grandma’s Meatballs</strong> In tomato sauce or baked <span class="price">€8</span>
+            <strong>Grandma’s Meatballs</strong> In tomato sauce or baked <span class="price"> €8</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/zucchini_flan.jpg" alt="Zucchini flan" class="menu-image" />
-            <strong>Zucchini flan</strong> With melted parmesan <span class="price">€7</span>
+            <strong>Zucchini flan</strong> With melted parmesan <span class="price"> €7</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/battered_zucchini_flowers.jpg" alt="Battered Zucchini Flowers" class="menu-image" />
-            <strong>Battered Zucchini Flowers</strong> <span class="price">€7</span>
+            <strong>Battered Zucchini Flowers</strong> <span class="price"> €7</span>
           </li>
         </ul>
       </section>
@@ -93,23 +92,23 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <ul>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/tagliatelle_with_ragu.jpg" alt="Tagliatelle with Ragù" class="menu-image" />
-            <strong>Tagliatelle with Ragù</strong> Fresh pasta <span class="price">€12</span>
+            <strong>Tagliatelle with Ragù</strong> Fresh pasta <span class="price"> €12</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/gnocchi_with_arugula_pesto.jpg" alt="Gnocchi with Arugula Pesto" class="menu-image" />
-            <strong>Gnocchi with Arugula Pesto</strong> <span class="price">€11</span>
+            <strong>Gnocchi with Arugula Pesto</strong> <span class="price"> €11</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/vegetarian_lasagna.jpg" alt="Vegetarian Lasagna" class="menu-image" />
-            <strong>Vegetarian Lasagna</strong> <span class="price">€10</span>
+            <strong>Vegetarian Lasagna</strong> <span class="price"> €10</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/porcini_mushroom_risotto.jpg" alt="Porcini Mushroom Risotto" class="menu-image" />
-            <strong>Porcini Mushroom Risotto</strong> <span class="price">€13</span>
+            <strong>Porcini Mushroom Risotto</strong> <span class="price"> €13</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/legumes_and_cereal_soup.jpg" alt="Legumes and Cereal Soup" class="menu-image" />
-            <strong>Legumes and Cereal Soup</strong> <span class="price">€9</span>
+            <strong>Legumes and Cereal Soup</strong> <span class="price"> €9</span>
           </li>
         </ul>
       </section>
@@ -119,19 +118,19 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <ul>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/beef_tagliata.jpg" alt="Beef Tagliata" class="menu-image" />
-            <strong>Beef Tagliata</strong> With arugula and parmesan <span class="price">€18</span>
+            <strong>Beef Tagliata</strong> With arugula and parmesan <span class="price"> €18</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/hunter_style_chicken.jpg" alt="Hunter-style Chicken" class="menu-image" />
-            <strong>Hunter-style Chicken</strong> <span class="price">€14</span>
+            <strong>Hunter-style Chicken</strong> <span class="price"> €14</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/eggplant_parmesan.jpg" alt="Eggplant Parmesan" class="menu-image" />
-            <strong>Eggplant Parmesan</strong> <span class="price">€12</span>
+            <strong>Eggplant Parmesan</strong> <span class="price"> €12</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/grilled_seitan.jpg" alt="Grilled Seitan" class="menu-image" />
-            <strong>Grilled Seitan</strong> Vegan option <span class="price">€13</span>
+            <strong>Grilled Seitan</strong> Vegan option <span class="price"> €13</span>
           </li>
         </ul>
       </section>
@@ -141,19 +140,19 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
       <ul>
           <li>
           <img src="/IlRitrovo/src/Smarty/assets/images/menu/grilled_vegetables.jpg" alt="Grilled Vegetables" class="menu-image" />
-          <strong>Grilled Vegetables</strong> <span class="price">€5</span>
+          <strong>Grilled Vegetables</strong> <span class="price"> €5</span>
           </li>
           <li>
           <img src="/IlRitrovo/src/Smarty/assets/images/menu/rustic_oven_roasted_potatoes.jpg" alt="Rustic Oven-Roasted Potatoes" class="menu-image" />
-          <strong>Rustic Oven-Roasted Potatoes</strong> <span class="price">€4</span>
+          <strong>Rustic Oven-Roasted Potatoes</strong> <span class="price"> €4</span>
           </li>
           <li>
           <img src="/IlRitrovo/src/Smarty/assets/images/menu/farmer's_salad.jpg" alt="Farmer’s Salad" class="menu-image" />
-          <strong>Farmer’s Salad</strong> <span class="price">€4</span>
+          <strong>Farmer’s Salad</strong> <span class="price"> €4</span>
           </li>
           <li>
           <img src="/IlRitrovo/src/Smarty/assets/images/menu/sauteed_spinach.jpg" alt="Sautéed Spinach" class="menu-image" />
-          <strong>Sautéed Spinach</strong> <span class="price">€5</span>
+          <strong>Sautéed Spinach</strong> <span class="price"> €5</span>
           </li>
       </ul>
       </section>
@@ -163,23 +162,23 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
         <ul>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/il_ritrovo_tiramisu.jpg" alt="Il Ritrovo Tiramisu" class="menu-image" />
-            <strong>Il Ritrovo Tiramisu</strong> <span class="price">€6</span>
+            <strong>Il Ritrovo Tiramisu</strong> <span class="price"> €6</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/chocolate_cake.jpg" alt="Chocolate Cake" class="menu-image" />
-            <strong>Chocolate Cake</strong> <span class="price">€6</span>
+            <strong>Chocolate Cake</strong> <span class="price"> €6</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/berry_panna_cotta.jpg" alt="Berry Panna Cotta" class="menu-image" />
-            <strong>Berry Panna Cotta</strong> <span class="price">€5</span>
+            <strong>Berry Panna Cotta</strong> <span class="price"> €5</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/apricot_tart.jpg" alt="Apricot Tart" class="menu-image" />
-            <strong>Apricot Tart</strong> <span class="price">€5</span>
+            <strong>Apricot Tart</strong> <span class="price"> €5</span>
           </li>
           <li>
             <img src="/IlRitrovo/src/Smarty/assets/images/menu/artisanal_ice_cream.jpg" alt="Artisanal Ice Cream" class="menu-image" />
-            <strong>Artisanal Ice Cream</strong> Vanilla, chocolate, pistachio <span class="price">€4</span>
+            <strong>Artisanal Ice Cream</strong> Vanilla, chocolate, pistachio <span class="price"> €4</span>
           </li>
         </ul>
       </section>

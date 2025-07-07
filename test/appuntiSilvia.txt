@@ -8,12 +8,12 @@ COSA RIMASTE DA FARE PER PRIORITà:
 
 CODICE DATABASE:
 - USER
-  - cancellare la riga image
-  - cancellare la tabella image_user
+  - cancellare la riga image FATTO
+  - cancellare la tabella image_user FATTO
 QUERY:
 
 INSERT INTO user (idUser, idReview, username, name, surname, birthDate, phone, role, email, password, ban) VALUES
-(1, NULL, 'username', 'Marco', 'Cipriani', '2000-02-17', '1234567890', 'user', 'marcoCiprianii@gmail.com', 'Password123!', 0),
+(1, NULL, 'eepySnorlax00', 'Marco', 'Cipriani', '2000-02-20', '1234567890', 'user', 'marcociprianituna2000@gmail.com', 'Password123!', 0),
 (2, NULL, 'sivi0115', 'Silvia', 'Di G', '2001-01-15', '1234567890', 'admin', 'sidigiu01@gmail.com', 'Password123!', 0),
 (3, 1, 'superMario', 'Mario', 'Rossi', '1980-02-16', '0987654321', 'user', 'marioRossi@gmail.com', 'Password123!', 0),
 (4, 2, 'Luigi95', 'Luigi', 'Verdi', '1995-03-17', '0987654321', 'user', 'luigiVerdi@gmail.com', 'Password123!', 0),

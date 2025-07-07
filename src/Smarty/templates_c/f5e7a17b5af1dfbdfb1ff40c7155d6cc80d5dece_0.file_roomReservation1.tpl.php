@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 15:25:46
+/* Smarty version 5.5.1, created on 2025-07-08 00:21:21
   from 'file:roomReservation1.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_6865335a121067_45773141',
+  'unifunc' => 'content_686c4861871047_42897307',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'f5e7a17b5af1dfbdfb1ff40c7155d6cc80d5dece' => 
     array (
       0 => 'roomReservation1.tpl',
-      1 => 1751462728,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_6865335a121067_45773141 (\Smarty\Template $_smarty_tpl) {
+function content_686c4861871047_42897307 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
 
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
         
         <div class="panel">
 
@@ -177,7 +177,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         });
         <?php echo '</script'; ?>
 >
-
     </body>
 </html><?php }
 }

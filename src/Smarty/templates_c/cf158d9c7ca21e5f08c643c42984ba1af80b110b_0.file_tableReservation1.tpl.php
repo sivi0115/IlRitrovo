@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 14:47:05
+/* Smarty version 5.5.1, created on 2025-07-08 00:19:32
   from 'file:tableReservation1.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68652a49356150_66616354',
+  'unifunc' => 'content_686c47f47b81d4_06489212',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'cf158d9c7ca21e5f08c643c42984ba1af80b110b' => 
     array (
       0 => 'tableReservation1.tpl',
-      1 => 1751460393,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68652a49356150_66616354 (\Smarty\Template $_smarty_tpl) {
+function content_686c47f47b81d4_06489212 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
 
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
         
         <div class="panel">
 
@@ -60,13 +60,13 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                         <option value="lunch" <?php if ($_smarty_tpl->getValue('timeFrame') == 'lunch') {?>selected<?php }?>>Lunch</option>
                         <option value="dinner" <?php if ($_smarty_tpl->getValue('timeFrame') == 'dinner') {?>selected<?php }?>>Dinner</option>
                     </select>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="people">Guests</label>
                     <input type="number" name="people" id="people" min="1" max="20" value="<?php echo (($tmp = $_smarty_tpl->getValue('people') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 " required>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="reservationDate">Date</label>
@@ -75,18 +75,18 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 "
                             min="<?php echo $_smarty_tpl->getSmarty()->getModifierCallback('date_format')(time(),"%Y-%m-%d");?>
 "
-                            required>
-                </div>
+                    required>
+                </div> <!-- /.form-group-->
 
                 <div class="form-group">
                     <label for="comment">Comment</label>
                     <textarea name="comment" id="comment" rows="4" placeholder="Allergies, high chair request, intolerances..."><?php echo (($tmp = $_smarty_tpl->getValue('comment') ?? null)===null||$tmp==='' ? '' ?? null : $tmp);?>
 </textarea>
-                </div>
+                </div> <!-- /.form-group-->
 
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
-                </div>
+                </div> <!-- /.reservtion-form-buttons-->
             </form>
 
         </div>  <!--/.panel-->

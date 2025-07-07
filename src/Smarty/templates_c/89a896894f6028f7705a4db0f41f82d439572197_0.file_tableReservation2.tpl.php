@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-24 17:26:20
+/* Smarty version 5.5.1, created on 2025-07-08 00:20:50
   from 'file:tableReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685ac39c55ec95_10987799',
+  'unifunc' => 'content_686c4842f202f8_58323869',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '89a896894f6028f7705a4db0f41f82d439572197' => 
     array (
       0 => 'tableReservation2.tpl',
-      1 => 1750778044,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685ac39c55ec95_10987799 (\Smarty\Template $_smarty_tpl) {
+function content_686c4842f202f8_58323869 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -44,11 +44,11 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <div class="step-circle active">2</div>
                 <div class="step-line"></div>
                 <div class="step-circle">3</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> <?php echo $_smarty_tpl->getValue('timeFrame');?>
@@ -64,12 +64,12 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
-            <!-- Mappa del ristorante -->
+            <!-- Restaurant map -->
             <div class="restaurant-map">
                 <img src="/IlRitrovo/src/Smarty/assets/images/maps/Tables_map.png" alt="Restaurant Map">
             </div> <!-- /.restaurrant-map-->
 
-            <!-- Selezione tavolo -->
+            <!-- Table Selection -->
             <form method="post" action="/IlRitrovo/public/Reservation/dataTableReservation" class="booking-form">
                 <div class="form-group">
                     <label for="table">Select a Table</label>
@@ -99,7 +99,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         <!-- Footer -->
         <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
-
     </body>
 </html><?php }
 }

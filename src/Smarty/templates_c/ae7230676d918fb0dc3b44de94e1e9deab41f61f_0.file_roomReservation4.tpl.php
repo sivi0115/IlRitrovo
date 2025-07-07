@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 13:40:26
+/* Smarty version 5.5.1, created on 2025-07-08 00:22:11
   from 'file:roomReservation4.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68651aaa454cd6_32993893',
+  'unifunc' => 'content_686c489343f340_84642202',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'ae7230676d918fb0dc3b44de94e1e9deab41f61f' => 
     array (
       0 => 'roomReservation4.tpl',
-      1 => 1751456410,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68651aaa454cd6_32993893 (\Smarty\Template $_smarty_tpl) {
+function content_686c489343f340_84642202 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -34,7 +34,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
 
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -51,12 +51,12 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
 
             <hr class="step-separator">
 
-            <!-- Messaggio di conferma email -->
+            <!-- Email confirmation message -->
             <div class="confirmation-notice" style="margin-bottom: 1.5rem; padding: 1rem; background-color: rgba(139, 58, 58, 0.1); border-left: 4px solid #8b3a3a; color: #8b3a3a; font-weight: 600; backdrop-filter: blur(4px); border-radius: 4px;">
                 You will receive a confirmation email shortly with the details of your booking.
             </div>
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection Summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> <?php echo $_smarty_tpl->getValue('timeFrame');?>
@@ -101,9 +101,11 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
             </div> <!-- /.reservation-summary-->
 
             <!-- Selected Payment Method -->
-            <div class="summary-row">
-                <p><strong>Selected Payment Method:</strong></p>
-                <div class="credit-card compact">
+            <div class="summary-row" style="display: inline-block; margin-left: 30px;">
+                <div class="summary-title">
+                    <p><strong>Selected Payment Method:</strong></p>
+                </div>
+                <div class="credit-card" style="margin-left: 0; margin-right: auto;">
                     <div class="card-header <?php echo $_smarty_tpl->getSmarty()->getModifierCallback('regex_replace')(mb_strtolower((string) $_smarty_tpl->getValue('selectedCard')->getType(), 'UTF-8'),'/[^a-z]/','');?>
 ">
                         <?php echo $_smarty_tpl->getValue('selectedCard')->getType();?>
@@ -122,7 +124,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div> <!-- /.credit-card-compact-->
             </div> <!-- /.summary-row-->
 
-            <!-- Bottoni di navigazione -->
+            <!-- Navigation Buttons -->
             <form action="/IlRitrovo/public/Reservation/checkPayment" method="post">
                 <input type="hidden" name="selectedCardId" value="<?php echo $_smarty_tpl->getValue('selectedCard')->getIdCreditCard();?>
 ">
@@ -130,11 +132,10 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                     <button type="submit" class="btn-save-step">Confirm </button>
                 </div> <!-- /.reservation-form-buttons-->
             </form>
-
         </div> <!--  /.panel-->
 
-    <!-- Footer -->
-    <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
+        <!-- Footer -->
+        <?php $_smarty_tpl->renderSubTemplate('file:footerUser.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), (int) 0, $_smarty_current_dir);
 ?>
     </body>
 </html><?php }

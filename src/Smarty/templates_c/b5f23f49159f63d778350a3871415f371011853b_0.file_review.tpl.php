@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-02 16:32:16
+/* Smarty version 5.5.1, created on 2025-07-08 00:16:53
   from 'file:review.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_686542f0357226_73540534',
+  'unifunc' => 'content_686c4755c0d248_07141215',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'b5f23f49159f63d778350a3871415f371011853b' => 
     array (
       0 => 'review.tpl',
-      1 => 1751466733,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_686542f0357226_73540534 (\Smarty\Template $_smarty_tpl) {
+function content_686c4755c0d248_07141215 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -35,19 +35,19 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
   <body>
     <div class="page-container">
       
-      <!-- Header incluso tramite View-->
+      <!-- Header rendered through the View -->
 
-      <!-- Messaggio per le recensioni-->
+      <!-- Review message -->
       <div class="review-reminder" style="background-color: #fff; border: 1px solid #8b3a3a; padding: 1rem 1.5rem; margin-bottom: 2rem; border-radius: 6px; font-family: 'Open Sans', sans-serif; color: #4a3b2c; white-space: nowrap;">
         Remember, you can <span style="color: #8b3a3a; font-weight: 600;">leave a review</span> in your "<span style="color: #8b3a3a; font-weight: 600;">Profile</span>" after your visit. Thank you!
       </div>
 
-      <!-- Immagine di intestazione -->
+      <!-- Header image -->
       <section class="review-image">
         <img src="/IlRitrovo/src/Smarty/assets/images/home/reviews.jpg" alt="Customer enjoying meal" />
       </section>
 
-      <!-- Sezione recensione personale -->
+      <!-- Personal Review Section -->
       <?php if ((true && ($_smarty_tpl->hasVariable('loggedUser') && null !== ($_smarty_tpl->getValue('loggedUser') ?? null)))) {?>
         <section class="review-box">
           <?php if ($_smarty_tpl->getValue('userReview') === null) {?>
@@ -92,7 +92,7 @@ $_smarty_tpl->tpl_vars['i']->first = $_smarty_tpl->tpl_vars['i']->iteration === 
         </section>
       <?php }?>
 
-      <!-- Sezione tutte le recensioni -->
+      <!-- All Reviews Section -->
       <section>
         <h2>What our customers say</h2>
         <?php

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-29 14:05:09
+/* Smarty version 5.5.1, created on 2025-07-08 00:17:51
   from 'file:signUp.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68612bf56d46c5_01616114',
+  'unifunc' => 'content_686c478f2dc899_15448550',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '057776bff5ee81e920c242b7fa02318431e7331a' => 
     array (
       0 => 'signUp.tpl',
-      1 => 1751198707,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   array (
   ),
 ))) {
-function content_68612bf56d46c5_01616114 (\Smarty\Template $_smarty_tpl) {
+function content_686c478f2dc899_15448550 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
 
-        <!-- Header incluso tramite View -->
+        <!-- Header rendered through the View -->
 
         <div class="modal" role="dialog" aria-labelledby="signup-title" aria-modal="true">
             <div class="modal-content">
@@ -102,7 +102,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                     />
                     <label for="password">Password</label>
                     <div class="password-wrapper">
-                    <input
+                        <input
                         type="password"
                         id="password"
                         name="password"
@@ -110,9 +110,9 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                         minlength="8"
                         aria-describedby="passwordHelp"
                         autocomplete="new-password"
-                    />
-                    <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
-                    </div>
+                        />
+                        <button type="button" class="toggle-password" onclick="togglePassword()">🙈</button>
+                    </div> <!-- /.password-wrapper-->
                     <div id="passwordHelp" class="password-requirements" aria-live="polite">
                         <p>Password must include:</p>
                         <ul>

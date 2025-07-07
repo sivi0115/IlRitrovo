@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-06-25 13:37:32
+/* Smarty version 5.5.1, created on 2025-07-08 00:21:58
   from 'file:roomReservation2.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_685bdf7c4a9c35_06757940',
+  'unifunc' => 'content_686c488664c8a6_75764254',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '01dcee9f28934a6ad03db7f1fe11c2b0cc7a1bda' => 
     array (
       0 => 'roomReservation2.tpl',
-      1 => 1750778044,
+      1 => 1751918213,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_685bdf7c4a9c35_06757940 (\Smarty\Template $_smarty_tpl) {
+function content_686c488664c8a6_75764254 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
     </head>
     <body>
     
-        <!-- Header incluso tramite View-->
+        <!-- Header rendered through the View -->
 
         <div class="panel">
 
@@ -46,11 +46,11 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
                 <div class="step-circle">3</div>
                 <div class="step-line"></div>
                 <div class="step-circle">4</div>
-            </div>
+            </div> <!-- /.step-indicator-->
 
             <hr class="step-separator">
 
-            <!-- Riepilogo scelte -->
+            <!-- Selection summary -->
             <div class="reservation-summary">
                 <div class="summary-row">
                     <p><strong>Time Frame:</strong> <?php echo $_smarty_tpl->getValue('timeFrame');?>
@@ -89,12 +89,12 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 </div> <!-- /.summary-row-->
             </div> <!-- /.reservation-summary-->
 
-            <!-- Mappa del ristorante -->
+            <!-- Restaurant Map -->
             <div class="restaurant-map">
                 <img src="/IlRitrovo/src/Smarty/assets/images/maps/Rooms_map.png" alt="Restaurant Map">
             </div> <!-- /.restaurrant-map-->
 
-            <!-- Selezione stanza -->
+            <!-- Room Selection -->
             <form method="post" action="/IlRitrovo/public/Reservation/dataRoomReservation" class="booking-form">
                 <div class="form-group">
                     <label for="room">Select a Room</label>
@@ -120,7 +120,7 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
                 <div class="total-extras-box" id="totalExtrasBox">
                     <strong>Total Price:</strong> €<span id="totalPrice"><?php echo $_smarty_tpl->getValue('totPriceExtra');?>
 </span>
-                </div>
+                </div> <!--  /.total-extra-box-->
 
                 <div class="reservation-form-buttons">
                     <button type="submit" class="btn-save-step">Next</button>
@@ -160,7 +160,6 @@ $_smarty_tpl->getSmarty()->getRuntime('Foreach')->restore($_smarty_tpl, 1);?>
         selectRoom.addEventListener("change", updateTotalPrice);
         <?php echo '</script'; ?>
 >
-
     </body>
 </html><?php }
 }
