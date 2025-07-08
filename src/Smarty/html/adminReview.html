@@ -23,13 +23,12 @@
                         <div class="review-meta">
                             <span><strong>{$review->getUsername()}</strong> rated <strong>{$review->getStars()}/5</strong></span>
                             <span class="review-timestamp">{$review->getCreationTime()}</span>
-                            <p class="review-body">{$review->getBody()}</p>
                         </div> <!-- /.review-meta-->
+                        <p class="review-body">{$review->getBody()}</p>
                         <!-- Button Delete Review -->
                         <form action="/IlRitrovo/public/Review/deleteReview/{$review->getIdReview()}" method="post">
                             <button type="submit" class="btn delete">Delete Review</button>
                         </form>
-
                         {if $review->getIdReply() === null}
                             {if isset($showReplyForm) && $showReplyForm == $review->getIdReview()}
                                 <section class="review-box admin-reply-form">
@@ -48,9 +47,6 @@
                             <div class="admin-reply">
                                 <p><strong>Reply from the restaurant:</strong></p>
                                 <p>{$review->getReply()->getBody()}</p>
-                                <form action="/IlRitrovo/public/Review/deleteReply/{$review->getIdReply()}" method="post">
-                                    <button type="submit" class="btn delete">Delete Reply</button>
-                                </form>
                             </div> <!-- /.admin-reply-->
                         {/if}
                     </div> <!-- /.review-card-->
