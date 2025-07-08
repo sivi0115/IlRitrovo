@@ -10,7 +10,7 @@ Il sito consente agli utenti di prenotare tavoli e sale online, mentre un ammini
 
 ## 🛠️ Installazione del Progetto
 
-1. **Decomprimere** l'archivio `.zip` del progetto.
+1. **Decomprimere** l'archivio `.zip` del progetto e rinominare la cartella da `IlRitrovo-main` a **IlRitrovo**.
 2. Spostare la cartella ottenuta all'interno della directory `htdocs`.
 3. Verificare che la cartella abbia **permessi di scrittura** per tutti gli utenti.
 4. Importare il database:
