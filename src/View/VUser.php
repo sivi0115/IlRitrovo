@@ -3,7 +3,7 @@
 namespace View;
 
 use Entity\EReview;
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VUser
@@ -16,9 +16,7 @@ class VUser {
      * @param bool $isLogged
      */
     public function showUserHeader(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('isLogged', $isLogged);
         $smarty->display('headerUser.tpl');
     }
@@ -29,9 +27,7 @@ class VUser {
      * @param bool $isLogged
      */
     public function showAdminHeader(bool $isLogged) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('isLogged', $isLogged);
         $smarty->display('headerAdmin.tpl');
     }
@@ -43,9 +39,7 @@ class VUser {
      * @param bool $triggerPopup, show success operation true or false accordly
      */
     public function showLoggedUserHomePage(bool $isLogged, bool $triggerPopup=false) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('isLogged', $isLogged);
         $smarty->assign('triggerPopup', $triggerPopup);
         $smarty->display('home.tpl');
@@ -59,9 +53,7 @@ class VUser {
      * @param array $comingRoomReservations
      */
     public function showLoggedAdminHomePage(bool $isLogged, array $comingTableReservations, array $comingRoomReservations) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('isLogged', $isLogged);
         $smarty->assign('comingTableReservations', $comingTableReservations);
         $smarty->assign('comingRoomReservations', $comingRoomReservations);
@@ -74,9 +66,7 @@ class VUser {
      * @param bool $triggerPopup
      */
     public function showUserHomePage(bool $triggerPopup=false) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('triggerPopup', $triggerPopup);
         $smarty->display('home.tpl');
     }
@@ -85,9 +75,7 @@ class VUser {
      * Function to show login page
      */
     public function showLoginForm() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display("login.tpl");
     }
 
@@ -95,9 +83,7 @@ class VUser {
      * Function to show signup page with forms
      */
     public function showSignUpForm() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display("signUp.tpl");
     }
 
@@ -117,9 +103,7 @@ class VUser {
      * @param null|EReview $userReview
      */
     public function showProfile(string $username, string $email, string $name, string $surname, string $birthDate, string $phone, string $edit_section, array $userCreditCards,array $userPastReservations, array $userFutureReservations, ?EReview $userReview) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('username', $username);
         $smarty->assign('email', $email);
         $smarty->assign('name', $name);
@@ -138,9 +122,7 @@ class VUser {
      * Function to show edit forms to edit personal data
      */
     public function showEditProfileData() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('editProfileData.tpl');
     }
 
@@ -148,9 +130,7 @@ class VUser {
      * Function to show edit forms to edit metadata: email, username and password
      */
     public function showEditProfileMetadata() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('editProfileMetadata.tpl');
     }
 
@@ -158,9 +138,7 @@ class VUser {
      * Function to show disabled cookies warning
      */
     public function showDisabledCookies() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('disabledCookies.tpl');
     }
 
@@ -168,9 +146,7 @@ class VUser {
      * Function to show menu page
      */
     public function showMenuPage() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('menu.tpl');
     }
 
@@ -178,9 +154,7 @@ class VUser {
      * Function to show Rooms page
      */
     public function showRoomsPage() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('rooms.tpl');
     }
 
@@ -191,9 +165,7 @@ class VUser {
      * @param array $allUsers
      */
     public function showUsersPage(array $blocked_user, array $allUsers) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('blocked_user', $blocked_user);
         $smarty->assign('allUsers', $allUsers);
         $smarty->display('adminUsers.tpl');

@@ -2,7 +2,7 @@
 
 namespace View;
 
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VReply
@@ -15,10 +15,7 @@ class VReply {
      * @param int $idReview, ID of the Review to reply
      */
     public function showReplyForm(int $idReview) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty = new USmartyConfig();
         $smarty->assign('showReplyForm', $idReview);
         $smarty->display('adminReview.tpl');
     }

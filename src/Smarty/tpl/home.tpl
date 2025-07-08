@@ -28,28 +28,18 @@
     </div> <!-- /.custom-popup-->
 
     <script>
-      // Attende che il contenuto della pagina sia stato completamente caricato
       document.addEventListener('DOMContentLoaded', function () {
 
-        // Recupera l'elemento del popup con ID 'custom-popup'
         const popup = document.getElementById('custom-popup');
 
-        // Se il popup esiste nella pagina
         if (popup) {
-          // Mostra il popup rendendolo visibile (rimuove display: none)
           popup.style.display = 'block';
 
-          // Aspetta un frame per permettere al browser di applicare lo stile precedente,
-          // poi imposta l'opacità a 1 (fade-in)
           requestAnimationFrame(() => popup.style.opacity = '1');
 
-          // Dopo 2 secondi (2000 ms), avvia il processo di scomparsa
           setTimeout(() => {
-            // Imposta l'opacità a 0 (fade-out)
             popup.style.opacity = '0';
 
-            // Dopo 0.5 secondi (tempo per completare la transizione),
-            // nasconde il popup impostando display: none
             setTimeout(() => popup.style.display = 'none', 500);
           }, 2000); // Tempo di visualizzazione del popup prima del fade-out
         }
