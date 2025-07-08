@@ -12,15 +12,15 @@ class UEmail {
         $view=new VEmail();
         try {
             // Configurazione SMTP
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';  // Cambia col tuo SMTP
-            $mail->SMTPAuth   = true;
-            $mail->Username   = 'marcociprianituna2000@gmail.com';  // Configurazione da config.php o .env
-            $mail->Password   = 'agpejyafvqqqphda';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;
+            $mail->isMail();
+            //$mail->Host       = 'smtp.gmail.com';  // Cambia col tuo SMTP
+            //$mail->SMTPAuth   = true;
+            //$mail->Username   = 'marcociprianituna2000@gmail.com';  // Configurazione da config.php o .env
+            //$mail->Password   = 'agpejyafvqqqphda';
+            //$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            //$mail->Port       = 587;
             // Mittente e destinatario
-            $mail->setFrom('marcociprianituna2000@gmail.com', 'Il Ritrovo');
+            $mail->setFrom('progettoilritrovo@altervista.org', 'Il Ritrovo');
             $mail->addAddress($to);
             // Contenuto
             if ($idTable !== null) {

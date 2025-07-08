@@ -126,7 +126,7 @@ INSERT INTO `extrainreservation` (`idExtra`, `idReservation`) VALUES
 CREATE TABLE `payment` (
   `idPayment` int(11) NOT NULL,
   `total` int(4) NOT NULL,
-  `creationTime` date NOT NULL DEFAULT current_timestamp(),
+  `creationTime` date NOT NULL,
   `state` enum('pending','completed','failed','canceled') NOT NULL,
   `idCreditCard` int(11) NOT NULL,
   `idReservation` int(10) NOT NULL
@@ -177,7 +177,7 @@ CREATE TABLE `reservation` (
   `people` int(3) NOT NULL,
   `totPrice` int(4) NOT NULL,
   `state` varchar(16) NOT NULL,
-  `creationTime` date NOT NULL DEFAULT current_timestamp(),
+  `creationTime` date NOT NULL,
   `idUser` int(11) NOT NULL,
   `idRoom` int(11) DEFAULT NULL,
   `idTable` int(11) DEFAULT NULL
