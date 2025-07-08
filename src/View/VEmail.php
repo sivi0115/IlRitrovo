@@ -2,7 +2,7 @@
 
 namespace View;
 
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VEmail
@@ -15,9 +15,7 @@ class VEmail {
      * @param array $data, informations to send
      */
     public function showTablesEmail(array $data) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('data', $data);
         return $smarty->fetch('emailTables.tpl');
     }
@@ -28,9 +26,7 @@ class VEmail {
      * @param array $data, informations to send
      */
     public function showRoomsEmail(array $data) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('data', $data);
         return $smarty->fetch('emailRooms.tpl');
     }

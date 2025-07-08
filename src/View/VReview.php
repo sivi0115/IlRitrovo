@@ -2,7 +2,7 @@
 
 namespace View;
 
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VReview
@@ -15,9 +15,7 @@ class VReview {
      * @param array $allReviews
      */
     public function showReviewsUserPage(array $allReviews) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('allReviews', $allReviews);
         $smarty->display('review.tpl');
     }
@@ -29,9 +27,7 @@ class VReview {
      * @param null|int showReplyForm
      */
     public function showReviewsAdminPage(array $allReviews, ?int $showReplyForm=null) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('allReviews', $allReviews);
         if($showReplyForm!==null) {
             $smarty->assign('showReplyForm', $showReplyForm);

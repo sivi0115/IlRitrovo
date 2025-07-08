@@ -43,40 +43,29 @@
 
       <script>
         (function() {
-          // Attende che tutto il DOM sia stato caricato prima di eseguire il codice
           document.addEventListener('DOMContentLoaded', () => {
 
-            // Recupera il pulsante di logout e il popup di conferma
             const logoutBtn = document.getElementById('logout-button');
             const popup = document.getElementById('logout-popup');
 
-            // Se uno dei due elementi non è presente nella pagina, esce dalla funzione
             if (!logoutBtn || !popup) return;
 
-            // Aggiunge un listener per il click sul pulsante di logout
             logoutBtn.addEventListener('click', function(e) {
-              // Impedisce il comportamento di default del link (cioè il redirect immediato)
               e.preventDefault();
 
-              // Imposta il testo del popup e lo rende visibile
               popup.textContent = 'Operation completed successfully!';
               popup.style.display = 'block';
 
-              // Utilizza requestAnimationFrame per assicurarsi che il browser abbia aggiornato lo stile
-              // prima di cambiare l'opacità, per attivare la transizione CSS
               requestAnimationFrame(() => {
                 popup.style.opacity = '1'; // Appare con effetto fade-in
               });
 
-              // Dopo 2 secondi (2000 ms), avvia il fade-out
               setTimeout(() => {
                 popup.style.opacity = '0'; // Inizia a scomparire
 
-                // Dopo altri 0.5 secondi (tempo per completare la transizione), nasconde il popup
                 setTimeout(() => {
                   popup.style.display = 'none';
 
-                  // Reindirizza alla pagina di logout vera e propria
                   window.location.href = logoutBtn.href;
                 }, 500); // Attende la fine della transizione
               }, 2000); // Attende 2 secondi prima di iniziare il fade-out

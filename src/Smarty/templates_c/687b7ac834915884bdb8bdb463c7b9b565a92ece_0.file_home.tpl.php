@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 5.5.1, created on 2025-07-01 21:22:09
+/* Smarty version 5.5.1, created on 2025-07-08 11:20:29
   from 'file:home.tpl' */
 
 /* @var \Smarty\Template $_smarty_tpl */
 if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
   'version' => '5.5.1',
-  'unifunc' => 'content_68643561d66886_96730460',
+  'unifunc' => 'content_686ce2dd566756_76166000',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '687b7ac834915884bdb8bdb463c7b9b565a92ece' => 
     array (
       0 => 'home.tpl',
-      1 => 1751397380,
+      1 => 1751966425,
       2 => 'file',
     ),
   ),
@@ -21,58 +21,60 @@ if ($_smarty_tpl->getCompiled()->isFresh($_smarty_tpl, array (
     'file:footerUser.tpl' => 1,
   ),
 ))) {
-function content_68643561d66886_96730460 (\Smarty\Template $_smarty_tpl) {
+function content_686ce2dd566756_76166000 (\Smarty\Template $_smarty_tpl) {
 $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smarty/tpl';
 ?><!DOCTYPE html>
 <html lang="en">
   <head>
-      <meta charset="utf-8">     
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Il Ritrovo – Home</title>  
-      <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
-      <link href="/IlRitrovo/src/Smarty/css/home.css" rel="stylesheet">
-      <?php echo '<script'; ?>
- src="/IlRitrovo/src/Smarty/js/popup.js"><?php echo '</script'; ?>
->
+    <meta charset="utf-8">     
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Home - Il Ritrovo</title>  
+    <link href="/IlRitrovo/src/Smarty/css/styles.css" rel="stylesheet">
+    <link href="/IlRitrovo/src/Smarty/css/home.css" rel="stylesheet">
   </head>
   <body>
 
-<?php if ($_smarty_tpl->getValue('triggerPopup')) {?>
-  <div id="custom-popup" style="display:none;
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #8b3a3a;
-      color: white;
-      padding: 15px 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      font-family: Arial, sans-serif;
-      font-size: 16px;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 0.5s ease;">
-    Operazione avvenuta con successo!
-  </div>
+  <?php if ($_smarty_tpl->getValue('triggerPopup')) {?>
+    <div id="custom-popup" style="display:none;
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #8b3a3a;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.5s ease;">
+      Operation completed successfully!
+    </div> <!-- /.custom-popup-->
 
-  <?php echo '<script'; ?>
+    <?php echo '<script'; ?>
 >
-    document.addEventListener('DOMContentLoaded', function () {
-      const popup = document.getElementById('custom-popup');
-      if (popup) {
-        popup.style.display = 'block';
-        requestAnimationFrame(() => popup.style.opacity = '1');
-        setTimeout(() => {
-          popup.style.opacity = '0';
-          setTimeout(() => popup.style.display = 'none', 500);
-        }, 2000);
-      }
-    });
-  <?php echo '</script'; ?>
+      document.addEventListener('DOMContentLoaded', function () {
+
+        const popup = document.getElementById('custom-popup');
+
+        if (popup) {
+          popup.style.display = 'block';
+
+          requestAnimationFrame(() => popup.style.opacity = '1');
+
+          setTimeout(() => {
+            popup.style.opacity = '0';
+
+            setTimeout(() => popup.style.display = 'none', 500);
+          }, 2000); // Tempo di visualizzazione del popup prima del fade-out
+        }
+      });
+    <?php echo '</script'; ?>
 >
-<?php }?>
+  <?php }?>
     
-    <!-- Header incluso tramite View-->
+    <!-- Header rendered through the View -->
 
     <!-- Booking Section -->
     <section class="booking">
@@ -120,29 +122,9 @@ $_smarty_current_dir = '/Applications/XAMPP/xamppfiles/htdocs/IlRitrovo/src/Smar
             <li><strong>🍷 Custom menus and wine selection</strong></li>
             <li><strong>🎶 Live music and personalized decorations</strong></li>
           </ul>
-<div class="booking-buttons">
-  <a href="/IlRitrovo/public/User/showRoomsPage" class="btn" data-popup>Discover our rooms →</a>
-</div>
-
-<!-- Popup HTML nascosto -->
-<div id="custom-popup" style="
-    display:none;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #8b3a3a;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    font-family: Arial, sans-serif;
-    font-size: 16px;
-    z-index: 9999;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-">
-  Operation completed successfully!
-</div>
+          <div class="booking-buttons">
+            <a href="/IlRitrovo/public/User/showRoomsPage" class="btn">Discover our rooms →</a>
+          </div> <!-- /.booking-buttons-->
         </div> <!-- /.content-column-->
       </div> <!-- /.content-wrapper-->
     </section>

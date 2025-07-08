@@ -3,7 +3,7 @@
 namespace View;
 
 use Entity\EExtra;
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VExtra
@@ -16,10 +16,7 @@ class VExtra {
      * @param array $allExtras, array that contain all the extras
      */
     public function showExtrasPage(array $allExtras) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty = new USmartyConfig();
         $smarty->assign('allExtras', $allExtras);
         $smarty->assign('show_extra_form', true);
         $smarty->display('adminExtra.tpl');
@@ -31,10 +28,7 @@ class VExtra {
      * @param EExtra $extra, the Extra to edit
      */
     public function showEditExtraPage(EExtra $extra) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
-
+        $smarty = new USmartyConfig();
         $smarty->assign('extra', $extra);
         $smarty->display('editExtraData.tpl');
     }

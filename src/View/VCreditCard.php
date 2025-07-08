@@ -2,7 +2,7 @@
 
 namespace View;
 
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VCreditCard
@@ -13,9 +13,7 @@ class VCreditCard {
      * Function to show new Credit Card form from user profile
      */
     public function showAddCreditCardUserProfile() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $allowedTypes=['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
         $smarty->assign('allowedTypes', $allowedTypes);
         $smarty->display('addCreditCardUserProfile.tpl');
@@ -25,9 +23,7 @@ class VCreditCard {
      * Function to show new Credit Card form from step 3 reservation
      */
     public function showAddCreditCardStep3() {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $allowedTypes=['Visa', 'Mastercard', 'American Express', 'Maestro', 'V-Pay', 'PagoBANCOMAT'];
         $smarty->assign('allowedTypes', $allowedTypes);
         $smarty->display('addCreditCardStep3.tpl');

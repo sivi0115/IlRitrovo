@@ -4,7 +4,7 @@ namespace View;
 
 use Entity\ECreditCard;
 use Entity\ERoom;
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VReservation
@@ -15,9 +15,7 @@ class VReservation {
      * Function to show Reservation form
      */
     public function showTableForm() {
-        $smarty=new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->display('tableReservation1.tpl');
     }
     
@@ -31,9 +29,7 @@ class VReservation {
      * @param array $availableTables
      */
     public function showSummaryAndAvailableTables(string $timeFrame, int $people, string $reservationDate, string $comment, array $availableTables) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('timeFrame', $timeFrame);
         $smarty->assign('people', $people);
         $smarty->assign('reservationDate', $reservationDate);
@@ -52,9 +48,7 @@ class VReservation {
      * @param int $idTable
      */
     public function showFullSummary(string $timeFrame, int $people, string $reservationDate, string $comment, int $idTable) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('timeFrame', $timeFrame);
         $smarty->assign('people', $people);
         $smarty->assign('reservationDate', $reservationDate);
@@ -69,9 +63,7 @@ class VReservation {
      * @param array $allExtras
      */
     public function showRoomForm(array $allExtras) {
-        $smarty=new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('extras', $allExtras);
         $smarty->display('roomReservation1.tpl');
     }
@@ -88,9 +80,7 @@ class VReservation {
      * @param array $availableRooms
      */
     public function showSummaryAndAvailableRooms(string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, float $totPriceExtra, array $availableRooms, ) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('timeFrame', $timeFrame);
         $smarty->assign('people', $people);
         $smarty->assign('reservationDate', $reservationDate);
@@ -114,9 +104,7 @@ class VReservation {
      * @param array $userCreditCards
      */
     public function showSummaryAndPaymentMethods( string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, ERoom $selectedRoom, float $extraAndRoomPrice, array $userCreditCards) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('timeFrame', $timeFrame);
         $smarty->assign('people', $people);
         $smarty->assign('reservationDate', $reservationDate);
@@ -141,9 +129,7 @@ class VReservation {
      * @param ECreditCard $selectedCreditCard
      */
     public function showSummaryRoomAndPaymentMethodes(string $timeFrame, int $people, string $reservationDate, string $comment, array $selectedExtras, ERoom $selectedRoom, float $extraAndRoomPrice, ECreditCard $selectedCard) {
-    $smarty = new Smarty();
-    $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-    $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+    $smarty = new USmartyConfig();
     $smarty->assign('timeFrame', $timeFrame);
     $smarty->assign('people', $people);
     $smarty->assign('reservationDate', $reservationDate);

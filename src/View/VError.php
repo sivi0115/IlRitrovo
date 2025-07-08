@@ -2,7 +2,7 @@
 
 namespace View;
 
-use Smarty\Smarty;
+use Utility\USmartyConfig;
 
 /**
  * Class View VError
@@ -15,9 +15,7 @@ class VError {
      * @param string $message, the message to show
      */
     public static function showError($message) {
-        $smarty = new Smarty();
-        $smarty->setTemplateDir(__DIR__ . '/../Smarty/tpl/');
-        $smarty->setCompileDir(__DIR__ . '/../Smarty/templates_c/');
+        $smarty = new USmartyConfig();
         $smarty->assign('errorMessage', $message);
         $smarty->display('error.tpl');
     }
