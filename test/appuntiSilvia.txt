@@ -1,15 +1,10 @@
 COSA RIMASTE DA FARE PER PRIORITà:
-- fare la versione definitiva del database con le query presenti sotto
-- pubblicare il progetto
 - sistemare i css
-  - incolonnare meglio il price
-- vedere dove aggiungere gli |escape per la sicurezza
+  - cercare di aggiungere dello spazio alla fine del footer
+  - mettere dello spazio tra i bottoni delete e reply in adminReply
+  - in users sistemare meglio il css dei riquadri degli utenti
+  - in userProfile vedere se si riescono a sistemare le card delle reservation
 
-
-CODICE DATABASE:
-- USER
-  - cancellare la riga image FATTO
-  - cancellare la tabella image_user FATTO
 QUERY:
 
 INSERT INTO user (idUser, idReview, username, name, surname, birthDate, phone, role, email, password, ban) VALUES

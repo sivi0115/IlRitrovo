@@ -10,9 +10,9 @@
 
         <!-- Header rendered through the View -->
 
-        <!-- Section Upcoming Table Reservation -->
+        <!-- Section Table Reservation -->
         <div class="panel panel-default">
-            <div class="panel-heading">Upcoming Tables Reservations</div>
+            <div class="panel-heading">Tables Reservations</div>
             <div class="panel-body">
                 <!-- Reservation Base Container -->
                 <div id="reservationContainer" class="reservation-container">
@@ -46,9 +46,9 @@
             </div> <!--/.panel-body-->
         </div> <!-- /.panel panel-default-->
 
-        <!-- Section Upcoming Room Reservation -->
+        <!-- Section Room Reservation -->
         <div class="panel panel-default">
-            <div class="panel-heading">Upcoming Rooms Reservations</div>
+            <div class="panel-heading">Rooms Reservations</div>
             <div class="panel-body">
                 <!-- Reservation Base Container -->
                 <div id="reservationContainer" class="reservation-container">
