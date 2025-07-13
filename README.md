@@ -3,6 +3,11 @@
 **Il Ritrovo** è una simulazione di ristorante sviluppata come progetto per l'esame di *Programmazione per il Web* presso l’Università degli Studi dell’Aquila.  
 Il sito consente agli utenti di prenotare tavoli e sale online, mentre un amministratore ha accesso alle funzionalità di gestione del ristorante.
 
+## 🌐 Sito Online
+
+Il progetto è stato pubblicato su Altervista ed è disponibile al seguente link:  
+👉 [https://www.progettoilritrovo.altervista.org/IlRitrovo/public/User/showHomePage](https://www.progettoilritrovo.altervista.org/IlRitrovo/public/User/showHomePage)
+
 ## 👥 Tipologie di Utenti
 
 - **Utente**: può registrarsi, effettuare prenotazioni di tavoli e sale, gestire il proprio profilo e lasciare recensioni.
@@ -14,7 +19,6 @@ Il sito consente agli utenti di prenotare tavoli e sale online, mentre un ammini
 2. Spostare la cartella ottenuta all'interno della directory `htdocs`.
 3. Verificare che la cartella abbia **permessi di scrittura** per tutti gli utenti.
 4. Importare il database:
-
    - Creare un nuovo database chiamato `ilritrovo` in **MySQL**.
    - Importare il file `.sql` presente nella repository (è l’unico file `.sql` disponibile).
 
@@ -45,4 +49,3 @@ Tutta la documentazione prodotta durante lo sviluppo del progetto è consultabil
 Progetto sviluppato da due studenti dell’Università degli Studi dell’Aquila per l’esame di Programmazione per il Web.
 
 ---
-
