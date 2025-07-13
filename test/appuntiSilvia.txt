@@ -1,6 +1,5 @@
 COSA RIMASTE DA FARE PER PRIORITà:
 - sistemare i css
-  - cercare di aggiungere dello spazio alla fine del footer
   - mettere dello spazio tra i bottoni delete e reply in adminReply
   - in users sistemare meglio il css dei riquadri degli utenti
   - in userProfile vedere se si riescono a sistemare le card delle reservation
