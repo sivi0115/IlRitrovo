@@ -5,24 +5,28 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use View\VEmail;
 
+/**
+ * Utility UEmail class
+ * Class that contain all the configurations needed to send email 
+ */
 class UEmail {
 
     public static function sendConfirmation(string $to, array $data, ?int $idTable): bool {
         $mail = new PHPMailer(true);
         $view=new VEmail();
         try {
-            // Configurazione SMTP
+            //SMPT configurations. SMPT server NEEDED in local, different from other cases, like (ex)Altervista
             $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com';  // Cambia col tuo SMTP
+            $mail->Host       = 'smtp.gmail.com';  //Google' SMPT
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'marcociprianituna2000@gmail.com';  // Configurazione da config.php o .env
+            $mail->Username   = 'marcociprianituna2000@gmail.com';  //Configuration by config.php
             $mail->Password   = 'agpejyafvqqqphda';
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
-            // Mittente e destinatario
+            //Sender and Recipient
             $mail->setFrom('marcociprianituna2000@gmail.com', 'Il Ritrovo');
             $mail->addAddress($to);
-            // Contenuto
+            //Email's content (TPL will be loaded as it body)
             if ($idTable !== null) {
                 $mail->Subject = 'Your Table Reservation Has Been Confirmed - Il Ritrovo';
                 $bodyHtml=$view->showTablesEmail($data);
@@ -34,6 +38,7 @@ class UEmail {
                 $mail->Body=$bodyHtml;
                 $mail->AltBody = strip_tags($bodyHtml);
             }
+            //Send the email
             $mail->send();
             return true;
         } catch (Exception $e) {
