@@ -24,12 +24,12 @@ class UEmail {
             $mail->addAddress($to);
             // Contenuto
             if ($idTable !== null) {
-                $mail->Subject = 'Conferma Prenotazione Tavolo - Il Ritrovo';
+                $mail->Subject = 'Your Table Reservation Has Been Confirmed - Il Ritrovo';
                 $bodyHtml=$view->showTablesEmail($data);
                 $mail->Body=$bodyHtml;
                 $mail->AltBody = strip_tags($bodyHtml);
             } else {
-                $mail->Subject = 'Conferma Prenotazione Stanza - Il Ritrovo';
+                $mail->Subject = 'Your Room Reservation has been Confirmed - Il Ritrovo';
                 $bodyHtml=$view->showRoomsEmail($data);
                 $mail->Body=$bodyHtml;
                 $mail->AltBody = strip_tags($bodyHtml);
